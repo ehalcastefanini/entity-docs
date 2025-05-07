@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css"
+    />
+  </head>
+  <body>
+    <style>
+      :root {
+        --docsifytabs-border-color: #ededed;
+        --docsifytabs-tab-highlight-color: purple;
+      }
+    </style>
+    <div id="app"></div>
+    <script>
+      window.$docsify = {
+        //...
+        loadSidebar: true,
+        tabs: {
+          persist: true, // default
+          sync: true, // default
+          theme: "classic", // default
+          tabComments: true, // default
+          tabHeadings: true, // default
+        },
+      };
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  </body>
+</html>
