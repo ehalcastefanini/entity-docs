@@ -13,6 +13,7 @@ PROJECT_DIRECTORY = os.path.abspath(os.getenv("PROJECT_DIRECTORY"))
 DOCS_FOLDER = os.path.abspath(os.getenv("DOCS_FOLDER"))
 TEMPLATE_ID = os.getenv("TEMPLATE_ID")
 API_KEY = os.getenv("API_KEY")
+LANGUAGE = os.getenv("LANGUAGE")
 
 
 ALLOWED_EXTENSIONS = ('.pas')  # Add extensions of files you want to document
@@ -42,24 +43,18 @@ def read_file_content(file_path, max_lines=100):
             print(f"Error reading {file_path} with encoding {encoding}: {e}")
     return None
 
-def generate_sai_documentation(code, dfm_content, language="english"):
+def generate_sai_documentation(code, dfm_content, language):
 
     url = "https://sai-library.saiapplications.com"
     headers = {"X-Api-Key": API_KEY}
     data = {
         "inputs": {
-            "code": code,
-            "language": language,
+            "codigo": code,
+            "idioma": language,
             "form": dfm_content,
         }
     }
-    if language == "spanish":
-        response = requests.post(f"{url}/api/templates/680938afe05a0cd3549a5fa2/execute", json=data, headers=headers)
-        print("API Response: " + response.text)
-    elif language == "portuguese":
-        response = requests.post(f"{url}/api/templates/6807f313e05a0cd35499ee44/execute", json=data, headers=headers)
-    elif language == "english":
-        response = requests.post(f"{url}/api/templates/{TEMPLATE_ID}/execute", json=data, headers=headers)  # Replace the ID with your template version
+    response = requests.post(f"{url}/api/templates/{TEMPLATE_ID}/execute", json=data, headers=headers)
     if response.status_code == 200:
         return response.text
     else:
@@ -173,13 +168,13 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     dfm_file_path = file_path.replace(".pas", ".dfm")
                     dfm_content = read_file_content(dfm_file_path)
                     if not dfm_content:
+                        dfm_content = "dfm file is not needed for this file"
                         print(f"Could not read DFM file: {dfm_file_path}")
-                        continue
                     else:
                         print(f"DFM Content read from {dfm_file_path}: {len(dfm_content)} characters")
 
                     # Generate documentation using the SAI API
-                    doc_llm = generate_sai_documentation(content, dfm_content, language="english")
+                    doc_llm = generate_sai_documentation(content, dfm_content, LANGUAGE)
 
                     # Extract point 13 from the documentation
                     point_13 = extract_point_13(doc_llm)
