@@ -217,11 +217,7 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                         current = current[folder]
                     md_relative_to_docs = os.path.join(*folders, md_filename)
                     current[filename] = md_relative_to_docs
-                    rendered_files_count += 1
-                    # halt after 10 files
-                    if rendered_files_count >= 3:
-                        print("10 files processed. Stopping for demonstration purposes.")
-                        break
+                   
 
     except KeyboardInterrupt:
         print("Interruption detected (Ctrl+C). Finalizing processing and generating _sidebar.md...")
