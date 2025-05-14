@@ -141,20 +141,22 @@ This is a **form** with the following elements:
 
 1. **Code (EDTcode):**
    - Type: String
-   - Required: Yes
+   - Required: No
    - Validation: Must be uppercase.
 2. **Description (EDTdescription):**
    - Type: String
-   - Required: Yes
+   - Required: No
+   - Validation: Must be uppercase.
 3. **Country (FRAMEfindCountry):**
    - Type: Custom Search Field
-   - Required: Yes
+   - Required: No
 4. **Market (FRAMEfindConsMarket):**
    - Type: Custom Search Field
    - Required: No
 5. **Postal Code (EDTpostal):**
    - Type: String
    - Required: No
+   - Validation: Must be uppercase.
 6. **Destination (FRAMEfindDestination):**
    - Type: Custom Search Field
    - Required: No
@@ -210,6 +212,8 @@ HTML representation of the form:
   <select id="status">
     <option>Active</option>
     <option>Inactive</option>
+    <option>Pending</option>
+    <option>ALL</option>
   </select>
 </div>
 ```

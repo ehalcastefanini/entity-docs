@@ -47,7 +47,7 @@ This is a **grid display** form.
 
 ### Main Components:
 - **Grid (`cxGrid`)**: Displays the list of consignees.
-- **Search Area (`FRAMEfindCriteriaListConsignee`)**: Provides search filters and criteria.
+- **Search Area ([`FRAMEfindCriteriaListConsignee`](/Tables\Consignee\FRfindCriteriaListConsignee.pas))**: Provides search filters and criteria.
 - **Action Buttons**: Includes buttons for creating, modifying, viewing, and searching records.
 
 ### Pseudo-code for Actions and Events:
@@ -139,14 +139,18 @@ This is a **grid display** form.
 
 ## 9. Fields and Validations Listing:
 
-- **Code**: Type: string, required.
-- **Abbreviated Name**: Type: string, optional.
-- **Name**: Type: string, required.
-- **Language Code**: Type: string, optional.
-- **Country Code**: Type: string, optional.
-- **Country Description**: Type: string, optional.
-- **Market Code**: Type: string, optional.
-- **Market Description**: Type: string, optional.
+- **consCode**: label: "Code", type: string.
+- **stat**: label: "Status", type: string.
+- **lastUpd**: label: "Last Updated", type: string.
+- **updBy**: label: "Updated By", type: string.
+- **abbrName**: label: "Abbreviated Name", type: string.
+- **name**: label: "Name", type: string.
+- **languageCode**: label: "Language Code", type: string.
+- **countryCode**: label: "Country Code", type: string.
+- **country**: label: "Description", type: string.
+- **stateCode**: label: "Code", type: string.
+- **state**: label: "Description", type: string.
+
 
 Field constraints and validations are not explicitly defined in the code.
 
@@ -167,38 +171,6 @@ begin
   inherited;
   // Configure grid settings here
 end;
-```
-
-### Screenshots:
-The DFM file is partially provided. Below is an HTML representation of the grid:
-
-```html
-<table style="width:100%; border:1px solid black;">
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Abbreviated Name</th>
-      <th>Name</th>
-      <th>Language Code</th>
-      <th>Country Code</th>
-      <th>Country Description</th>
-      <th>Market Code</th>
-      <th>Market Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>001</td>
-      <td>ABC</td>
-      <td>Consignee A</td>
-      <td>EN</td>
-      <td>US</td>
-      <td>United States</td>
-      <td>M001</td>
-      <td>Market A</td>
-    </tr>
-  </tbody>
-</table>
 ```
 
 ---
