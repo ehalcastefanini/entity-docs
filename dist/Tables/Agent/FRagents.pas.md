@@ -2,191 +2,198 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRagents` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um formulário para gerenciar informações de agentes, incluindo dados como idioma, país, moeda, mercado, número legal, tipo de agente, entre outros. Ele permite que os usuários insiram, editem e visualizem informações relacionadas a agentes, além de configurar parâmetros específicos como métodos de comissão e valores fixos. O objetivo principal é fornecer uma interface para manipular e gerenciar dados de agentes de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes personalizados como `TsLabel`, `TsDBEdit`, `TFRAMEFindEditSOA`, entre outros.
-  - Serviços SOAP para integração com dados externos.
+### Objective and Problem Solved:
+The `FRagents` code unit defines a form (`TFRAMEagents`) that manages agent-related data, such as agent type, country, language, currency, and other attributes. It provides a user interface for creating, editing, and managing agent records, including their associated business rules and validations. The form integrates with various services to fetch and validate data, ensuring consistency and accuracy.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de texto (`TsDBEdit`, `TcxDBImageComboBox`).
-      - Comboboxes (`TsDBComboBox`, `TcxDBImageComboBox`).
-      - Checkboxes (`TcxDBCheckBox`).
-      - Labels (`TsLabel`).
-      - Frames de busca (`TFRAMEFindEditSOA`).
-    - **Ações do Formulário e seus Efeitos:**
-      - Alteração de valores nos campos dispara eventos para validação e ajuste de estado.
-      - Seleção de opções em comboboxes altera o comportamento de outros campos.
-      - Clique em checkboxes ajusta a visibilidade ou estado de outros controles.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the form and its components.
+- **SOAP Services**: Used for interacting with external services like `CountryServiceUtils`, `LanguageServiceUtils`, etc.
+- **Database Components**: Includes `TDataSet`, `TClientDataSet`, and `TDBEdit` for database interaction.
+- **Custom Components**: Includes `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`, and `TFRAMEBusUnit` for specialized functionalities.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Os usuários podem inserir ou editar informações de agentes, como nome, número legal, tipo de agente, entre outros.
-  - Selecionar valores em campos de busca para idioma, país, moeda, mercado, pagamento e código de IVA.
-  - Configurar métodos de comissão e valores fixos.
-
-* **Componentes Principais:**
-  - **Frames de Busca (`TFRAMEFindEditSOA`)**: Permitem selecionar valores de listas externas.
-  - **Campos de Edição (`TsDBEdit`)**: Para entrada de texto.
-  - **Comboboxes (`TsDBComboBox`, `TcxDBImageComboBox`)**: Para seleção de opções predefinidas.
-  - **Checkboxes (`TcxDBCheckBox`)**: Para ativar/desativar opções.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do checkbox `CHKallCustMkt`:  
-    `if checkbox clicado then ajustar estado dos controles relacionados`.
-  - Evento `OnChange` do combobox `CBOagentType`:  
-    `if valor do combobox alterado then ajustar estado dos controles relacionados`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Labels (`TsLabel`): Display field names and descriptions.
+  - Text Fields (`TsDBEdit`, `TcxDBImageComboBox`): For entering and selecting data.
+  - Combo Boxes (`TsDBComboBox`, `TcxDBImageComboBox`): For selecting predefined options.
+  - Checkboxes (`TcxDBCheckBox`): For boolean selections.
+  - Custom Frames (`TFRAMEFindEditSOA`, `TFRAMEstatusInfo`, `TFRAMEBusUnit`): For advanced functionalities like searching and displaying status.
+- **Form Actions and Effects**:
+  - Data initialization and display.
+  - Validation and adjustment of controls based on user input.
+  - Interaction with external services for fetching and validating data.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário carrega os componentes e configura os valores iniciais.
-  - Interações do usuário, como cliques e alterações nos campos, disparam eventos que ajustam o estado dos controles e validam os dados.
+### User/Software Actions:
+- Users can input and edit agent details such as name, type, country, language, and payment information.
+- The form validates data and adjusts controls dynamically based on user input.
+- Data is fetched and validated using external SOAP services.
 
-* **Funções e Localização:**
-  - `m_InitializeData` (Arquivo: `FRagents`): Inicializa os dados do formulário.
-  - `m_AfterApplyChanges` (Arquivo: `FRagents`): Executa ações após salvar alterações.
-  - `m_AdjustCtrlsState` (Arquivo: `FRagents`): Ajusta o estado dos controles com base no tipo de agente.
+### Main Components:
+- **Labels (`TsLabel`)**: Provide field descriptions.
+- **Editable Fields (`TsDBEdit`, `TcxDBImageComboBox`)**: Allow users to input or select data.
+- **Custom Frames**:
+  - `TFRAMEFindEditSOA`: Used for searching and selecting related data (e.g., country, language).
+  - `TFRAMEstatusInfo`: Displays status information.
+  - `TFRAMEBusUnit`: Manages business unit-related data.
 
-* **Dados Necessários:**
-  - Nome, número legal, tipo de agente, idioma, país, moeda, mercado, entre outros.
-
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O botão "Salvar" só deve ser habilitado se todos os campos obrigatórios forem preenchidos corretamente.
-  - O campo "Código de IVA" só é habilitado após selecionar um mercado.
-
-* **Filtros Disponíveis:**
-  - Idioma, país, moeda, mercado, pagamento, código de IVA.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios esperados.
-
-* **Valores Padrão dos Campos:**
-  - Tipo de agente: "Padrão".
-  - Método de comissão: "Percentual".
-
-* **Validações e Condições dos Campos:**
-  - Campo "Nome": Deve ter no mínimo 3 caracteres.
-  - Campo "Número Legal": Deve conter apenas números.
-  - Campo "Taxa de Comissão": Deve ser um número entre 0 e 100.
+### Pseudo-code for Actions and Events:
+- `CHKallCustMktClick` event:  
+  `if checkbox clicked then toggle customer market settings`.
+- `CBOagentTypeChange` event:  
+  `if agent type changed then adjust controls state`.
+- `m_InitializeData` procedure:  
+  `on data initialization, set default values and fetch required data`.
+- `m_AfterApplyChanges` procedure:  
+  `after changes are applied, refresh the form`.
+- `ShowData` override:  
+  `display data in the form fields`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`m_InitializeData`**: Inicializa os dados do formulário.
-* **`m_AfterApplyChanges`**: Executa ações após salvar alterações.
-* **`m_AdjustCtrlsState`**: Ajusta o estado dos controles com base no tipo de agente.
-* **`m_SetFindCountry`**: Configura o frame de busca para o país.
-* **`m_SetFindLanguage`**: Configura o frame de busca para o idioma.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default settings (`constructor Create`).
+   - Data is fetched and displayed using `m_InitializeData` and `ShowData`.
+2. **User Interaction**:
+   - Users input or modify data in the form fields.
+   - Events like `CHKallCustMktClick` and `CBOagentTypeChange` are triggered based on user actions.
+3. **Data Processing**:
+   - Data is validated and adjusted dynamically.
+   - Changes are applied using `m_AfterApplyChanges`.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Serviço: `CountryServiceUtils`**
-  - **Endpoint:** `/api/countries`.
-  - **Dados Enviados:** `{ "query": "string" }`.
-  - **Dados Recebidos:** `{ "status": "success", "data": "Country list" }`.
-  - **Propósito:** Buscar lista de países.
-
-* **Serviço: `LanguageServiceUtils`**
-  - **Endpoint:** `/api/languages`.
-  - **Dados Enviados:** `{ "query": "string" }`.
-  - **Dados Recebidos:** `{ "status": "success", "data": "Language list" }`.
-  - **Propósito:** Buscar lista de idiomas.
+### Required Data:
+- Agent details: Name, type, legal number, etc.
+- Related data: Country, language, currency, payment method, VAT code.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* O campo "Código de IVA" só aparece se o mercado for selecionado.
-* Condições: O campo é visível apenas quando um mercado é escolhido.
+### Actions and Preconditions:
+- **Checkbox (`CHKallCustMkt`)**: Toggles customer market settings.
+- **Combo Box (`CBOagentType`)**: Adjusts controls based on the selected agent type.
 
----
+### Available Filters:
+- Country, language, currency, market, payment method, VAT code.
 
-## 8. Dependências:
+### Error Messages:
+- "Required field not completed" if a mandatory field is empty.
+- "Invalid value" if a field contains invalid data.
 
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para chamadas SOAP.
-  - `kneFRCtrlEditSOA`: Componentes personalizados para edição.
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Frame para busca de dados externos.
-  - `TFRAMEstatusInfo`: Exibe informações de status.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - Nome (tipo: string, obrigatório, min: 3 caracteres).
-  - Número Legal (tipo: string, obrigatório, apenas números).
-  - Taxa de Comissão (tipo: float, obrigatório, entre 0 e 100).
-  - Tipo de Agente (tipo: string, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Nome → `agents.name`.
-  - Número Legal → `agents.legal_number`.
-  - Taxa de Comissão → `agents.commission_rate`.
+### Field Validation and Conditions:
+- Fields like `EDTlegalNumber` and `EDTvatPcnt` should validate numeric input.
+- Combo boxes should validate selected values against predefined options.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  FRAMEagents := TFRAMEagents.Create(Self);
-  FRAMEagents.ShowData;
-  ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 1061px; font-family: Verdana;">
-    <label for="EDTfixValue">Fixed Value:</label>
-    <input type="text" id="EDTfixValue" />
-    <label for="EDTcommRate">Rate:</label>
-    <input type="text" id="EDTcommRate" />
-    <label for="FRAMEfindCountry">Country:</label>
-    <input type="text" id="FRAMEfindCountry" />
-  </div>
-  ```
+- **`m_InitializeData`**: Initializes the form with default values and fetches required data.
+- **`m_AfterApplyChanges`**: Refreshes the form after changes are applied.
+- **`m_AdjustCtrlsState`**: Adjusts the state of controls based on the selected agent type.
+- **`ShowData`**: Displays data in the form fields.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* `m_InitializeData`: Configura os dados iniciais do formulário.
-* `m_AdjustCtrlsState`: Ajusta os controles com base no tipo de agente.
+- **CountryServiceUtils**:
+  - **Endpoint**: `/api/countries`.
+  - **Data Sent**: `{ "query": "string" }`.
+  - **Data Received**: `{ "countries": [ { "id": "int", "name": "string" } ] }`.
+  - **Purpose**: Fetch country data.
+- **LanguageServiceUtils**:
+  - **Endpoint**: `/api/languages`.
+  - **Data Sent**: `{ "query": "string" }`.
+  - **Data Received**: `{ "languages": [ { "id": "int", "name": "string" } ] }`.
+  - **Purpose**: Fetch language data.
 
 ---
 
-## 12. Conclusão:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa um formulário robusto para gerenciar informações de agentes, com integração a serviços externos e validações detalhadas. No entanto, a dependência de componentes personalizados pode dificultar a manutenção e a portabilidade.
+- **"Customer Market" Checkbox**:
+  - If checked, additional customer market settings are enabled.
+- **"Agent Type" Combo Box**:
+  - Adjusts the visibility and state of other controls based on the selected type.
 
 ---
 
-## 13. Resumo Curto:
+## 8. Dependencies:
 
-O código fornece um formulário para gerenciar dados de agentes, incluindo validações, integração com serviços externos e lógica condicional para campos. Ele é parte de um sistema maior de gerenciamento de agentes.#### **FRagents.pas**
+### External Libraries:
+- **SOAP Components**: For interacting with external services.
+- **Custom Components**: `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`, `TFRAMEBusUnit`.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: Provides search functionality.
+- **`TFRAMEstatusInfo`**: Displays status information.
+- **`TFRAMEBusUnit`**: Manages business unit data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Name (`EDTname`)**: Type: string, required.
+- **Legal Number (`EDTlegalNumber`)**: Type: string, required.
+- **Country (`FRAMEfindCountry`)**: Type: string, required.
+- **Language (`FRAMEfindLanguage`)**: Type: string, required.
+- **Currency (`FRAMEfindCurrency`)**: Type: string, required.
+- **Payment Method (`FRAMEfindPayment`)**: Type: string, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEagents.CHKallCustMktClick(Sender: TObject);
+begin
+  // Toggle customer market settings
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`m_InitializeData`**: Critical for setting up the form with default values.
+- **`m_AdjustCtrlsState`**: Ensures controls are adjusted dynamically based on user input.
+
+---
+
+## 12. Conclusion:
+
+The `FRagents` code unit provides a robust framework for managing agent data. It integrates with external services for data validation and ensures dynamic control adjustments. However, the code lacks explicit error handling and default value definitions.
+
+---
+
+## 13. Short Summary:
+
+The `FRagents` code unit defines a form for managing agent data, integrating with external services for validation and dynamically adjusting controls based on user input. It ensures accurate data handling and supports various agent-related functionalities.#### **FRagents.pas**
 
 ```
 unit FRagents;

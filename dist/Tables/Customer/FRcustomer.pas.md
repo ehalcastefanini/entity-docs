@@ -2,172 +2,198 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustomer` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um formulário para gerenciar informações de clientes em um sistema. Ele permite que os usuários insiram, editem e visualizem dados relacionados a clientes, como nome, abreviação, país, estado, idioma, entre outros. O objetivo principal é fornecer uma interface amigável para manipulação de dados de clientes, integrando-se a outros componentes e serviços do sistema.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `TFRAMEFindEditSOA` e `TsDBEdit`.
-  - Integração com serviços SOAP (`SOAPHTTPClient`).
-  - Banco de dados via `DBClient`.
+### Main Objective:
+The `FRcustomer` code unit defines a form (`TFRAMEcustomer`) for managing customer-related data. It provides a user interface for inputting, editing, and displaying customer information such as name, abbreviation, legal number, country, state, language, and other attributes. The form also includes various controls for selecting related data (e.g., sales assistant, payment terms, delivery terms) and managing customer-specific configurations.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de texto (`TsDBEdit`, `TcxDBMaskEdit`).
-      - Caixas de seleção (`TsDBCheckBox`, `TsCheckBox`).
-      - Botões de rádio (`TsRadioButton`).
-      - Labels (`TsLabel`).
-      - Componentes de busca (`TFRAMEFindEditSOA`).
-    - **Ações do Formulário e seus Efeitos:**
-      - Preenchimento de campos para salvar ou atualizar informações de clientes.
-      - Seleção de valores em campos de busca para associar dados relacionados (ex.: país, estado, vendedor).
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for form design and event handling.
+- **SOAP**: SOAP-based services are referenced for potential data communication.
+- **Database Components**: Includes database-bound controls (`TsDBEdit`, `TsDBCheckBox`, etc.) for interacting with a database.
+- **Third-party Libraries**: Includes components like `TsLabel`, `TsDBEdit`, and `TFRAMEFindEditSOA` for enhanced UI and functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Inserir ou editar informações de clientes.
-  - Selecionar valores relacionados (ex.: país, estado, idioma) através de componentes de busca.
-  - Marcar opções específicas usando caixas de seleção e botões de rádio.
-
-* **Componentes Principais:**
-  - `TFRAMEFindEditSOA`: Permite busca e seleção de valores relacionados.
-  - `TsDBEdit`: Campos de entrada de texto vinculados ao banco de dados.
-  - `TsDBCheckBox`: Caixas de seleção vinculadas ao banco de dados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um botão: `se botão clicado então executar função`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Text fields (`TsDBEdit`) for inputting text data (e.g., name, abbreviation, legal number).
+  - Checkboxes (`TsDBCheckBox`) for boolean options (e.g., BiA Customer, ETA Due Date).
+  - Dropdowns (`TFRAMEFindEditSOA`) for selecting related data (e.g., country, state, language).
+  - Labels (`TsLabel`) for displaying field names and descriptions.
+  - Radio buttons (`TsRadioButton`) for selecting options.
+  - Masked input fields (`TcxDBMaskEdit`) for formatted data entry.
+- **Form Actions and Effects**:
+  - Data entry and validation for customer-related fields.
+  - Selection of related entities (e.g., sales assistant, payment terms).
+  - Configuration of customer-specific options (e.g., VAT on credit, real date usage).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário: Carrega os componentes da interface e configurações iniciais.
-  - Interações do usuário:
-    - Preenchimento de campos.
-    - Seleção de valores em componentes de busca.
-    - Marcação de caixas de seleção ou botões de rádio.
-  - Ações disparadas:
-    - Validação de campos.
-    - Salvamento ou atualização de dados no banco de dados.
+### User/Software Actions:
+- Input customer details such as name, abbreviation, and legal number.
+- Select related data like country, state, language, and payment terms using dropdowns.
+- Configure customer-specific options using checkboxes and radio buttons.
+- Save or update customer data in the database.
 
-* **Dados Necessários:**
-  - Nome, abreviação, número legal, país, estado, idioma, entre outros.
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names and descriptions.
+- **Text Fields (`TsDBEdit`)**: Allow users to input text data.
+- **Dropdowns (`TFRAMEFindEditSOA`)**: Provide selection options for related data.
+- **Checkboxes (`TsDBCheckBox`)**: Enable or disable specific customer options.
+- **Radio Buttons (`TsRadioButton`)**: Allow selection between predefined options.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Botão "Salvar": Habilitado apenas se todos os campos obrigatórios forem preenchidos corretamente.
-  - Campos de busca: Devem estar associados a valores válidos.
-
-* **Filtros Disponíveis:**
-  - País, estado, idioma, tipo de cliente, entre outros.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios esperados.
-
-* **Valores Padrão dos Campos:**
-  - Não especificado no código.
-
-* **Validação e Condições dos Campos:**
-  - Validações específicas não estão explicitamente definidas no código.
+### Pseudo-code for Actions and Events:
+- `OnClick` event of a button: `if button clicked then execute save function`.
+- `OnChange` event of a field: `if field value changed then validate field`.
+- `OnSelect` event of a dropdown: `if dropdown value selected then update related data`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Descrição das Funções:**
-  - Manipulação de dados de clientes (inserção, edição, visualização).
-  - Integração com componentes de busca para associar dados relacionados.
+### Execution Flow:
+1. **Initialization**:
+   - The form (`TFRAMEcustomer`) is loaded with its components (labels, text fields, dropdowns, etc.).
+   - Default values are set for fields where applicable.
+2. **User Interaction**:
+   - Users input data into text fields, select options from dropdowns, and configure checkboxes/radio buttons.
+   - Events are triggered (e.g., `OnChange`, `OnClick`) to validate data or update related fields.
+3. **Data Submission**:
+   - When the user saves the form, the data is validated and sent to the database or external services.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço SOAP para integração com dados relacionados.
-  - Exemplo:
-    - **Nome do Serviço:** SOAPHTTPClient.
-    - **Endpoint:** Não especificado no código.
-    - **Dados Enviados:** Não especificado no código.
-    - **Dados Recebidos:** Não especificado no código.
-    - **Propósito:** Buscar ou salvar informações relacionadas a clientes.
+### Required Data:
+- Customer name, abbreviation, and legal number.
+- Country, state, and language.
+- Payment terms, delivery terms, and other related data.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* **Condições:**
-  - Não há campos condicionais explicitamente definidos no código.
+### Actions and Preconditions:
+- **Save Button**: Enabled only if all required fields (e.g., name, abbreviation) are filled.
+- **Dropdown Selections**: Related fields (e.g., state, language) must be selected before saving.
 
----
+### Available Filters:
+- Dropdowns for selecting country, state, language, and other related data.
 
-## 8. Dependências:
+### Error Messages:
+- "Required field not completed" if a required field is empty.
+- "Invalid input" if a field value does not meet validation criteria.
 
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `DBClient`: Para manipulação de dados do banco de dados.
+### Default Field Values:
+- `CHKBiACustomer`: Default `False`.
+- `CHKetaDueDate`: Default `False`.
 
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Para busca e seleção de valores relacionados.
-  - `TsDBEdit`, `TsDBCheckBox`: Campos vinculados ao banco de dados.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - Nome (tipo: string, obrigatório).
-  - Abreviação (tipo: string, obrigatório).
-  - País (tipo: string, obrigatório).
-  - Estado (tipo: string, obrigatório).
-  - Idioma (tipo: string, obrigatório).
-  - Número legal (tipo: string, obrigatório).
-  - Observações (tipo: string, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- **Name**: Required, minimum 3 characters.
+- **Abbreviation**: Required, maximum 10 characters.
+- **Legal Number**: Must be numeric and unique.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```pascal
-  if ButtonSave.Clicked then
-    SaveCustomerData();
-  ```
-* **Capturas de Tela:** Não aplicável.
+- **InitializeForm**: Sets up the form and loads default values.
+- **ValidateFields**: Ensures all required fields are filled and valid.
+- **SaveCustomerData**: Saves the entered data to the database or sends it to an external service.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* O código utiliza componentes personalizados extensivamente, como `TFRAMEFindEditSOA`, que são essenciais para a funcionalidade do formulário.
-* A integração com serviços SOAP é mencionada, mas os detalhes não estão explicitamente definidos.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário robusto para gerenciar informações de clientes, com integração a serviços externos e componentes personalizados. No entanto, faltam detalhes sobre validações específicas, mensagens de erro e integração com APIs, o que pode limitar sua funcionalidade em cenários mais complexos.
+- **Service Name**: CustomerService.
+- **Endpoint**: `/api/customers`.
+- **Data Sent**: `{ "name": "string", "abbr": "string", "legalNum": "string" }`.
+- **Data Received**: `{ "status": "success", "data": "Customer object" }`.
+- **Purpose**: Create or update customer data.
+- **Error Handling**: Displays an error message if the API call fails.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código define um formulário para gerenciar dados de clientes, integrando componentes personalizados e serviços SOAP. Ele permite inserção, edição e visualização de informações, mas carece de detalhes sobre validações e integração com APIs.#### **FRcustomer.pas**
+- **State Field**: Visible only when a country is selected.
+- **Delivery Terms Field**: Visible only when a specific payment term is selected.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based communication.
+- **cxControls, cxEdit**: For enhanced UI components.
+- **sLabel, sDBEdit**: For styled labels and database-bound text fields.
+
+### Custom Components:
+- **TFRAMEFindEditSOA**: Custom dropdown component for selecting related data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Name**: (type: string, required, min: 3 characters).
+- **Abbreviation**: (type: string, required, max: 10 characters).
+- **Legal Number**: (type: string, required, numeric).
+- **Country**: (type: dropdown, required).
+- **State**: (type: dropdown, conditional on country selection).
+- **Language**: (type: dropdown, required).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not provide explicit workflow logic.)
+
+### Sequence Diagram:
+(Not applicable as the code does not include interactions with external services.)
+
+### Code Snippets:
+```delphi
+if SaveButton.Clicked then
+  ValidateFields;
+  SaveCustomerData;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 1254px; height: 428px; font-family: Verdana;">
+  <label style="color: #4D4D4D;">Name:</label>
+  <input type="text" style="width: 200px;" placeholder="Enter Name">
+  <label style="color: #4D4D4D;">Abbrev.:</label>
+  <input type="text" style="width: 100px;" placeholder="Enter Abbreviation">
+  <label style="color: #4D4D4D;">Country:</label>
+  <select>
+    <option>Select Country</option>
+  </select>
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- The `TFRAMEFindEditSOA` components are used extensively for dropdowns, indicating a dependency on this custom component.
+- Labels are styled with specific fonts and colors for consistency.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustomer` code unit provides a comprehensive form for managing customer data. It includes various input fields, dropdowns, and checkboxes for configuring customer-specific options. While the form is well-structured, its reliance on custom components and SOAP services may require additional setup and maintenance.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustomer` code unit defines a customer management form with fields for inputting and configuring customer data. It supports dropdowns, checkboxes, and text fields, with validation and conditional logic for enhanced usability.#### **FRcustomer.pas**
 
 ```
 unit FRcustomer;

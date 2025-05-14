@@ -2,167 +2,223 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `MPaymentCodes` Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código fornecido implementa uma interface para a manutenção de códigos de pagamento. Ele permite que os usuários visualizem, editem e gerenciem informações relacionadas a códigos de pagamento, incluindo detalhes multilíngues, informações de uso e configurações específicas. O objetivo principal é fornecer uma interface centralizada para gerenciar esses dados de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento da aplicação.
-  - Componentes visuais personalizados como `TsPanel`, `TsSplitter`, `TsPageControl`, entre outros.
-  - Manipulação de datasets com `TClientDataSet`.
+### Objective:
+The `MPaymentCodes` unit is designed to manage and maintain payment codes within an application. It provides a user interface for editing, viewing, and managing payment-related data, including payment languages, payment mill details, and payment usage. The main objective is to streamline the management of payment codes and their associated details.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `TsPanel`: Painéis para organização visual.
-      - `TsSplitter`: Divisor para ajustar o layout.
-      - `TsPageControl`: Controle de abas para exibir diferentes seções de detalhes.
-      - `TFRAMEpaymentCode`, `TFRAMEpaymentMill`, `TFRAMEpaymentUsage`: Frames personalizados para exibir e editar informações específicas.
-    - **Ações do Formulário e seus Efeitos:**
-      - Alteração de abas no `TsPageControl` para exibir diferentes detalhes.
-      - Botões para adicionar registros e aplicar alterações.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for building the graphical user interface and handling events.
+- **Database Components**: `TClientDataSet` is used for managing data records.
+- **Third-party Components**: Includes components like `TsPanel`, `TsSplitter`, `TsPageControl`, and others from the `AlphaControls` library for enhanced UI styling.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Alterar entre abas para visualizar diferentes detalhes de códigos de pagamento.
-  - Adicionar novos registros de informações de pagamento.
-  - Aplicar alterações feitas nos dados.
-
-* **Componentes Principais:**
-  - `PGCpayDetails`: Controle de abas que organiza as seções de detalhes.
-  - `FRAMEpaymentCode1`: Frame para edição de códigos de pagamento.
-  - `FRAMEpaymentMill1`: Frame para informações adicionais.
-  - `FRAMEpaymentUsage1`: Frame para informações de uso.
-
-* **Tradução para Pseudo-código:**
-  - Evento `PGCpayDetailsChange`: `se aba alterada então exibir conteúdo correspondente`.
-  - Evento `FRAMEpaymentMill1BTNaddClick`: `se botão adicionar clicado então adicionar novo registro`.
-  - Evento `OnBeforeApplyChanges`: `antes de aplicar alterações, validar dados`.
-  - Evento `OnApplyChanges`: `se alterações aplicadas então salvar no banco de dados`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements**:
+  - `TsPanel`: Used for organizing sections of the form.
+  - `TsSplitter`: Allows resizing between sections.
+  - `TsPageControl` with tabs for different payment details.
+  - `TFRAMEpaymentCode`, `TFRAMEpaymentMill`, `TFRAMEpaymentUsage`: Custom frames for specific functionalities.
+- **Form Actions**:
+  - Tab switching (`PGCpayDetailsChange`).
+  - Adding records (`FRAMEpaymentMill1BTNaddClick`).
+  - Applying changes to data (`m_ApplyChanges`).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário e carregamento dos componentes visuais.
-  2. Carregamento dos dados principais e configuração das fontes de dados para os frames.
-  3. Interação do usuário com os controles (ex.: mudança de abas, clique em botões).
-  4. Execução de funções específicas baseadas nos eventos disparados.
+### User/Software Actions:
+- View and edit payment codes and their associated details.
+- Navigate between tabs to manage payment languages, mill details, and usage.
+- Add new records to the payment mill dataset.
+- Apply changes to the data.
 
-* **Dados Necessários:**
-  - Informações de códigos de pagamento.
-  - Detalhes multilíngues.
-  - Informações de uso e configurações adicionais.
+### Main Components:
+- **`PNLdata`**: Main panel containing the data sections.
+- **`PGCpayDetails`**: Page control with tabs for different payment details.
+- **Custom Frames**:
+  - `TFRAMEpaymentCode`: Handles payment code details.
+  - `TFRAMEpaymentMill`: Manages payment mill details.
+  - `TFRAMEpaymentUsage`: Manages payment usage details.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Alteração de abas: Não há pré-condições.
-  - Adicionar registro: Requer que os campos obrigatórios sejam preenchidos.
-  - Aplicar alterações: Requer validação dos dados antes de salvar.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Erro ao aplicar alterações" se a validação falhar.
-  - "Registro não encontrado" se o registro não existir.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - Não especificadas no código.
+### Pseudo-code for Actions and Events:
+- `PGCpayDetailsChange` event:
+  ```pseudo
+  if tab changed then
+    update displayed data for the selected tab
+  ```
+- `FRAMEpaymentMill1BTNaddClick` event:
+  ```pseudo
+  if add button clicked then
+    add new record to the payment mill dataset
+  ```
+- `m_ApplyChanges` procedure:
+  ```pseudo
+  if changes applied then
+    validate and save changes
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* `m_CreateFormEdit`: Cria e inicializa o formulário de edição.
-* `m_getData`: Carrega os dados principais e configura os frames.
-* `m_setKey`: Define uma chave específica no dataset.
-* `m_BeforeApply`: Executa ações antes de aplicar alterações.
-* `m_ApplyChanges`: Aplica as alterações feitas nos dados.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using `m_CreateFormEdit`.
+   - Data is loaded using `m_getData`.
+2. **User Interaction**:
+   - Users can navigate between tabs (`PGCpayDetails`).
+   - Users can add records via the "Add" button in the `FRAMEpaymentMill` frame.
+   - Changes are applied using the `m_ApplyChanges` procedure.
 
----
+### Functions and Locations:
+- **`m_CreateFormEdit`** (in `MPaymentCodes`):
+  - Creates and initializes the form.
+- **`m_getData`** (in `MPaymentCodes`):
+  - Loads data into the form and its frames.
+- **`m_ApplyChanges`** (in `MPaymentCodes`):
+  - Handles the application of changes to the data.
 
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `kneCBedit`, `kneFREditSOA`, `kneFRGridEditSOA`: Componentes personalizados para edição e exibição de dados.
-  - `sPanel`, `sSplitter`, `sPageControl`: Componentes visuais para layout.
-
-* **Componentes Personalizados:**
-  - `TFRAMEpaymentCode`, `TFRAMEpaymentMill`, `TFRAMEpaymentUsage`: Frames personalizados para exibição e edição de informações específicas.
+### Required Data:
+- Payment code details.
+- Payment language details.
+- Payment mill details.
+- Payment usage details.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos no Formulário:**
-  - Código (tipo: string, obrigatório).
-  - Descrição (tipo: string, obrigatório).
-  - Status (tipo: string, opcional).
+### Actions and Preconditions:
+- **Tab Switching**:
+  - No preconditions; users can switch tabs freely.
+- **Add Record**:
+  - Requires the "Add" button to be clicked in the `FRAMEpaymentMill` frame.
+- **Apply Changes**:
+  - Requires valid data in all fields.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No explicit error messages are defined in the code.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```pascal
-  procedure TFORMMPaymentCodes.m_getData;
+### Functions:
+1. **`m_CreateFormEdit`**:
+   - Creates and initializes the form.
+2. **`m_getData`**:
+   - Loads data into the form and its frames.
+3. **`m_ApplyChanges`**:
+   - Validates and applies changes to the data.
+
+---
+
+## 6. API Service Consumption:
+
+- No external API calls are defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **AlphaControls**: Provides enhanced UI components like `TsPanel`, `TsSplitter`, and `TsPageControl`.
+
+### Custom Components:
+- **`TFRAMEpaymentCode`**: Manages payment code details.
+- **`TFRAMEpaymentMill`**: Manages payment mill details.
+- **`TFRAMEpaymentUsage`**: Manages payment usage details.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- **Payment Code** (type: string, required): Managed by `TFRAMEpaymentCode`.
+- **Payment Language** (type: string, optional): Managed by `TFRAMEpaymentLang`.
+- **Payment Mill Details** (type: dataset, optional): Managed by `TFRAMEpaymentMill`.
+- **Payment Usage** (type: dataset, optional): Managed by `TFRAMEpaymentUsage`.
+
+### Mapping:
+- Field mappings to database columns are not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Form Initialization] --> [Load Data] --> [User Interaction]
+    --> [Tab Switching] --> [Data Editing] --> [Apply Changes]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Open Form
+Form --> Database: Load Data
+User --> Form: Edit Data
+Form --> Database: Save Changes
+```
+
+### Code Snippets:
+- Example of creating the form:
+  ```delphi
+  var
+    Form: TFORMMPaymentCodes;
   begin
-    Screen.Cursor := crHourGlass;
-    FRAMEpaymentCode1.OnBeforeApplyChanges := m_BeforeApply;
-    FRAMEpaymentCode1.OnApplyChanges := m_ApplyChanges;
-    inherited m_getData;
-    PGCpayDetails.ActivePageIndex := 0;
+    Form := TFORMMPaymentCodes.Create(Application);
+    Form.Show;
   end;
   ```
-* **Capturas de Tela:** Não aplicável.
+
+### Screenshots:
+- Not applicable as the DFM file is not fully provided.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* `// otimização de recursos`: Indica que o código foi projetado para eficiência.
-* `// parâmetros standard de serviços`: Configurações padrão para serviços.
+- **Optimization of Resources**:
+  ```delphi
+  // optimiza��o de recursos
+  lv_MasterFrame := TFRAMEBaseEditSOA(kneUtils.TkneGeneric.fg_GetMasterFrame(Self));
+  ```
+- **Standard Service Parameters**:
+  ```delphi
+  // parametros standard de servi�os
+  lv_MasterFrame.ServiceParams.ShowInactives := True;
+  ```
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código implementa uma interface robusta para a manutenção de códigos de pagamento, com suporte a múltiplos idiomas e informações adicionais. No entanto, faltam validações explícitas e mensagens de erro detalhadas. A modularidade dos frames facilita a manutenção e expansão futura.
+The `MPaymentCodes` unit provides a robust framework for managing payment codes and their associated details. It leverages custom frames and third-party components for a modular and visually appealing interface. However, the code lacks explicit error handling, field validations, and detailed documentation for field mappings.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-O código fornece uma interface para gerenciar códigos de pagamento, com suporte a detalhes multilíngues e informações adicionais. Ele utiliza frames personalizados e componentes visuais para organizar os dados e facilitar a interação do usuário.#### **MPaymentCodes.pas**
+The `MPaymentCodes` unit is a Delphi-based form for managing payment codes, languages, mill details, and usage. It uses custom frames and third-party components for modularity and enhanced UI. While functional, it lacks explicit error handling and field validation.#### **MPaymentCodes.pas**
 
 ```
 unit MPaymentCodes;

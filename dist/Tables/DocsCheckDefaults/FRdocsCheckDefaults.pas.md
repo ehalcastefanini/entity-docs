@@ -2,172 +2,216 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocsCheckDefaults`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é criar um componente de interface do usuário para gerenciar e configurar os valores padrão de um checklist de documentos relacionados a consignatários e mercados. Ele permite que os usuários selecionem e configurem informações de consignatários e mercados de forma eficiente, utilizando componentes visuais e interações com serviços de backend.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do componente.
-  - Componentes visuais como `TsLabel`, `TFRAMEFindEditSOA`, `TsPanel`, entre outros.
-  - Serviços SOAP para integração com backend (`SOAPHTTPClient`, `TCheckListDocsDefaultServiceUtils`).
-  - Manipulação de banco de dados com `DB`, `DBClient`.
+### Objective and Problem Solved:
+The `FRdocsCheckDefaults` unit defines a Delphi frame (`TFRAMEdocsCheckDefaults`) that provides a user interface for managing and configuring default settings related to "Consignee" and "Consignee Market." It allows users to select and configure these entities through a form-based interface. The frame integrates with data sources and services to fetch and display relevant information.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e Tipos:**
-      - `LBLconsMkt` (Label): Exibe o texto "Cons.Market".
-      - `Label1` (Label): Exibe o texto "Consignee".
-      - `FRAMEfindConsignee` (Componente de busca): Permite selecionar um consignatário.
-      - `FRAMEfindConsigneeMarket` (Componente de busca): Permite selecionar um mercado.
-    - **Ações do Formulário e Efeitos:**
-      - Configuração de visibilidade e habilitação dos campos com base no modo de acesso.
-      - Integração com serviços para buscar e exibir dados de consignatários e mercados.
+This frame is particularly useful in scenarios where users need to manage default configurations for documents or entities in a system, ensuring consistency and reducing manual input errors.
 
----
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services (`TCheckListDocsDefaultServiceUtils`).
+- **Database Components**: For binding data to UI elements (`DBClient`, `DBCtrls`).
+- **Custom Components**: Includes custom components like `TFRAMEFindEditSOA`, `TsLabel`, and `TsPanel`.
 
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Configurar os campos de busca para consignatários e mercados.
-  - Habilitar ou desabilitar os campos com base no modo de acesso.
-  - Interagir com serviços SOAP para buscar dados relacionados.
-
-* **Componentes Principais:**
-  - `TFRAMEdocsCheckDefaults`: Classe principal que gerencia o formulário.
-  - `FRAMEfindConsignee` e `FRAMEfindConsigneeMarket`: Componentes de busca para consignatários e mercados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnSetAccessMode`: `se modo de acesso for "NEW" então habilitar campos de busca`.
-  - Método `m_SetFindConsMarket`: `configurar campo de busca para mercado com fonte de dados e nomes de campo`.
-  - Método `m_SetFindConsignee`: `configurar campo de busca para consignatário com fonte de dados e nomes de campo`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `LBLconsMkt` (Label): Displays "Consignee Market."
+  - `Label1` (Label): Displays "Consignee."
+  - `FRAMEfindConsignee` (Custom Frame): Allows users to search and select a "Consignee."
+  - `FRAMEfindConsigneeMarket` (Custom Frame): Allows users to search and select a "Consignee Market."
+- **Form Actions and Effects**:
+  - `m_SetFindConsignee`: Configures the "Consignee" search frame.
+  - `m_SetFindConsMarket`: Configures the "Consignee Market" search frame.
+  - `m_SetAccessMode`: Adjusts the access mode and enables/disables frames based on the mode.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente com o construtor `Create`.
-  2. Configuração de propriedades como `MasterSource`, `DataPacketName`, e `ProviderService`.
-  3. Configuração dos campos de busca para consignatários e mercados.
-  4. Interação do usuário com os campos de busca para selecionar valores.
-  5. Integração com serviços SOAP para buscar dados.
+### User/Software Actions:
+- Users can select and configure "Consignee" and "Consignee Market" using the provided frames.
+- The frame dynamically adjusts its behavior based on the access mode (`NEW` or other modes).
 
-* **Dados Necessários:**
-  - Código e descrição do consignatário.
-  - Código e descrição do mercado.
+### Main Components:
+1. **Labels (`LBLconsMkt`, `Label1`)**: Display static text for "Consignee Market" and "Consignee."
+2. **Frames (`FRAMEfindConsignee`, `FRAMEfindConsigneeMarket`)**: Custom frames for searching and selecting entities.
+3. **Service Integration (`TCheckListDocsDefaultServiceUtils`)**: Handles interactions with external services.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Campos de busca só são habilitados se o modo de acesso for "NEW".
-
-* **Filtros Disponíveis:**
-  - Filtros para código e descrição de consignatários e mercados.
-
-* **Mensagens de Erro:**
-  - Não especificado no código.
-
-* **Valores Padrão dos Campos:**
-  - Não especificado no código.
-
-* **Validações e Condições dos Campos:**
-  - Validação de código e descrição para consignatários e mercados.
-
----
-
-## 5. Funções Principais:
-
-* **Descrição das Funções:**
-  - `Create`: Inicializa o componente e configura propriedades.
-  - `m_SetAccessMode`: Define a habilitação dos campos com base no modo de acesso.
-  - `m_SetFindConsMarket`: Configura o campo de busca para mercados.
-  - `m_SetFindConsignee`: Configura o campo de busca para consignatários.
+### Pseudo-code for Actions and Events:
+- `OnCreate` event of the frame:
+  ```
+  if frame is created then
+    initialize properties
+    configure service and data source
+    call m_SetFindConsignee
+    call m_SetFindConsMarket
+  ```
+- `m_SetAccessMode` procedure:
+  ```
+  if access mode is 'NEW' then
+    enable FRAMEfindConsigneeMarket
+    enable FRAMEfindConsignee
+  else
+    disable FRAMEfindConsigneeMarket
+    disable FRAMEfindConsignee
+  ```
+- `m_SetFindConsMarket` procedure:
+  ```
+  configure FRAMEfindConsigneeMarket with data source and field mappings
+  set FindDialog properties for "Consignee Market"
+  ```
 
 ---
 
-## 6. Consumo de Serviços API:
+## 3. Operational Logic:
 
-* **Chamadas a Serviços Externos:**
-  - Serviço: `TCheckListDocsDefaultServiceUtils`.
-  - Propósito: Gerenciar dados de checklist de documentos padrão.
-  - Dados enviados e recebidos: Não especificado no código.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created, and its properties are initialized.
+   - The `TCheckListDocsDefaultServiceUtils` service is instantiated.
+   - The `m_SetFindConsignee` and `m_SetFindConsMarket` procedures are called to configure the frames.
+2. **User Interaction**:
+   - Users interact with the "Consignee" and "Consignee Market" frames to select entities.
+   - The `m_SetAccessMode` procedure adjusts the frame's behavior based on the access mode.
 
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `DB`, `DBClient`: Para manipulação de dados.
-
-* **Componentes Customizados:**
-  - `TFRAMEFindEditSOA`: Componente de busca customizado.
+### Data Requirements:
+- Users must provide/select:
+  - A "Consignee Market" (via `FRAMEfindConsigneeMarket`).
+  - A "Consignee" (via `FRAMEfindConsignee`).
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos no Formulário:**
-  - `Cons.Market` (string, obrigatório, não especificado no código).
-  - `Consignee` (string, obrigatório, não especificado no código).
+### Actions and Preconditions:
+- **Action**: Enable/Disable frames based on access mode.
+  - **Precondition**: Access mode must be set to `NEW` to enable the frames.
+- **Action**: Configure "Consignee" and "Consignee Market" frames.
+  - **Precondition**: Data source and field mappings must be correctly set.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `Cons.Market`: `marketCode` e `marketDescrip`.
-  - `Consignee`: `consMkt` e `description`.
+### Available Filters:
+- "Consignee Market" filter:
+  - Field: `marketCode` (Code).
+  - Field: `description` (Description).
+- "Consignee" filter:
+  - Not explicitly defined in the code.
+
+### Error Messages:
+- No explicit error messages are defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- "Consignee Market" and "Consignee" fields must be correctly mapped to the data source.
+- No additional validations are explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Frame: TFRAMEdocsCheckDefaults;
+1. **`Create` Constructor**:
+   - Initializes the frame and its properties.
+   - Configures the service and frames.
+
+2. **`m_SetAccessMode`**:
+   - Adjusts the frame's behavior based on the access mode.
+
+3. **`m_SetFindConsignee`**:
+   - Configures the "Consignee" frame.
+
+4. **`m_SetFindConsMarket`**:
+   - Configures the "Consignee Market" frame.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `TCheckListDocsDefaultServiceUtils`.
+- **Purpose**: Provides data and functionality for managing default document settings.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The "Consignee Market" and "Consignee" frames are enabled only when the access mode is set to `NEW`.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAP Components**: For service integration.
+- **Database Components**: For data binding.
+- **Custom Components**: `TFRAMEFindEditSOA`, `TsLabel`, `TsPanel`.
+
+### Custom Components:
+- `TFRAMEFindEditSOA`: Used for searching and selecting entities.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Consignee Market**:
+  - Type: String.
+  - Required: Yes.
+  - Field Mappings: `marketCode` (Code), `description` (Description).
+- **Consignee**:
+  - Type: String.
+  - Required: Yes.
+  - Field Mappings: Not explicitly defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not define a complex workflow.)
+
+### Sequence Diagram:
+(Not applicable as the interactions are limited to the frame and its components.)
+
+### Code Snippets:
+```delphi
+procedure TFRAMEdocsCheckDefaults.m_SetFindConsMarket;
+begin
+  with FRAMEfindConsigneeMarket do
   begin
-    Frame := TFRAMEdocsCheckDefaults.Create(Self);
-    Frame.ShowActionPanel := True;
-    Frame.ProviderService := TCheckListDocsDefaultServiceUtils.Create(Self);
+    EditSettings.DataSource := DStable;
+    EditSettings.FieldNameForCode := 'consMkt';
+    EditSettings.FieldNameForDesc := 'marketDescrip';
+    FindDialog.Caption := 'Consignee Market Selection';
   end;
-  ```
-* **Captura de Tela (HTML Renderizado):**
-  ```html
-  <div style="width: 580px; border: 1px solid #ccc; padding: 10px;">
-    <label style="display: block; margin-bottom: 5px;">Cons.Market:</label>
-    <input type="text" style="width: 100%; margin-bottom: 10px;" placeholder="Cons.Market">
-    <label style="display: block; margin-bottom: 5px;">Consignee:</label>
-    <input type="text" style="width: 100%;" placeholder="Consignee">
-  </div>
-  ```
+end;
+```
+
+### Screenshots:
+(Not applicable as the DFM file is not fully provided.)
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* Configuração de propriedades no construtor `Create`.
-* Configuração de campos de busca nos métodos `m_SetFindConsMarket` e `m_SetFindConsignee`.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma estrutura robusta para gerenciar e configurar valores padrão de checklist de documentos. Ele utiliza componentes visuais e serviços SOAP para facilitar a interação do usuário. No entanto, faltam validações explícitas e mensagens de erro detalhadas.
+- The `Create` constructor contains critical initialization logic for the frame.
+- The `m_SetAccessMode` procedure adjusts the frame's behavior dynamically.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código implementa um formulário para gerenciar valores padrão de checklist de documentos, com integração a serviços SOAP e componentes visuais para seleção de consignatários e mercados. Ele é parte de um sistema maior para gerenciamento de dados empresariais.#### **FRdocsCheckDefaults.pas**
+The `FRdocsCheckDefaults` unit provides a robust framework for managing "Consignee" and "Consignee Market" configurations. While it effectively integrates with services and data sources, the lack of explicit error handling and validations may limit its usability in complex scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocsCheckDefaults` unit defines a Delphi frame for managing "Consignee" and "Consignee Market" configurations, integrating with services and data sources to provide a user-friendly interface for selecting and configuring these entities.#### **FRdocsCheckDefaults.pas**
 
 ```
 unit FRdocsCheckDefaults;

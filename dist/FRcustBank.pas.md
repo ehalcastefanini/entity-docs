@@ -2,220 +2,210 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um componente de interface gráfica chamado `TFRAMEcustBank`, que é uma extensão de um frame base para edição de grids (`TFRAMEBaseGridEditSOA`). Ele é utilizado para gerenciar informações bancárias de clientes em um sistema. O objetivo principal é permitir a visualização, edição e manipulação de dados bancários associados a clientes, como códigos de banco, nomes de banco, status, entre outros.
-
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver o componente.
-  - **Bibliotecas e Componentes:**
-    - `cxGrid`, `cxGridDBTableView`: Componentes para exibição de grids de dados.
-    - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-    - `DBClient`: Para manipulação de datasets.
-    - `kneFRGridEditSOA`: Frame base para edição de grids.
-    - `kneUtils`, `kneTypes`, `kneConfigObjects`: Utilitários e tipos personalizados.
-    - `BankServiceUtils`: Utilitário específico para manipulação de dados bancários.
-
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `mill`: Identificador do cliente (string).
-      - `bankCode`: Código do banco (string).
-      - `bankName`: Nome do banco (string).
-      - `stat`: Status do banco (string).
-      - `lastUpd`: Última atualização (data/hora).
-      - `updBy`: Usuário que realizou a última atualização (string).
-    - **Ações do Grid e seus Efeitos:**
-      - Edição de valores diretamente no grid.
-      - Busca de bancos por código.
-      - Validação de campos ao alterar valores.
+# Documentation for `FRcustBank` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Permitir a edição de informações bancárias diretamente no grid.
-  - Buscar bancos por código utilizando um diálogo de busca.
-  - Configurar campos como somente leitura ou ocultos.
+### Objective and Problem Solved:
+The `FRcustBank` code unit defines a frame (`TFRAMEcustBank`) that manages a grid-based interface for displaying and editing customer bank information. It provides functionality for managing customer-bank relationships, including searching for banks, editing bank details, and configuring grid settings. The main objective is to streamline the management of customer bank data in a structured and user-friendly interface.
 
-* **Componentes Principais:**
-  - `cxGridDBTableView`: Exibe os dados em formato de tabela.
-  - `m_SetFindEditBank`: Configura o diálogo de busca para seleção de bancos.
-  - `GridSettings`: Configurações do grid, como campos ocultos, ordem de exibição e editores personalizados.
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **SOAP Services**: For interacting with external services (e.g., `BankServiceUtils`).
+- **Database Components**: For managing and displaying data from a database (`DBClient`, `cxDBData`).
+- **Custom Grid Components**: `cxGrid`, `cxGridDBTableView` for displaying and editing data in a tabular format.
 
-* **Pseudo-código de Ações e Eventos:**
-  - Evento `OnEditValueChanged`:
-    ```pseudo
-    se valor de um campo no grid for alterado então
-        validar e processar a alteração
-    ```
-  - Método `m_SetFindEditBank`:
-    ```pseudo
-    se botão de busca for clicado então
-        abrir diálogo de busca
-        configurar campos de busca e seleção
-    ```
-  - Método `Create`:
-    ```pseudo
-    ao criar o frame então
-        configurar propriedades do frame
-        definir configurações do grid
-    ```
+### Form Type:
+This is a **grid display** form.
+
+#### Grid Columns and Their Types:
+1. **mill**: Hidden field.
+2. **bankCode**: Editable field with a custom editor (`cxEDTfind`).
+3. **bankName**: Display field.
+4. **stat**: Editable field with a custom editor (`cxEDTstat`).
+5. **lastUpd**: Display field.
+6. **updBy**: Display field.
+
+#### Grid Actions and Their Effects:
+- **Edit Value Changed**: Triggers when a value in the grid is edited.
+- **Find Bank**: Opens a dialog to search for a bank.
+- **Set Key Editing**: Configures whether the key fields are editable.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do frame (`Create`):
-     - Configura propriedades como `MasterKeyFields`, `DataPacketName`, e `FrameType`.
-     - Define configurações do grid, como campos ocultos, ordem de exibição e editores personalizados.
-  2. Interação do Usuário:
-     - O usuário pode editar valores diretamente no grid.
-     - O botão de busca permite abrir um diálogo para selecionar bancos.
-  3. Eventos:
-     - Alterações nos valores do grid disparam o evento `OnEditValueChanged`.
+### User/Software Actions:
+1. **Edit Grid Values**: Users can edit specific fields in the grid.
+2. **Search for Banks**: Users can search for banks using a custom dialog.
+3. **Configure Grid Settings**: The grid can be customized (e.g., hiding fields, setting field order).
 
-* **Dados Necessários:**
-  - Código do cliente (`customerCode`).
-  - Informações bancárias, como código do banco, nome do banco e status.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays customer bank data.
+- **Custom Editors**: Provides specialized input fields for certain columns.
+- **Find Dialog**: Allows users to search for banks.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação: Alterar valores no grid.
-    - Pré-condição: O campo deve estar habilitado para edição.
-  - Ação: Buscar banco por código.
-    - Pré-condição: O botão de busca deve ser clicado.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Validações específicas não estão definidas no código.
+### Pseudo-Code for Actions and Events:
+- `OnEditValueChanged` event: `if grid value changed then execute value change logic`.
+- `OnButtonClick` event of `cxEDTfind`: `if button clicked then open find dialog`.
+- `SetKeyEditing` method: `if editing enabled then allow key field editing`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:**
-  - Configura o frame e define as propriedades e configurações do grid.
-* **`m_SetFindEditBank`:**
-  - Configura e exibe o diálogo de busca para seleção de bancos.
-* **`cxDBVtableEditValueChanged`:**
-  - Processa alterações nos valores do grid.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created (`Create` constructor).
+   - Grid settings are configured (e.g., hidden fields, field order, key fields).
+   - Custom editors are assigned to specific fields.
 
----
+2. **User Interactions**:
+   - Users can edit grid values, triggering the `OnEditValueChanged` event.
+   - Users can click the search button in the `bankCode` field, opening the find dialog.
 
-## 6. Consumo de Serviços API:
+### Functions and File Locations:
+- **`Create` Constructor** (in `FRcustBank`):
+  - Initializes the frame and configures grid settings.
+- **`m_SetFindEditBank` Method** (in `FRcustBank`):
+  - Opens the find dialog for searching banks.
+- **`SetKeyEditing` Method** (in `FRcustBank`):
+  - Configures whether key fields are editable.
 
-* **Serviço Externo:**
-  - Nome do Serviço: Não especificado.
-  - Endpoint: Não especificado.
-  - Dados Enviados: Não especificado.
-  - Dados Recebidos: Não especificado.
-  - Propósito: Não especificado.
-  - Tratamento de Erros: Não especificado.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- **Customer Code**: Used to filter and display relevant bank data.
+- **Bank Code**: Used for searching and editing bank details.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxGridDBTableView`: Para exibição de grids.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `DBClient`: Para manipulação de datasets.
+### Actions and Preconditions:
+- **Edit Grid Values**: Users can edit fields unless they are marked as read-only.
+- **Search for Banks**: Requires the `bankCode` field to be selected.
 
-* **Componentes Personalizados:**
-  - `kneFRGridEditSOA`: Frame base para edição de grids.
-  - `BankServiceUtils`: Utilitário para manipulação de dados bancários.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- No explicit error messages are defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- No default values are explicitly defined in the code.
 
-* **Campos no Grid:**
-  - `mill` (tipo: string, não definido como obrigatório).
-  - `bankCode` (tipo: string, não definido como obrigatório).
-  - `bankName` (tipo: string, não definido como obrigatório).
-  - `stat` (tipo: string, não definido como obrigatório).
-  - `lastUpd` (tipo: data/hora, não definido como obrigatório).
-  - `updBy` (tipo: string, não definido como obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- **bankCode**: Uses a custom editor (`cxEDTfind`) for searching.
+- **stat**: Uses a custom editor (`cxEDTstat`) for status selection.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEcustBank := TFRAMEcustBank.Create(Self);
-  FRAMEcustBank.SetForDOCADDR;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="border: 1px solid black; width: 100%;">
-    <thead>
-      <tr>
-        <th>mill</th>
-        <th>bankCode</th>
-        <th>bankName</th>
-        <th>stat</th>
-        <th>lastUpd</th>
-        <th>updBy</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>001</td>
-        <td>123</td>
-        <td>Banco A</td>
-        <td>Ativo</td>
-        <td>2023-10-01</td>
-        <td>Admin</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+1. **`Create` Constructor**:
+   - Initializes the frame and configures grid settings.
+2. **`m_SetFindEditBank`**:
+   - Opens a dialog for searching banks.
+3. **`SetKeyEditing`**:
+   - Configures whether key fields are editable.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* Configuração de propriedades do frame no método `Create`.
-* Configuração de campos ocultos e ordem de exibição no grid.
-
----
-
-## 12. Conclusão:
-
-O código implementa um frame para gerenciar informações bancárias de clientes, com funcionalidades de edição e busca. Ele é bem estruturado, mas carece de validações explícitas e mensagens de erro. Sua força está na flexibilidade de configuração do grid.
+- **Service Name**: BankServiceUtils.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Likely used for retrieving bank data.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O `TFRAMEcustBank` é um frame para gerenciar dados bancários de clientes, permitindo edição e busca. Ele utiliza grids configuráveis e é extensível, mas não define validações ou mensagens de erro explícitas.#### **FRcustBank.pas**
+- **bankCode**: Uses a custom editor (`cxEDTfind`) for searching.
+- **stat**: Uses a custom editor (`cxEDTstat`) for status selection.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP service communication.
+- **cxGrid**: For grid-based data display.
+- **DBClient**: For database interaction.
+
+### Custom Components:
+- **`cxEDTfind`**: Custom editor for searching banks.
+- **`cxEDTstat`**: Custom editor for status selection.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **mill**: Hidden field.
+2. **bankCode**: Editable, uses a custom editor (`cxEDTfind`).
+3. **bankName**: Display field.
+4. **stat**: Editable, uses a custom editor (`cxEDTstat`).
+5. **lastUpd**: Display field.
+6. **updBy**: Display field.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Configure Grid Settings] --> [User Interaction]
+    --> [Edit Grid Values] --> [Trigger Events] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Grid: Edit Value
+Grid --> Event Handler: Trigger OnEditValueChanged
+Event Handler --> Grid: Update Value
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustBank.m_SetFindEditBank(Sender: TObject; AButtonIndex: Integer);
+begin
+  lv_Find := TkneDialogFactory.GetFindDialog(Application);
+  lv_Find.Options.DataSelection.FieldNameForCode := 'bankCode';
+  lv_Find.ShowModal;
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**:
+  - Hidden fields: `DefineHiddenFields('HIDE_ALL_FIELDS')`.
+  - Field order: `DefineOrderFields('mill; bankCode; bankName; stat; lastUpd; updBy')`.
+  - Key fields: `KeyFields := 'customer;mill;bankCode'`.
+
+- **Custom Editors**:
+  - `AddCustomField('bankCode', 'cxEDTfind')`.
+  - `AddCustomField('stat', 'cxEDTstat')`.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustBank` code unit provides a robust framework for managing customer-bank relationships through a grid-based interface. It supports custom field editors, search functionality, and configurable grid settings. However, the code lacks explicit error handling, default values, and detailed API integration.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustBank` unit defines a grid-based interface for managing customer-bank relationships, supporting custom field editors, search functionality, and configurable settings. It integrates with SOAP services for data retrieval and updates.#### **FRcustBank.pas**
 
 ```
 unit FRcustBank;

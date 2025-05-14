@@ -2,185 +2,190 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcarrier` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário para gerenciar informações de transportadoras (carriers). Ele permite que os usuários insiram, editem e visualizem dados relacionados a transportadoras, como código, nome, país, idioma, moeda, pagamento e observações. O objetivo é fornecer uma interface para manipular esses dados de forma eficiente e integrada com serviços externos.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes personalizados como `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`, e `TsDBEdit`.
-  - Serviços SOAP para integração com APIs externas.
+### Objective and Problem Solved:
+The `FRcarrier` code unit defines a form (`TFRAMEcarrier`) for managing carrier-related data. It provides a user interface for inputting, editing, and managing carrier details such as carrier code, name, country, language, currency, payment method, and remarks. The form integrates with backend services to fetch and save data, ensuring seamless interaction with the database.
 
-* **Tipo de Formulário:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `EDTcode` (Campo de texto, obrigatório).
-      - `EDTabbrName` (Campo de texto).
-      - `EDTname` (Campo de texto, obrigatório).
-      - `EDTremarks1`, `EDTremarks2`, `EDTremarks3` (Campos de texto para observações).
-      - `FRAMEfindCountry`, `FRAMEfindLanguage`, `FRAMEfindCurrency`, `FRAMEfindPayment` (Componentes de busca relacionados a país, idioma, moeda e pagamento).
-    - **Ações do Formulário e seus Efeitos:**
-      - Alteração de valores nos campos dispara eventos para validação e atualização de dados.
-      - Integração com serviços externos para buscar informações relacionadas.
+### Technologies Used:
+- **Delphi Framework**: Used for creating the form and managing components.
+- **SOAP Services**: For backend communication via `SOAPHTTPClient`.
+- **Database Components**: For data binding and interaction with the database.
+- **Custom Components**: Includes `kneFRCtrlEditSOA`, `kneFRFindEditSOA`, `kneFRStatusInfo`, and others for specialized functionalities.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Permitir que o usuário insira ou edite informações de transportadoras.
-  - Validar os dados inseridos.
-  - Buscar informações relacionadas (país, idioma, moeda, pagamento) através de serviços externos.
-
-* **Componentes Principais:**
-  - `TFRAMEFindEditSOA`: Componente para busca de dados externos.
-  - `TsDBEdit`: Campos de edição vinculados a um banco de dados.
-  - `TFRAMEstatusInfo`: Exibe informações de status.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnChange` de `EDTcode`: `se valor do campo mudar então validar código`.
-  - Evento `OnInitializeData`: `se inicializar dados então configurar valores padrão`.
-  - Evento `AfterApplyChanges`: `se alterações aplicadas então atualizar interface`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTcode` (Text Input): Carrier Code.
+  - `EDTabbrName` (Text Input): Abbreviated Name.
+  - `EDTname` (Text Input): Carrier Name.
+  - `EDTremarks1`, `EDTremarks2`, `EDTremarks3` (Text Input): Remarks fields.
+  - `EDTlegalNum` (Text Input): Legal Number.
+  - `FRAMEfindCountry`, `FRAMEfindLanguage`, `FRAMEfindCurrency`, `FRAMEfindPayment` (Custom Find Components): For selecting country, language, currency, and payment method.
+- **Form Actions and Effects**:
+  - Data initialization and validation.
+  - Interaction with backend services for saving and retrieving data.
+  - Dynamic updates based on user input.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configurações iniciais, como visibilidade de painéis e ações disponíveis.
-     - Configuração de serviços e componentes de busca.
-  2. Interação do Usuário:
-     - Usuário insere ou edita dados nos campos.
-     - Eventos são disparados para validação e integração com serviços externos.
-  3. Salvamento:
-     - Dados são validados e enviados para o serviço correspondente.
+### User/Software Actions:
+- Input carrier details such as code, name, and remarks.
+- Select associated country, language, currency, and payment method using custom find components.
+- Save or update carrier data to the backend.
 
-* **Dados Necessários:**
-  - Código da transportadora.
-  - Nome da transportadora.
-  - País, idioma, moeda e pagamento (opcionais).
-  - Observações (opcionais).
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names and provide focus control.
+- **Text Inputs (`TsDBEdit`)**: Allow users to input carrier details.
+- **Custom Find Components (`TFRAMEFindEditSOA`)**: Enable selection of related entities like country and language.
+- **Status Info (`TFRAMEstatusInfo`)**: Displays status information.
+- **Backend Service (`TCarrierServiceUtils`)**: Handles data operations.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O botão "Salvar" só deve ser habilitado se os campos obrigatórios (`EDTcode` e `EDTname`) estiverem preenchidos.
-
-* **Filtros Disponíveis:**
-  - Busca por país, idioma, moeda e pagamento.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se `EDTcode` ou `EDTname` estiver vazio.
-  - "Código inválido" se o código não atender aos critérios de validação.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - `EDTcode`: Deve ser único e validado.
-  - `EDTname`: Deve ter um valor não vazio.
+### Pseudo-code for Actions and Events:
+- `OnChange` event of `EDTcode`:  
+  `if field value changed then execute CodeChanged event`.
+- `OnInitializeData` event:  
+  `if form initialized then load data`.
+- `AfterApplyChanges` event:  
+  `if data changes applied then execute post-save logic`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Descrição das Funções:**
-  - `m_SetFindCountry`: Configura o componente de busca para países.
-  - `m_SetFindLanguage`: Configura o componente de busca para idiomas.
-  - `m_SetFindPayment`: Configura o componente de busca para pagamentos.
-  - `m_SetFindCurrency`: Configura o componente de busca para moedas.
-  - `m_InitializeData`: Inicializa os dados do formulário.
-  - `m_AfterApplyChanges`: Atualiza a interface após salvar alterações.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created and initialized (`Create` constructor).
+   - Backend service (`TCarrierServiceUtils`) is configured.
+   - Custom find components are set up for country, language, payment, and currency.
+   - Data initialization and post-save events are assigned.
+2. **User Interaction**:
+   - Users input data into text fields or select options using find components.
+   - Changes trigger validation and backend service calls.
+3. **Data Operations**:
+   - Data is fetched or saved via `TCarrierServiceUtils`.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `CarrierServiceUtils`.
-  - Endpoint: Não especificado no código.
-  - Dados Enviados: Dados da transportadora.
-  - Dados Recebidos: Confirmação de sucesso ou erro.
-  - Tratamento de Erros: Mensagens de erro exibidas ao usuário.
+### Required User Data:
+- Carrier Code, Name, Abbreviated Name, Legal Number, Remarks.
+- Selected Country, Language, Currency, and Payment Method.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* Não há campos condicionais explícitos no código.
+### Actions and Preconditions:
+- **CodeChanged Event**: Triggered when the carrier code changes.
+- **Save Action**: Requires all mandatory fields to be filled.
 
----
+### Available Filters:
+- No explicit filters are defined in the code.
 
-## 8. Dependências:
+### Error Messages:
+- Not explicitly defined in the code.
 
-* **Bibliotecas Externas:**
-  - `InvokeRegistry`, `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneFRCtrlEditSOA`, `kneFRFindEditSOA`: Componentes personalizados para edição e busca.
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `EDTcode` (string, obrigatório).
-  - `EDTabbrName` (string, opcional).
-  - `EDTname` (string, obrigatório).
-  - `EDTremarks1`, `EDTremarks2`, `EDTremarks3` (string, opcional).
-  - `FRAMEfindCountry`, `FRAMEfindLanguage`, `FRAMEfindCurrency`, `FRAMEfindPayment` (componentes de busca).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEcarrier := TFRAMEcarrier.Create(Self);
-  FRAMEcarrier.EDTcode.Text := '123';
-  FRAMEcarrier.EDTname.Text := 'Transportadora Exemplo';
-  ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="font-family: Tahoma; color: #4D4D4D;">
-    <label>Carrier Cd:</label> <input type="text" id="EDTcode" /><br />
-    <label>Name:</label> <input type="text" id="EDTname" /><br />
-    <label>Country:</label> <input type="text" id="FRAMEfindCountry" /><br />
-    <label>Language:</label> <input type="text" id="FRAMEfindLanguage" /><br />
-    <label>Currency:</label> <input type="text" id="FRAMEfindCurrency" /><br />
-    <label>Payment:</label> <input type="text" id="FRAMEfindPayment" /><br />
-    <label>Remarks:</label> <input type="text" id="EDTremarks1" /><br />
-  </div>
-  ```
+- **`Create` Constructor**: Initializes the form, sets up services, and configures components.
+- **`m_SetFindCountry`**: Configures the country selection component.
+- **`m_SetFindLanguage`**: Configures the language selection component.
+- **`m_SetFindPayment`**: Configures the payment method selection component.
+- **`m_SetFindCurrency`**: Configures the currency selection component.
+- **`m_InitializeData`**: Handles data initialization.
+- **`m_AfterApplyChanges`**: Executes logic after data changes are applied.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* Configuração inicial do formulário no construtor `Create`.
-* Métodos para configurar os componentes de busca (`m_SetFindCountry`, etc.).
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar dados de transportadoras, com integração a serviços externos. No entanto, faltam detalhes sobre validações específicas e endpoints de serviços. A modularidade e reutilização de componentes são pontos fortes.
+- **Service Name**: `TCarrierServiceUtils`.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Carrier details (e.g., code, name, country, etc.).
+- **Data Received**: Confirmation of success or failure.
+- **Purpose**: Fetch or save carrier data.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa um formulário para gerenciar transportadoras, permitindo edição e integração com serviços externos. Ele utiliza componentes personalizados e validações básicas para garantir a consistência dos dados.#### **FRcarrier.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based backend communication.
+- **DBClient**: For database interaction.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: For entity selection.
+- **`TFRAMEstatusInfo`**: For displaying status information.
+- **`TCarrierServiceUtils`**: For carrier-related backend operations.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Carrier Code (`EDTcode`)**: Type: string, required. Validation not defined.
+- **Abbreviated Name (`EDTabbrName`)**: Type: string, optional. Validation not defined.
+- **Name (`EDTname`)**: Type: string, required. Validation not defined.
+- **Remarks (`EDTremarks1`, `EDTremarks2`, `EDTremarks3`)**: Type: string, optional. Validation not defined.
+- **Legal Number (`EDTlegalNum`)**: Type: string, optional. Validation not defined.
+- **Country, Language, Currency, Payment**: Selected via `TFRAMEFindEditSOA`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcarrier.EDTcodeChange(Sender: TObject);
+begin
+  if Assigned(FCodeChanged) then
+    FCodeChanged(Sender);
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization**: The `Create` constructor contains critical setup logic for the form and its components.
+- **Custom Find Components**: Methods like `m_SetFindCountry` configure essential components for selecting related entities.
+
+---
+
+## 12. Conclusion:
+
+The `FRcarrier` code unit provides a robust form for managing carrier data, integrating with backend services for seamless data operations. While it offers a well-structured interface and functionality, the lack of explicit error handling, field validation, and default values limits its robustness.
+
+---
+
+## 13. Short Summary:
+
+The `FRcarrier` code unit defines a form for managing carrier data, integrating with backend services for data operations. It includes fields for carrier details and custom components for selecting related entities like country and language.#### **FRcarrier.pas**
 
 ```
 unit FRcarrier;

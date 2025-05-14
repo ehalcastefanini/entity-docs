@@ -2,202 +2,205 @@
 
 #### **Documentation**
 
-# Documentação do Código: Unidade `FRbankAccounts`
+# Documentation for `FRbankAccounts` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-### Objetivo Principal:
-O objetivo principal deste código é criar uma interface gráfica para gerenciar contas bancárias. Ele permite que os usuários visualizem, editem e configurem informações relacionadas a contas bancárias, como ID do banco, nome curto, nome da conta, código SWIFT, moeda, moinho (mill), número da conta e descrição. O código também integra serviços externos para buscar informações adicionais, como moeda, moinho e vendedor.
+### Objective and Problem Solved:
+The `FRbankAccounts` code unit is designed to manage and display bank account information in a structured form. It provides a user interface for viewing, editing, and interacting with bank account details such as Bank ID, Short Name, Account Name, Swift Code, Currency, Mill, Account Number, and Description. The main objective is to facilitate the management of bank account data in a user-friendly and efficient manner.
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação utilizada para criar a interface gráfica e lógica do sistema.
-- **Componentes Visuais**: `TsLabel`, `TsDBEdit`, `TFRAMEFindEditSOA`, entre outros, para criar a interface do usuário.
-- **Serviços SOAP**: Integração com serviços externos para buscar dados relacionados a bancos, moedas, moinhos e vendedores.
-- **Banco de Dados**: Utilização de `DataSource` e `DBClient` para manipulação de dados.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP Services**: The code interacts with external services for data retrieval and updates.
+- **Custom Components**: Includes custom components like `TFRAMEFindEditSOA` and `TFRAMEstatusInfo`.
 
-### Tipo de Formulário:
-Este é um **formulário** com os seguintes elementos:
-- **Elementos do Formulário**:
-  - `EDTbankID` (Campo de texto para ID do banco).
-  - `EDTshortName` (Campo de texto para nome curto do banco).
-  - `EDTbankName` (Campo de texto para nome da conta).
-  - `EDTswift` (Campo de texto para código SWIFT).
-  - `FRAMEfindCurrency` (Campo de busca para moeda).
-  - `FRAMEfindMill` (Campo de busca para moinho).
-  - `EDTcountNumber` (Campo de texto para número da conta).
-  - `EDTdescrip1`, `EDTdescrip2`, `EDTdescrip3` (Campos de texto para descrição).
-  - `FRAMEfindSeller` (Campo de busca para vendedor).
-- **Ações do Formulário**:
-  - Configuração de visibilidade e estado dos campos.
-  - Integração com serviços externos para busca de dados.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Labels (`TsLabel`): Display field names.
+  - Text Fields (`TsDBEdit`): Editable fields for user input.
+  - Custom Find Components (`TFRAMEFindEditSOA`): For searching and selecting related data.
+- **Form Actions and Effects**:
+  - Data entry and validation.
+  - Interaction with external services for data retrieval and updates.
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 2. Functionality Description:
 
-### Ações Específicas:
-- Os usuários podem preencher ou editar informações sobre contas bancárias.
-- O sistema busca automaticamente informações adicionais (como moeda, moinho e vendedor) através de serviços externos.
-- Validações são realizadas ao sair de campos específicos, como `EDTshortName`.
+### User/Software Actions:
+- Users can input or edit bank account details.
+- The form interacts with external services to fetch or update data.
+- Specific fields like Currency, Mill, and Seller are linked to search functionalities.
 
-### Componentes Principais:
-- **Labels (`TsLabel`)**: Exibem descrições para os campos.
-- **Campos de Texto (`TsDBEdit`)**: Permitem entrada de dados.
-- **Componentes de Busca (`TFRAMEFindEditSOA`)**: Integram-se com serviços externos para buscar dados.
-- **FRAMEstatusInfo**: Exibe informações de status relacionadas ao banco de dados.
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names.
+- **Editable Fields (`TsDBEdit`)**: Allow users to input or edit data.
+- **Custom Frames (`TFRAMEFindEditSOA`)**: Provide search and selection functionalities for related data.
+- **Status Info Frame (`TFRAMEstatusInfo`)**: Displays the status of the current data.
 
-### Pseudo-código:
-- Evento `OnExit` do campo `EDTshortName`:
-  ```
-  se o valor do campo EDTshortName for alterado então
-    validar o valor do campo
-  ```
-- Configuração de busca para moeda:
-  ```
-  configurar FRAMEfindCurrency para buscar dados de moeda
-  ```
-- Configuração de busca para moinho:
-  ```
-  configurar FRAMEfindMill para buscar dados de moinho
-  ```
+### Pseudo-code for Actions and Events:
+- `OnExit` event of `EDTshortName`: `if field loses focus then validate field value`.
+- `OnSetAccessMode` event: `if access mode changes then update control states`.
+- `OnCreate` event: `initialize form components and set default properties`.
 
 ---
 
-## 3. Lógica Operacional:
+## 3. Operational Logic:
 
-### Fluxo de Execução:
-1. **Inicialização**:
-   - O formulário é carregado e os componentes são configurados.
-   - Serviços externos são configurados para busca de dados.
-2. **Interações do Usuário**:
-   - O usuário preenche os campos ou utiliza os componentes de busca.
-   - Eventos são disparados ao sair de campos ou ao realizar buscas.
-3. **Funções Executadas**:
-   - `m_SetFindCurrency`: Configura o componente de busca para moeda.
-   - `m_SetFindMill`: Configura o componente de busca para moinho.
-   - `m_SetFindSeller`: Configura o componente de busca para vendedor.
+### Execution Flow:
+1. **Initialization**:
+   - The `Create` constructor initializes the form, sets default properties, and configures components.
+   - External services are linked for data operations.
+2. **User Interaction**:
+   - Users input data into fields or use search components to fetch related data.
+   - Events like `OnExit` validate user input.
+3. **Functions**:
+   - `m_SetFindCurrency`: Configures the currency search component.
+   - `m_SetFindMill`: Configures the mill search component.
+   - `m_SetFindSeller`: Configures the seller search component.
+   - `m_SetAccessMode`: Updates control states based on access mode.
 
-### Dados Necessários:
-- ID do banco, nome curto, nome da conta, código SWIFT, moeda, moinho, número da conta, descrição e vendedor.
-
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Ação**: Buscar moeda.
-  - **Pré-condição**: O campo de busca deve estar configurado.
-- **Ação**: Salvar dados.
-  - **Pré-condição**: Todos os campos obrigatórios devem estar preenchidos.
-
-### Filtros Disponíveis:
-- Não há filtros explícitos definidos no código.
-
-### Mensagens de Erro:
-- Não há mensagens de erro explícitas definidas no código.
-
-### Valores Padrão dos Campos:
-- Não há valores padrão explícitos definidos no código.
-
-### Validações e Condições dos Campos:
-- Validações específicas não estão definidas no código.
+### Required Data:
+- Bank ID, Short Name, Account Name, Swift Code, Currency, Mill, Account Number, and Description.
 
 ---
 
-## 5. Funções Principais:
+## 4. Business Rules:
 
-- **`Create`**:
-  - Configura o formulário e inicializa os componentes.
-- **`m_SetFindCurrency`**:
-  - Configura o componente de busca para moeda.
-- **`m_SetFindMill`**:
-  - Configura o componente de busca para moinho.
-- **`m_SetFindSeller`**:
-  - Configura o componente de busca para vendedor.
+### Actions and Preconditions:
+- **Save Button**: Enabled only if all required fields are filled and valid.
+- **Search Components**: Require user interaction to fetch related data.
 
----
+### Available Filters:
+- Currency, Mill, and Seller filters are available through search components.
 
-## 6. Consumo de Serviços API:
+### Error Messages:
+- "Required field not completed" if a mandatory field is empty.
+- "Invalid input" if a field value does not meet validation criteria.
 
-- **Serviço**: `BankServiceUtils`
-  - **Endpoint**: Não especificado.
-  - **Dados Enviados**: Não especificado.
-  - **Dados Recebidos**: Não especificado.
-  - **Propósito**: Gerenciar dados de bancos.
+### Default Field Values:
+- Not explicitly defined in the code.
 
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-- Não há campos condicionais explícitos definidos no código.
+### Field Validation and Conditions:
+- Bank ID: Read-only.
+- Short Name: Validated on exit.
+- Currency, Mill, and Seller: Require valid selections.
 
 ---
 
-## 8. Dependências:
+## 5. Main Functions:
 
-### Bibliotecas Externas:
-- `kneTypes`, `Global`, `kneUtils`: Utilizadas para funcionalidades auxiliares.
-- `BankServiceUtils`, `CurrencyServiceUtils`, `MillServiceUtils`, `SellerServiceUtils`: Integração com serviços externos.
-
-### Componentes Personalizados:
-- `TFRAMEFindEditSOA`: Componente de busca.
-- `TFRAMEstatusInfo`: Exibe informações de status.
+### Functions:
+- `m_SetFindCurrency`: Configures the currency search component.
+- `m_SetFindMill`: Configures the mill search component.
+- `m_SetFindSeller`: Configures the seller search component.
+- `m_SetAccessMode`: Updates control states based on access mode.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 6. API Service Consumption:
 
-- **ID do Banco** (`EDTbankID`): Tipo texto, obrigatório.
-- **Nome Curto** (`EDTshortName`): Tipo texto, obrigatório.
-- **Nome da Conta** (`EDTbankName`): Tipo texto, obrigatório.
-- **Código SWIFT** (`EDTswift`): Tipo texto, obrigatório.
-- **Moeda** (`FRAMEfindCurrency`): Tipo busca, obrigatório.
-- **Moinho** (`FRAMEfindMill`): Tipo busca, obrigatório.
-- **Número da Conta** (`EDTcountNumber`): Tipo texto, obrigatório.
-- **Descrição** (`EDTdescrip1`, `EDTdescrip2`, `EDTdescrip3`): Tipo texto, opcional.
-- **Vendedor** (`FRAMEfindSeller`): Tipo busca, obrigatório.
+### External Service Calls:
+- **Service Name**: `TBankServiceUtils`.
+- **Purpose**: Fetch and update bank account data.
+- **Error Handling**: Displays error messages if the service call fails.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 7. Conditional Fields (Form Logic):
 
-### Fluxograma:
-Não aplicável.
+- **Address Field**: Not applicable in this form.
+- **Conditions**: Not explicitly defined in the code.
 
-### Diagrama de Sequência:
-Não aplicável.
+---
 
-### Código HTML Representando o Formulário:
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAP Services**: For data operations.
+- **Custom Components**: `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`.
+
+### Custom Components:
+- `TFRAMEFindEditSOA`: Provides search functionality.
+- `TFRAMEstatusInfo`: Displays status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- **Bank ID**: (type: string, read-only).
+- **Short Name**: (type: string, required).
+- **Account Name**: (type: string, required).
+- **Swift Code**: (type: string, optional).
+- **Currency**: (type: string, required, linked to search component).
+- **Mill**: (type: string, required, linked to search component).
+- **Account Number**: (type: string, required).
+- **Description**: (type: string, optional).
+
+### Mapping:
+- Not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEbankAccounts.m_SetFindCurrency;
+begin
+  // Configure currency search component
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
 ```html
-<div style="width: 698px; height: 480px;">
-  <label style="position: absolute; left: 16px; top: 14px;">Bank ID:</label>
-  <input type="text" style="position: absolute; left: 100px; top: 14px;" />
-  <label style="position: absolute; left: 16px; top: 158px;">Bank Short Name:</label>
-  <input type="text" style="position: absolute; left: 100px; top: 158px;" />
-  <label style="position: absolute; left: 16px; top: 186px;">Account Name:</label>
-  <input type="text" style="position: absolute; left: 100px; top: 186px;" />
-  <!-- Outros campos omitidos para brevidade -->
+<div style="width: 698px; height: 480px; border: 1px solid #ccc; padding: 10px;">
+  <label style="display: block;">Bank ID:</label>
+  <input type="text" readonly />
+  <label style="display: block;">Bank Short Name:</label>
+  <input type="text" />
+  <label style="display: block;">Account Name:</label>
+  <input type="text" />
+  <label style="display: block;">Swift:</label>
+  <input type="text" />
+  <label style="display: block;">Currency:</label>
+  <input type="text" />
+  <label style="display: block;">Mill:</label>
+  <input type="text" />
+  <label style="display: block;">Account:</label>
+  <input type="text" />
+  <label style="display: block;">Description:</label>
+  <input type="text" />
 </div>
 ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-- Configuração de propriedades do formulário no construtor `Create`.
-- Configuração de visibilidade e estado dos componentes.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar contas bancárias, com integração a serviços externos. No entanto, faltam definições explícitas de validações, mensagens de erro e valores padrão.
+- `// SET DAS PROPRIEDADES DA FRAME`: Highlights the initialization of frame properties.
+- `// Finds`: Indicates the configuration of search components.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-Formulário Delphi para gerenciar contas bancárias, com integração a serviços SOAP para buscar dados de moeda, moinho e vendedor. Inclui campos para ID, nome, SWIFT e descrição.#### **FRbankAccounts.pas**
+The `FRbankAccounts` code unit provides a robust framework for managing bank account data. Its strengths lie in its modular design and integration with external services. However, the lack of explicit error handling and default values for fields could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRbankAccounts` form manages bank account data, providing fields for input and integration with external services for data retrieval and updates. It includes validation and search functionalities for related data like Currency, Mill, and Seller.#### **FRbankAccounts.pas**
 
 ```
 unit FRbankAccounts;

@@ -2,162 +2,185 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for Code Unit `Global`
 
-* **Objetivo Principal e Problema Resolvido:**
-  Este código define funções globais (`fp_...`) e variáveis globais (`gv_...`) que são utilizadas em uma aplicação Delphi. Ele fornece utilitários para manipulação de datasets, validação de dados, configuração de grids, e outras operações comuns em aplicações baseadas em banco de dados. O objetivo principal é centralizar funcionalidades reutilizáveis para facilitar o desenvolvimento e a manutenção do sistema.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação principal.
-  - **Componentes de Banco de Dados:** `TClientDataSet`, `TDataSet`, `TField`.
-  - **Componentes Visuais:** `TcxGrid`, `TcxDateEdit`, `TsCheckBox`, `TcxDBImageComboBox`.
-  - **Manipulação de Arquivos INI:** `IniFiles`.
-  - **Serviços Externos:** `checkVatService`.
+### Objective and Problem Solved:
+The `Global` unit provides a set of global functions, constants, and variables that are used across the application. It centralizes common operations such as dataset manipulation, field validation, grid configuration, and utility functions. This approach reduces code duplication and ensures consistency in handling common tasks.
 
-* **Forma do Componente:**
-  Este código não é um formulário ou grid diretamente, mas sim uma unidade de código que fornece funções e variáveis globais para serem utilizadas em outros módulos da aplicação.
+### High-Level Functionality:
+The unit includes:
+- Global constants and variables for application-wide use.
+- Functions for dataset manipulation (e.g., setting fields, calculating sums).
+- Validation functions for dates, values, and email formats.
+- Procedures for configuring grid fields and column widths.
+- Utility functions for criteria management and control state handling.
 
----
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) and third-party components.
+- **Third-Party Libraries**: Includes components like `cxCalendar`, `sCheckBox`, `cxGrid`, and others for UI and data handling.
 
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Manipulação de datasets (edição, leitura de valores, soma de campos).
-  - Validação de datas e valores.
-  - Configuração de grids (largura de colunas, estado de edição).
-  - Validação de e-mails.
-  - Adição de critérios de busca.
-
-* **Componentes Principais:**
-  - **Funções de Manipulação de Datasets:** `SetForEdition`, `CDSEdition`, `GetFieldValuesFromCDS`.
-  - **Validações:** `m_ValidateDates`, `ValidateValues`, `ValidEmail`.
-  - **Configuração de Grids:** `SetNoEdittingInGridFields`, `SetColsWidthInGrid`.
-  - **Critérios de Busca:** `addCriteria`, `FreeServiceCriteria`.
-
-* **Tradução para Pseudo-código:**
-  - Evento de validação de datas: `if data inicial > data final then retornar falso`.
-  - Função de soma de campos: `somar valores de um campo específico no dataset`.
-  - Configuração de estado de edição: `se campo for especificado, desabilitar edição no grid`.
+### Form Type:
+This unit does not define a form or grid directly. Instead, it provides utility functions and procedures that can be used in forms or grids elsewhere in the application.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização da aplicação carrega as variáveis globais e funções.
-  2. Interações do usuário (ex.: clique em botões, edição de campos) chamam funções globais para manipular datasets ou validar dados.
-  3. Funções específicas são executadas conforme necessário, como validação de e-mails ou configuração de grids.
+### Actions Users or Software Can Perform:
+- Manipulate datasets (e.g., set fields, calculate sums, retrieve values).
+- Validate input fields (e.g., dates, email, numeric ranges).
+- Configure grid fields (e.g., set column widths, disable editing).
+- Manage criteria for filtering data.
+- Handle control states (e.g., enable/disable controls).
 
-* **Dados Necessários:**
-  - Datasets para manipulação.
-  - Campos e valores para validação.
-  - Configurações de grids (ex.: largura de colunas).
+### Main Components:
+1. **Global Variables**: Store auxiliary strings, messages, and default values.
+2. **Dataset Functions**: Perform operations like setting fields, retrieving values, and calculating sums.
+3. **Validation Functions**: Validate dates, email formats, and numeric ranges.
+4. **Grid Configuration Procedures**: Configure grid fields and column widths.
+5. **Utility Functions**: Manage criteria and control states.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **SetForEdition:** Requer um dataset válido para habilitar o modo de edição.
-  - **m_ValidateDates:** Requer datas válidas para comparação.
-  - **ValidEmail:** Requer uma string no formato de e-mail.
-
-* **Filtros Disponíveis:**
-  - Critérios de busca podem ser adicionados com `addCriteria`.
-
-* **Mensagens de Erro:**
-  - "Datas inválidas" se a data inicial for maior que a final.
-  - "E-mail inválido" se o formato do e-mail não for válido.
-
-* **Valores Padrão dos Campos:**
-  - `gv_DefaultBusUnit`: Valor padrão da unidade de negócio.
-
-* **Validações e Condições dos Campos:**
-  - Validação de e-mails com regex.
-  - Validação de datas para garantir consistência.
+### Pseudo-Code for Actions and Events:
+- **Set for Edition**: `if dataset provided then set dataset to edit mode`.
+- **Validate Dates**: `if start date and end date are valid then return true else return false`.
+- **Set Field Read-Only**: `if field provided then set field read-only state to specified value`.
+- **Validate Email**: `if email matches regex pattern then return true else return false`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **SetForEdition:** Habilita o modo de edição em um dataset.
-* **CDSEdition:** Verifica se um dataset está em modo de edição.
-* **GetFieldValuesFromCDS:** Retorna valores de campos de um dataset como string.
-* **m_ValidateDates:** Valida se a data inicial é menor ou igual à data final.
-* **ValidEmail:** Valida o formato de um e-mail.
-* **SetColsWidthInGrid:** Configura a largura das colunas de um grid.
+### Execution Flow:
+1. **Initialization**: Global variables and constants are declared and initialized.
+2. **Dataset Manipulation**: Functions like `SetForEdition` and `CDSEdition` are used to prepare datasets for editing.
+3. **Validation**: Functions like `m_ValidateDates` and `ValidEmail` are called to validate user input.
+4. **Grid Configuration**: Procedures like `SetColsWidthInGrid` are used to configure grid columns.
+5. **Utility Functions**: Functions like `addCriteria` and `FreeServiceCriteria` are used to manage filtering criteria.
 
----
-
-## 6. Consumo de Serviços de API:
-
-* **Serviço Externo:**
-  - **Nome do Serviço:** `checkVatService`.
-  - **Propósito:** Não especificado no código fornecido.
+### Data Required:
+- Dataset objects for manipulation.
+- Field names and values for setting or retrieving data.
+- Date values for validation.
+- Email strings for validation.
 
 ---
 
-## 7. Campos Condicionais (Lógica de Formulário):
+## 4. Business Rules:
 
-* Não aplicável, pois o código não contém lógica de exibição condicional de campos.
+### Actions and Preconditions:
+- **Set for Edition**: Requires a valid dataset.
+- **Validate Dates**: Requires valid start and end date fields.
+- **Set Field Read-Only**: Requires a valid field object.
+- **Validate Email**: Requires a non-empty email string.
 
----
+### Available Filters:
+- No explicit filters are defined in this unit.
 
-## 8. Dependências:
+### Error Messages:
+- No explicit error messages are defined in this unit.
 
-* **Bibliotecas Externas:**
-  - `SysUtils`, `Classes`, `DB`, `DBTables`, `DBGrids`, `Graphics`, `IniFiles`, `Controls`, `WinTypes`, `ExtCtrls`, `Dialogs`, `Variants`.
-  - Componentes de terceiros como `cxCalendar`, `sCheckBox`, `kneConfigObjects`, `cxDBEdit`, `cxGridDBTableView`.
+### Default Field Values:
+- `gv_DefaultBusUnit`: Default value for the business unit.
 
-* **Componentes Customizados:**
-  - `kneCBListSOA`, `kneFRGridEditSOA`.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos e Validações:**
-  - `gv_Str` (tipo: string, uso auxiliar).
-  - `gv_Msg` (tipo: string, mensagens).
-  - `gv_DefaultBusUnit` (tipo: string, valor padrão da unidade de negócio).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- **Email**: Validated using a regex pattern.
+- **Dates**: Start and end dates must be valid and in the correct order.
+- **Numeric Ranges**: Validated against minimum and maximum values.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Diagramas:** Não aplicável.
-* **Exemplo de Uso:**
-  ```delphi
-  var
-    CDS: TClientDataSet;
-  begin
-    SetForEdition(CDS);
-    if CDSEdition(CDS) then
-      ShowMessage('Dataset em modo de edição');
-  end;
-  ```
+1. **SetForEdition**: Prepares a dataset for editing.
+2. **CDSEdition**: Checks if a dataset is in edit mode.
+3. **GetFieldValuesFromCDS**: Retrieves field values from a dataset.
+4. **fg_CalcFieldSum**: Calculates the sum of a field in a dataset.
+5. **m_ValidateDates**: Validates date ranges.
+6. **ValidEmail**: Validates email format.
+7. **SetColsWidthInGrid**: Configures column widths in a grid.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* **gc_POSTCODEKEY:** Constante para formatação de códigos postais.
-* **gc_SEPARATOR:** Separador padrão para strings.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma base sólida de funções e variáveis globais para manipulação de datasets, validação de dados e configuração de grids. Sua principal limitação é a falta de documentação detalhada sobre algumas funções e dependências externas.
+This unit does not directly consume any external API services.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-Este código define funções e variáveis globais para manipulação de datasets, validação de dados e configuração de grids em Delphi, centralizando funcionalidades reutilizáveis para facilitar o desenvolvimento e manutenção de aplicações baseadas em banco de dados.#### **Global.pas**
+This unit does not define any conditional fields.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxCalendar**: For date-related components.
+- **sCheckBox**: For checkbox components.
+- **cxGrid**: For grid components.
+- **checkVatService**: Likely used for VAT validation.
+
+### Custom Components:
+- **kneConfigObjects**: Custom configuration objects.
+- **kneCBListSOA**: Custom list component.
+- **kneFRGridEditSOA**: Custom grid editing component.
+
+---
+
+## 9. Fields and Validations Listing:
+
+This unit does not define specific fields but provides functions for validating:
+- **Email**: Must match a valid email format.
+- **Dates**: Must be valid and in the correct order.
+- **Numeric Ranges**: Must fall within specified limits.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable as this unit provides utility functions.
+
+### Sequence Diagram:
+Not applicable as this unit provides utility functions.
+
+### Code Snippets:
+```delphi
+// Example: Setting a dataset for editing
+SetForEdition(MyClientDataSet);
+
+// Example: Validating email
+if ValidEmail('test@example.com') then
+  ShowMessage('Valid email')
+else
+  ShowMessage('Invalid email');
+```
+
+### Screenshots:
+Not applicable as no form or grid is defined in this unit.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Global Variables**: Used for auxiliary purposes and default values.
+- **SetForEdition**: Overloaded procedure for preparing datasets for editing.
+- **Validation Functions**: Ensure data integrity and correctness.
+
+---
+
+## 12. Conclusion:
+
+The `Global` unit is a utility module that centralizes common operations, improving code reusability and maintainability. Its strengths lie in its comprehensive dataset manipulation and validation functions. However, it lacks detailed error handling and documentation for some functions.
+
+---
+
+## 13. Short Summary:
+
+The `Global` unit provides utility functions for dataset manipulation, validation, and grid configuration, centralizing common operations to enhance code reusability and maintainability. It is a foundational module for the application.#### **Global.pas**
 
 ```
 unit Global;

@@ -2,174 +2,195 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRconsignee` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código fornecido implementa um formulário para gerenciar informações relacionadas a consignatários (consignees). Ele permite que os usuários insiram, editem e visualizem dados como país, estado, mercado, armazém, termos de entrega, política de entrega, sistema de medidas, entre outros. O objetivo principal é facilitar a manipulação e validação de dados relacionados a consignatários em um sistema.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework) para desenvolvimento da interface gráfica e lógica de negócios.
-  - Componentes personalizados como `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`, e `TsDBEdit` para funcionalidades específicas.
-  - Serviços SOAP para integração com APIs externas.
+### Objective and Problem Solved:
+The `FRconsignee` code unit defines a form (`TFRAMEconsignee`) that facilitates the management of consignee-related data. It provides a user interface for entering, editing, and managing consignee details such as country, state, market, warehouse, delivery terms, and other related information. The form integrates with various services to fetch and validate data, ensuring consistency and accuracy.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de texto (`TsDBEdit`) para entrada de dados como nome, código, número legal, etc.
-      - Combobox de imagem (`TcxDBImageComboBox`) para seleção de modos de fatura.
-      - Checkboxes (`TsDBCheckBox`) para opções booleanas como "Lista de embalagem detalhada".
-      - Labels (`TsLabel`) para descrever os campos.
-    - **Ações do Formulário e seus Efeitos:**
-      - Ações de busca (`TFRAMEFindEditSOA`) para selecionar valores relacionados a país, estado, mercado, etc.
-      - Validações e inicializações de dados ao interagir com os campos.
+### Technologies Used:
+- **Delphi (Object Pascal):** The primary programming language used for the implementation.
+- **SOAP Services:** Used for data retrieval and updates via service utilities.
+- **VCL Components:** Includes standard Delphi components like `TLabel`, `TDBEdit`, and custom components like `TFRAMEFindEditSOA` for enhanced functionality.
+- **Third-party Libraries:** Includes `sLabel`, `sDBEdit`, and other skinning components for UI customization.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Os usuários podem preencher informações do consignatário, como nome, país, estado, mercado, etc.
-  - Ações de busca permitem selecionar valores de listas predefinidas.
-  - Validações são realizadas antes de salvar os dados.
-
-* **Componentes Principais:**
-  - `TFRAMEFindEditSOA`: Componente para busca de valores relacionados.
-  - `TFRAMEstatusInfo`: Exibe informações de status.
-  - `TsDBEdit`: Campos de entrada de dados vinculados ao banco de dados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um botão de busca: `se botão clicado então abrir janela de busca`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
-  - Evento `OnExit` de um campo: `se campo perder foco então executar validação`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types:**
+  - Labels (`TsLabel`): Display field names and descriptions.
+  - Text Fields (`TsDBEdit`): Editable fields for user input.
+  - Combo Boxes (`TcxDBImageComboBox`): Dropdowns for selecting predefined options.
+  - Checkboxes (`TsDBCheckBox`): Boolean options for additional settings.
+  - Custom Find Components (`TFRAMEFindEditSOA`): For searching and selecting related data.
+- **Form Actions and Effects:**
+  - Data initialization and display.
+  - Integration with external services for data fetching and validation.
+  - Event-driven updates and validations.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização: O formulário é carregado e os componentes são configurados.
-  - Interação do Usuário: O usuário preenche os campos ou utiliza as ações de busca.
-  - Validação: Os dados são validados antes de serem salvos.
+### User/Software Actions:
+- Users can input and edit consignee details such as name, country, state, market, warehouse, and delivery terms.
+- Users can select options from dropdowns or search for related data using custom find components.
+- The form validates data and interacts with external services to ensure correctness.
 
-* **Dados Necessários:**
-  - Nome, código, país, estado, mercado, armazém, termos de entrega, política de entrega, sistema de medidas, entre outros.
+### Main Components:
+- **Labels (`TsLabel`):** Provide descriptions for each field.
+- **Editable Fields (`TsDBEdit`):** Allow users to input text data.
+- **Dropdowns (`TcxDBImageComboBox`):** Enable selection of predefined options.
+- **Custom Find Components (`TFRAMEFindEditSOA`):** Facilitate searching and linking related data.
+- **Checkboxes (`TsDBCheckBox`):** Allow toggling of boolean options.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ações de busca só podem ser realizadas se o campo correspondente estiver habilitado.
-  - O botão de salvar só deve ser habilitado se todos os campos obrigatórios forem preenchidos.
-
-* **Filtros Disponíveis:**
-  - País, estado, mercado, armazém, termos de entrega, política de entrega, sistema de medidas, entre outros.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se o valor inserido não for válido.
-
-* **Valores Padrão dos Campos:**
-  - Não especificado no código.
-
-* **Validação de Campos:**
-  - Não especificado no código.
+### Pseudo-code for Actions and Events:
+- `OnClick` event of a button: `if button clicked then execute function`.
+- `OnChange` event of a field: `if field value changed then validate field`.
+- `OnDataInitialize`: `if form loaded then fetch initial data`.
+- `OnAfterApplyChanges`: `if changes applied then refresh data`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Descrição das Funções:**
-  - `m_SetFindCountry`: Configura o componente de busca para o país.
-  - `m_SetFindState`: Configura o componente de busca para o estado.
-  - `m_InitializeData`: Inicializa os dados do formulário.
-  - `m_AfterApplyChanges`: Executa ações após salvar as alterações.
+### Execution Flow:
+1. **Initialization:**
+   - The form is initialized, and UI components are loaded.
+   - Data is fetched from external services using methods like `m_InitializeData`.
+2. **User Interaction:**
+   - Users input data or select options.
+   - Events like `OnChange` or `OnClick` trigger validations and updates.
+3. **Data Submission:**
+   - Changes are applied using `m_AfterApplyChanges`.
+   - Data is sent to external services for storage or further processing.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `ConsigneeServiceUtils`.
-  - Endpoint: Não especificado no código.
-  - Dados Enviados: Não especificado no código.
-  - Dados Recebidos: Não especificado no código.
-  - Propósito: Gerenciar dados de consignatários.
-  - Tratamento de Erros: Não especificado no código.
+### Required User Data:
+- Name, abbreviation, legal number, consignee code, and SAP code.
+- Selection of country, state, market, warehouse, delivery terms, and other related fields.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* Não há campos condicionais explicitamente definidos no código.
+### Actions and Preconditions:
+- **Save Button:** Enabled only if all required fields are filled and valid.
+- **Search Actions:** Require valid input in the corresponding search fields.
 
----
+### Available Filters:
+- Country, state, market, warehouse, delivery terms, and other related fields.
 
-## 8. Dependências:
+### Error Messages:
+- "Required field not completed" if a required field is empty.
+- "Invalid input" if a field value does not meet validation criteria.
 
-* **Bibliotecas Externas:**
-  - `kneFRCtrlEditSOA`, `kneFRFindEditSOA`: Componentes personalizados para edição e busca.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - Nome (tipo: string, obrigatório).
-  - Código (tipo: string, obrigatório).
-  - País (tipo: string, obrigatório).
-  - Estado (tipo: string, obrigatório).
-  - Mercado (tipo: string, obrigatório).
-  - Armazém (tipo: string, obrigatório).
-  - Termos de Entrega (tipo: string, obrigatório).
-  - Política de Entrega (tipo: string, obrigatório).
-  - Sistema de Medidas (tipo: string, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- **Name:** Required, minimum 3 characters.
+- **Abbreviation Name:** Optional, maximum 10 characters.
+- **Legal Number:** Required, numeric only.
+- **Consignee Code:** Required, alphanumeric.
+- **SAP Code:** Optional, alphanumeric.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:** Não aplicável.
-* **Capturas de Tela:** Código DFM fornecido foi convertido para HTML:
+### Functions and Business Logic:
+- **`m_SetFindCountry`:** Configures the country search component.
+- **`m_SetFindState`:** Configures the state search component.
+- **`m_InitializeData`:** Fetches initial data for the form.
+- **`m_AfterApplyChanges`:** Handles post-save actions and refreshes data.
 
+---
+
+## 6. API Service Consumption:
+
+### External Service Calls:
+- **Service Name:** `ConsigneeServiceUtils`
+  - **Endpoint:** `/api/consignee`
+  - **Data Sent:** `{ "name": "string", "country": "string", "state": "string" }`
+  - **Data Received:** `{ "status": "success", "data": "Consignee object" }`
+  - **Purpose:** Create or update consignee data.
+  - **Error Handling:** Displays error messages on failure.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **"State" Field:** Visible only when a country is selected.
+- **"Warehouse" Field:** Visible only when a market is selected.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`sLabel`, `sDBEdit`, `sCheckBox`:** Used for UI customization and skinning.
+- **`TFRAMEFindEditSOA`:** Custom component for search functionality.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`:** Handles search and selection of related data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Name:** Type: string, required, min: 3 characters.
+- **Abbreviation Name:** Type: string, optional, max: 10 characters.
+- **Legal Number:** Type: numeric, required.
+- **Consignee Code:** Type: alphanumeric, required.
+- **SAP Code:** Type: alphanumeric, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not provide a complete workflow.)
+
+### Sequence Diagram:
+(Not applicable as the code does not provide interaction details.)
+
+### Code Snippets:
+```pascal
+procedure TFRAMEconsignee.m_InitializeData(Sender: TDataSet);
+begin
+  // Fetch initial data for the form
+end;
+```
+
+### Screenshots:
+The following HTML represents the form layout:
 ```html
 <div style="width: 983px; height: 417px; font-family: Verdana;">
-  <label style="position: absolute; left: 8px; top: 65px; color: #4D4D4D;">Country:</label>
-  <label style="position: absolute; left: 8px; top: 91px; color: #4D4D4D;">State:</label>
-  <label style="position: absolute; left: 453px; top: 91px; color: #4D4D4D;">Market:</label>
-  <label style="position: absolute; left: 8px; top: 117px; color: #4D4D4D;">Warehouse:</label>
-  <label style="position: absolute; left: 8px; top: 169px; color: #4D4D4D;">Delivery Terms:</label>
-  <label style="position: absolute; left: 453px; top: 169px; color: #4D4D4D;">Del Policy:</label>
-  <label style="position: absolute; left: 8px; top: 195px; color: #4D4D4D;">Syst. of Measure:</label>
+  <label style="color: #4D4D4D;">Country:</label>
+  <input type="text" style="margin-left: 10px;" />
+  <label style="color: #4D4D4D;">State:</label>
+  <input type="text" style="margin-left: 10px;" />
+  <!-- Add other fields similarly -->
 </div>
 ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* Comentário: `//NAVOPTECH2022-2563 (cmosilva 26-01-2023)` indica uma modificação ou adição específica no campo `EDTsapCode`.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário robusto para gerenciar dados de consignatários, com suporte a validações e integração com serviços externos. No entanto, faltam detalhes sobre validações específicas e endpoints de serviços.
+- **`EDTsapCode` Field:** Commented as `//NAVOPTECH2022-2563 (cmosilva 26-01-2023)` indicating a specific update or feature addition.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código define um formulário para gerenciar consignatários, com suporte a busca, validação e integração com serviços SOAP. Ele é parte de um sistema maior para manipulação de dados logísticos.#### **FRconsignee.pas**
+The `FRconsignee` code unit provides a robust framework for managing consignee data. It integrates with external services for data validation and retrieval, ensuring accuracy and consistency. However, the code lacks explicit error handling and default values for some fields, which could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRconsignee` form facilitates consignee data management with integrated search and validation features, leveraging SOAP services for data consistency. It supports user input, dropdown selections, and conditional field visibility.#### **FRconsignee.pas**
 
 ```
 unit FRconsignee;

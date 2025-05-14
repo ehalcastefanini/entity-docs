@@ -2,193 +2,241 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRfindCriteriaCountryCal`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é fornecer uma interface para a seleção de critérios de busca relacionados a países e datas de eventos. Ele permite que o usuário selecione um país e um ano, além de ativar ou desativar a busca por uma data específica de evento. Este componente é útil em sistemas que precisam filtrar dados com base em critérios específicos, como relatórios ou consultas em bancos de dados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes de terceiros, como `TsLabel`, `TsCheckBox`, `TcxDateEdit`, `TsComboBox`, e `TFRAMEFindEditSOA`.
+### Objective and Problem Solved:
+The `FRfindCriteriaCountryCal` code snippet defines a form component that allows users to filter data based on specific criteria: an event date and a country code. This component is part of a larger system that likely involves querying or filtering datasets based on user-defined criteria. The form provides a user-friendly interface for selecting a date, a country, and a year, and it generates the corresponding filtering criteria.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `CHKeventDate` (Checkbox): Permite ativar/desativar a busca por data de evento.
-      - `DTEeventDate` (DateEdit): Campo para selecionar uma data de evento.
-      - `FRAMEfindCountry` (Custom Frame): Campo para selecionar um país.
-      - `CBOyear` (ComboBox): Lista de anos para seleção.
-    - **Ações do Formulário e seus Efeitos:**
-      - Seleção de um país ou ano atualiza os critérios de busca.
-      - Ativação do checkbox `CHKeventDate` habilita o campo de data.
+### Technologies Used:
+- **Delphi (Object Pascal):** The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries:** Includes components like `TsLabel`, `TsCheckBox`, `TcxDateEdit`, and `TsComboBox` for enhanced UI functionality.
+- **Custom Components:** `TFRAMEFindEditSOA` is a custom component used for country selection.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - O usuário pode:
-    - Selecionar um país.
-    - Selecionar um ano.
-    - Ativar/desativar a busca por data de evento.
-    - Escolher uma data de evento, caso o checkbox esteja ativado.
-
-* **Componentes Principais:**
-  - `CHKeventDate`: Controla a ativação do campo de data.
-  - `DTEeventDate`: Permite a seleção de uma data.
-  - `FRAMEfindCountry`: Permite a seleção de um país.
-  - `CBOyear`: Lista de anos para seleção.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do checkbox:
-    ```pseudo
-    se checkbox for clicado então
-      habilitar ou desabilitar o campo de data
-    ```
-  - Evento de inicialização:
-    ```pseudo
-    ao inicializar o formulário
-      preencher a lista de anos
-      definir a data atual no campo de data
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements:**
+  - `CHKeventDate` (Checkbox): Enables or disables the event date filter.
+  - `DTEeventDate` (Date Picker): Allows the user to select an event date.
+  - `FRAMEfindCountry` (Custom Component): Allows the user to select a country.
+  - `CBOyear` (ComboBox): Allows the user to select a year.
+- **Form Actions:**
+  - Clicking the checkbox enables or disables the date picker.
+  - Selecting a country or year updates the filtering criteria.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização:
-    - O formulário é carregado.
-    - A lista de anos é preenchida com um intervalo de 5 anos antes e depois do ano atual.
-    - A data atual é definida no campo de data.
-  - Interações do Usuário:
-    - O usuário pode ativar o checkbox para habilitar o campo de data.
-    - O usuário pode selecionar um país e um ano.
+### User/Software Actions:
+- Users can enable the event date filter by checking the `CHKeventDate` checkbox.
+- Users can select a specific event date using the `DTEeventDate` date picker.
+- Users can select a country using the `FRAMEfindCountry` component.
+- Users can select a year from the `CBOyear` dropdown.
 
-* **Dados Necessários:**
-  - País (opcional).
-  - Ano (obrigatório).
-  - Data de evento (opcional, se o checkbox estiver ativado).
+### Main Components:
+1. **`CHKeventDate` Checkbox:** Toggles the availability of the event date filter.
+2. **`DTEeventDate` Date Picker:** Allows users to select a specific date.
+3. **`FRAMEfindCountry` Component:** Provides a UI for selecting a country.
+4. **`CBOyear` ComboBox:** Displays a list of years for selection.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O campo de data só é habilitado se o checkbox `CHKeventDate` estiver marcado.
-  - A busca só será realizada se pelo menos um critério for preenchido.
-
-* **Filtros Disponíveis:**
-  - País.
-  - Ano.
-  - Data de evento (opcional).
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas no código fornecido.
-
-* **Valores Padrão dos Campos:**
-  - `DTEeventDate`: Data atual.
-  - `CBOyear`: Ano atual.
-
-* **Validações e Condições dos Campos:**
-  - `DTEeventDate`: Deve conter uma data válida.
-  - `CBOyear`: Deve conter um ano válido.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:**
-  - Preenche a lista de anos e define a data atual no campo de data.
-
-* **`GetCriteriaValues`:**
-  - Retorna os critérios de busca selecionados pelo usuário.
-
-* **`CHKeventDateClick`:**
-  - Habilita ou desabilita o campo de data com base no estado do checkbox.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo `DTEeventDate` só é habilitado se o checkbox `CHKeventDate` estiver marcado.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `TsLabel`, `TsCheckBox`, `TcxDateEdit`, `TsComboBox`: Componentes visuais.
-  - `TFRAMEFindEditSOA`: Componente customizado para seleção de países.
-
-* **Componentes Customizados:**
-  - `TFRAMEFindEditSOA`: Usado para selecionar um país.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `CHKeventDate` (Checkbox, opcional): Ativa/desativa a busca por data.
-  - `DTEeventDate` (DateEdit, opcional): Data de evento.
-  - `FRAMEfindCountry` (Custom Frame, opcional): País.
-  - `CBOyear` (ComboBox, obrigatório): Ano.
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `eventDate` → `DTEeventDate`.
-  - `countryCode` → `FRAMEfindCountry`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEfindCriteriaCountryCal := TFRAMEfindCriteriaCountryCal.Create(Self);
-  FRAMEfindCriteriaCountryCal.Initialize;
+### Pseudo-code for Actions and Events:
+- `OnClick` event of `CHKeventDate`:
+  ```pseudo
+  if CHKeventDate is checked then
+    enable DTEeventDate
+  else
+    disable DTEeventDate
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 509px;">
-    <label for="country">Country:</label>
-    <input type="text" id="country" style="width: 381px;" />
-    <label for="year">Year:</label>
-    <select id="year" style="width: 65px;">
-      <option>2023</option>
-      <option>2024</option>
-    </select>
-    <input type="checkbox" id="eventDate" />
-    <label for="eventDate">Event Date:</label>
-    <input type="date" id="eventDateField" disabled />
-  </div>
+- `OnChange` event of `FRAMEfindCountry`:
+  ```pseudo
+  if country is selected then
+    update criteria with selected country
+  ```
+- `OnChange` event of `CBOyear`:
+  ```pseudo
+  if year is selected then
+    update criteria with selected year
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* O método `Create` inicializa os critérios de busca e preenche a lista de anos.
-* O método `GetCriteriaValues` constrói os critérios de busca com base nos campos preenchidos.
+### Execution Flow:
+1. **Initialization:**
+   - The form is initialized with the current year and a range of years in the `CBOyear` dropdown.
+   - The `DTEeventDate` is set to the current date.
+   - The `CHKeventDate` checkbox is unchecked by default, disabling the date picker.
+
+2. **User Interactions:**
+   - Users can check the `CHKeventDate` checkbox to enable the date picker.
+   - Users can select a country and year to define filtering criteria.
+
+### Functions:
+- **`Create` (File: `FRfindCriteriaCountryCal`):**
+  - Initializes the form, populates the year dropdown, and sets default values.
+- **`GetCriteriaValues` (File: `FRfindCriteriaCountryCal`):**
+  - Generates an array of filtering criteria based on user input.
+
+### Required User Data:
+- Event date (optional, enabled by `CHKeventDate`).
+- Country code (optional).
+- Year (optional).
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece uma interface funcional para a seleção de critérios de busca relacionados a países e datas de eventos. Ele é bem estruturado e fácil de usar, mas poderia ser melhorado com a adição de mensagens de erro e validações mais robustas.
+### Actions and Preconditions:
+- **Enable Event Date Filter:**
+  - Preconditions: `CHKeventDate` must be checked.
+  - Action: Enables the `DTEeventDate` date picker.
+- **Generate Criteria:**
+  - Preconditions: At least one filter (event date, country, or year) must be selected.
+  - Action: Generates filtering criteria for querying datasets.
+
+### Available Filters:
+- Event Date: Enabled by checking `CHKeventDate`.
+- Country: Selected via `FRAMEfindCountry`.
+- Year: Selected via `CBOyear`.
+
+### Error Messages:
+- "Invalid date" if the selected date is not valid (handled by `TcxDateEdit`).
+- "Country not selected" if no country is selected (not explicitly handled in the code).
+
+### Default Field Values:
+- `CHKeventDate`: Unchecked.
+- `DTEeventDate`: Current date.
+- `CBOyear`: Current year.
+
+### Field Validation and Conditions:
+- `DTEeventDate`: Must be a valid date.
+- `FRAMEfindCountry`: Must contain a valid country code.
+- `CBOyear`: Must be a valid year within the range.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-Este componente Delphi permite a seleção de critérios de busca por país, ano e data de evento, com inicialização automática de valores padrão e lógica condicional para habilitação de campos. Ideal para sistemas de consulta e relatórios.#### **FRfindCriteriaCountryCal.pas**
+1. **`Create`:**
+   - Initializes the form, populates the year dropdown, and sets default values.
+2. **`GetCriteriaValues`:**
+   - Generates an array of filtering criteria based on user input.
+3. **`CHKeventDateClick`:**
+   - Toggles the availability of the `DTEeventDate` date picker.
+
+---
+
+## 6. API Service Consumption:
+
+No external API calls are made in this code snippet.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **`DTEeventDate`:**
+  - Visible and enabled only when `CHKeventDate` is checked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **VCL Components:** Used for UI elements.
+- **Third-party Components:**
+  - `TsLabel`, `TsCheckBox`, `TcxDateEdit`, `TsComboBox`: Enhanced UI components.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`:** Custom component for country selection.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Event Date (`DTEeventDate`):**
+   - Type: Date.
+   - Required: No.
+   - Default: Current date.
+2. **Country (`FRAMEfindCountry`):**
+   - Type: String.
+   - Required: No.
+   - Default: None.
+3. **Year (`CBOyear`):**
+   - Type: Integer.
+   - Required: No.
+   - Default: Current year.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [User Input] --> [Generate Criteria] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Selects filters
+Form --> Backend: Sends criteria
+Backend --> Form: Returns filtered data
+```
+
+### Code Snippets:
+```pascal
+CHKeventDate.OnClick := CHKeventDateClick;
+DTEeventDate.Date := Today;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 509px;">
+  <label for="country">Country:</label>
+  <input type="text" id="country" style="width: 381px;">
+  <label for="year">Year:</label>
+  <select id="year" style="width: 65px;">
+    <option>2023</option>
+    <option>2024</option>
+  </select>
+  <input type="checkbox" id="eventDate"> Event Date:
+  <input type="date" id="datePicker" disabled>
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Year Dropdown Initialization:**
+  ```pascal
+  for lv_i := lv_Year - 5 to lv_Year + 5 do
+  begin
+    CBOyear.Items.Add(IntToStr(lv_i));
+  end;
+  ```
+- **Criteria Generation:**
+  ```pascal
+  if CHKeventDate.Checked then
+  begin
+    // Add event date criteria
+  end;
+  ```
+
+---
+
+## 12. Conclusion:
+
+The `FRfindCriteriaCountryCal` component provides a flexible and user-friendly interface for filtering data based on event date, country, and year. While it is well-structured, error handling for invalid inputs could be improved. Its modular design makes it easy to integrate into larger systems.
+
+---
+
+## 13. Short Summary:
+
+The `FRfindCriteriaCountryCal` form allows users to filter data by event date, country, and year. It initializes default values, dynamically generates criteria, and provides a user-friendly interface for data filtering.#### **FRfindCriteriaCountryCal.pas**
 
 ```
 unit FRfindCriteriaCountryCal;

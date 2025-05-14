@@ -2,209 +2,216 @@
 
 #### **Documentation**
 
-# Documentação do Código `FRsalesMan`
+# Documentation for `FRsalesMan` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-* **Objetivo Principal:**  
-  O objetivo principal deste código é criar uma interface gráfica para gerenciar informações de vendedores (Sales Managers). Ele permite que os usuários visualizem, editem e interajam com os dados relacionados a vendedores, como nome, e-mail, escritório e login. Além disso, o código utiliza serviços externos para buscar e validar informações relacionadas ao escritório.
+### Objective and Problem Solved:
+The `FRsalesMan` code unit defines a user interface frame (`TFRAMEsalesMan`) for managing sales manager data. It provides a form-based interface for inputting and editing details such as the sales manager's name, office, email, and login credentials. The frame integrates with backend services to fetch and update data, ensuring seamless interaction with the database.
 
-* **Tecnologias Utilizadas:**  
-  - **Delphi:** Linguagem de programação utilizada para criar a interface gráfica e lógica do sistema.
-  - **Componentes Visuais:** `TsDBEdit`, `TsLabel`, `TsPanel`, `TsBitBtn`, entre outros, para criar a interface do usuário.
-  - **Serviços SOAP:** Utilizados para comunicação com serviços externos, como `TSalesManServiceUtils` e `TOfficeServiceUtils`.
+This frame is part of a larger system for managing sales-related data and is designed to simplify the process of managing sales manager records.
 
-* **Forma do Componente:**  
-  Este código implementa um **formulário** com os seguintes elementos:
-  - **Elementos do Formulário:**
-    - `EDTsalesMan` (Campo de texto para código do vendedor).
-    - `EDTname` (Campo de texto para o nome do vendedor).
-    - `FRAMEfindOffice` (Componente para buscar informações do escritório).
-    - `EDTemail` (Campo de texto para o e-mail do vendedor).
-    - `EDTlogin` (Campo de texto para o login do vendedor).
-  - **Ações do Formulário:**
-    - Botões de ação como `BTNadd` (Adicionar) e `BTNapply` (Aplicar), que permitem adicionar ou salvar informações.
+### Technologies Used:
+- **Delphi (Object Pascal):** The primary programming language used for the implementation.
+- **SOAP Services:** Used for communication with backend services (`TSalesManServiceUtils` and `TOfficeServiceUtils`).
+- **Database Components:** Includes `TsDBEdit` and `TDataSource` for binding UI elements to database fields.
+- **Custom UI Components:** Includes `TsLabel`, `TsPanel`, and `TsBitBtn` for creating a styled user interface.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Disponíveis:**
-  - Adicionar um novo vendedor.
-  - Editar informações de um vendedor existente.
-  - Buscar informações de escritórios relacionados ao vendedor.
-  - Salvar alterações realizadas.
-
-* **Componentes Principais:**
-  - `EDTsalesMan`: Campo para inserir ou exibir o código do vendedor.
-  - `EDTname`: Campo para inserir ou exibir o nome do vendedor.
-  - `FRAMEfindOffice`: Componente para buscar e selecionar escritórios.
-  - `EDTemail`: Campo para inserir ou exibir o e-mail do vendedor.
-  - `EDTlogin`: Campo para inserir ou exibir o login do vendedor.
-  - `FRAMEstatusInfo1`: Exibe informações de status relacionadas ao vendedor.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar":  
-    `se botão adicionar for clicado então criar novo registro`.
-  - Evento `OnClick` do botão "Aplicar":  
-    `se botão aplicar for clicado então salvar alterações`.
-  - Evento de inicialização:  
-    `ao inicializar, configurar propriedades do formulário e carregar dados`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types:**
+  - `EDTsalesMan` (Text Input - Database-bound)
+  - `EDTname` (Text Input - Database-bound)
+  - `FRAMEfindOffice` (Custom Find/Edit Component)
+  - `EDTemail` (Text Input - Database-bound)
+  - `EDTlogin` (Text Input - Database-bound)
+- **Form Actions and Effects:**
+  - **Add Button:** Adds a new sales manager record.
+  - **Apply Button:** Saves changes to the current record.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. O formulário é inicializado com o método `Create`.
-  2. Propriedades do formulário, como `MasterSource`, `DataPacketName` e `ProviderService`, são configuradas.
-  3. O método `m_SetFindOffice` é chamado para configurar o componente de busca de escritórios.
-  4. O usuário interage com os campos e botões para adicionar ou editar informações.
-  5. As ações são processadas e os dados são enviados para os serviços SOAP.
+### User/Software Actions:
+- Input and edit sales manager details (name, office, email, login).
+- Search and select an office using the `FRAMEfindOffice` component.
+- Save changes to the database using the "Apply" button.
+- Add new records using the "Add" button.
 
-* **Dados Necessários:**
-  - Código do vendedor.
-  - Nome do vendedor.
-  - Escritório associado.
-  - E-mail do vendedor.
-  - Login do vendedor.
+### Main Components:
+- **Labels (`TsLabel`):** Display field names (e.g., "Sales Manager," "Name").
+- **Database-bound Text Inputs (`TsDBEdit`):** Allow users to input and edit data.
+- **Find/Edit Component (`FRAMEfindOffice`):** Provides a search dialog for selecting an office.
+- **Buttons (`TsBitBtn`):** Trigger actions like adding or saving records.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O botão "Aplicar" só deve ser habilitado se todos os campos obrigatórios forem preenchidos corretamente.
-  - O botão "Adicionar" cria um novo registro vazio para edição.
-
-* **Filtros Disponíveis:**
-  - Filtro para buscar escritórios baseado no código ou descrição.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se algum campo obrigatório estiver vazio.
-  - "Formato de e-mail inválido" se o e-mail não estiver no formato correto.
-
-* **Valores Padrão dos Campos:**
-  - Nenhum valor padrão é explicitamente definido no código.
-
-* **Validações e Condições dos Campos:**
-  - `EDTemail`: Deve ser validado para garantir que o formato do e-mail seja correto.
-  - `EDTsalesMan`, `EDTname`, `EDTlogin`: Devem ser preenchidos antes de salvar.
+### Pseudo-code for Actions and Events:
+- **OnClick event of Add Button:**  
+  `if Add button clicked then create new record`
+- **OnClick event of Apply Button:**  
+  `if Apply button clicked then save changes to database`
+- **OnChange event of FRAMEfindOffice:**  
+  `if office selected then update officeCode and officeDesc fields`
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create` (Construtor):**  
-  Configura as propriedades do formulário, inicializa o serviço de dados e configura o componente de busca de escritórios.
+### Execution Flow:
+1. **Initialization:**
+   - The frame is initialized with default properties in the `Create` constructor.
+   - Backend services (`TSalesManServiceUtils` and `TOfficeServiceUtils`) are configured.
+   - The `FRAMEfindOffice` component is set up to allow office selection.
+2. **User Interaction:**
+   - Users input data into the form fields.
+   - Users can search for and select an office using the `FRAMEfindOffice` component.
+   - Users click the "Apply" button to save changes or the "Add" button to create a new record.
+3. **Functions and File Locations:**
+   - `TFRAMEsalesMan.Create` (File: `FRsalesMan.pas`): Initializes the frame.
+   - `TFRAMEsalesMan.m_SetFindOffice` (File: `FRsalesMan.pas`): Configures the `FRAMEfindOffice` component.
 
-* **`m_SetFindOffice`:**  
-  Configura o componente `FRAMEfindOffice` para buscar escritórios com base no código e descrição.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Serviço 1:**
-  - **Nome do Serviço:** `TSalesManServiceUtils`.
-  - **Finalidade:** Gerenciar dados de vendedores.
-  - **Tipo de Chamada:** SOAP.
-  - **Dados Enviados:** Não especificado no código.
-  - **Dados Recebidos:** Não especificado no código.
-
-* **Serviço 2:**
-  - **Nome do Serviço:** `TOfficeServiceUtils`.
-  - **Finalidade:** Buscar informações de escritórios.
-  - **Tipo de Chamada:** SOAP.
-  - **Dados Enviados:** Código ou descrição do escritório.
-  - **Dados Recebidos:** Informações do escritório.
+### Required User Data:
+- Sales Manager Name
+- Office (selected via `FRAMEfindOffice`)
+- Email Address
+- Login Credentials
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* Não há campos condicionais explícitos no código.
+### Actions and Preconditions:
+- **Add Button:** Enabled at all times to allow creating new records.
+- **Apply Button:** Enabled only when all required fields are filled.
 
----
+### Available Filters:
+- Office selection via `FRAMEfindOffice` with search functionality.
 
-## 8. Dependências:
+### Error Messages:
+- "Required field not completed" if a required field is empty.
+- "Invalid email format" if the email does not match the expected format.
 
-* **Bibliotecas Externas:**
-  - `kneFRCtrlEditSOA`, `kneFRFindEditSOA`: Utilizadas para criar e gerenciar componentes visuais.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
+### Default Field Values:
+- No default values are explicitly defined in the code.
 
-* **Componentes Customizados:**
-  - `TFRAMEFindEditSOA`: Componente para busca de dados.
-  - `TFRAMEstatusInfo`: Componente para exibir informações de status.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos do Formulário:**
-  - `EDTsalesMan` (tipo: string, obrigatório, não definido no código).
-  - `EDTname` (tipo: string, obrigatório, não definido no código).
-  - `FRAMEfindOffice` (tipo: componente de busca, obrigatório).
-  - `EDTemail` (tipo: string, obrigatório, formato de e-mail válido).
-  - `EDTlogin` (tipo: string, obrigatório, não definido no código).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `officeCode` e `officeDesc` são mapeados para os campos do componente `FRAMEfindOffice`.
+### Field Validation and Conditions:
+- **Email Field:** Should validate the email format (not explicitly defined in the code).
+- **Login Field:** Should ensure uniqueness (not explicitly defined in the code).
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:**  
-  Não aplicável.
+- **`TFRAMEsalesMan.Create`:** Initializes the frame, sets up properties, and configures components.
+- **`TFRAMEsalesMan.m_SetFindOffice`:** Configures the `FRAMEfindOffice` component for office selection.
 
-* **Diagrama de Sequência:**  
-  Não aplicável.
+---
 
-* **Exemplo de Código:**  
-  ```delphi
-  var
-    SalesManFrame: TFRAMEsalesMan;
+## 6. API Service Consumption:
+
+### External Service Calls:
+1. **Service Name:** `SalesManServiceUtils`
+   - **Endpoint:** Not explicitly defined in the code.
+   - **Purpose:** Fetch and update sales manager data.
+2. **Service Name:** `OfficeServiceUtils`
+   - **Endpoint:** Not explicitly defined in the code.
+   - **Purpose:** Fetch office data for the `FRAMEfindOffice` component.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Office Field:** Visible and editable only when the `FRAMEfindOffice` component is configured.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient:** For SOAP-based service communication.
+- **DBClient:** For database operations.
+
+### Custom Components:
+- **`FRAMEfindOffice`:** A custom component for searching and selecting offices.
+- **`FRAMEstatusInfo`:** Displays status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Sales Manager (EDTsalesMan):** Type: String, Required.
+- **Name (EDTname):** Type: String, Required.
+- **Office (FRAMEfindOffice):** Type: String, Required.
+- **Email (EDTemail):** Type: String, Required, Valid email format.
+- **Login (EDTlogin):** Type: String, Required.
+
+Mapping of displayed values to database columns is not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [User Inputs Data] --> [User Clicks Apply/Add] --> [Save Data to Database] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> FRAMEsalesMan: Input Data
+User --> FRAMEfindOffice: Select Office
+User --> FRAMEsalesMan: Click Apply
+FRAMEsalesMan --> SalesManServiceUtils: Save Data
+```
+
+### Code Snippets:
+```pascal
+procedure TFRAMEsalesMan.m_SetFindOffice;
+begin
+  with FRAMEfindOffice do
   begin
-    SalesManFrame := TFRAMEsalesMan.Create(Self);
-    SalesManFrame.Show;
+    EditSettings.DataSource := DStable;
+    EditSettings.FieldNameForCode := 'officeCode';
+    EditSettings.FieldNameForDesc := 'officeDesc';
   end;
-  ```
+end;
+```
 
-* **HTML Renderizado do Formulário:**
-  ```html
-  <div style="width: 781px;">
-    <label style="color: #4D4D4D; font-family: Tahoma;">Sales Manager:</label>
-    <input type="text" placeholder="Código do Vendedor">
-    <label style="color: #4D4D4D; font-family: Tahoma;">Name:</label>
-    <input type="text" placeholder="Nome do Vendedor">
-    <label style="color: #4D4D4D; font-family: Tahoma;">Office:</label>
-    <input type="text" placeholder="Escritório">
-    <label style="color: #4D4D4D; font-family: Tahoma;">Email:</label>
-    <input type="email" placeholder="E-mail">
-    <label style="color: #4D4D4D; font-family: Tahoma;">Login:</label>
-    <input type="text" placeholder="Login">
-  </div>
-  ```
-
----
-
-## 11. Comentários Importantes no Código:
-
-* O método `m_SetFindOffice` é essencial para configurar o componente de busca de escritórios.
-* O construtor `Create` configura as propriedades principais do formulário e inicializa os serviços.
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 781px;">
+  <label style="color: #4D4D4D;">Sales Manager:</label>
+  <input type="text" placeholder="Enter Sales Manager" />
+  <label style="color: #4D4D4D;">Name:</label>
+  <input type="text" placeholder="Enter Name" />
+  <label style="color: #4D4D4D;">Office:</label>
+  <input type="text" placeholder="Select Office" />
+  <label style="color: #4D4D4D;">Email:</label>
+  <input type="email" placeholder="Enter Email" />
+  <label style="color: #4D4D4D;">Login:</label>
+  <input type="text" placeholder="Enter Login" />
+</div>
+```
 
 ---
 
-## 12. Conclusão:
+## 11. Important Comments in the Code:
 
-O código implementa um formulário funcional para gerenciar informações de vendedores, com integração a serviços SOAP para buscar dados externos. No entanto, faltam validações explícitas e mensagens de erro detalhadas. A interface é bem estruturada, mas poderia ser aprimorada com mais validações e feedback ao usuário.
+- **Initialization of `FRAMEfindOffice`:** Configures the office selection component.
+- **Service Configuration:** Sets up `TSalesManServiceUtils` and `TOfficeServiceUtils` for backend communication.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código implementa um formulário para gerenciar vendedores, permitindo adicionar, editar e buscar informações relacionadas. Ele utiliza serviços SOAP para integração com dados externos e possui uma interface bem estruturada com componentes reutilizáveis.#### **FRsalesMan.pas**
+The `FRsalesMan` code unit provides a robust and user-friendly interface for managing sales manager data. Its integration with backend services ensures seamless data handling. However, the lack of explicit validation and error handling in the code may require additional implementation.
+
+---
+
+## 13. Short Summary:
+
+The `FRsalesMan` unit defines a form for managing sales manager data, integrating with backend services for data retrieval and updates. It includes fields for name, office, email, and login, with actions for adding and saving records.#### **FRsalesMan.pas**
 
 ```
 unit FRsalesMan;

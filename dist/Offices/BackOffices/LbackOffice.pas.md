@@ -2,208 +2,225 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LbackOffice` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para a listagem e gerenciamento de Back Offices. Ele permite que os usuários visualizem informações como descrição, status, última atualização e responsável por meio de uma interface gráfica. Além disso, oferece ações como criar, modificar, visualizar e realizar buscas avançadas.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL e componentes visuais).
-  - Componentes de terceiros como `TsLabel`, `TsDBText`, `TsBevel` e `cxGrid`.
-  - Serviços de backend para manipulação de dados (`TBackOfficeServiceUtils`).
+### Objective and Problem Solved:
+The `LbackOffice` code unit is designed to manage and display a list of back-office records in a grid format. It provides functionalities for viewing, editing, and managing back-office data, such as descriptions, statuses, and update information. The main objective is to offer a user-friendly interface for interacting with back-office data, including search and advanced filtering options.
 
-* **Forma:**
-  - **Tipo:** Grid Display.
-  - **Colunas do Grid e seus Tipos:**
-    - `status` (Texto).
-    - `backoffice` (Texto).
-    - `boDescrip` (Texto).
-    - `respons` (Texto).
-    - `respName` (Texto).
-    - `updBy` (Texto).
-    - `lastUpd` (Data/Hora).
-  - **Ações do Grid e seus Efeitos:**
-    - Ordenação de colunas.
-    - Busca avançada.
-    - Edição de registros.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Database Integration**: The code interacts with a database using data-aware components like `TsDBText` and `DSRlist`.
+- **Custom Components**: Includes custom components like `kneCBListSOA`, `knePrivileges`, and `kneFRGridManager`.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **status**: Displays the status of the back-office record (string).
+2. **backoffice**: Represents the back-office identifier (string).
+3. **boDescrip**: Description of the back-office (string).
+4. **respons**: Responsible person or entity (string).
+5. **respName**: Name of the responsible person (string).
+6. **updBy**: User who last updated the record (string).
+7. **lastUpd**: Timestamp of the last update (datetime).
 
-* **Ações Disponíveis:**
-  - Criar um novo registro.
-  - Modificar um registro existente.
-  - Visualizar detalhes de um registro.
-  - Realizar buscas simples e avançadas.
-
-* **Componentes Principais:**
-  - `GridSettings`: Configurações do grid, como campos ocultos, ordem e editores personalizados.
-  - `ActionList` e ações derivadas (`ACTnew_deriv`, `ACTmodify_deriv`, etc.): Gerenciam as ações disponíveis na interface.
-  - `TBackOfficeServiceUtils`: Serviço responsável por interagir com o backend.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um botão: `se botão clicado então executar ação correspondente`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
-  - Configuração do grid: `definir campos ocultos, ordem e editores personalizados`.
+#### Grid Actions and Their Effects:
+1. **New**: Creates a new back-office record.
+2. **Modify**: Edits an existing back-office record.
+3. **View**: Views details of a selected back-office record.
+4. **Search Area**: Allows searching for specific records.
+5. **Advanced Search**: Provides advanced filtering options.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização da aplicação carrega os componentes da interface.
-  2. Configuração do grid é realizada no método `GridSetup`.
-  3. Usuário interage com a interface (ex.: clica em botões ou edita campos).
-  4. Eventos são disparados e executam funções específicas.
+### User/Software Actions:
+- View back-office records in a grid.
+- Perform CRUD (Create, Read, Update, Delete) operations.
+- Search and filter records using basic and advanced search options.
 
-* **Dados Necessários:**
-  - Descrição do Back Office.
-  - Status.
-  - Última atualização.
-  - Responsável.
+### Main Components:
+1. **Grid**: Displays the list of back-office records.
+2. **Action List**: Manages user actions like creating, modifying, and viewing records.
+3. **Data-Aware Components**: Bind UI elements to database fields for real-time data display.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Salvar" só é habilitada se todos os campos obrigatórios forem preenchidos.
-  - Ação "Modificar" só é habilitada se um registro for selecionado.
-
-* **Filtros Disponíveis:**
-  - Busca por status.
-  - Busca por descrição.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Registro não encontrado" se a busca não retornar resultados.
-
-* **Valores Padrão dos Campos:**
-  - `Status`: Padrão "Ativo".
-  - `Data de Atualização`: Padrão para a data atual.
-
-* **Validações e Condições dos Campos:**
-  - Campo `Descrição`: Deve ter no mínimo 3 caracteres.
-  - Campo `Status`: Deve ser preenchido com valores válidos (ex.: "Ativo", "Inativo").
+### Pseudo-Code for Actions and Events:
+- **OnClick event of "New" button**: `if "New" button clicked then open editor for new record`.
+- **OnClick event of "Modify" button**: `if "Modify" button clicked then open editor for selected record`.
+- **OnClick event of "View" button**: `if "View" button clicked then display details of selected record`.
+- **OnChange event of search field**: `if search field value changed then filter grid records`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`CreateListForm`:** Cria e inicializa o formulário de listagem.
-* **`GridSetup`:** Configura o grid, definindo campos ocultos, ordem e editores personalizados.
-* **`EventSetup`:** Configura os eventos da interface.
-* **`Initialize`:** Inicializa o formulário com o serviço de backend.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using `CreateListForm`.
+   - The grid is set up with specific columns and custom editors in `GridSetup`.
+   - Event handlers are configured in `EventSetup`.
 
----
+2. **User Interactions**:
+   - Users interact with the grid and buttons to perform actions like creating, modifying, or viewing records.
 
-## 6. Consumo de Serviços de API:
+3. **Functions**:
+   - **`CreateListForm`** (File: `LbackOffice`): Creates and initializes the form.
+   - **`GridSetup`** (File: `LbackOffice`): Configures the grid columns and settings.
+   - **`EventSetup`** (File: `LbackOffice`): Sets up event handlers.
 
-* **Serviço:** `BackOfficeServiceUtils`.
-* **Endpoint:** Não especificado no código.
-* **Dados Enviados:** Não especificado no código.
-* **Dados Recebidos:** Não especificado no código.
-* **Propósito:** Gerenciar dados de Back Offices.
-* **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código fornecido.
+### Required Data:
+- Users must provide data for fields like `status`, `boDescrip`, `respons`, and `respName` to create or modify records.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `TsLabel`, `TsDBText`, `TsBevel`: Componentes visuais para exibição de dados.
-  - `cxGrid`: Componente para exibição de grids.
+### Actions and Preconditions:
+- **New**: Enabled at all times.
+- **Modify**: Enabled only when a record is selected.
+- **View**: Enabled only when a record is selected.
 
-* **Componentes Customizados:**
-  - `TBackOfficeServiceUtils`: Serviço para manipulação de dados de Back Offices.
+### Available Filters:
+- **Search Area**: Basic search functionality.
+- **Advanced Search**: Allows filtering by specific fields like `status`, `boDescrip`, etc.
 
----
+### Error Messages:
+- "No record selected" if attempting to modify or view without selecting a record.
+- "Invalid data" if required fields are not filled or contain invalid values.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos:**
-  - `Descrição` (tipo: string, obrigatório, min: 3 caracteres).
-  - `Status` (tipo: string, obrigatório).
-  - `Última Atualização` (tipo: data/hora, obrigatório).
-  - `Responsável` (tipo: string, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `Descrição` → `boDescrip`.
-  - `Status` → `status`.
-  - `Última Atualização` → `lastUpd`.
-  - `Responsável` → `respName`.
+### Field Validation and Conditions:
+- **status**: Should be a valid status string.
+- **boDescrip**: Should not be empty.
+- **lastUpd**: Should be a valid datetime.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:**  
-  ```mermaid
-  graph TD;
-      A[Inicialização] --> B[Configuração do Grid];
-      B --> C[Interação do Usuário];
-      C --> D[Execução de Ações];
-      D --> E[Atualização do Grid];
-  ```
-
-* **Diagrama de Sequência:**  
-  ```mermaid
-  sequenceDiagram
-      User->>Form: Clica em botão
-      Form->>Service: Envia requisição
-      Service-->>Form: Retorna dados
-      Form-->>User: Atualiza interface
-  ```
-
-* **Código HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Back Office</th>
-        <th>Descrição</th>
-        <th>Responsável</th>
-        <th>Última Atualização</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ativo</td>
-        <td>BO001</td>
-        <td>Financeiro</td>
-        <td>João Silva</td>
-        <td>2023-10-01</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+1. **`CreateListForm`**: Creates and initializes the back-office list form.
+2. **`GridSetup`**: Configures the grid, including hidden fields, column order, and custom editors.
+3. **`EventSetup`**: Sets up event handlers for user interactions.
+4. **`Initialize`**: Initializes the form with a provider service.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* **`GridSetup`:** Configurações do grid, como campos ocultos e ordem.
-* **`Initialize`:** Inicializa o formulário com o serviço de backend.
-
----
-
-## 12. Conclusão:
-
-O código implementa uma interface funcional para a listagem e gerenciamento de Back Offices. Ele é bem estruturado, mas carece de detalhes sobre o consumo de serviços de API e tratamento de erros. Sua força está na modularidade e reutilização de componentes.
+- **Service Name**: `BackOfficeServiceUtils`.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Depends on the operation (e.g., new record data, modified record data).
+- **Data Received**: Back-office records or operation status.
+- **Purpose**: Manage back-office records.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código fornece uma interface para gerenciar Back Offices, permitindo ações como criar, modificar e buscar registros. Ele utiliza componentes visuais e serviços de backend para manipulação de dados, com foco em modularidade e reutilização.#### **LbackOffice.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **VCL Components**: For UI elements.
+- **Custom Components**: `kneCBListSOA`, `knePrivileges`, `kneFRGridManager`.
+
+### Custom Components:
+- **`kneCBListSOA`**: Base class for list forms.
+- **`kneFRGridManager`**: Manages grid functionalities.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **status**: (type: string, required).
+2. **boDescrip**: (type: string, required).
+3. **respons**: (type: string, optional).
+4. **respName**: (type: string, optional).
+5. **updBy**: (type: string, system-generated).
+6. **lastUpd**: (type: datetime, system-generated).
+
+Mapping of displayed values to database columns:
+- `status` → `status`.
+- `boDescrip` → `boDescrip`.
+- `respons` → `respons`.
+- `respName` → `respName`.
+- `updBy` → `updBy`.
+- `lastUpd` → `lastUpd`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+var
+  BackOfficeForm: TFORMLbackOffice;
+begin
+  BackOfficeForm := TFORMLbackOffice.CreateListForm(Self);
+  BackOfficeForm.Show;
+end;
+```
+
+### Screenshots:
+HTML representation of the grid:
+```html
+<table style="width:100%; border:1px solid black;">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Back Office</th>
+      <th>Description</th>
+      <th>Responsible</th>
+      <th>Updated By</th>
+      <th>Last Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Active</td>
+      <td>BO001</td>
+      <td>Finance</td>
+      <td>John Doe</td>
+      <td>Admin</td>
+      <td>2023-10-01</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **GridSetup**: Configures grid columns and custom editors.
+- **EventSetup**: Sets up event handlers for user interactions.
+
+---
+
+## 12. Conclusion:
+
+The `LbackOffice` code unit provides a robust framework for managing back-office records. Its strengths include modularity, database integration, and customizability. However, it lacks detailed error handling and API endpoint definitions.
+
+---
+
+## 13. Short Summary:
+
+The `LbackOffice` code unit manages back-office records using a grid interface, supporting CRUD operations and search functionalities. It integrates with a database and utilizes custom components for enhanced functionality.#### **LbackOffice.pas**
 
 ```
 unit LbackOffice;

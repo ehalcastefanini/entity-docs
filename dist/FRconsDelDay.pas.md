@@ -2,211 +2,212 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRconsDelDay` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar os dias de entrega de consignatários (Consignee Delivery Days). Ele permite que os usuários visualizem, editem e configurem os dias e horários permitidos para entrega, utilizando uma grade interativa. O objetivo é facilitar a gestão e edição de dados relacionados a dias de entrega de forma eficiente e organizada.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid e cxEditRepository:** Utilizados para criar a interface gráfica e gerenciar a interação com os dados.
-  - **ClientDataSet:** Para manipulação de dados em memória.
-  - **SOAPHTTPClient:** Para integração com serviços SOAP.
+### Objective and Problem Solved:
+The `FRconsDelDay` code unit defines a frame (`TFRAMEconsDelDay`) that manages a grid-based interface for editing and managing delivery days for consignees. It provides functionality to display, edit, and validate data related to delivery days, such as allowed days, time ranges, and weekdays. The frame is designed to handle user interactions, validate input, and manage data persistence.
 
-* **Forma do Componente:**
-  - **Grade de Exibição (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `seqNum` (Número Sequencial): Inteiro.
-      - `allowed` (Permitido): Checkbox (Sim/Não).
-      - `weekDayCode` (Código do Dia da Semana): String.
-      - `weekDay` (Dia da Semana): String.
-      - `timeBegin` (Hora de Início): Máscara de Hora.
-      - `timeEnd` (Hora de Término): Máscara de Hora.
-    - **Ações da Grade e seus Efeitos:**
-      - Edição de valores diretamente na grade.
-      - Validação de campos ao editar.
-      - Adição e exclusão de registros.
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **TcxGrid**: A grid component from DevExpress for displaying and editing tabular data.
+- **TClientDataSet**: For managing in-memory datasets.
+- **SOAPHTTPClient**: For consuming SOAP-based web services.
+- **Custom Components**: Includes `TcxEditRepositoryCheckBoxItem`, `TcxEditRepositoryMaskItem`, and others for specialized editing and validation.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **seqNum**: Integer (Order field).
+2. **allowed**: Boolean (Checkbox editor).
+3. **weekDayCode**: String (Custom editor for finding weekdays).
+4. **weekDay**: String (Display field).
+5. **timeBegin**: Time (Masked editor for time input).
+6. **timeEnd**: Time (Masked editor for time input).
 
-* **Ações Específicas:**
-  - Adicionar novos registros.
-  - Editar valores existentes na grade.
-  - Validar campos ao editar.
-  - Configurar visibilidade e propriedades das colunas.
-
-* **Componentes Principais:**
-  - `TcxGridDBTableView`: Exibe os dados em formato de grade.
-  - `TClientDataSet`: Gerencia os dados em memória.
-  - `TcxEditRepository`: Define editores personalizados para os campos.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`:
-    ```pseudo
-    se valor de célula editado então
-        executar validação e atualizar dados
-    ```
-  - Evento `OnNewRecord`:
-    ```pseudo
-    se novo registro criado então
-        inicializar valores padrão
-    ```
-  - Validação de Hora:
-    ```pseudo
-    se valor de hora inválido então
-        exibir mensagem de erro
-    ```
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new record to the grid.
+2. **Delete**: Deletes the selected record from the grid.
+3. **Edit**: Allows editing of specific fields in the grid.
+4. **Validation**: Validates time fields and other inputs.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente com a configuração das colunas e eventos.
-  2. Carregamento dos dados no `ClientDataSet`.
-  3. Interação do usuário com a grade (edição, adição ou exclusão de registros).
-  4. Validação de campos e atualização dos dados.
+### User/Software Actions:
+1. Add a new delivery day record.
+2. Edit existing delivery day records.
+3. Delete selected records.
+4. Validate input fields (e.g., time format, checkbox values).
 
-* **Dados Necessários:**
-  - Código do consignatário (`consCode`).
-  - Dias da semana e horários permitidos.
+### Main Components:
+- **Grid (`TcxGrid`)**: Displays the delivery day records.
+- **ClientDataSet (`TClientDataSet`)**: Manages the data displayed in the grid.
+- **Custom Editors**: Provides specialized input validation and formatting.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar Registro:** Disponível sempre.
-  - **Excluir Registro:** Disponível apenas se um registro estiver selecionado.
-  - **Editar Registro:** Disponível sempre.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Hora inválida" se o valor do campo de hora não for válido.
-
-* **Valores Padrão dos Campos:**
-  - `allowed`: "N" (Não permitido).
-  - `timeBegin` e `timeEnd`: Máscara de hora vazia.
-
-* **Validações e Condições dos Campos:**
-  - `allowed`: Checkbox com valores "Y" (Sim) e "N" (Não).
-  - `timeBegin` e `timeEnd`: Devem seguir o formato de hora `HH:MM`.
+### Pseudo-Code for Actions and Events:
+- `OnEditValueChanged` event of the grid:
+  - `if grid cell value changed then update dataset`.
+- `OnNewRecord` event of the dataset:
+  - `if new record is created then initialize default values`.
+- `OnValidate` event of the time field:
+  - `if time value is invalid then show error message`.
+- `OnButtonClick` event of the weekday finder:
+  - `if button clicked then open weekday selection dialog`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Descrição das Funções:**
-  - `Create`: Configura o componente e inicializa as propriedades.
-  - `SetColumnState`: Define o estado de edição de uma coluna.
-  - `m_FindWeekDays`: Gerencia a busca de dias da semana.
-  - `cxEDTtimePropertiesValidate`: Valida o formato de hora.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created and initialized with default settings.
+   - Grid columns are configured, and hidden fields are defined.
+   - Custom editors are assigned to specific fields.
+2. **User Interaction**:
+   - Users can add, edit, or delete records in the grid.
+   - Input validation is triggered when editing specific fields.
+3. **Event Handling**:
+   - Events like `OnEditValueChanged`, `OnNewRecord`, and `OnValidate` are triggered based on user actions.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - **Nome do Serviço:** WeekDayServiceUtils.
-  - **Propósito:** Buscar informações sobre dias da semana.
-  - **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Data Requirements:
+- **Required Fields**:
+  - `seqNum`, `allowed`, `weekDayCode`, `timeBegin`, `timeEnd`.
+- **Optional Fields**:
+  - `weekDay`.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxEditRepository`: Para interface gráfica.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
+### Actions and Preconditions:
+1. **Add**:
+   - Preconditions: None.
+   - Action: Adds a new record with default values.
+2. **Delete**:
+   - Preconditions: A record must be selected.
+   - Action: Deletes the selected record.
+3. **Edit**:
+   - Preconditions: A record must be selected.
+   - Action: Allows editing of specific fields.
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para o componente.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+1. "Invalid time format" if the time input does not match the expected format.
+2. "Required field not completed" if a mandatory field is left empty.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+1. `allowed`: Default "N".
+2. `timeBegin` and `timeEnd`: No default value specified.
 
-* **Campos:**
-  - `seqNum` (Inteiro, obrigatório).
-  - `allowed` (Checkbox, obrigatório, valores "Y" ou "N").
-  - `weekDayCode` (String, obrigatório).
-  - `weekDay` (String, obrigatório).
-  - `timeBegin` (Hora, obrigatório, formato `HH:MM`).
-  - `timeEnd` (Hora, obrigatório, formato `HH:MM`).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `seqNum` → `seqNum`.
-  - `allowed` → `allowed`.
-  - `weekDayCode` → `weekDayCode`.
-  - `weekDay` → `weekDay`.
-  - `timeBegin` → `timeBegin`.
-  - `timeEnd` → `timeEnd`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEconsDelDay := TFRAMEconsDelDay.Create(Self);
-  FRAMEconsDelDay.Parent := Self;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>SeqNum</th>
-        <th>Allowed</th>
-        <th>WeekDayCode</th>
-        <th>WeekDay</th>
-        <th>TimeBegin</th>
-        <th>TimeEnd</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Y</td>
-        <td>MON</td>
-        <td>Monday</td>
-        <td>08:00</td>
-        <td>18:00</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+1. `allowed`: Must be "Y" or "N".
+2. `timeBegin` and `timeEnd`: Must follow the `!90:00;1;_` mask format.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração inicial das colunas e eventos no método `Create`.
-* Validação de hora no evento `cxEDTtimePropertiesValidate`.
+1. **`Create`**:
+   - Initializes the frame and configures grid settings.
+2. **`SetColumnState`**:
+   - Enables or disables editing for specific columns.
+3. **`m_FindWeekDays`**:
+   - Opens a dialog to select weekdays.
+4. **`cxEDTtimePropertiesValidate`**:
+   - Validates the time input format.
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código fornece uma solução robusta para gerenciar dias de entrega de consignatários, com uma interface gráfica interativa e validações básicas. No entanto, faltam detalhes sobre tratamento de erros e integração com serviços externos.
+- **Service Name**: WeekDayServiceUtils.
+- **Purpose**: Fetches weekday data for the `weekDayCode` field.
+- **Error Handling**: If the service fails, an error message is displayed.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-Componente Delphi para gerenciar dias de entrega de consignatários, utilizando uma grade interativa com validações e integração com serviços SOAP.#### **FRconsDelDay.pas**
+- **Field**: `weekDayCode`.
+- **Condition**: The field is editable only when the `allowed` checkbox is checked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**: For grid and editor functionalities.
+2. **SOAPHTTPClient**: For consuming SOAP services.
+
+### Custom Components:
+1. `TcxEditRepositoryCheckBoxItem`: For checkbox editing.
+2. `TcxEditRepositoryMaskItem`: For masked time input.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **seqNum**: Integer, required.
+2. **allowed**: Boolean, required, values "Y" or "N".
+3. **weekDayCode**: String, required.
+4. **weekDay**: String, optional.
+5. **timeBegin**: Time, required, format `!90:00;1;_`.
+6. **timeEnd**: Time, required, format `!90:00;1;_`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEconsDelDay.cxEDTtimePropertiesValidate(Sender: TObject;
+  var DisplayValue: Variant; var ErrorText: TCaption; var Error: Boolean);
+begin
+  if not IsValidTime(DisplayValue) then
+  begin
+    Error := True;
+    ErrorText := 'Invalid time format';
+  end;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+1. **Grid Settings**:
+   - Hidden fields: `consCode`, `updBy`, `lastUpd`.
+   - Key fields: `consCode`, `seqNum`.
+2. **Custom Editors**:
+   - `allowed`: Checkbox editor.
+   - `timeBegin`, `timeEnd`: Masked time editor.
+
+---
+
+## 12. Conclusion:
+
+The `FRconsDelDay` code unit provides a robust framework for managing delivery day data in a grid interface. It includes features for adding, editing, and validating records. However, the code lacks explicit error handling for API failures and does not define filters for the grid.
+
+---
+
+## 13. Short Summary:
+
+The `FRconsDelDay` unit implements a grid-based interface for managing consignee delivery days, with features for adding, editing, and validating records. It uses DevExpress components and SOAP services for data handling and validation.#### **FRconsDelDay.pas**
 
 ```
 unit FRconsDelDay;

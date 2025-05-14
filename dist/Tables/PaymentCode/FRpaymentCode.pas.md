@@ -2,164 +2,198 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRpaymentCode`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é criar uma interface de edição para gerenciar informações relacionadas a códigos de pagamento, incluindo descontos, datas de vencimento, e configurações adicionais como controle de checklist de pedidos. Ele fornece uma interface gráfica para entrada e validação de dados, além de integração com serviços externos para manipulação de dados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `TsLabel`, `TsDBEdit`, `TsDBCheckBox`.
-  - Integração com serviços SOAP via `SOAPHTTPClient`.
+### Objective:
+The `FRpaymentCode` unit defines a form (`TFRAMEpaymentCode`) that facilitates the management of payment codes and related details such as discounts, due dates, and invoice dispositions. It provides a user interface for interacting with payment-related data, including input fields, checkboxes, and linked data sources.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `EDTpaymentCode`: Campo de texto vinculado ao banco de dados para o código de pagamento.
-      - `EDTdiscount`: Campo de texto vinculado ao banco de dados para o desconto.
-      - `EDTdueDate`: Campo de texto vinculado ao banco de dados para a data de vencimento.
-      - `EDTdiscDate`: Campo de texto vinculado ao banco de dados para os dias de desconto.
-      - `CHKdscfinOnDocs`: Caixa de seleção vinculada ao banco de dados para controle de desconto em documentos.
-      - `CHKchkDispCred`: Caixa de seleção vinculada ao banco de dados para controle de crédito.
-      - `CHKgiroPayment`: Caixa de seleção vinculada ao banco de dados para controle de pagamento via giro.
-    - **Ações do Formulário e seus Efeitos:**
-      - Validação de campos ao sair de um campo (`OnExit`).
-      - Configuração de propriedades de busca e integração com serviços externos.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the form and its components.
+- **SOAP Services**: Utilized for interacting with external services (`TPaymentServiceUtils`).
+- **Database Components**: Includes `TsDBEdit`, `TsDBCheckBox`, and `DataSource` for binding UI elements to database fields.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Entrada e validação de dados nos campos do formulário.
-  - Configuração de buscas relacionadas a documentos e checklists.
-  - Integração com serviços externos para manipulação de dados.
-
-* **Componentes Principais:**
-  - `EDTpaymentCode`: Campo para entrada do código de pagamento.
-  - `FRAMEstatusInfo1`: Exibe informações de status relacionadas ao pagamento.
-  - `FRAMEfindInvDisp` e `FRAMEFindordChklstdocs`: Componentes para busca de informações relacionadas a documentos e checklists.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnExit` do campo `EDTpaymentCode`: `se o campo for alterado, então validar o valor`.
-  - Configuração de busca: `configurar fonte de dados e campos para busca`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTpaymentCode`: Text input for payment code (type: `TsDBEdit`).
+  - `EDTdiscount`: Text input for discount percentage (type: `TsDBEdit`).
+  - `EDTdueDate`: Text input for due days (type: `TsDBEdit`).
+  - `EDTdiscDate`: Text input for days of discount (type: `TsDBEdit`).
+  - `CHKdscfinOnDocs`: Checkbox for discount finalization on documents (type: `TsDBCheckBox`).
+  - `CHKchkDispCred`: Checkbox for credit disposition check (type: `TsDBCheckBox`).
+  - `CHKgiroPayment`: Checkbox for giro payment (type: `TsDBCheckBox`).
+  - `FRAMEfindInvDisp`: Find edit for invoice disposition (type: `TFRAMEFindEditSOA`).
+  - `FRAMEFindordChklstdocs`: Find edit for order checklist documents (type: `TFRAMEFindEditSOA`).
+- **Form Actions**:
+  - `OnExit` event for `EDTpaymentCode`: Validates the payment code when the user exits the field.
+  - `OnBeforeApplyChanges`: Custom event triggered before applying changes.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do componente com a configuração de propriedades e integração com serviços.
-  - Interação do usuário com os campos do formulário, acionando eventos como validação e busca.
-  - Integração com serviços externos para manipulação de dados.
+### User/Software Actions:
+- Input payment code, discount percentage, due days, and days of discount.
+- Select options using checkboxes for specific payment-related configurations.
+- Use find dialogs to search and select invoice dispositions and order checklist documents.
 
-* **Dados Necessários:**
-  - Código de pagamento.
-  - Desconto.
-  - Datas de vencimento e desconto.
-  - Configurações adicionais como controle de checklist e pagamento via giro.
+### Main Components:
+- **Input Fields**: Allow users to enter payment-related data.
+- **Checkboxes**: Enable or disable specific payment options.
+- **Find Dialogs**: Provide search functionality for related data.
+- **Status Info Frame**: Displays status information about the current payment.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O campo `EDTpaymentCode` deve ser preenchido antes de salvar.
-  - As caixas de seleção controlam configurações adicionais e devem ser configuradas conforme necessário.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validação de Campos:**
-  - `EDTpaymentCode`: Deve ser validado ao sair do campo.
-  - Outros campos não possuem validações explícitas definidas no código.
+### Pseudo-code for Actions and Events:
+- `OnExit` event of `EDTpaymentCode`:  
+  `if user exits payment code field then validate payment code`.
+- `OnBeforeApplyChanges` event:  
+  `if changes are about to be applied then execute custom logic`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Funções e Lógica de Negócio:**
-  - `m_SetFindInvDisp`: Configura a busca de informações relacionadas a documentos.
-  - `m_SetFindOrdChklstdocs`: Configura a busca de informações relacionadas a checklists de pedidos.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default properties and configurations.
+   - Data sources and services are set up (`TPaymentServiceUtils`).
+   - Find dialogs are configured for invoice disposition and order checklist documents.
+2. **User Interaction**:
+   - Users input data into fields and interact with checkboxes.
+   - Events like `OnExit` and `OnBeforeApplyChanges` are triggered based on user actions.
 
----
+### Functions:
+- `Create` (in `FRpaymentCode`): Initializes the form and its components.
+- `m_SetFindInvDisp` (in `FRpaymentCode`): Configures the find dialog for invoice disposition.
+- `m_SetFindOrdChklstdocs` (in `FRpaymentCode`): Configures the find dialog for order checklist documents.
 
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `TPaymentServiceUtils`.
-  - Propósito: Manipulação de dados relacionados a pagamentos.
-  - Dados enviados e recebidos não estão explicitamente definidos no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- Payment code, discount percentage, due days, days of discount, and other related configurations.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneUtils`, `PaymentServiceUtils`, `InvoiceDispServiceUtils`, `DocCheckListServiceUtils`: Utilitários personalizados.
+### Actions and Preconditions:
+- **Payment Code Validation**: Triggered when the user exits the `EDTpaymentCode` field.
+- **Apply Changes**: Triggered by the `OnBeforeApplyChanges` event.
 
-* **Componentes Personalizados:**
-  - `TsLabel`, `TsDBEdit`, `TsDBCheckBox`: Componentes visuais personalizados.
+### Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos no Formulário:**
-  - `EDTpaymentCode` (tipo: string, obrigatório, não há validações explícitas definidas).
-  - `EDTdiscount` (tipo: string, opcional, não há validações explícitas definidas).
-  - `EDTdueDate` (tipo: string, opcional, não há validações explícitas definidas).
-  - `EDTdiscDate` (tipo: string, opcional, não há validações explícitas definidas).
-  - `CHKdscfinOnDocs` (tipo: boolean, opcional).
-  - `CHKchkDispCred` (tipo: boolean, opcional).
-  - `CHKgiroPayment` (tipo: boolean, opcional).
+### Field Validation and Conditions:
+- `EDTpaymentCode`: Uppercase text input.
+- `EDTdiscount`, `EDTdueDate`, `EDTdiscDate`: Numeric input expected.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  procedure TFRAMEpaymentCode.EDTpaymentCodeExit(Sender: TObject);
-  begin
-    // Validação do código de pagamento
-  end;
-  ```
-* **Capturas de Tela:** Não aplicável.
+- **`Create`**: Initializes the form, sets up data sources, and configures find dialogs.
+- **`m_SetFindInvDisp`**: Configures the find dialog for invoice disposition.
+- **`m_SetFindOrdChklstdocs`**: Configures the find dialog for order checklist documents.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* Configuração de propriedades do componente na inicialização.
-* Integração com serviços externos para manipulação de dados.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface funcional para gerenciar informações de pagamento, com integração a serviços externos e validação básica de campos. No entanto, faltam mensagens de erro e validações mais robustas, o que pode limitar sua usabilidade em cenários mais complexos.
+- **Service Name**: `TPaymentServiceUtils`.
+- **Purpose**: Provides payment-related services and data handling.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa um formulário para gerenciar códigos de pagamento, incluindo campos para desconto, datas e configurações adicionais. Ele integra serviços externos para manipulação de dados e validações básicas, mas carece de mensagens de erro e validações mais detalhadas.#### **FRpaymentCode.pas**
+- **Invoice Disposition Field**: Appears only when the user interacts with the `FRAMEfindInvDisp` component.
+- **Conditions**: Not explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP service communication.
+- **DBClient**: For database operations.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: Custom component for find dialogs.
+- **`TFRAMEstatusInfo`**: Custom component for displaying status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **EDTpaymentCode**: (type: string, required, uppercase).
+- **EDTdiscount**: (type: numeric, optional).
+- **EDTdueDate**: (type: numeric, optional).
+- **EDTdiscDate**: (type: numeric, optional).
+- **CHKdscfinOnDocs**: (type: boolean, optional).
+- **CHKchkDispCred**: (type: boolean, optional).
+- **CHKgiroPayment**: (type: boolean, optional).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEpaymentCode.EDTpaymentCodeExit(Sender: TObject);
+begin
+  // Validate payment code logic here
+end;
+```
+
+### Screenshots:
+The DFM file represents a form with labeled input fields and checkboxes. Below is the HTML representation:
+
+```html
+<div style="width: 663px; font-family: Verdana;">
+  <label for="EDTpaymentCode">Code:</label>
+  <input id="EDTpaymentCode" type="text" style="text-transform: uppercase;" />
+  <label for="EDTdiscount">Discount:</label>
+  <input id="EDTdiscount" type="number" />
+  <label for="EDTdueDate">Due Days:</label>
+  <input id="EDTdueDate" type="number" />
+  <label for="EDTdiscDate">Days of Discount:</label>
+  <input id="EDTdiscDate" type="number" />
+  <label for="CHKdscfinOnDocs">Discount Finalization on Documents:</label>
+  <input id="CHKdscfinOnDocs" type="checkbox" />
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization**: The `Create` method sets up the form and its components.
+- **Find Dialog Configuration**: The `m_SetFindInvDisp` and `m_SetFindOrdChklstdocs` methods configure the find dialogs.
+
+---
+
+## 12. Conclusion:
+
+The `FRpaymentCode` unit provides a robust form for managing payment codes and related configurations. While it includes essential functionalities like input validation and find dialogs, error handling and field validation logic are not explicitly defined, which could be a limitation.
+
+---
+
+## 13. Short Summary:
+
+The `FRpaymentCode` unit defines a form for managing payment codes, discounts, and related configurations. It integrates database-bound fields, checkboxes, and find dialogs, leveraging SOAP services for data handling.#### **FRpaymentCode.pas**
 
 ```
 unit FRpaymentCode;

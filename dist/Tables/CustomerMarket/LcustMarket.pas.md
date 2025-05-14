@@ -2,201 +2,206 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LcustMarket` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário de listagem chamado `Customer Market List`, que exibe informações relacionadas a mercados de clientes. Ele permite que os usuários visualizem, filtrem e interajam com os dados de mercados, como código, descrição, status, região e moeda. O objetivo principal é fornecer uma interface para gerenciar e visualizar mercados de clientes de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes de interface gráfica como `TsLabel`, `TsBevel`, `TsDBText`, `TFRAMEfindCriteriaCodeDesc`, entre outros.
-  - Manipulação de dados com `DBClient` e `cxGrid`.
+### Objective:
+The `LcustMarket` code unit is designed to manage and display a list of customer markets in a grid format. It provides functionalities for viewing, searching, and managing customer market data. The main objective is to offer a user-friendly interface for interacting with customer market records, including filtering, sorting, and performing actions like creating, modifying, and viewing details.
 
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `stat` (Status): Texto.
-      - `marketCode` (Código do Mercado): Texto.
-      - `description` (Descrição): Texto.
-      - `currency` (Moeda): Texto.
-      - `regionCode` (Código da Região): Texto.
-      - `region` (Região): Texto.
-    - **Ações do Grid e seus Efeitos:**
-      - Ordenação por colunas definidas.
-      - Exibição de campos personalizados, como `cxEDTstatus`.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Database Integration**: The code interacts with a database using `DBClient` and `DataSource` components.
+- **Third-party Libraries**: Includes components like `TsLabel`, `TsBevel`, `TsDBText`, and `cxGrid` for enhanced UI and grid functionalities.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **stat**: Status (Custom Field).
+2. **marketCode**: Market Code (String).
+3. **description**: Description (String).
+4. **currency**: Currency (String).
+5. **regionCode**: Region Code (String).
+6. **region**: Region (String).
 
-* **Ações Específicas:**
-  - Visualizar a lista de mercados de clientes.
-  - Filtrar e pesquisar mercados com critérios avançados.
-  - Exibir detalhes de um mercado selecionado.
-
-* **Componentes Principais:**
-  - `GridSettings`: Configurações do grid, como campos ocultos e ordem de exibição.
-  - `FRAMEfindCriteriaCodeDesc`: Componente para critérios de busca.
-  - `DBTXT*`: Campos de texto vinculados ao banco de dados para exibição de informações.
-
-* **Pseudo-código de Ações e Eventos:**
-  - `OnClick` de um botão de pesquisa: `se botão clicado então executar busca com critérios`.
-  - `OnChange` de um campo de filtro: `se valor do campo alterado então atualizar grid`.
+#### Grid Actions and Their Effects:
+1. **New**: Opens a form to create a new customer market record.
+2. **Modify**: Opens a form to edit the selected customer market record.
+3. **View**: Opens a form to view details of the selected customer market record.
+4. **Search Area**: Allows users to search within a specific area.
+5. **Advanced Search**: Provides advanced filtering options for the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário com `CreateListForm`.
-  2. Configuração do grid com `GridSetup`.
-  3. Configuração de eventos com `EventSetup`.
-  4. Interação do usuário com filtros e grid.
-  5. Exibição de resultados no grid.
+### User/Software Actions:
+- View a list of customer markets in a grid.
+- Perform actions like creating, modifying, and viewing records.
+- Search and filter customer market data using basic and advanced criteria.
 
-* **Dados Necessários:**
-  - Código do mercado.
-  - Descrição.
-  - Status.
-  - Região.
-  - Moeda.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays the list of customer markets.
+2. **Search Panel (`PNLsearchArea`)**: Provides search and filtering options.
+3. **Detail Panel (`PNLdetailArea`)**: Displays detailed information about the selected record.
+4. **Action List (`ACLeditingActions_deriv`)**: Manages actions like New, Modify, View, etc.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação: Pesquisar mercados.
-    - Pré-condição: Preencher critérios de busca.
-  - Ação: Visualizar detalhes.
-    - Pré-condição: Selecionar um mercado no grid.
-
-* **Filtros Disponíveis:**
-  - Código do mercado.
-  - Descrição.
-  - Região.
-  - Moeda.
-
-* **Mensagens de Erro:**
-  - "Nenhum mercado encontrado" se a busca não retornar resultados.
-  - "Critérios de busca inválidos" se os filtros forem preenchidos incorretamente.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não especificadas no código.
+### Pseudo-code for Actions and Events:
+- **OnClick event of "New" button**: `if New button clicked then open form to create a new record`.
+- **OnClick event of "Modify" button**: `if Modify button clicked then open form to edit the selected record`.
+- **OnClick event of "View" button**: `if View button clicked then open form to view details of the selected record`.
+- **OnChange event of search criteria**: `if search criteria changed then refresh grid with filtered data`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`CreateListForm`:** Cria e inicializa o formulário de listagem.
-* **`GridSetup`:** Configura o grid, definindo campos ocultos, ordem e campos personalizados.
-* **`EventSetup`:** Configura eventos do formulário.
-* **`Initialize`:** Inicializa o formulário com configurações específicas.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized using the `CreateListForm` method.
+   - The `GridSetup` and `EventSetup` methods are called to configure the grid and events.
+2. **User Interaction**:
+   - Users interact with the grid and perform actions like New, Modify, View, or search.
+   - Actions trigger corresponding methods to handle the functionality.
 
----
+### Functions and File References:
+1. **`CreateListForm`** (File: `LcustMarket`):
+   - Creates and initializes the form.
+2. **`GridSetup`** (File: `LcustMarket`):
+   - Configures the grid, including hidden fields and custom fields.
+3. **`EventSetup`** (File: `LcustMarket`):
+   - Sets up event handlers for user interactions.
 
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos especificadas no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais especificados no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em formato de grid.
-  - `TsLabel`, `TsBevel`, `TsDBText`: Componentes visuais para exibição de informações.
-  - `kneCBListSOA`: Gerenciamento de listas.
-
-* **Componentes Customizados:**
-  - `TFRAMEfindCriteriaCodeDesc`: Componente para critérios de busca.
+### Required Data:
+- Users must provide search criteria or select a record to perform actions like Modify or View.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos no Formulário:**
-  - `marketCode` (tipo: string, obrigatório, não definido no código).
-  - `description` (tipo: string, obrigatório, não definido no código).
-  - `stat` (tipo: string, obrigatório, não definido no código).
-  - `regionCode` (tipo: string, obrigatório, não definido no código).
-  - `currency` (tipo: string, obrigatório, não definido no código).
+### Actions and Preconditions:
+1. **New**: No preconditions; always enabled.
+2. **Modify**: Enabled only if a record is selected.
+3. **View**: Enabled only if a record is selected.
+4. **Search Area**: No preconditions; always enabled.
+5. **Advanced Search**: No preconditions; always enabled.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `marketCode` → Coluna `marketCode`.
-  - `description` → Coluna `description`.
-  - `stat` → Coluna `stat`.
-  - `regionCode` → Coluna `regionCode`.
-  - `currency` → Coluna `currency`.
+### Available Filters:
+- Basic search criteria (e.g., market code, description).
+- Advanced search options (not explicitly detailed in the code).
 
----
+### Error Messages:
+- "No record selected" if Modify or View is clicked without selecting a record.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  var
-    Form: TFORMLcustMarket;
-  begin
-    Form := TFORMLcustMarket.CreateListForm(Self);
-    Form.Show;
-  end;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black; border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th style="border:1px solid black;">Status</th>
-        <th style="border:1px solid black;">Código do Mercado</th>
-        <th style="border:1px solid black;">Descrição</th>
-        <th style="border:1px solid black;">Moeda</th>
-        <th style="border:1px solid black;">Código da Região</th>
-        <th style="border:1px solid black;">Região</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border:1px solid black;">Ativo</td>
-        <td style="border:1px solid black;">MKT001</td>
-        <td style="border:1px solid black;">Mercado A</td>
-        <td style="border:1px solid black;">USD</td>
-        <td style="border:1px solid black;">R001</td>
-        <td style="border:1px solid black;">Região Norte</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* `GridSetup`: Configurações do grid, como campos ocultos e ordem de exibição.
-* `CreateListForm`: Método principal para criar o formulário.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar mercados de clientes, com funcionalidades de listagem, filtragem e exibição de detalhes. No entanto, faltam validações explícitas e mensagens de erro detalhadas. A modularidade e reutilização de componentes são pontos fortes.
+1. **`CreateListForm`**:
+   - Creates and initializes the customer market list form.
+2. **`GridSetup`**:
+   - Configures the grid, including hidden fields, order fields, and custom fields.
+3. **`EventSetup`**:
+   - Sets up event handlers for user interactions.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O código implementa um formulário de listagem para mercados de clientes, permitindo visualização, filtragem e interação com dados. Ele utiliza componentes visuais e configurações de grid para exibir informações de forma organizada e eficiente.#### **LcustMarket.pas**
+- **Service Name**: `CustomerMarketServiceUtils`.
+- **Purpose**: Likely used for fetching and managing customer market data (details not explicitly provided in the code).
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsLabel`, `TsBevel`, `TsDBText`**: Used for UI components.
+- **`cxGrid`**: Used for displaying the grid.
+- **`DBClient`**: Used for database interaction.
+
+### Custom Components:
+- **`FRAMEfindCriteriaCodeDesc`**: A custom frame for search criteria.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields in the Grid:
+1. **stat**: Custom field (type: string, not explicitly validated).
+2. **marketCode**: Market Code (type: string, not explicitly validated).
+3. **description**: Description (type: string, not explicitly validated).
+4. **currency**: Currency (type: string, not explicitly validated).
+5. **regionCode**: Region Code (type: string, not explicitly validated).
+6. **region**: Region (type: string, not explicitly validated).
+
+### Mapping:
+- **Database Columns**: `stat`, `marketCode`, `description`, `currency`, `regionCode`, `region`.
+- **Displayed Values**: Same as database columns.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [Load Grid Data] --> [User Interaction] --> [Perform Action] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Open Form
+Form --> Grid: Load Data
+User --> Grid: Select Record
+User --> Form: Click Action (e.g., Modify)
+Form --> Database: Fetch/Update Data
+```
+
+### Code Snippets:
+```delphi
+// Create and initialize the form
+var
+  Form: TFORMLcustMarket;
+begin
+  Form := TFORMLcustMarket.CreateListForm(Self);
+  Form.Show;
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`GridSetup`**: Configures the grid, including hidden fields and custom fields.
+- **`CreateListForm`**: Initializes the form and sets up the grid and events.
+
+---
+
+## 12. Conclusion:
+
+The `LcustMarket` code unit provides a robust framework for managing customer market data in a grid format. It supports essential actions like creating, modifying, and viewing records, along with search and filtering capabilities. However, the code lacks explicit field validations and error handling, which could be improved for better user experience.
+
+---
+
+## 13. Short Summary:
+
+The `LcustMarket` code unit manages customer market data in a grid format, offering functionalities like creating, modifying, viewing, and searching records. It integrates with a database and provides a user-friendly interface for efficient data management.#### **LcustMarket.pas**
 
 ```
 unit LcustMarket;

@@ -2,201 +2,212 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustBia` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um formulário para gerenciar informações relacionadas a "Customer Bia" (provavelmente um tipo de configuração ou dados específicos de clientes). Ele permite a entrada, edição e visualização de dados como períodos, porcentagens de vendas, dias de referência, tolerância e rebates (descontos). O objetivo é fornecer uma interface para manipular esses dados de forma estruturada e eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes visuais como `TsLabel`, `TsDBEdit`, `TcxDBMaskEdit`, `TcxDBImageComboBox`.
-  - Manipulação de banco de dados com `TDataSet` e `TClientDataSet`.
+### Objective and Problem Solved:
+The `FRcustBia` code unit defines a form (`TFRAMEcustBia`) that is part of a Delphi application. This form is designed to manage customer-related data, specifically focusing on sales percentages, reference days, tolerance days, and rebate information. It provides a user interface for inputting and managing these details, ensuring that the data is properly initialized and validated.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de entrada (`TsDBEdit`, `TcxDBMaskEdit`) para valores numéricos e texto.
-      - Combobox (`TcxDBImageComboBox`) para seleção de modos.
-      - Labels (`TsLabel`) para descrever os campos.
-    - **Ações do Formulário e seus Efeitos:**
-      - Inserção de novos registros.
-      - Configuração de valores padrão para novos registros.
-      - Validação e estilização de campos.
+### Technologies Used:
+- **Delphi VCL (Visual Component Library):** Used for creating the user interface and handling events.
+- **SOAP Services:** Used for potential integration with external services.
+- **Database Components:** Includes `TDataSet` and `TClientDataSet` for database interaction.
+- **Third-party Libraries:** Includes components like `TsLabel`, `TsDBEdit`, `TcxDBMaskEdit`, and `TcxDBImageComboBox` for enhanced UI and functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Inserir novos registros no banco de dados.
-  - Configurar valores padrão para novos registros.
-  - Exibir e editar informações relacionadas a períodos, porcentagens e rebates.
-
-* **Componentes Principais:**
-  - `TFRAMEcustBia`: Classe principal que define o formulário.
-  - `TsDBEdit`, `TcxDBMaskEdit`, `TcxDBImageComboBox`: Componentes para entrada de dados.
-  - `TsLabel`: Labels para descrever os campos.
-  - `CDStable`: Dataset para manipulação de dados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnCreate`:
-    ```pseudo
-    Ao criar o formulário:
-      Configurar propriedades como campos principais, nome do pacote de dados e tipo de frame.
-      Configurar visibilidade do painel de ações.
-      Aplicar estilos aos campos de entrada.
-    ```
-  - Evento `CDStableNewRecord`:
-    ```pseudo
-    Ao criar um novo registro:
-      Inicializar valores padrão para os campos.
-      Definir o ano e mês atual no formato "YYYYMM".
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types:**
+  - Labels (`TsLabel`): Display static text.
+  - Text Fields (`TsDBEdit`, `TcxDBMaskEdit`): Input fields for numeric and text data.
+  - Combo Box (`TcxDBImageComboBox`): Dropdown for selecting modes.
+  - Bevel (`TsBevel`): Visual separator.
+- **Form Actions and Effects:**
+  - `CDStableNewRecord`: Initializes default values for new records.
+  - `m_InsertNewRecord`: Custom logic for inserting new records.
+  - `SetForDOCADDR`: Custom logic for setting document address-related properties.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configura propriedades e estilos.
-  2. Interação do usuário:
-     - Preenchimento de campos e seleção de opções.
-  3. Inserção de novos registros:
-     - Valores padrão são aplicados automaticamente.
+### User/Software Actions:
+- Users can input and manage customer-related data such as sales percentages, reference days, tolerance days, and rebates.
+- The form initializes default values for new records and applies specific styles to input fields.
 
-* **Dados Necessários:**
-  - Período inicial e final.
-  - Porcentagens de vendas (estoque e direto).
-  - Dias de referência e tolerância.
-  - Valores de rebates (All, CutSize, Folio, Reels).
-  - Modo de operação.
+### Main Components:
+- **Labels (`TsLabel`):** Provide context for input fields.
+- **Input Fields (`TsDBEdit`, `TcxDBMaskEdit`):** Allow users to input numeric and text data.
+- **Combo Box (`TcxDBImageComboBox`):** Allows users to select a mode.
+- **Bevel (`TsBevel`):** Enhances the visual layout.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Inserir novo registro: Requer que os campos obrigatórios sejam preenchidos.
-  - Configurar valores padrão: Executado automaticamente ao criar um novo registro.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Ano e mês atual no formato "YYYYMM" para campos relacionados a períodos.
-
-* **Validação e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
+### Pseudo-code for Actions and Events:
+- `OnCreate` event of the form: 
+  ```
+  if form is created then
+    initialize properties and styles
+  ```
+- `OnNewRecord` event of the dataset:
+  ```
+  if new record is created then
+    initialize default field values
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:**
-  - Configura propriedades do formulário e aplica estilos aos campos.
+### Execution Flow:
+1. **Initialization:**
+   - The form is created, and its properties (`MasterKeyFields`, `DataPacketName`, etc.) are initialized.
+   - Styles are applied to input fields.
+2. **User Interaction:**
+   - Users input data into fields or select options from the combo box.
+   - When a new record is created, default values are applied.
+3. **Functions:**
+   - `Create` (File: `FRcustBia.pas`): Initializes the form and its properties.
+   - `CDStableNewRecord` (File: `FRcustBia.pas`): Sets default values for new records.
 
-* **`CDStableNewRecord`:**
-  - Inicializa valores padrão para novos registros.
-
-* **`m_InsertNewRecord`:**
-  - Método público para inserir um novo registro (detalhes não fornecidos no código).
-
-* **`SetForDOCADDR`:**
-  - Método público para configurar algo relacionado a "DOCADDR" (detalhes não fornecidos no código).
-
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos definidas no código.
+### Required Data:
+- Sales percentages, reference days, tolerance days, rebate values, and mode selection.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* Não há campos condicionais explícitos definidos no código.
+### Actions and Preconditions:
+- **New Record Initialization:** Automatically applies default values when a new record is created.
+- **Field Input:** Fields must be filled with valid data before saving.
 
----
+### Available Filters:
+- No explicit filters are defined in the code.
 
-## 8. Dependências:
+### Error Messages:
+- Not explicitly defined in the code.
 
-* **Bibliotecas Externas:**
-  - `kneFRCtrlEditSOA`, `InvokeRegistry`, `SOAPHTTPClient`: Provavelmente usados para integração com serviços SOAP.
-  - `DMskin`: Usado para aplicar estilos aos campos.
+### Default Field Values:
+- Default values are applied using `TkneDB.InitializeFieldDefaults`.
 
-* **Componentes Personalizados:**
-  - `TFRAMEBaseCtrlEditSOA`: Classe base para o formulário.
-  - `TFRAMEstatusInfo`: Componente para exibir informações de status.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos do Formulário:**
-  - `EDTstockSalesPerc` (tipo: numérico, obrigatório, não definido no código).
-  - `EDTreferenceDays` (tipo: numérico, obrigatório, não definido no código).
-  - `EDTdirectSalesPerc` (tipo: numérico, obrigatório, não definido no código).
-  - `EDTtoleranceDays` (tipo: numérico, obrigatório, não definido no código).
-  - `EDTperiodoIni` (tipo: data, obrigatório, não definido no código).
-  - `EDTperiodoFim` (tipo: data, obrigatório, não definido no código).
-  - `EDTrebAll`, `EDTrebCutSize`, `EDTrebFolio`, `EDTrebReels` (tipo: numérico, obrigatório, não definido no código).
-  - `ICBOmode` (tipo: combobox, obrigatório, não definido no código).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
+1. **`Create`:** Initializes the form and its properties.
+2. **`CDStableNewRecord`:** Sets default values for new records.
+3. **`m_InsertNewRecord`:** Custom logic for inserting new records.
+4. **`SetForDOCADDR`:** Custom logic for setting document address-related properties.
+
+---
+
+## 6. API Service Consumption:
+
+- No explicit API calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsLabel`, `TsDBEdit`, `TcxDBMaskEdit`, `TcxDBImageComboBox`:** Used for UI components.
+- **`TkneDB`:** Used for initializing default field values.
+
+### Custom Components:
+- **`TFRAMEBaseCtrlEditSOA`:** Base class for the form.
+- **`FRAMEstatusInfo1`:** Custom frame for displaying status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Stock Sales Percentage (`EDTstockSalesPerc`):** Type: Numeric, Required.
+2. **Direct Sales Percentage (`EDTdirectSalesPerc`):** Type: Numeric, Required.
+3. **Reference Days (`EDTreferenceDays`):** Type: Numeric, Required.
+4. **Tolerance Days (`EDTtoleranceDays`):** Type: Numeric, Required.
+5. **Rebate All (`EDTrebAll`):** Type: Numeric, Optional.
+6. **Rebate CutSize (`EDTrebCutSize`):** Type: Numeric, Optional.
+7. **Rebate Folio (`EDTrebFolio`):** Type: Numeric, Optional.
+8. **Rebate Reels (`EDTrebReels`):** Type: Numeric, Optional.
+9. **Mode (`ICBOmode`):** Type: Dropdown, Required.
+
+### Mapping:
+- Not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Form Initialization] --> [Set Properties and Styles] --> [User Input] --> [New Record Creation] --> [Apply Default Values]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Input Data
+Form --> Dataset: Create New Record
+Dataset --> Form: Apply Default Values
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustBia.CDStableNewRecord(DataSet: TDataSet);
+begin
+  TkneDB.InitializeFieldDefaults(CDStable);
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 791px; font-family: Verdana;">
+  <label style="position: absolute; left: 8px; top: 16px;">Period:</label>
+  <label style="position: absolute; left: 166px; top: 16px;">To:</label>
+  <label style="position: absolute; left: 8px; top: 39px;">Stock Sales:</label>
+  <label style="position: absolute; left: 166px; top: 39px;">Direct Sales:</label>
+  <label style="position: absolute; left: 326px; top: 39px;">Ref. Days:</label>
+  <label style="position: absolute; left: 476px; top: 39px;">Tolerance Days:</label>
+  <label style="position: absolute; left: 8px; top: 65px;">Rebates</label>
+  <label style="position: absolute; left: 42px; top: 117px;">All:</label>
+  <label style="position: absolute; left: 168px; top: 117px;">CutSize:</label>
+  <label style="position: absolute; left: 294px; top: 117px;">Folio:</label>
+  <label style="position: absolute; left: 400px; top: 117px;">Reels:</label>
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization of Default Values:**
   ```delphi
-  var
-    Frame: TFRAMEcustBia;
-  begin
-    Frame := TFRAMEcustBia.Create(Self);
-    Frame.m_InsertNewRecord;
-  end;
+  TkneDB.InitializeFieldDefaults(CDStable);
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 791px; font-family: Verdana;">
-    <label style="display: block;">Period:</label>
-    <input type="text" style="width: 100px;" />
-    <label style="display: block;">To:</label>
-    <input type="text" style="width: 100px;" />
-    <label style="display: block;">Stock Sales:</label>
-    <input type="text" style="width: 100px;" />
-    <label style="display: block;">Direct Sales:</label>
-    <input type="text" style="width: 100px;" />
-    <!-- Outros campos omitidos para brevidade -->
-  </div>
+- **Style Application:**
+  ```delphi
+  EDTrebAll.Style.StyleController := DMODskin.cxEditStyles1;
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 12. Conclusion:
 
-* Configuração de propriedades no método `Create`.
-* Inicialização de valores padrão no método `CDStableNewRecord`.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário funcional para gerenciar dados de "Customer Bia". Ele é bem estruturado, mas carece de validações explícitas e mensagens de erro. Sua integração com banco de dados e uso de componentes personalizados são pontos fortes.
+The `FRcustBia` code unit provides a structured form for managing customer-related data. It initializes default values, applies styles, and ensures a user-friendly interface. However, it lacks explicit error handling and field validation, which could be improved.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-Formulário Delphi para gerenciar dados de "Customer Bia", incluindo períodos, porcentagens e rebates. Permite inserção e edição de registros com valores padrão configurados automaticamente.#### **FRcustBia.pas**
+The `FRcustBia` form manages customer data, including sales percentages, reference days, and rebates. It initializes default values and applies styles but lacks explicit error handling and validation. It is part of a larger Delphi application for customer management.#### **FRcustBia.pas**
 
 ```
 unit FRcustBia;

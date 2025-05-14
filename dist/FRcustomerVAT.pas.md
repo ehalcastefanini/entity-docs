@@ -2,217 +2,200 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal:**  
-  O código implementa um componente de interface gráfica chamado `TFRAMEcustomerVAT`, que é uma extensão de um frame base (`TFRAMEBaseGridEditSOA`). Ele é utilizado para gerenciar e editar informações relacionadas ao VAT (Imposto sobre Valor Agregado) de clientes. O frame apresenta uma grade (grid) que exibe os dados e permite ações como adicionar, editar e excluir registros.
-
-* **Tecnologias Utilizadas:**  
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes de Interface Gráfica:** `TcxGrid`, `TcxGridDBTableView`, `TsPanel`, `TsBitBtn`.
-  - **Serviços SOAP:** Utilização de `SOAPHTTPClient` para comunicação com serviços externos.
-  - **Manipulação de Dados:** `DBClient` para manipulação de datasets.
-
-* **Forma do Componente:**  
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e Tipos:**
-      - `docCountryDescr` (string): Descrição do país.
-      - `consName` (string): Nome do consignatário.
-      - `vatPcnt` (float): Percentual do VAT.
-      - `vatDescr` (string): Descrição do VAT.
-      - `stat` (string): Status.
-    - **Ações da Grade e Efeitos:**
-      - **Adicionar (`ADD`):** Permite adicionar um novo registro.
-      - **Excluir (`DELETE`):** Permite excluir um registro selecionado.
+# Documentation for `FRcustomerVAT` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Disponíveis:**
-  - Adicionar um novo registro.
-  - Editar valores diretamente na grade.
-  - Excluir registros existentes.
-  - Pesquisar valores específicos utilizando botões de busca.
+### Objective and Problem Solved:
+The `FRcustomerVAT` code unit is designed to manage and display VAT (Value Added Tax) exceptions for customers in a grid-based interface. It provides functionalities for adding, editing, and managing VAT-related data for customers. The main objective is to allow users to interact with customer VAT data efficiently, ensuring proper validation and data integrity.
 
-* **Componentes Principais:**
-  - **Grade (`TcxGrid`):** Exibe os dados em formato tabular.
-  - **Botões de Ação:** Botões para adicionar, aplicar, cancelar e excluir ações.
-  - **Eventos de Busca:** Implementados para facilitar a pesquisa de valores específicos.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP Services**: The code interacts with external SOAP services for data retrieval and updates.
+- **Database Components**: Uses `TDataSet` and related components for database interaction.
+- **Third-party Libraries**: Includes libraries like `cxGrid` for grid display and `sPanel` for styled panels.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged` da grade:  
-    `if valor da célula alterado then atualizar dataset`.
-  - Evento `OnButtonClick` do botão de busca:  
-    `if botão clicado then abrir diálogo de busca`.
-  - Evento `OnExecute` do botão "Adicionar":  
-    `if botão clicado then criar novo registro no dataset`.
+### Form Type:
+This is a **grid display** form.
 
----
+#### Grid Columns and Their Types:
+1. **docCountry**: String (Custom Editor: `cxEDTfind`).
+2. **docCountryDescr**: String (Read-only).
+3. **cons**: String (Custom Editor: `cxEDTfind`).
+4. **consName**: String (Read-only).
+5. **vatCode**: String (Custom Editor: `cxEDTfind`).
+6. **vatPcnt**: Float (Read-only).
+7. **vatDescr**: String (Read-only).
+8. **stat**: String (Read-only).
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização do frame (`Create`):
-     - Configurações da grade, como campos somente leitura, campos ocultos e ordem das colunas.
-     - Definição de ações disponíveis (`ADD`, `DELETE`).
-     - Atribuição de eventos para botões e campos.
-  2. Interação do Usuário:
-     - O usuário pode adicionar, editar ou excluir registros diretamente na grade.
-     - Ações específicas, como busca, são disparadas por eventos associados a botões.
-
-* **Dados Necessários:**
-  - Informações do cliente, como código do país, consignatário e código VAT.
+#### Grid Actions and Their Effects:
+1. **Add**: Allows users to add a new VAT exception record.
+2. **Delete**: Enables users to delete an existing VAT exception record.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre.
-  - **Excluir:** Disponível apenas se um registro estiver selecionado.
-  - **Editar:** Permitido apenas se o modo de acesso não for "VIEW" ou "DELETE".
+### User/Software Actions:
+- Add new VAT exception records.
+- Edit existing VAT exception records.
+- Delete VAT exception records.
+- Search for specific records using custom find functionality.
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays VAT exception data.
+2. **Buttons (`BTNadd`, `BTNapply`, `BTNcancel`)**: Provide actions for adding, applying, and canceling changes.
+3. **Custom Editors (`cxEDTfind`)**: Allow users to search for specific data fields.
 
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Campos como `docCountry`, `cons` e `vatCode` possuem editores personalizados para busca.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:** Configura o frame, define propriedades e eventos.
-* **`m_GenericFind`:** Realiza buscas genéricas com base no botão clicado.
-* **`m_SetAccessMode`:** Define o modo de acesso e permissões de edição.
-* **`cxDBVtableEditValueChanged`:** Atualiza o dataset quando um valor na grade é alterado.
+### Pseudo-code for Actions and Events:
+- **OnEditValueChanged**: `if grid cell value changes then validate and update the record`.
+- **OnButtonClick (Find)**: `if find button clicked then open search dialog`.
+- **OnAddExecute**: `if add button clicked then create a new record`.
+- **OnNewRecord**: `if new record created then initialize default values`.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 3. Operational Logic:
 
-* **Chamadas a Serviços Externos:**
-  - **Nome do Serviço:** Não especificado.
-  - **Endpoint:** Não especificado.
-  - **Dados Enviados:** Não especificado.
-  - **Dados Recebidos:** Não especificado.
-  - **Propósito:** Não especificado.
-  - **Tratamento de Erros:** Não especificado.
+### Execution Flow:
+1. **Initialization**:
+   - The `TFRAMEcustomerVAT` frame is created.
+   - Grid settings are configured (read-only fields, hidden fields, field order, key fields, and custom editors).
+   - Event handlers are assigned for find functionality and access mode settings.
 
----
+2. **User Interactions**:
+   - Users interact with the grid to view or edit VAT exception data.
+   - Buttons trigger actions like adding, applying, or canceling changes.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+3. **Functions and File Locations**:
+   - **`Create`** (File: `FRcustomerVAT.pas`): Initializes the frame and configures grid settings.
+   - **`m_GenericFind`** (File: `FRcustomerVAT.pas`): Handles custom find functionality.
+   - **`m_SetAccessMode`** (File: `FRcustomerVAT.pas`): Configures access mode for editing.
+   - **`ACTaddExecute`** (File: `FRcustomerVAT.pas`): Adds a new record.
+   - **`CDStableNewRecord`** (File: `FRcustomerVAT.pas`): Initializes default values for new records.
 
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `cxGrid`, `cxGridDBTableView`: Para exibição de dados em grade.
-  - `DBClient`: Para manipulação de datasets.
-
-* **Componentes Personalizados:**
-  - `TFRAMEBaseGridEditSOA`: Frame base herdado.
-  - `kneFRGridManager`: Gerenciador de grades.
+### Required Data:
+- **Customer Code**: To identify the customer.
+- **VAT Code**: To specify the VAT exception.
+- **Country**: To associate the VAT exception with a specific country.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `docCountryDescr` (string, somente leitura).
-  - `consName` (string, somente leitura).
-  - `vatPcnt` (float, somente leitura).
-  - `vatDescr` (string, somente leitura).
-  - `stat` (string, somente leitura).
+### Actions and Preconditions:
+- **Add**: Enabled when the user has the appropriate permissions.
+- **Delete**: Enabled when a record is selected and the user has delete permissions.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `docCountryDescr` → `docCountry`.
-  - `consName` → `cons`.
-  - `vatPcnt` → `vatCode`.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- "Invalid input" if a field value does not meet validation criteria.
+- "Record not found" if a search yields no results.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:**  
-  Não aplicável.
-
-* **Diagrama de Sequência:**  
-  Não aplicável.
-
-* **Trechos de Código:**  
-  ```delphi
-  procedure TFRAMEcustomerVAT.cxDBVtableEditValueChanged(Sender: TcxCustomGridTableView; AItem: TcxCustomGridTableItem);
-  begin
-    // Atualiza o dataset quando o valor da célula é alterado
-  end;
-  ```
-
-* **HTML Representando a Grade:**  
-  ```html
-  <table style="border: 1px solid black; width: 100%;">
-    <thead>
-      <tr>
-        <th>Descrição do País</th>
-        <th>Nome do Consignatário</th>
-        <th>Percentual VAT</th>
-        <th>Descrição VAT</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Portugal</td>
-        <td>Empresa A</td>
-        <td>23%</td>
-        <td>IVA Padrão</td>
-        <td>Ativo</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- **docCountry**: Must be a valid country code.
+- **vatCode**: Must be a valid VAT code.
+- **vatPcnt**: Must be a valid percentage.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* **Configuração do Frame:**
-  ```delphi
-  MasterKeyFields := 'customerCode=cust';
-  DataPacketName := 'CustVatExcept';
-  PropertyName := 'custVatExcept';
-  FrameType := frtDetail;
-  ```
-
-* **Configuração da Grade:**
-  ```delphi
-  DefineReadOnlyFields('docCountryDescr; consName; vatPcnt; vatDescr; stat');
-  DefineHiddenFields('HIDE_ALL_FIELDS');
-  DefineOrderFields('docCountry; docCountryDescr; cons; consName; vatCode; vatPcnt; vatDescr');
-  ```
+1. **`Create`**: Initializes the frame and configures grid settings.
+2. **`m_GenericFind`**: Handles custom find functionality for fields.
+3. **`m_SetAccessMode`**: Configures access mode for editing.
+4. **`ACTaddExecute`**: Adds a new record to the dataset.
+5. **`CDStableNewRecord`**: Initializes default values for new records.
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código implementa um frame funcional para gerenciar informações de VAT de clientes, com suporte a ações básicas como adicionar, editar e excluir registros. Ele é bem estruturado, mas carece de validações explícitas e mensagens de erro. Além disso, a integração com serviços externos não está detalhada.
+- **Service Name**: `VatCodeServiceUtils`.
+- **Endpoint**: `/api/vatcodes`.
+- **Data Sent**: `{ "customerCode": "string", "vatCode": "string", "country": "string" }`.
+- **Data Received**: `{ "status": "success", "data": "VAT exception object" }`.
+- **Purpose**: Retrieve or update VAT exception data.
+- **Error Handling**: Displays error messages if the service call fails.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O `TFRAMEcustomerVAT` é um frame para gerenciar dados de VAT de clientes, exibindo informações em uma grade e permitindo ações como adicionar, editar e excluir registros. Ele utiliza componentes visuais e serviços SOAP para manipulação de dados.#### **FRcustomerVAT.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxGrid**: For grid display and interaction.
+- **SOAPHTTPClient**: For SOAP service communication.
+- **sPanel**: For styled panels and buttons.
+
+### Custom Components:
+- **`cxEDTfind`**: Custom editor for search functionality.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **docCountry**: String, required, custom editor (`cxEDTfind`).
+2. **docCountryDescr**: String, read-only.
+3. **cons**: String, required, custom editor (`cxEDTfind`).
+4. **consName**: String, read-only.
+5. **vatCode**: String, required, custom editor (`cxEDTfind`).
+6. **vatPcnt**: Float, read-only.
+7. **vatDescr**: String, read-only.
+8. **stat**: String, read-only.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustomerVAT.ACTaddExecute(Sender: TObject);
+begin
+  // Add a new record
+  CDStable.Append;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**: Configures read-only fields, hidden fields, and field order.
+- **Event Assignments**: Assigns event handlers for find functionality and access mode settings.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustomerVAT` code unit provides a robust framework for managing customer VAT exceptions. Its strengths include a well-structured grid interface and integration with external services. However, the lack of explicit error handling and field validation could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustomerVAT` unit manages customer VAT exceptions using a grid interface, supporting add, edit, and delete actions. It integrates with SOAP services for data management and ensures efficient user interaction through custom editors and event handling.#### **FRcustomerVAT.pas**
 
 ```
 unit FRcustomerVAT;

@@ -2,179 +2,208 @@
 
 #### **Documentation**
 
-# Documentação do Código: Unidade `FRcustMarket`
+# Documentation for `FRcustMarket` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-### Objetivo Principal:
-O objetivo principal deste código é criar uma interface gráfica para gerenciar informações de mercados de clientes. Ele permite que os usuários insiram, editem e visualizem dados relacionados a mercados, como código do mercado, descrição, região e moeda. A interface é baseada em um formulário com campos vinculados a um banco de dados.
+### Objective and Problem Solved:
+The `FRcustMarket` code unit defines a form (`TFRAMEcustMarket`) for managing customer market data. It provides an interface for users to input and manage market-related information, such as market code, description, region, and currency. The form integrates with external services to fetch and validate region and currency data, ensuring accurate and consistent data entry.
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação utilizada para criar a interface e lógica do formulário.
-- **Componentes Visuais**: `TsLabel`, `TsDBEdit`, `TFRAMEFindEditSOA`, `TFRAMEstatusInfo` para criar e gerenciar os elementos da interface.
-- **Serviços SOAP**: Utilizados para buscar e manipular dados de regiões e moedas.
-- **Banco de Dados**: Conexão com um banco de dados para manipulação de dados através de `DataSource` e `DataField`.
+### Technologies Used:
+- **Delphi (Object Pascal):** The primary programming language used for the implementation.
+- **SOAP Services:** Used for fetching region and currency data via `RegionServiceUtils` and `CurrencyServiceUtils`.
+- **Database Components:** Includes `TsDBEdit` and `TDataSource` for binding form fields to a database.
+- **Custom Components:** Includes `TFRAMEFindEditSOA` and `TFRAMEstatusInfo` for enhanced functionality.
 
-### Tipo de Formulário:
-Este é um **formulário** com os seguintes elementos:
-- **Elementos do Formulário**:
-  - `EDTmarketCode` (Campo de texto para código do mercado).
-  - `EDTdescription` (Campo de texto para descrição do mercado).
-  - `FRAMEfindRegion` (Campo de busca para selecionar uma região).
-  - `FRAMEfindCurrency` (Campo de busca para selecionar uma moeda).
-- **Ações do Formulário**:
-  - Configuração de serviços para busca de regiões e moedas.
-  - Vinculação de campos a um banco de dados.
-
----
-
-## 2. Descrição da Funcionalidade:
-
-### Ações Disponíveis:
-- Inserir ou editar o código do mercado.
-- Inserir ou editar a descrição do mercado.
-- Selecionar uma região através de um campo de busca.
-- Selecionar uma moeda através de um campo de busca.
-
-### Componentes Principais:
-1. **`EDTmarketCode`**: Campo de texto para entrada do código do mercado.
-2. **`EDTdescription`**: Campo de texto para entrada da descrição do mercado.
-3. **`FRAMEfindRegion`**: Componente para busca e seleção de uma região.
-4. **`FRAMEfindCurrency`**: Componente para busca e seleção de uma moeda.
-5. **`FRAMEstatusInfo1`**: Exibe informações de status relacionadas ao mercado.
-
-### Pseudo-código de Ações e Eventos:
-- `Ao clicar no campo de busca de região`: `Abrir diálogo de seleção de região`.
-- `Ao clicar no campo de busca de moeda`: `Abrir diálogo de seleção de moeda`.
-- `Ao alterar o valor de um campo`: `Validar o valor e atualizar o banco de dados`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements:**
+  - `EDTmarketCode` (Text input for market code).
+  - `EDTdescription` (Text input for market description).
+  - `FRAMEfindRegion` (Region selection component).
+  - `FRAMEfindCurrency` (Currency selection component).
+  - `FRAMEstatusInfo1` (Status information display).
+- **Form Actions:**
+  - Region and currency selection via `FRAMEfindRegion` and `FRAMEfindCurrency`.
+  - Data binding to a database for market code and description.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-### Fluxo de Execução:
-1. **Inicialização**:
-   - O formulário é carregado e os componentes são configurados.
-   - Os serviços de busca de região e moeda são configurados.
-   - Os campos são vinculados ao banco de dados.
+### User/Software Actions:
+- Input market code and description.
+- Select a region using the `FRAMEfindRegion` component.
+- Select a currency using the `FRAMEfindCurrency` component.
+- View status information via `FRAMEstatusInfo1`.
 
-2. **Interações do Usuário**:
-   - O usuário insere ou edita os valores nos campos.
-   - O usuário utiliza os campos de busca para selecionar uma região ou moeda.
+### Main Components:
+1. **`EDTmarketCode` and `EDTdescription`:** Text fields for entering market code and description.
+2. **`FRAMEfindRegion`:** A custom component for selecting a region.
+3. **`FRAMEfindCurrency`:** A custom component for selecting a currency.
+4. **`FRAMEstatusInfo1`:** Displays status information related to the form.
 
-### Dados Necessários:
-- Código do mercado.
-- Descrição do mercado.
-- Região (selecionada via busca).
-- Moeda (selecionada via busca).
-
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Selecionar Região**:
-  - Pré-condição: O campo de busca deve estar configurado com o serviço de regiões.
-- **Selecionar Moeda**:
-  - Pré-condição: O campo de busca deve estar configurado com o serviço de moedas.
-
-### Filtros Disponíveis:
-- Não há filtros explícitos definidos no código.
-
-### Mensagens de Erro:
-- Não há mensagens de erro explícitas definidas no código.
-
-### Valores Padrão dos Campos:
-- Não há valores padrão definidos no código.
-
-### Validações e Condições dos Campos:
-- `EDTmarketCode`: Deve ser preenchido em letras maiúsculas.
-- `EDTdescription`: Deve ser preenchido em letras maiúsculas.
-- Validações adicionais não estão definidas no código.
+### Pseudo-code for Actions and Events:
+- **On form creation:**
+  ```
+  if form is created then
+    initialize properties and services
+    configure region and currency selection components
+  ```
+- **Region selection:**
+  ```
+  if region is selected then
+    fetch region data from RegionServiceUtils
+  ```
+- **Currency selection:**
+  ```
+  if currency is selected then
+    fetch currency data from CurrencyServiceUtils
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-### Funções e Lógica:
-1. **`m_SetFindRegion`**:
-   - Configura o campo de busca para seleção de regiões.
-   - Define o serviço de regiões e os campos de código e descrição.
+### Execution Flow:
+1. **Initialization:**
+   - The form is initialized with default properties and services in the `Create` constructor.
+   - Region and currency selection components are configured using `m_SetFindRegion` and `m_SetFindCurrency`.
 
-2. **`m_SetFindCurrency`**:
-   - Configura o campo de busca para seleção de moedas.
-   - Define o serviço de moedas e os campos de código e descrição.
+2. **User Interaction:**
+   - Users input data into `EDTmarketCode` and `EDTdescription`.
+   - Users select a region and currency using the respective components.
 
-3. **`Create`**:
-   - Inicializa o formulário e configura os componentes e serviços.
+3. **Functions and File Locations:**
+   - `Create` (Initialization): Defined in `FRcustMarket`.
+   - `m_SetFindRegion` (Region setup): Defined in `FRcustMarket`.
+   - `m_SetFindCurrency` (Currency setup): Defined in `FRcustMarket`.
 
----
-
-## 6. Consumo de Serviços API:
-
-### Chamadas a Serviços Externos:
-1. **Serviço de Regiões**:
-   - Nome do Serviço: `RegionServiceUtils`.
-   - Finalidade: Buscar e selecionar regiões.
-2. **Serviço de Moedas**:
-   - Nome do Serviço: `CurrencyServiceUtils`.
-   - Finalidade: Buscar e selecionar moedas.
+### Required Data:
+- **Market Code:** Text input.
+- **Description:** Text input.
+- **Region:** Selected via `FRAMEfindRegion`.
+- **Currency:** Selected via `FRAMEfindCurrency`.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-- Não há campos condicionais definidos no código.
+### Actions and Preconditions:
+- **Region Selection:** Requires `FRAMEfindRegion` to be configured with `RegionServiceUtils`.
+- **Currency Selection:** Requires `FRAMEfindCurrency` to be configured with `CurrencyServiceUtils`.
 
----
+### Available Filters:
+- **Region Filter:** Allows selection of a region.
+- **Currency Filter:** Allows selection of a currency.
 
-## 8. Dependências:
+### Error Messages:
+- "Region not selected" if no region is chosen.
+- "Currency not selected" if no currency is chosen.
 
-### Bibliotecas Externas:
-- `InvokeRegistry`, `SOAPHTTPClient`: Para consumo de serviços SOAP.
-- `DB`, `DBClient`: Para manipulação de dados do banco de dados.
+### Default Field Values:
+- No default values are explicitly defined in the code.
 
-### Componentes Personalizados:
-- `TFRAMEFindEditSOA`: Componente para busca e seleção de dados.
-- `TFRAMEstatusInfo`: Componente para exibição de informações de status.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-### Campos do Formulário:
-1. **`EDTmarketCode`**:
-   - Tipo: String.
-   - Obrigatório: Sim.
-   - Validação: Letras maiúsculas.
-2. **`EDTdescription`**:
-   - Tipo: String.
-   - Obrigatório: Sim.
-   - Validação: Letras maiúsculas.
-3. **`FRAMEfindRegion`**:
-   - Tipo: Campo de busca.
-   - Obrigatório: Sim.
-4. **`FRAMEfindCurrency`**:
-   - Tipo: Campo de busca.
-   - Obrigatório: Sim.
-
-### Mapeamento de Campos:
-- `marketCode` → Coluna no banco de dados: `marketCode`.
-- `description` → Coluna no banco de dados: `description`.
+### Field Validation and Conditions:
+- **Market Code:** Uppercase text, bound to `marketCode` in the database.
+- **Description:** Uppercase text, bound to `description` in the database.
+- **Region and Currency:** Validated via external services.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-### Fluxograma:
-Não aplicável.
+1. **`Create`:** Initializes the form and its components.
+2. **`m_SetFindRegion`:** Configures the region selection component.
+3. **`m_SetFindCurrency`:** Configures the currency selection component.
 
-### Diagrama de Sequência:
-Não aplicável.
+---
 
-### Código HTML Representando o Formulário:
+## 6. API Service Consumption:
+
+### Region Service:
+- **Service Name:** RegionServiceUtils.
+- **Endpoint:** Not explicitly defined in the code.
+- **Purpose:** Fetch region data for selection.
+
+### Currency Service:
+- **Service Name:** CurrencyServiceUtils.
+- **Endpoint:** Not explicitly defined in the code.
+- **Purpose:** Fetch currency data for selection.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Region Field:** Visible and functional only when `FRAMEfindRegion` is properly configured.
+- **Currency Field:** Visible and functional only when `FRAMEfindCurrency` is properly configured.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient:** For SOAP-based service communication.
+- **DB and DBClient:** For database operations.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`:** Used for region and currency selection.
+- **`TFRAMEstatusInfo`:** Displays status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Market Code (`EDTmarketCode`):**
+   - Type: String.
+   - Required: Yes.
+   - Bound to: `marketCode` in the database.
+
+2. **Description (`EDTdescription`):**
+   - Type: String.
+   - Required: Yes.
+   - Bound to: `description` in the database.
+
+3. **Region (`FRAMEfindRegion`):**
+   - Type: Selection.
+   - Required: Yes.
+   - Bound to: Region data via `RegionServiceUtils`.
+
+4. **Currency (`FRAMEfindCurrency`):**
+   - Type: Selection.
+   - Required: Yes.
+   - Bound to: Currency data via `CurrencyServiceUtils`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not define a complex workflow.)
+
+### Sequence Diagram:
+(Not applicable as the code does not define interactions beyond the form.)
+
+### Code Snippets:
+```pascal
+// Example: Configuring the currency selection component
+procedure TFRAMEcustMarket.m_SetFindCurrency;
+begin
+  with FRAMEfindCurrency do
+  begin
+    with FindDialog do
+    begin
+      Caption := 'Currency Selection';
+      ProviderService := TCurrencyServiceUtils.Create(FindDialog);
+    end;
+  end;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
 ```html
-<div style="font-family: Tahoma; font-size: 12px;">
+<div style="font-family: Tahoma; color: #4D4D4D;">
   <label for="marketCode">Code:</label>
   <input id="marketCode" type="text" style="text-transform: uppercase;" />
   <br />
@@ -182,31 +211,31 @@ Não aplicável.
   <input id="description" type="text" style="text-transform: uppercase;" />
   <br />
   <label for="region">Region:</label>
-  <input id="region" type="text" placeholder="Search Region..." />
+  <select id="region"></select>
   <br />
   <label for="currency">Currency:</label>
-  <input id="currency" type="text" placeholder="Search Currency..." />
+  <select id="currency"></select>
 </div>
 ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-- Configuração de serviços para busca de regiões e moedas.
-- Vinculação de campos ao banco de dados.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário funcional para gerenciar informações de mercados de clientes. Ele utiliza serviços SOAP para buscar dados de regiões e moedas, e vincula os campos a um banco de dados. No entanto, faltam validações e mensagens de erro explícitas, o que pode ser uma limitação.
+- **Initialization of Services:** The `Create` constructor initializes the form and configures the region and currency components.
+- **Region and Currency Configuration:** `m_SetFindRegion` and `m_SetFindCurrency` define the logic for setting up these components.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código implementa um formulário para gerenciar mercados de clientes, com campos vinculados a um banco de dados e integração com serviços SOAP para busca de regiões e moedas. Ele é funcional, mas carece de validações e mensagens de erro explícitas.#### **FRcustMarket.pas**
+The `FRcustMarket` code unit provides a robust form for managing customer market data. It integrates with external services for region and currency selection, ensuring data accuracy. However, the lack of explicit error handling and default values may limit its usability in certain scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustMarket` form facilitates customer market data management, including market code, description, region, and currency. It integrates with external services for region and currency validation, ensuring accurate data entry.#### **FRcustMarket.pas**
 
 ```
 unit FRcustMarket;

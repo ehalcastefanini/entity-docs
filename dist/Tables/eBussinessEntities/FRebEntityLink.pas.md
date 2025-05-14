@@ -2,153 +2,244 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRebEntityLink`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário para gerenciar e vincular entidades a partir de diferentes tipos e categorias. Ele permite que o usuário selecione tipos de entidades, insira informações relacionadas e utilize diálogos de busca para localizar entidades específicas. O objetivo é facilitar a manipulação e o gerenciamento de dados relacionados a entidades em um sistema.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes visuais como `TsPanel`, `TsLabel`, `TcxDBImageComboBox`, `TsDBEdit`.
-  - Serviços SOAP para comunicação com APIs externas.
-  - Manipulação de datasets e banco de dados.
+### Objective and Problem Solved:
+The `FRebEntityLink` unit defines a form (`TFRAMEebEntityLink`) that facilitates the management and linking of entities in a system. It provides a user interface for selecting and managing entity types, parties, and related metadata. The form is designed to handle entity relationships and metadata efficiently, ensuring proper data input and validation.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `TsLabel`: Rótulos para identificar campos.
-      - `TcxDBImageComboBox`: Comboboxes para seleção de tipos de entidade.
-      - `TsDBEdit`: Campos de edição vinculados ao banco de dados.
-      - `TFRAMEFindEditSOA`: Componente para busca de entidades.
-    - **Ações do Formulário e seus Efeitos:**
-      - Alteração de valores nos comboboxes dispara eventos para manipulação de dados.
-      - Campos de busca permitem localizar e vincular entidades específicas.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the user interface and handling events.
+- **SOAP Services**: For interacting with external services (`EbEntityLinkServiceUtils`).
+- **Database Components**: For managing and displaying data (`TDataSet`, `TClientDataSet`, `TsDBEdit`, `TcxDBImageComboBox`).
+- **Custom Components**: Includes custom controls like `TFRAMEFindEditSOA` and `TFRAMEBaseCtrlEditSOA`.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Labels (`TsLabel`): Display field descriptions.
+  - Combo Boxes (`TcxDBImageComboBox`): Dropdowns for selecting entity types and parties.
+  - Text Fields (`TsDBEdit`): For entering or displaying entity URIs.
+  - Custom Frame (`TFRAMEFindEditSOA`): For advanced entity search functionality.
+- **Form Actions and Effects**:
+  - Dropdown selection changes trigger specific logic (e.g., `ICBOentity_tpPropertiesEditValueChanged`).
+  - Text field changes validate and process data.
+  - Custom dialogs (`FindDlgAgent`, `FindDlgConsignee`, `FindDlgCustomer`) allow advanced search and selection.
 
-* **Ações Específicas:**
-  - Seleção de tipos de entidade.
-  - Busca de entidades específicas através de diálogos de busca.
-  - Manipulação de dados vinculados ao banco de dados.
+---
 
-* **Componentes Principais:**
-  - `TFRAMEFindEditSOA`: Gerencia a busca de entidades.
-  - `TcxDBImageComboBox`: Permite a seleção de tipos de entidade.
-  - `TsDBEdit`: Exibe e edita informações de entidades.
+## 2. Functionality Description:
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` no combobox: `se combobox clicado então exibir opções`.
-  - Evento `OnChange` no combobox: `se valor do combobox alterado então processar valor`.
-  - Evento `OnExit` no combobox: `se combobox perder foco então validar entrada`.
+### User/Software Actions:
+- Select entity types and parties using dropdowns.
+- Enter or view entity URIs in text fields.
+- Use advanced search dialogs for finding entities.
 
-## 3. Lógica Operacional:
+### Main Components:
+- **Labels (`TsLabel`)**: Provide field descriptions.
+- **Combo Boxes (`TcxDBImageComboBox`)**: Allow selection of predefined options.
+- **Text Fields (`TsDBEdit`)**: Enable data entry and display.
+- **Custom Dialogs**: Facilitate advanced search and selection.
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário: Configuração de propriedades e estilos.
-  - Interação do usuário: Seleção de valores nos comboboxes e uso de diálogos de busca.
-  - Processamento de dados: Manipulação de valores selecionados e validação.
-
-* **Dados Necessários:**
-  - Tipo de entidade.
-  - Informações da entidade (URI, tipo, etc.).
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Comboboxes devem estar preenchidos para permitir a busca de entidades.
-  - Campos obrigatórios devem ser preenchidos antes de salvar.
-
-* **Filtros Disponíveis:**
-  - Tipos de entidade.
-  - Tipos de partes relacionadas (EbParty).
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não for aceito.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - Campos de texto devem aceitar apenas valores válidos.
-  - Comboboxes devem conter opções válidas.
-
-## 5. Funções Principais:
-
-* **Descrição das Funções:**
-  - `m_SetFindEntity`: Configura o componente de busca com base no tipo de entidade.
-  - `m_PrepareFindDialogs`: Prepara os diálogos de busca.
-  - `m_PrepareCombos`: Configura os comboboxes.
-  - `m_DestroyFindDialogs`: Libera os recursos dos diálogos de busca.
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `EbEntityLinkServiceUtils`.
-  - Finalidade: Gerenciar dados de entidades.
-  - Dados enviados e recebidos não especificados no código.
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo de busca de entidade (`FRAMEFindEntity`) é exibido apenas quando um tipo de entidade é selecionado.
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `kneUtils`, `kneTypes`, `kneFGFindUtils`, `kneDialogFactory`, `kneFGGenericUtils`.
-  - `DMskin` para estilos visuais.
-
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Componente para busca de entidades.
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - `Entity type` (tipo: combobox, obrigatório).
-  - `Entity` (tipo: busca, obrigatório).
-  - `EbEntity type` (tipo: combobox, obrigatório).
-  - `EbParty Type` (tipo: combobox, obrigatório).
-  - `Entity Uri` (tipo: texto, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  ICBOentity_tp.OnChange := ICBOentity_tpPropertiesEditValueChanged;
+### Pseudo-code for Actions and Events:
+- `OnChange` event of `ICBOentity_tp`:
+  ```pseudo
+  if dropdown value changes then
+    execute ProcessEntityTpCombo function
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 616px; border: 1px solid #ccc; padding: 10px;">
-    <label for="entityType">Entity type:</label>
-    <select id="entityType" style="width: 100%;"></select>
-    <label for="entity">Entity:</label>
-    <input id="entity" type="text" style="width: 100%;" />
-    <label for="ebEntityType">EbEntity type:</label>
-    <select id="ebEntityType" style="width: 100%;"></select>
-    <label for="ebPartyType">EbParty Type:</label>
-    <select id="ebPartyType" style="width: 100%;"></select>
-    <label for="entityUri">Entity Uri:</label>
-    <input id="entityUri" type="text" style="width: 100%;" />
+- `OnScroll` event of `CDStable`:
+  ```pseudo
+  if dataset scrolls then
+    execute CDStableAfterScroll function
+  ```
+- `OnClick` event of `ICBOentity_tp`:
+  ```pseudo
+  if dropdown clicked then
+    execute ICBOentity_tpClick function
+  ```
+
+---
+
+## 3. Operational Logic:
+
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized in the `Create` constructor.
+   - Combos and dialogs are prepared (`m_PrepareFindDialogs`, `m_PrepareCombos`).
+   - Default styles and properties are set.
+2. **User Interaction**:
+   - Users interact with dropdowns, text fields, and search dialogs.
+   - Events like `OnChange` and `OnClick` trigger specific functions.
+3. **Functions**:
+   - `m_SetFindEntity`: Configures the search entity type.
+   - `m_PrepareFindDialogs`: Prepares search dialogs.
+   - `m_PrepareCombos`: Configures combo boxes.
+   - `ProcessEntityTpCombo`: Handles logic for entity type selection.
+
+### Data Input:
+- Users must provide:
+  - Entity type (via dropdown).
+  - Party type (via dropdown).
+  - Entity URI (via text field).
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Dropdown Selection**:
+  - Preconditions: Dropdown must be populated with valid options.
+  - Action: Triggers logic to process the selected value.
+- **Search Dialogs**:
+  - Preconditions: Dialogs must be initialized.
+  - Action: Allows advanced search and selection of entities.
+
+### Available Filters:
+- Entity Type: Dropdown options for entity types.
+- Party Type: Dropdown options for party types.
+
+### Error Messages:
+- Not explicitly defined in the code.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
+
+---
+
+## 5. Main Functions:
+
+### Functions:
+1. **`m_SetFindEntity`**:
+   - Configures the search entity type based on the provided parameter.
+2. **`m_PrepareFindDialogs`**:
+   - Initializes and prepares search dialogs.
+3. **`m_PrepareCombos`**:
+   - Configures combo boxes with appropriate styles and data.
+4. **`ProcessEntityTpCombo`**:
+   - Handles logic when the entity type combo box value changes.
+
+---
+
+## 6. API Service Consumption:
+
+### External Service Calls:
+- **Service Name**: `EbEntityLinkServiceUtils`
+- **Purpose**: Provides utility functions for managing entity links.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Entity URI Field**:
+  - Always visible and editable.
+- **Conditional Logic**:
+  - Not explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAP Components**: For service interaction.
+- **Database Components**: For data management.
+- **Custom Components**: `TFRAMEFindEditSOA`, `TFRAMEBaseCtrlEditSOA`.
+
+### Custom Components:
+- `TFRAMEFindEditSOA`: Advanced search functionality.
+- `TFRAMEBaseCtrlEditSOA`: Base frame for editing.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Entity Type**:
+   - Type: Dropdown.
+   - Validation: Not explicitly defined.
+2. **Party Type**:
+   - Type: Dropdown.
+   - Validation: Not explicitly defined.
+3. **Entity URI**:
+   - Type: Text field.
+   - Validation: Not explicitly defined.
+
+### Mapping:
+- Not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEebEntityLink.ICBOentity_tpPropertiesEditValueChanged(Sender: TObject);
+begin
+  ProcessEntityTpCombo(Sender);
+end;
+```
+
+### Screenshots:
+The following HTML represents the form layout:
+```html
+<div style="width: 616px; border: 1px solid #ccc; padding: 10px;">
+  <div style="margin-bottom: 10px;">
+    <label>Entity type:</label>
+    <select></select>
   </div>
-  ```
+  <div style="margin-bottom: 10px;">
+    <label>Entity:</label>
+    <input type="text" />
+  </div>
+  <div style="margin-bottom: 10px;">
+    <label>EbEntity type:</label>
+    <select></select>
+  </div>
+  <div style="margin-bottom: 10px;">
+    <label>EbParty Type:</label>
+    <select></select>
+  </div>
+  <div style="margin-bottom: 10px;">
+    <label>EbParty:</label>
+    <input type="text" />
+  </div>
+  <div style="margin-bottom: 10px;">
+    <label>Entity Uri:</label>
+    <input type="text" />
+  </div>
+</div>
+```
 
-## 11. Comentários Importantes no Código:
+---
 
-* Configuração inicial dos componentes no construtor `Create`.
-* Liberação de recursos no destrutor `Destroy`.
+## 11. Important Comments in the Code:
 
-## 12. Conclusão:
+- **Initialization**:
+  - Ensures pointers are set to `nil` to avoid memory issues.
+- **Metadata Configuration**:
+  - Sets `DataPacketName` and `FrameType` for proper metadata handling.
 
-O código implementa um formulário robusto para gerenciar entidades, com suporte a busca e validação de dados. No entanto, faltam detalhes sobre validações específicas e integração com serviços externos.
+---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-Formulário para gerenciar entidades, com suporte a busca, seleção de tipos e validação de dados, utilizando Delphi e serviços SOAP.#### **FRebEntityLink.pas**
+The `FRebEntityLink` unit provides a robust framework for managing entity relationships and metadata. While it offers advanced search and selection capabilities, the lack of explicit error handling and validation logic may require additional implementation for production use.
+
+---
+
+## 13. Short Summary:
+
+The `FRebEntityLink` unit defines a form for managing entity relationships, featuring dropdowns, text fields, and advanced search dialogs. It integrates with SOAP services and database components, providing a flexible and extensible solution for entity management.#### **FRebEntityLink.pas**
 
 ```
 unit FRebEntityLink;

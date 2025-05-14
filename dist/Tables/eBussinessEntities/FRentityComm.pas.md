@@ -2,194 +2,198 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRentityComm` Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar comentários associados a entidades (como clientes ou consignatários). Ele fornece uma grade (grid) para exibir, adicionar e editar comentários relacionados a uma entidade específica. O objetivo é facilitar a manipulação e visualização de dados relacionados a comentários de forma estruturada e intuitiva.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de grade.
-  - **SOAP:** Para comunicação com serviços externos.
-  - **DBClient:** Para manipulação de dados em memória.
-  - **ActnList:** Para gerenciar ações associadas a eventos.
+### Objective and Problem Solved:
+The `FRentityComm` unit defines a Delphi frame (`TFRAMEentityComm`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display a grid of entity comments (`EntityComment`) with functionalities such as adding, deleting, and editing comments. It is designed to handle different entity types (e.g., consignee or customer) and provides a user interface for interacting with the data.
 
-* **Forma do Componente:**
-  - **Grade de Exibição (Grid):**
-    - **Colunas da Grade e seus Tipos:**
-      - `tpComm` (Tipo: String): Tipo de comentário.
-      - `businessUnit` (Tipo: String): Unidade de negócio associada.
-      - `commText` (Tipo: String): Texto do comentário.
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Permite adicionar um novo comentário.
-      - Excluir (`DELETE`): Permite excluir um comentário selecionado.
+This frame is particularly useful in applications where users need to manage comments or notes associated with specific entities, such as customers or consignees, in a structured and user-friendly grid format.
 
----
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **cxGrid**: A component from DevExpress for displaying and managing tabular data.
+- **SOAP Services**: For interacting with external services to fetch or update data.
+- **Database Components**: For binding the grid to a database and managing data operations.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **grid display** form.
 
-* **Ações Disponíveis:**
-  - Adicionar um novo comentário.
-  - Editar valores diretamente na grade.
-  - Excluir um comentário selecionado.
+#### Grid Columns and Their Types:
+1. **tpComm**: Represents the type of comment (e.g., text or code).
+2. **businessUnit**: Represents the business unit associated with the comment.
+3. **commText**: The actual comment text.
 
-* **Componentes Principais:**
-  - `TFRAMEentityComm`: Classe principal que gerencia a interface e a lógica.
-  - `cxGrid`: Componente de grade para exibição de dados.
-  - `cxCBXbusUnit`: ComboBox para seleção de unidades de negócio.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão "Adicionar" clicado then execute função para adicionar comentário`.
-  - Evento `OnEditValueChanged` da grade: `if valor da célula alterado then valide e atualize o valor`.
+#### Grid Actions and Their Effects:
+1. **Add**: Allows users to add a new comment.
+2. **Delete**: Allows users to delete an existing comment.
+3. **Edit**: Allows users to modify an existing comment (triggered by value changes in the grid).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente (`Create`):
-     - Configurações específicas são aplicadas dependendo do tipo de entidade (cliente ou consignatário).
-     - Painel de ações é exibido com as opções "Adicionar" e "Excluir".
-     - Configurações da grade são definidas.
-  2. Interações do Usuário:
-     - O usuário pode adicionar, editar ou excluir comentários diretamente na interface.
-  3. Funções Executadas:
-     - `GridSetup` (Arquivo: `FRentityComm.pas`): Configura a grade.
-     - `ACTaddExecute` (Arquivo: `FRentityComm.pas`): Adiciona um novo comentário.
-     - `cxDBVtableEditValueChanged` (Arquivo: `FRentityComm.pas`): Atualiza valores editados na grade.
+### User/Software Actions:
+1. **Add a Comment**: Users can add a new comment using the "Add" action.
+2. **Delete a Comment**: Users can delete a selected comment using the "Delete" action.
+3. **Edit a Comment**: Users can edit a comment directly in the grid.
 
-* **Dados Necessários:**
-  - Código da entidade (`entityCd`).
-  - Tipo da entidade (`entityTp`).
-  - Comentários associados.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays the list of comments.
+- **ComboBox (`cxCBXbusUnit`)**: Allows selection of a business unit.
+- **Action Panel**: Provides buttons for actions like "Add" and "Delete."
+
+### Pseudo-code for Actions and Events:
+- `OnClick` event of "Add" button: `if add button clicked then execute ACTaddExecute`.
+- `OnEditValueChanged` event of grid: `if grid cell value changed then execute cxDBVtableEditValueChanged`.
 
 ---
 
-## 4. Regras de Negócio:
+## 3. Operational Logic:
 
-* **Ações e Pré-condições:**
-  - **Adicionar Comentário:** Disponível sempre que o botão "Adicionar" for clicado.
-  - **Excluir Comentário:** Disponível apenas quando um comentário estiver selecionado.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with specific settings based on the owner component (e.g., `TFORMMconsignee`).
+   - Grid settings are configured, including column definitions and read-only fields.
+   - Action panel visibility and available actions are set.
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+2. **User Interactions**:
+   - Clicking the "Add" button triggers the `ACTaddExecute` method to add a new comment.
+   - Editing a grid cell triggers the `cxDBVtableEditValueChanged` method to handle value changes.
 
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
+### Functions and Locations:
+- **`Create` (Constructor)**: Initializes the frame and sets up grid and action panel settings.
+- **`GridSetup`**: Configures the grid, including column definitions and read-only fields.
+- **`ACTaddExecute`**: Handles the "Add" action.
+- **`cxDBVtableEditValueChanged`**: Handles value changes in the grid.
 
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:** Inicializa o componente e aplica configurações específicas para o tipo de entidade.
-* **`GridSetup`:** Configura a grade, definindo campos e propriedades.
-* **`ACTaddExecute`:** Lida com a ação de adicionar um novo comentário.
-* **`cxDBVtableEditValueChanged`:** Lida com alterações nos valores da grade.
+### Required Data:
+- Entity type and code (e.g., `entityCd`, `entityTp`).
+- Comments data (e.g., `tpComm`, `businessUnit`, `commText`).
 
 ---
 
-## 6. Consumo de Serviços API:
+## 4. Business Rules:
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
+### Actions and Preconditions:
+- **Add**: Enabled by default; adds a new comment.
+- **Delete**: Enabled when a comment is selected in the grid.
+- **Edit**: Automatically triggered when a grid cell value is changed.
 
----
+### Available Filters:
+- No explicit filters are defined in the code.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+### Error Messages:
+- Not explicitly defined in the code.
 
-* Não há campos condicionais explícitos definidos no código.
+### Default Field Values:
+- Not explicitly defined in the code.
 
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em formato de grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `DBClient`: Para manipulação de dados em memória.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base herdada para funcionalidades adicionais.
+### Field Validation and Conditions:
+- No explicit validations are defined in the code.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 5. Main Functions:
 
-* **Campos na Grade:**
-  - `tpComm` (Tipo: String, não definido no código se é obrigatório).
-  - `businessUnit` (Tipo: String, não definido no código se é obrigatório).
-  - `commText` (Tipo: String, não definido no código se é obrigatório).
+1. **`Create`**:
+   - Initializes the frame with specific settings based on the owner component.
+   - Configures the grid and action panel.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não explicitamente definido no código.
+2. **`GridSetup`**:
+   - Defines grid columns and read-only fields.
 
----
+3. **`ACTaddExecute`**:
+   - Handles the "Add" action to add a new comment.
 
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  procedure TFRAMEentityComm.ACTaddExecute(Sender: TObject);
-  begin
-    // Lógica para adicionar um novo comentário
-  end;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Tipo de Comentário</th>
-        <th>Unidade de Negócio</th>
-        <th>Texto do Comentário</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Exemplo Tipo</td>
-        <td>Exemplo Unidade</td>
-        <td>Exemplo Texto</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+4. **`cxDBVtableEditValueChanged`**:
+   - Handles value changes in the grid.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* **Configuração de Propriedades:**
-  ```delphi
-  MasterKeyFields := 'consCode=entityCd;entityType=entityTp';
-  DataPacketName := 'EntityComment';
-  PropertyName := 'entityComments';
-  FrameType := frtDetail;
-  ```
-
-* **Configuração da Grade:**
-  ```delphi
-  DefineOrderFields(mc_GRID_FIELDS);
-  DefineReadonlyFields('ALL_FIELDS_READ_ONLY');
-  ```
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Likely to fetch or update comments data.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 12. Conclusão:
+## 7. Conditional Fields (Form Logic):
 
-O código fornece uma interface robusta para gerenciar comentários associados a entidades. Ele utiliza componentes visuais avançados para exibição e manipulação de dados. No entanto, faltam validações explícitas e mensagens de erro, o que pode limitar a experiência do usuário em casos de entrada de dados inválidos.
+- No conditional fields are explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 8. Dependencies:
 
-O código implementa uma interface para gerenciar comentários de entidades, permitindo adicionar, editar e excluir dados em uma grade. Ele utiliza componentes visuais avançados e é configurado dinamicamente com base no tipo de entidade.#### **FRentityComm.pas**
+### External Libraries:
+- **DevExpress Components**: Used for grid and UI elements.
+- **SOAP Components**: Used for interacting with external services.
+
+### Custom Components:
+- **`TFRAMEBaseGridEditSOA`**: Base class for the frame.
+- **`kneUtils`, `kneTypes`, `Global`**: Utility and type definitions.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **tpComm**: Type of comment (string, required).
+2. **businessUnit**: Business unit (string, required).
+3. **commText**: Comment text (string, required).
+
+### Mapping:
+- **tpComm**: Maps to `tpComm` in the database.
+- **businessUnit**: Maps to `businessUnit` in the database.
+- **commText**: Maps to `commText` in the database.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEentityComm.ACTaddExecute(Sender: TObject);
+begin
+  // Logic to add a new comment
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization Logic**:
+  - The frame is initialized differently based on the owner component (`TFORMMconsignee` or others).
+- **Grid Configuration**:
+  - Grid columns and read-only fields are defined in the `GridSetup` method.
+
+---
+
+## 12. Conclusion:
+
+The `FRentityComm` unit provides a robust framework for managing entity comments in a grid format. It is highly customizable and integrates well with external services. However, the lack of explicit error handling and field validations may require additional implementation for production use.
+
+---
+
+## 13. Short Summary:
+
+The `FRentityComm` unit defines a grid-based frame for managing entity comments, supporting actions like add, delete, and edit. It integrates with external services and provides a customizable UI for handling comments associated with entities.#### **FRentityComm.pas**
 
 ```
 // [18-03-2016, #22748]

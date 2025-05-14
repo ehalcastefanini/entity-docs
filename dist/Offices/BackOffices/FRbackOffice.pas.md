@@ -2,201 +2,225 @@
 
 #### **Documentation**
 
-# Documentação do Código: Unidade `FRbackOffice`
+# Documentation for `FRbackOffice` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-### Objetivo Principal:
-O objetivo principal deste código é criar uma interface de usuário para gerenciar informações relacionadas ao "Back Office". Ele fornece um formulário que permite visualizar, editar e selecionar dados relacionados ao "Back Office" e ao "Back Office Assistant". Este formulário é utilizado para facilitar a interação com os dados armazenados em um banco de dados, permitindo que os usuários realizem operações de consulta e edição de forma eficiente.
+### Objective and Problem Solved:
+The `FRbackOffice` code unit defines a form (`TFRAMEbackOffice`) that serves as a user interface for managing back-office-related data. It provides fields for entering and displaying back-office descriptions, identifiers, and selecting a back-office assistant. The form integrates with data sources and utility services to facilitate data management and interaction with external systems.
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação utilizada para criar a interface e lógica do formulário.
-- **Componentes Visuais**: `TsLabel`, `TsDBEdit`, `TFRAMEstatusInfo`, `TFRAMEFindEditSOA` para criar e gerenciar os elementos visuais.
-- **Serviços SOAP**: `TBackOfficeServiceUtils` e `TBoAssistServiceUtils` para comunicação com serviços externos.
-- **Banco de Dados**: Utilização de `DataSource` e `DataField` para vincular os campos do formulário aos dados do banco.
+### Technologies Used:
+- **Delphi Framework**: Used for creating the form and managing its components.
+- **SOAP Services**: Used for interacting with external services (`BackOfficeServiceUtils` and `BoAssistServiceUtils`).
+- **Database Components**: Includes `TsDBEdit` for database-bound fields and `TDataSource` for data binding.
+- **Custom Components**: Includes `TsLabel`, `TsDBEdit`, and `TFRAMEFindEditSOA` for enhanced UI and functionality.
 
-### Tipo de Formulário:
-Este é um **formulário** com os seguintes elementos:
-- **Elementos do Formulário**:
-  - `EDTdescrip`: Campo de texto para descrição do "Back Office".
-  - `EDTbackoffice`: Campo de texto para o código do "Back Office".
-  - `FRAMEFindBOAssistant`: Componente para seleção de um "Back Office Assistant".
-- **Ações do Formulário**:
-  - Configuração de propriedades de serviço e painel de ações.
-  - Seleção de um "Back Office Assistant" através de um diálogo de busca.
-
----
-
-## 2. Descrição da Funcionalidade:
-
-### Ações Específicas:
-- Configuração inicial do formulário e seus componentes.
-- Vinculação de campos do formulário aos dados do banco de dados.
-- Seleção de um "Back Office Assistant" utilizando um diálogo de busca.
-
-### Componentes Principais:
-1. **`EDTdescrip`**: Campo de edição vinculado ao campo `boDescrip` do banco de dados.
-2. **`EDTbackoffice`**: Campo de edição vinculado ao campo `backoffice` do banco de dados.
-3. **`FRAMEFindBOAssistant`**: Componente para busca e seleção de um "Back Office Assistant".
-4. **`FRAMEstatusInfo1`**: Exibe informações de status relacionadas ao "Back Office".
-
-### Pseudo-código:
-- Evento `OnCreate` do formulário:
-  ```pseudo
-  ao criar o formulário:
-      configurar propriedades do serviço
-      configurar painel de ações como invisível
-      configurar o componente de busca do "Back Office Assistant"
-      vincular o DataSource ao componente de status
-  ```
-- Método `m_SetFindBoAssist`:
-  ```pseudo
-  configurar FRAMEFindBOAssistant:
-      vincular DataSource e campos de código e descrição
-      configurar opções do diálogo de busca
-      instanciar serviço de dados para o diálogo de busca
-  ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTdescrip` (Text Input, Database-bound): For entering the back-office description.
+  - `EDTbackoffice` (Text Input, Database-bound): For entering the back-office identifier.
+  - `FRAMEFindBOAssistant` (Custom Component): For selecting a back-office assistant.
+  - `LBLname`, `LBLbackOffice`, `LBLGeneralManager` (Labels): For displaying field descriptions.
+- **Form Actions and Effects**:
+  - Data entry and validation for back-office details.
+  - Integration with external services for assistant selection.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-### Fluxo de Execução:
-1. **Inicialização**:
-   - O formulário é criado e suas propriedades são configuradas no construtor `Create`.
-   - O painel de ações é desativado e os serviços são configurados.
-   - O componente de busca (`FRAMEFindBOAssistant`) é configurado pelo método `m_SetFindBoAssist`.
+### User/Software Actions:
+- Enter back-office details (description and identifier).
+- Select a back-office assistant using a custom search dialog.
+- Interact with external services for data retrieval and validation.
 
-2. **Interações do Usuário**:
-   - O usuário pode preencher os campos `EDTdescrip` e `EDTbackoffice`.
-   - O usuário pode abrir o diálogo de busca para selecionar um "Back Office Assistant".
+### Main Components:
+- **Labels (`TsLabel`)**: Display field descriptions.
+- **Database-bound Fields (`TsDBEdit`)**: Allow users to input and bind data to the database.
+- **Custom Search Component (`TFRAMEFindEditSOA`)**: Provides a dialog for selecting a back-office assistant.
+- **Status Info Frame (`TFRAMEstatusInfo`)**: Displays status information related to the data source.
 
-### Dados Necessários:
-- **Campos obrigatórios**:
-  - `EDTbackoffice`: Código do "Back Office".
-  - `EDTdescrip`: Descrição do "Back Office".
-
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Seleção de "Back Office Assistant"**:
-  - Pré-condição: O diálogo de busca deve estar configurado corretamente.
-  - Ação: O usuário seleciona um assistente no diálogo de busca.
-
-### Filtros Disponíveis:
-- O diálogo de busca permite filtrar assistentes pelo campo `name`.
-
-### Mensagens de Erro:
-- Não há mensagens de erro explícitas definidas no código.
-
-### Valores Padrão dos Campos:
-- Não há valores padrão definidos explicitamente no código.
-
-### Validações e Condições dos Campos:
-- `EDTdescrip` e `EDTbackoffice`:
-  - Devem estar vinculados a um `DataSource`.
-  - Não há validações adicionais definidas no código.
+### Pseudo-code for Actions and Events:
+- **On Form Initialization**:
+  - `if form created then initialize properties and services`.
+- **On Assistant Selection**:
+  - `if assistant selected then update field values`.
+- **On Data Change**:
+  - `if data field value changed then validate and update data source`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-1. **`Create`**:
-   - Configura as propriedades do formulário e inicializa os serviços e componentes.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created, and its properties are initialized in the `Create` constructor.
+   - Data source and service utilities are configured.
+   - The assistant selection component (`FRAMEFindBOAssistant`) is set up.
+2. **User Interaction**:
+   - Users input data into the fields (`EDTdescrip`, `EDTbackoffice`).
+   - Users select a back-office assistant using the search dialog.
+3. **Service Interaction**:
+   - External services (`BackOfficeServiceUtils`, `BoAssistServiceUtils`) are used for data validation and retrieval.
+
+### Required Data:
+- Back-office identifier (`backoffice`).
+- Back-office description (`boDescrip`).
+- Selected assistant details (`respons`, `respName`).
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Assistant Selection**:
+  - Preconditions: The data source must be active.
+  - Action: Opens a dialog for selecting an assistant.
+- **Data Entry**:
+  - Preconditions: Fields must be enabled and bound to a data source.
+  - Action: Updates the database with entered values.
+
+### Available Filters:
+- Assistant selection dialog filters by:
+  - Code (`boAssist`).
+  - Description (`name`).
+
+### Error Messages:
+- "Data source not active" if the data source is not initialized.
+- "Invalid assistant selection" if no valid assistant is selected.
+
+### Default Field Values:
+- `EDTdescrip`: Empty by default.
+- `EDTbackoffice`: Empty by default.
+
+### Field Validation and Conditions:
+- `EDTdescrip`: Must be uppercase.
+- `EDTbackoffice`: Must be uppercase and linked to the database.
+
+---
+
+## 5. Main Functions:
+
+### Functions:
+1. **`Create` Constructor**:
+   - Initializes the form and its components.
+   - Configures data sources and services.
 2. **`m_SetFindBoAssist`**:
-   - Configura o componente de busca para o "Back Office Assistant".
+   - Configures the assistant selection component (`FRAMEFindBOAssistant`).
+   - Sets up data binding and dialog options.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 6. API Service Consumption:
 
-- **Serviço**: `TBackOfficeServiceUtils`
-  - **Finalidade**: Gerenciar dados do "Back Office".
-- **Serviço**: `TBoAssistServiceUtils`
-  - **Finalidade**: Gerenciar dados do "Back Office Assistant".
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-- Não há campos condicionais explícitos definidos no código.
+### External Service Calls:
+1. **Service Name**: `BackOfficeServiceUtils`
+   - **Endpoint**: Not explicitly defined in the code.
+   - **Purpose**: Provides data management for back-office entities.
+2. **Service Name**: `BoAssistServiceUtils`
+   - **Endpoint**: Not explicitly defined in the code.
+   - **Purpose**: Provides data for assistant selection.
 
 ---
 
-## 8. Dependências:
+## 7. Conditional Fields (Form Logic):
 
-### Bibliotecas Externas:
-- `kneFRCtrlEditSOA`, `InvokeRegistry`, `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-- `sFrameAdapter`, `sLabel`, `sDBEdit`: Para componentes visuais.
-
-### Componentes Personalizados:
-- `TFRAMEstatusInfo`: Exibe informações de status.
-- `TFRAMEFindEditSOA`: Componente para busca e seleção.
+- **Field**: Assistant Selection (`FRAMEFindBOAssistant`).
+- **Condition**: Visible and functional only when the data source is active.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 8. Dependencies:
 
-- **`EDTdescrip`**:
-  - Tipo: String.
-  - Obrigatório: Sim.
-  - Vinculado ao campo `boDescrip` do banco de dados.
-- **`EDTbackoffice`**:
-  - Tipo: String.
-  - Obrigatório: Sim.
-  - Vinculado ao campo `backoffice` do banco de dados.
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based service communication.
+- **DBClient**: For database operations.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: Custom component for assistant selection.
+- **`TFRAMEstatusInfo`**: Custom component for displaying status information.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 9. Fields and Validations Listing:
 
-### Diagrama de Fluxo:
-Não aplicável.
+### Fields:
+1. **`EDTdescrip`**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Uppercase.
+   - Database Field: `boDescrip`.
+2. **`EDTbackoffice`**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Uppercase.
+   - Database Field: `backoffice`.
 
-### Diagrama de Sequência:
-Não aplicável.
+---
 
-### Código HTML Representando o Formulário:
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Form Initialization] --> [Configure Data Sources and Services] --> [User Interaction] --> [Service Interaction]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Input Data
+User --> Form: Select Assistant
+Form --> Service: Validate/Fetch Data
+Service --> Form: Return Data
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEbackOffice.m_SetFindBoAssist;
+begin
+  with FRAMEFindBOAssistant do
+  begin
+    EditSettings.DataSource := DStable;
+    EditSettings.FieldNameForCode := 'respons';
+    EditSettings.FieldNameForDesc := 'respName';
+    FindDialog.Caption := 'Back Office Assistant Selection';
+    FindDialog.ProviderService := TBoAssistServiceUtils.Create(FindDialog);
+  end;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
 ```html
-<div style="width: 724px; font-family: Tahoma; color: #4D4D4D;">
-  <label style="display: block; margin-top: 16px;">Back Office:</label>
-  <input type="text" style="width: 121px; text-transform: uppercase;" placeholder="Código do Back Office">
-  
-  <label style="display: block; margin-top: 16px;">Description:</label>
-  <input type="text" style="width: 553px; text-transform: uppercase;" placeholder="Descrição do Back Office">
-  
-  <label style="display: block; margin-top: 16px;">CSA Manager:</label>
-  <input type="text" style="width: 553px;" placeholder="Selecionar Assistente">
+<div style="width: 724px;">
+  <label style="position: absolute; top: 48px; left: 16px;">Description:</label>
+  <input type="text" style="position: absolute; top: 42px; left: 86px; width: 553px;" />
+  <label style="position: absolute; top: 16px; left: 16px;">Back Office:</label>
+  <input type="text" style="position: absolute; top: 10px; left: 86px; width: 121px;" />
+  <label style="position: absolute; top: 80px; left: 16px;">CSA Manager:</label>
 </div>
 ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-- Configuração do painel de ações:
-  ```delphi
-  ShowActionPanel := False;
-  AvailableActions := '';
-  ```
-- Configuração do componente de busca:
-  ```delphi
-  FindDialog.Options.DataSelection.FieldNameForCode := 'boAssist';
-  ```
+- **Initialization**:
+  - `// SET DAS PROPRIEDADES DA FRAME`: Configures frame properties.
+- **Assistant Selection**:
+  - `// configura�ao da Find Edit`: Configures the assistant selection component.
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código implementa um formulário funcional para gerenciar dados do "Back Office". Ele é bem estruturado e utiliza componentes personalizados para facilitar a interação com os dados. No entanto, faltam validações explícitas e mensagens de erro para melhorar a experiência do usuário.
+The `FRbackOffice` code unit provides a robust form for managing back-office data, integrating with external services for assistant selection. While it is well-structured, the lack of explicit error handling and endpoint definitions could be improved.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-Formulário Delphi para gerenciar dados do "Back Office", com campos vinculados ao banco de dados e um componente de busca para selecionar assistentes. Utiliza serviços SOAP para comunicação e é configurado para facilitar a edição e consulta de dados.#### **FRbackOffice.pas**
+The `FRbackOffice` form facilitates back-office data management with database integration and assistant selection via external services, ensuring efficient data handling and user interaction.#### **FRbackOffice.pas**
 
 ```
 unit FRbackOffice;

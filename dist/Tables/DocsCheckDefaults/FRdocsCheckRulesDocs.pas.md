@@ -2,172 +2,234 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocsCheckRulesDocs` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface de edição e gerenciamento de documentos associados a regras específicas em um sistema. Ele permite que os usuários visualizem, adicionem e excluam documentos relacionados a eventos de uma checklist. O objetivo principal é facilitar a manipulação de documentos vinculados a regras, garantindo que as ações sejam realizadas de forma eficiente e organizada.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de tabela.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneFRGridEditSOA`, `kneFGFindUtils`, entre outras, para funcionalidades específicas.
+### Objective and Problem Solved:
+The `FRdocsCheckRulesDocs` code unit defines a frame (`TFRAMEdocsCheckRulesDocs`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display a grid of documents related to specific rules (`ruleId`) in a checklist system. It provides functionalities to add, delete, and manage documents associated with a rule, ensuring that only valid and non-duplicate documents are added.
 
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `docCd` (Código do Documento): Tipo string.
-      - `docDesc` (Descrição do Documento): Tipo string.
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Permite adicionar novos documentos à lista.
-      - Excluir (`DELETE`): Remove documentos selecionados da lista.
+### Technologies Used:
+- **Delphi VCL Framework**: For UI components and event handling.
+- **SOAP Services**: For interacting with external services (e.g., `CheckListDocsToAddServiceUtils`).
+- **Database Components**: For managing and displaying data in a grid (`cxGridDBTableView`).
+- **Custom Libraries**: Includes custom utilities like `kneFGFindUtils`, `kneFGDBUtils`, and `kneDialogFactory`.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **docCd**: Document Code (Custom Editor: `cxEDTfind`).
+2. **docDesc**: Document Description (String).
 
-* **Ações Específicas:**
-  - Adicionar documentos à lista.
-  - Excluir documentos existentes.
-  - Configurar a grade para exibir ou ocultar campos específicos.
-  - Tornar campos editáveis ou somente leitura.
-
-* **Componentes Principais:**
-  - **Grade (Grid):** Exibe os documentos associados às regras.
-  - **Painel de Ações:** Permite realizar ações como adicionar ou excluir documentos.
-  - **Métodos Privados:** Para manipulação de dados e configuração da interface.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão "Adicionar" clicado then execute ACTaddExecute`.
-  - Evento `OnClick` do botão "Excluir": `if botão "Excluir" clicado then remova o documento selecionado`.
-  - Evento `OnButtonClick` de um campo: `if botão do campo clicado then execute m_FindDocs`.
+#### Grid Actions and Their Effects:
+1. **ADD**: Adds a new document to the grid.
+2. **DELETE**: Deletes a selected document from the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do componente com o método `Create`, que configura as propriedades principais e a grade.
-  - Configuração da grade com o método `GridSetup`, que define campos ocultos, ordem de exibição e editores personalizados.
-  - Interação do usuário com a interface, como clicar em botões ou editar campos, que dispara eventos específicos.
+### User/Software Actions:
+- Add a document to the grid.
+- Delete a document from the grid.
+- Prevent duplicate documents from being added.
+- Display and manage documents in a grid format.
 
-* **Dados Necessários:**
-  - Código da Regra (`ruleId`): Para identificar a regra associada.
-  - Documentos a serem adicionados ou excluídos.
+### Main Components:
+1. **Grid (`cxGridDBTableView`)**: Displays the list of documents.
+2. **Action Panel**: Provides buttons for adding and deleting documents.
+3. **Custom Field Editor (`cxEDTfind`)**: Allows users to search for documents by code.
 
----
+### Pseudo-Code for Actions and Events:
+- **Add Document (`ACTaddExecute`)**:
+  ```pseudo
+  if add button clicked then
+    execute add document logic
+  ```
 
-## 4. Regras de Negócio:
+- **Find Document (`m_FindDocs`)**:
+  ```pseudo
+  if find button clicked then
+    open document search dialog
+    retrieve selected document
+  ```
 
-* **Ações e Pré-condições:**
-  - Ação "Adicionar": Disponível sempre que o painel de ações estiver visível.
-  - Ação "Excluir": Disponível apenas quando um documento estiver selecionado.
+- **Prevent Duplicate Documents (`m_AlreadyAdded`)**:
+  ```pseudo
+  if document already exists in the grid then
+    prevent addition
+  ```
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - `mv_AlreadyAdded`: Inicializado como string vazia.
-
-* **Validações e Condições dos Campos:**
-  - Campo `docCd`: Configurado como não editável no método `SetKeyEditing`.
-
----
-
-## 5. Funções Principais:
-
-* **Descrição das Funções:**
-  - `Create`: Inicializa o componente e configura propriedades principais.
-  - `GridSetup`: Configura a grade, definindo campos ocultos, ordem de exibição e editores personalizados.
-  - `SetKeyEditing`: Define se um campo pode ser editado.
-  - `ACTaddExecute`: Executa a ação de adicionar um documento.
-  - `m_FindDocs`: Manipula a busca de documentos.
-
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código fornecido.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em formato de grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `kneFRGridEditSOA`: Biblioteca personalizada para edição de grades.
-
-* **Componentes Personalizados:**
-  - `kneFRGridEditSOA`: Base para o componente de edição de grades.
-  - `kneFGFindUtils`: Utilitário para busca de dados.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `docCd` (Tipo: string, não editável).
-  - `docDesc` (Tipo: string, editável).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `docCd`: Mapeado para a coluna `docCd` no banco de dados.
-  - `docDesc`: Mapeado para a coluna `docDesc` no banco de dados.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagramas:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    Frame: TFRAMEdocsCheckRulesDocs;
-  begin
-    Frame := TFRAMEdocsCheckRulesDocs.Create(Self);
-    Frame.ShowActionPanel := True;
-    Frame.AvailableActions := 'ADD;DELETE';
-  end;
+- **Process Each Row (`m_ProcessEachRow`)**:
+  ```pseudo
+  for each row in the grid do
+    process row data
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* **Configuração da Grade:**
-  ```delphi
-  DefineHiddenFields('HIDE_ALL_FIELDS');
-  DefineOrderFields(mc_GRID_FIELDS);
-  AddCustomField('docCd','cxEDTfind');
-  ```
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized via the `Create` constructor.
+   - Grid settings are configured in the `GridSetup` method.
+   - Action panel and available actions (`ADD`, `DELETE`) are set up.
 
-* **Configuração de Propriedades:**
-  ```delphi
-  MasterKeyFields := 'ruleId';
-  DataPacketName := 'CheckListDocEvents';
-  PropertyName := 'checkListDocEvents';
-  ```
+2. **User Interactions**:
+   - Clicking the "Add" button triggers the `ACTaddExecute` method to add a document.
+   - Clicking the "Find" button triggers the `m_FindDocs` method to search for a document.
+
+3. **Functions and File Locations**:
+   - `Create`: Initializes the frame (`FRdocsCheckRulesDocs.pas`).
+   - `GridSetup`: Configures the grid (`FRdocsCheckRulesDocs.pas`).
+   - `ACTaddExecute`: Handles the "Add" action (`FRdocsCheckRulesDocs.pas`).
+   - `m_FindDocs`: Handles the "Find" action (`FRdocsCheckRulesDocs.pas`).
+
+### Required Data:
+- **ruleId**: The ID of the rule to which documents are associated.
+- **Document Code (docCd)**: The unique code of the document.
+- **Document Description (docDesc)**: A description of the document.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código implementa uma interface eficiente para gerenciar documentos associados a regras em um sistema. Ele utiliza componentes avançados como cxGrid e bibliotecas personalizadas para oferecer uma experiência de usuário rica. No entanto, faltam mensagens de erro explícitas e validações detalhadas, o que pode ser uma limitação.
+### Actions and Preconditions:
+1. **Add Document**:
+   - Preconditions: The document must not already exist in the grid.
+   - Action: Adds the document to the grid.
+
+2. **Delete Document**:
+   - Preconditions: A document must be selected in the grid.
+   - Action: Deletes the selected document.
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- "Document already added" if a duplicate document is detected.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **docCd**: Custom editor (`cxEDTfind`) for searching and selecting documents.
+- **docDesc**: No specific validation is defined.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código fornece uma interface para gerenciar documentos vinculados a regras, permitindo adicionar, excluir e configurar exibições em uma grade. Ele utiliza componentes cxGrid e bibliotecas personalizadas para oferecer funcionalidades avançadas e flexíveis.#### **FRdocsCheckRulesDocs.pas**
+1. **`Create`**:
+   - Initializes the frame and sets up grid settings, action panel, and available actions.
+
+2. **`GridSetup`**:
+   - Configures the grid, including hidden fields, order fields, and custom editors.
+
+3. **`ACTaddExecute`**:
+   - Handles the logic for adding a document to the grid.
+
+4. **`m_FindDocs`**:
+   - Opens a search dialog to find and select a document.
+
+5. **`m_AlreadyAdded`**:
+   - Checks if a document is already added to the grid.
+
+6. **`m_ProcessEachRow`**:
+   - Processes each row in the grid for specific logic.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `CheckListDocsToAddServiceUtils`.
+- **Purpose**: To interact with external services for document management.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **cxGrid**: For grid display and management.
+2. **SOAPHTTPClient**: For SOAP service interactions.
+3. **kneFGFindUtils**: Custom utility for finding documents.
+
+### Custom Components:
+1. **TFRAMEBaseGridEditSOA**: Base frame for grid editing.
+2. **cxEDTfind**: Custom field editor for document search.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **docCd**:
+   - Type: String.
+   - Validation: Custom editor (`cxEDTfind`).
+   - Constraints: Not explicitly defined in the code.
+
+2. **docDesc**:
+   - Type: String.
+   - Validation: None.
+   - Constraints: Not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Configure Grid] --> [User Interactions]
+    --> [Add Document] --> [Check for Duplicates] --> [Update Grid]
+    --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: Click Add
+Frame --> Service: Check for Duplicates
+Service --> Frame: Response
+Frame --> Grid: Update
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEdocsCheckRulesDocs.ACTaddExecute(Sender: TObject);
+begin
+  // Logic to add a document
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- `mc_GRID_FIELDS`: Defines the fields displayed in the grid.
+- `MasterKeyFields`: Specifies the key field (`ruleId`) for the frame.
+- `AvailableActions`: Defines the actions available in the action panel.
+
+---
+
+## 12. Conclusion:
+
+The `FRdocsCheckRulesDocs` code unit provides a robust framework for managing documents associated with rules in a checklist system. Its strengths include modularity, extensibility, and integration with external services. However, it lacks detailed error handling and field validation, which could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocsCheckRulesDocs` unit manages a grid of documents linked to rules, allowing users to add, delete, and search for documents. It integrates with external services and provides a customizable grid interface for efficient document management.#### **FRdocsCheckRulesDocs.pas**
 
 ```
 unit FRdocsCheckRulesDocs;

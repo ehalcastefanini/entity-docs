@@ -2,160 +2,250 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `Lcarrier` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um formulário chamado `TFORMLcarrier`, que é utilizado para gerenciar uma lista de "Carriers" (transportadoras ou operadoras). Ele permite que os usuários visualizem, filtrem, editem e criem registros de transportadoras. O formulário inclui funcionalidades de busca avançada, critérios de pesquisa e exibição de informações detalhadas sobre cada transportadora.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do formulário e lógica de negócios.
-  - Componentes visuais como `TsLabel`, `TsEdit`, `TsCheckBox`, e `TsDBText` para a interface do usuário.
-  - Integração com serviços externos (`CarrierServiceUtils`, `CountryServiceUtils`) para manipulação de dados relacionados a transportadoras e países.
+### Objective and Problem Solved:
+The `Lcarrier` code unit is designed to manage and display a list of carriers in a grid format. It provides functionalities for searching, filtering, and editing carrier data. The main objective is to allow users to interact with carrier information efficiently, including viewing, modifying, and searching for specific carriers based on various criteria such as code, name, and country.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `TsLabel`: Rótulos para identificar campos.
-      - `TsEdit`: Campos de entrada de texto.
-      - `TsCheckBox`: Caixa de seleção para filtros booleanos.
-      - `TsDBText`: Exibição de dados vinculados ao banco de dados.
-    - **Ações do Formulário e seus Efeitos:**
-      - Botões e ações como "Novo", "Modificar", "Visualizar" e "Pesquisar" permitem manipular os dados exibidos no formulário.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **Database Components**: For interacting with the database (e.g., `DBClient`, `cxDBData`).
+- **Third-party Libraries**: Includes `TsLabel`, `TsEdit`, `TsCheckBox`, and other components from the `sSkinProvider` and `kne` libraries for enhanced UI and functionality.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **form with a grid display**.  
+- **Grid Columns**:
+  - `Code` (string)
+  - `Name` (string)
+  - `Abbreviated Name` (string)
+  - `Language Code` (string)
+  - `Language Description` (string)
+  - `Country Code` (string)
+  - `Country Description` (string)
+  - `Market Code` (string)
+  - `Last Updated` (date)
+  - `Updated By` (string)
+- **Grid Actions**:
+  - **New**: Create a new carrier entry.
+  - **Modify**: Edit an existing carrier entry.
+  - **View**: View details of a carrier entry.
+  - **Search**: Search for carriers based on criteria.
+  - **Advanced Search**: Perform a more detailed search.
 
-* **Ações Específicas:**
-  - Criar, modificar e visualizar registros de transportadoras.
-  - Filtrar registros com base em critérios como código, nome, país e status ativo.
+---
 
-* **Componentes Principais:**
-  - Campos de entrada (`EDTcode`, `EDTdescription`) para critérios de pesquisa.
-  - Labels (`LBLcode`, `LBLname`, etc.) para identificar os campos.
-  - Ações (`ACTnew_deriv`, `ACTmodify_deriv`, etc.) para manipulação de registros.
+## 2. Functionality Description:
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Limpar Critérios": `se botão clicado então limpar campos de pesquisa`.
-  - Evento `OnChange` do campo de entrada: `se valor do campo alterado então validar entrada`.
+### User Actions:
+- **Search for Carriers**: Users can filter carriers by code, name, country, and active status.
+- **Edit Carrier Information**: Modify existing carrier details.
+- **Add New Carrier**: Create a new carrier entry.
+- **View Carrier Details**: View detailed information about a specific carrier.
 
-## 3. Lógica Operacional:
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names and descriptions.
+- **Text Fields (`TsEdit`)**: Input fields for search criteria.
+- **Checkbox (`TsCheckBox`)**: Filter for active carriers.
+- **Grid (`cxGrid`)**: Displays the list of carriers.
+- **Action List (`TActionList`)**: Manages actions like New, Modify, View, and Search.
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário carrega os componentes da interface e configura os eventos.
-  - Interações do usuário, como clicar em botões ou preencher campos, disparam eventos que executam funções específicas.
-
-* **Dados Necessários:**
-  - Código da transportadora.
-  - Nome da transportadora.
-  - País associado.
-  - Status ativo/inativo.
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Salvar" só é habilitada se todos os campos obrigatórios forem preenchidos corretamente.
-  - Ação "Pesquisar" requer pelo menos um critério de pesquisa preenchido.
-
-* **Filtros Disponíveis:**
-  - Código.
-  - Nome.
-  - País.
-  - Status ativo/inativo.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Entrada inválida" se o valor de um campo não for válido.
-
-* **Valores Padrão dos Campos:**
-  - Campo "Ativo": padrão "Sim".
-
-* **Validação de Campos:**
-  - Campo "Código": deve ser em letras maiúsculas e ter no máximo 10 caracteres.
-  - Campo "Nome": deve ser preenchido e ter no máximo 255 caracteres.
-
-## 5. Funções Principais:
-
-* **Funções e Lógica de Negócio:**
-  - `CreateListForm`: Cria e inicializa o formulário.
-  - `GridSetup`: Configura a grade de exibição de dados.
-  - `SetupParams`: Configura os parâmetros de pesquisa.
-
-## 6. Consumo de Serviços de API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `CarrierServiceUtils`.
-    - Endpoint: `/api/carriers`.
-    - Dados enviados: `{ "code": "string", "name": "string" }`.
-    - Dados recebidos: `{ "status": "success", "data": "Carrier object" }`.
-    - Propósito: Criar ou atualizar uma transportadora.
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo "País" só aparece se o usuário selecionar "Sim" na opção "Deseja filtrar por país?".
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `kneCBListSOA`: Gerenciamento de listas.
-  - `CarrierServiceUtils`: Manipulação de dados de transportadoras.
-
-* **Componentes Personalizados:**
-  - `FRAMEFindEditSOA`: Componente para busca avançada.
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - Código (tipo: string, obrigatório, máx: 10 caracteres).
-  - Nome (tipo: string, obrigatório, máx: 255 caracteres).
-  - País (tipo: string, opcional).
-  - Ativo (tipo: booleano, padrão: "Sim").
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `EDTcode` -> Coluna `carrier_code`.
-  - `EDTdescription` -> Coluna `carrier_name`.
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Form: TFORMLcarrier;
-  begin
-    Form := TFORMLcarrier.Create(nil);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
-  end;
+### Pseudo-code for Actions and Events:
+- **Clear Criteria Button Click**:
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 600px; padding: 10px; border: 1px solid #ccc;">
-    <label for="code">Código:</label>
-    <input type="text" id="code" style="width: 100px;" maxlength="10" />
-    <label for="name">Nome:</label>
-    <input type="text" id="name" style="width: 300px;" />
-    <label for="country">País:</label>
-    <input type="text" id="country" style="width: 200px;" />
-    <label for="active">Ativo:</label>
-    <input type="checkbox" id="active" checked />
-  </div>
+  if clear button clicked then
+    reset all search fields to default values
+  ```
+- **Search Button Click**:
+  ```
+  if search button clicked then
+    validate search criteria
+    execute search query
+    display results in grid
+  ```
+- **New Button Click**:
+  ```
+  if new button clicked then
+    open form to create a new carrier
+  ```
+- **Modify Button Click**:
+  ```
+  if modify button clicked then
+    open form to edit selected carrier
+  ```
+- **Grid Row Selection**:
+  ```
+  if grid row selected then
+    enable modify and view buttons
   ```
 
-## 11. Comentários Importantes no Código:
+---
 
-* A função `CreateListForm` é essencial para inicializar o formulário e configurar os parâmetros iniciais.
-* A função `SetupParams` define os critérios de pesquisa e validações.
+## 3. Operational Logic:
 
-## 12. Conclusão:
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized, and the grid is set up with columns and data bindings.
+   - Event handlers are assigned to buttons and other components.
+2. **User Interaction**:
+   - Users input search criteria and click the search button.
+   - The grid displays the filtered results.
+   - Users can select a row to view or modify details or click the "New" button to add a carrier.
+3. **Functions**:
+   - `CreateListForm` (File: `Lcarrier`): Creates and initializes the form.
+   - `GridSetup` (File: `Lcarrier`): Configures the grid layout and columns.
+   - `EventSetup` (File: `Lcarrier`): Sets up event handlers for user interactions.
 
-O código implementa um formulário robusto para gerenciar transportadoras, com suporte a filtros avançados e integração com serviços externos. No entanto, a validação de campos poderia ser mais detalhada, e a interface poderia ser modernizada para melhorar a experiência do usuário.
+### Required Data:
+- **Search Criteria**:
+  - Code (optional)
+  - Name (optional)
+  - Country (optional)
+  - Active status (optional)
 
-## 13. Resumo Curto:
+---
 
-O formulário `TFORMLcarrier` gerencia transportadoras, permitindo criar, editar e pesquisar registros com filtros avançados. Ele utiliza componentes visuais e serviços externos para manipulação de dados, sendo uma solução eficiente para sistemas de gerenciamento de transportadoras.#### **Lcarrier.pas**
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Search**: Requires at least one search criterion to be filled.
+- **Modify**: Requires a row to be selected in the grid.
+- **New**: No preconditions.
+- **View**: Requires a row to be selected in the grid.
+
+### Available Filters:
+- **Code**: Exact match or partial match.
+- **Name**: Partial match.
+- **Country**: Dropdown or text input.
+- **Active Status**: Checkbox (Active Only).
+
+### Error Messages:
+- "No search criteria provided" if the search button is clicked without any input.
+- "No row selected" if Modify or View is clicked without selecting a row.
+
+### Default Field Values:
+- **Active Status**: Checked (Active Only).
+- **Code**: Empty.
+- **Name**: Empty.
+- **Country**: Empty.
+
+### Field Validation:
+- **Code**: Must be uppercase, max length 10.
+- **Name**: No specific validation.
+- **Country**: Must be a valid country code.
+
+---
+
+## 5. Main Functions:
+
+- **CreateListForm**: Initializes the form and sets up components.
+- **GridSetup**: Configures the grid layout and binds data.
+- **EventSetup**: Assigns event handlers for user interactions.
+- **SetupParams**: Prepares parameters for database queries.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `CarrierServiceUtils`
+  - **Endpoint**: `/api/carriers`
+  - **Data Sent**: `{ "code": "string", "name": "string", "country": "string", "active": "boolean" }`
+  - **Data Received**: `{ "status": "success", "data": [Carrier objects] }`
+  - **Purpose**: Fetch carrier data based on search criteria.
+  - **Error Handling**: Displays error message if the API call fails.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Active Status Checkbox**: Filters the grid to show only active carriers when checked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`sSkinProvider`**: For UI theming and styling.
+- **`kneCBListSOA`**: For managing list-based forms.
+- **`cxGrid`**: For grid display and data binding.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: Custom frame for advanced search functionality.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Code**: (type: string, required, max: 10 characters, uppercase).
+- **Name**: (type: string, optional).
+- **Country**: (type: string, optional).
+- **Active Status**: (type: boolean, default: true).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFORMLcarrier.BTclearCriteriaClick(Sender: TObject);
+begin
+  EDTcode.Text := '';
+  EDTdescription.Text := '';
+  CHKactive.Checked := True;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="padding: 10px;">
+  <label>Code:</label> <input type="text" style="text-transform: uppercase;" maxlength="10" />
+  <label>Name:</label> <input type="text" />
+  <label>Country:</label> <input type="text" />
+  <label>Active Only:</label> <input type="checkbox" checked />
+</div>
+<table border="1" style="width: 100%; margin-top: 10px;">
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Country</th>
+    <th>Active</th>
+  </tr>
+  <tr>
+    <td>ABC123</td>
+    <td>Carrier Name</td>
+    <td>USA</td>
+    <td>Yes</td>
+  </tr>
+</table>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- `CreateListForm`: Initializes the form and sets up the grid.
+- `GridSetup`: Configures the grid layout and binds data.
+- `EventSetup`: Assigns event handlers for user interactions.
+
+---
+
+## 12. Conclusion:
+
+The `Lcarrier` code unit provides a robust solution for managing carrier data with a user-friendly interface. Its strengths include flexible search functionality and integration with external services. However, it could benefit from more detailed error handling and validation.
+
+---
+
+## 13. Short Summary:
+
+The `Lcarrier` unit manages carrier data with search, view, and edit functionalities. It uses a grid-based interface and integrates with external services for data retrieval. It is part of a larger system for carrier management.#### **Lcarrier.pas**
 
 ```
 unit Lcarrier;

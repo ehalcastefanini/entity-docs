@@ -2,181 +2,225 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LcustSalesAssist` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa uma interface para gerenciar uma lista de assistentes de vendas de clientes. Ele permite que os usuários visualizem, filtrem e interajam com os dados relacionados aos assistentes de vendas. O objetivo principal é fornecer uma interface amigável para manipular e visualizar informações de assistentes de vendas de clientes.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes de terceiros como `TsLabel`, `TsEdit`, `TsCheckBox`, `TcxGrid`, entre outros.
-  - Manipulação de dados com `DBClient` e integração com serviços externos.
+### Objective and Problem Solved:
+The `LcustSalesAssist` code unit is designed to manage and display a list of customer sales assistants in a grid format. It provides functionalities for searching, filtering, and viewing details of customer sales assistants. The main objective is to streamline the management of customer sales assistant data, allowing users to interact with the data through a user-friendly interface.
 
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `stat` (Status) - Tipo: Texto.
-      - `csa` (Customer Sales Assistant) - Tipo: Texto.
-      - `login` - Tipo: Texto.
-      - `name` (Nome) - Tipo: Texto.
-      - `email` - Tipo: Texto.
-      - `lastUpd` (Última Atualização) - Tipo: Data/Hora.
-      - `updBy` (Atualizado Por) - Tipo: Texto.
-    - **Ações do Grid e seus Efeitos:**
-      - Ordenação de colunas.
-      - Edição de campos específicos.
-      - Visualização de detalhes de um registro selecionado.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries**: Includes components like `TsLabel`, `TsEdit`, `TsCheckBox`, `TcxGrid`, and others for enhanced UI and functionality.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **grid display** form with the following characteristics:
+- **Grid Columns**:
+  - `stat` (Status)
+  - `csa` (Customer Sales Assistant)
+  - `login` (Login)
+  - `name` (Name)
+  - `email` (Email)
+  - `lastUpd` (Last Updated)
+  - `updBy` (Updated By)
+- **Grid Actions**:
+  - **New**: Create a new customer sales assistant.
+  - **Modify**: Edit an existing customer sales assistant.
+  - **View**: View details of a customer sales assistant.
+  - **Search Area**: Perform a basic search.
+  - **Advanced Search**: Perform an advanced search with additional criteria.
 
-* **Ações Disponíveis:**
-  - Criar um novo assistente de vendas.
-  - Modificar um assistente existente.
-  - Visualizar detalhes de um assistente.
-  - Realizar buscas simples e avançadas.
+---
 
-* **Componentes Principais:**
-  - **Campos de Filtro:**
-    - `EDTname`: Campo de texto para buscar pelo nome.
-    - `CHKactiveOnly`: Checkbox para filtrar apenas assistentes ativos.
-  - **Grid de Dados:** Exibe a lista de assistentes de vendas com colunas configuráveis.
-  - **Botões de Ação:** Permitem criar, modificar e visualizar registros.
+## 2. Functionality Description:
 
-* **Pseudo-código de Ações e Eventos:**
-  - `OnClick` de um botão "Novo": `se botão clicado então abrir formulário de criação`.
-  - `OnClick` de um botão "Modificar": `se botão clicado e item selecionado então abrir formulário de edição`.
-  - `OnChange` de `CHKactiveOnly`: `se valor alterado então atualizar grid com filtro ativo`.
+### User Actions:
+- **Search by Name**: Users can input a name in the `EDTname` field to filter the grid.
+- **Filter Active Only**: Users can toggle the `CHKactiveOnly` checkbox to display only active customer sales assistants.
+- **Grid Interaction**: Users can interact with the grid to view, modify, or create new entries.
 
-## 3. Lógica Operacional:
+### Main Components:
+- **Search Panel**: Contains fields like `EDTname` (Name) and `CHKactiveOnly` (Active Only).
+- **Grid Panel**: Displays the list of customer sales assistants with columns defined in `mc_GRID_FIELDS`.
+- **Detail Panel**: Displays detailed information about a selected customer sales assistant.
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário carrega os componentes da interface e configura o grid.
-  - Usuário interage com os filtros ou grid, acionando eventos como cliques ou alterações de valores.
-  - Funções principais:
-    - `GridSetup` (Arquivo: `LcustSalesAssist`): Configura o grid, define campos ocultos e ordem das colunas.
-    - `EventSetup` (Arquivo: `LcustSalesAssist`): Configura eventos do formulário.
-    - `CreateListForm` (Arquivo: `LcustSalesAssist`): Cria e inicializa o formulário.
+### Pseudo-code for Actions and Events:
+- **OnClick event of "New" button**: `if "New" button clicked then open form to create a new entry`.
+- **OnClick event of "Modify" button**: `if "Modify" button clicked then open form to edit the selected entry`.
+- **OnClick event of "View" button**: `if "View" button clicked then open form to view details of the selected entry`.
+- **OnChange event of "Active Only" checkbox**: `if checkbox state changed then refresh grid with active-only filter`.
+- **OnChange event of "Name" field**: `if name field value changed then filter grid by name`.
 
-* **Dados Necessários:**
-  - Nome do assistente (opcional para busca).
-  - Status ativo (opcional para filtro).
+---
 
-## 4. Regras de Negócio:
+## 3. Operational Logic:
 
-* **Ações e Pré-condições:**
-  - Botão "Modificar" habilitado apenas se um item estiver selecionado no grid.
-  - Botão "Novo" sempre habilitado.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized using the `CreateListForm` method.
+   - The grid is set up with hidden fields, field order, and custom editors in the `GridSetup` method.
+   - Event handlers are configured in the `EventSetup` method.
+2. **User Interaction**:
+   - Users interact with the search panel to filter the grid.
+   - Users can click buttons to perform actions like creating, modifying, or viewing entries.
+3. **Functions**:
+   - `CreateListForm` (File: `LcustSalesAssist`): Initializes the form.
+   - `GridSetup` (File: `LcustSalesAssist`): Configures the grid settings.
+   - `EventSetup` (File: `LcustSalesAssist`): Sets up event handlers.
 
-* **Filtros Disponíveis:**
-  - Nome do assistente.
-  - Status ativo (checkbox "Active Only").
+### Required Data:
+- **Name**: Input in the `EDTname` field for filtering.
+- **Active Only**: Checkbox state to filter active entries.
 
-* **Mensagens de Erro:**
-  - "Nenhum item selecionado" ao tentar modificar sem selecionar um item.
-  - "Erro ao carregar dados" em caso de falha na comunicação com o serviço.
+---
 
-* **Valores Padrão dos Campos:**
-  - `CHKactiveOnly`: Marcado por padrão.
+## 4. Business Rules:
 
-* **Validações e Condições dos Campos:**
-  - Campo `EDTname`: Aceita apenas texto, sem validações adicionais explícitas no código.
+### Actions and Preconditions:
+- **New**: Enabled at all times.
+- **Modify**: Enabled only when an entry is selected in the grid.
+- **View**: Enabled only when an entry is selected in the grid.
+- **Search**: Requires input in the `EDTname` field or toggling the `CHKactiveOnly` checkbox.
 
-## 5. Funções Principais:
+### Available Filters:
+- **Name**: Filter by name.
+- **Active Only**: Filter by active status.
 
-* **`CreateListForm`:** Cria e inicializa o formulário de lista.
-* **`GridSetup`:** Configura o grid, incluindo campos ocultos e ordem das colunas.
-* **`EventSetup`:** Configura os eventos do formulário.
-* **`EditorClosed`:** Executa ações ao fechar o editor de um registro.
+### Error Messages:
+- "No entry selected" if attempting to modify or view without selecting an entry.
 
-## 6. Consumo de Serviços de API:
+### Default Field Values:
+- **Active Only**: Default is checked (true).
 
-* **Chamadas a Serviços Externos:**
-  - Nome do Serviço: `CustomerSalesassistServiceUtils`.
-  - Finalidade: Carregar e manipular dados de assistentes de vendas.
-  - Dados enviados e recebidos não estão explicitamente definidos no código.
+### Field Validation and Conditions:
+- **Name**: No explicit validation defined in the code.
+- **Active Only**: Boolean field, no additional validation.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+---
 
-* Não há campos condicionais explícitos no código fornecido.
+## 5. Main Functions:
 
-## 8. Dependências:
+1. **CreateListForm**: Initializes the form and sets up the grid and events.
+2. **GridSetup**: Configures the grid, including hidden fields, field order, and custom editors.
+3. **EventSetup**: Sets up event handlers for user interactions.
+4. **EditorClosed**: Handles actions when the editor is closed.
 
-* **Bibliotecas Externas:**
-  - `TsLabel`, `TsEdit`, `TsCheckBox`, `TcxGrid`, entre outros.
-* **Componentes Customizados:**
-  - `kneCBListSOA`, `knePrivileges`, `kneFRGridManager`.
+---
 
-## 9. Listagem de Campos e Validações:
+## 6. API Service Consumption:
 
-* **Campos:**
-  - `EDTname` (Tipo: Texto, Opcional).
-  - `CHKactiveOnly` (Tipo: Checkbox, Padrão: Marcado).
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `stat` → Status.
-  - `csa` → Customer Sales Assistant.
-  - `login` → Login.
-  - `name` → Nome.
-  - `email` → Email.
-  - `lastUpd` → Última Atualização.
-  - `updBy` → Atualizado Por.
+No explicit API calls are defined in the provided code snippet.
 
-## 10. Exemplos e Diagramas:
+---
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    Form: TFORMLcustSalesAssist;
-  begin
-    Form := TFORMLcustSalesAssist.Create(nil);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
-  end;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
+## 7. Conditional Fields (Form Logic):
+
+- **Active Only**: The grid content changes based on the state of the `CHKactiveOnly` checkbox.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **TsLabel, TsEdit, TsCheckBox**: Used for UI components.
+- **TcxGrid**: Used for displaying the grid.
+- **kneCBListSOA**: Base class for the form.
+
+### Custom Components:
+- **TFORMkneCBListSOA**: Base class for the form, providing common functionalities.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Name (EDTname)**: Type: string, optional, no validation defined.
+- **Active Only (CHKactiveOnly)**: Type: boolean, default: true.
+
+Mapping of displayed values to database columns:
+- `stat` → Status
+- `csa` → Customer Sales Assistant
+- `login` → Login
+- `name` → Name
+- `email` → Email
+- `lastUpd` → Last Updated
+- `updBy` → Updated By
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable as the code does not define a complex workflow.
+
+### Sequence Diagram:
+Not applicable as no API interactions are defined.
+
+### Code Snippets:
+```delphi
+// Example: Creating the form
+var
+  Form: TFORMLcustSalesAssist;
+begin
+  Form := TFORMLcustSalesAssist.CreateListForm(Self);
+  Form.Show;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="padding: 10px;">
+  <label for="name">Name:</label>
+  <input type="text" id="name" style="width: 300px;" />
+  <br />
+  <input type="checkbox" id="activeOnly" checked />
+  <label for="activeOnly">Active Only</label>
+  <br />
+  <table border="1" style="width: 100%; margin-top: 10px;">
     <thead>
       <tr>
         <th>Status</th>
-        <th>Customer Sales Assistant</th>
+        <th>CSA</th>
         <th>Login</th>
-        <th>Nome</th>
+        <th>Name</th>
         <th>Email</th>
-        <th>Última Atualização</th>
-        <th>Atualizado Por</th>
+        <th>Last Updated</th>
+        <th>Updated By</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Ativo</td>
-        <td>CSA001</td>
-        <td>user1</td>
-        <td>João Silva</td>
-        <td>joao@email.com</td>
+        <td>Active</td>
+        <td>John Doe</td>
+        <td>jdoe</td>
+        <td>John Doe</td>
+        <td>jdoe@example.com</td>
         <td>2023-10-01</td>
-        <td>admin</td>
+        <td>Admin</td>
       </tr>
     </tbody>
   </table>
-  ```
+</div>
+```
 
-## 11. Comentários Importantes no Código:
+---
 
-* Configuração do grid em `GridSetup`, incluindo campos ocultos e ordem das colunas.
-* Inicialização do formulário em `CreateListForm`.
+## 11. Important Comments in the Code:
 
-## 12. Conclusão:
+- `mc_GRID_FIELDS`: Defines the fields displayed in the grid.
+- `GridSetup`: Configures hidden fields, field order, and custom editors.
 
-O código fornece uma interface robusta para gerenciar assistentes de vendas de clientes, com funcionalidades de filtro, visualização e edição. No entanto, faltam detalhes sobre validações e manipulação de erros, que poderiam ser melhorados para maior confiabilidade.
+---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código implementa uma interface para gerenciar assistentes de vendas de clientes, com funcionalidades de filtro, visualização e edição, utilizando Delphi e componentes visuais avançados.#### **LcustSalesAssist.pas**
+The `LcustSalesAssist` code unit provides a robust framework for managing customer sales assistants. Its strengths lie in its modular design and user-friendly interface. However, it lacks explicit API integration and detailed field validations.
+
+---
+
+## 13. Short Summary:
+
+The `LcustSalesAssist` unit manages customer sales assistants through a grid interface, offering search, filter, and CRUD functionalities. It is built on Delphi with third-party UI components and provides a user-friendly way to manage data.#### **LcustSalesAssist.pas**
 
 ```
 unit LcustSalesAssist;

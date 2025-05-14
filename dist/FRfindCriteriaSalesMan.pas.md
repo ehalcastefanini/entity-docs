@@ -2,173 +2,201 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRfindCriteriaSalesMan`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é criar um componente de interface gráfica que permite aos usuários definir critérios de busca para vendedores (SalesMan). Ele fornece campos para entrada de descrição e seleção de escritório, que são usados para filtrar dados em um sistema. Este componente é útil em sistemas onde é necessário realizar buscas baseadas em critérios específicos.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do componente.
-  - Componentes visuais como `TsLabel`, `TsEdit`, e `TFRAMEFindEditSOA` para a interface do usuário.
-  - Manipulação de critérios de busca com a classe `TFieldCriteria`.
+### Objective:
+The `FRfindCriteriaSalesMan` code snippet defines a form component that allows users to filter or search for salesmen based on specific criteria, such as "Description" and "Office." It provides a user interface for entering these criteria and generates a structured query to be used in filtering or searching operations.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `EDTdescription` (Campo de texto para descrição, tipo: `TsEdit`).
-      - `FRAMEfindOffice` (Campo de seleção de escritório, tipo: `TFRAMEFindEditSOA`).
-    - **Ações do Formulário e seus Efeitos:**
-      - Preenchimento dos campos gera critérios de busca que podem ser usados para filtrar dados.
+### Technologies Used:
+- **Delphi (Object Pascal):** The code is written in Delphi, utilizing its VCL (Visual Component Library) framework.
+- **Custom Components:** Includes custom components like `TsLabel`, `TsEdit`, and `TFRAMEFindEditSOA` for UI elements and functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - O usuário pode preencher os campos de descrição e escritório para definir critérios de busca.
-  - O sistema gera uma lista de critérios baseada nos valores preenchidos.
-
-* **Componentes Principais:**
-  - `EDTdescription`: Campo de entrada para a descrição.
-  - `FRAMEfindOffice`: Componente para seleção de escritório.
-  - `GetCriteriaValues`: Método que retorna os critérios de busca baseados nos valores preenchidos.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnChange` no campo `EDTdescription`: `se valor do campo mudar, validar entrada`.
-  - Evento `OnChange` no campo `FRAMEfindOffice`: `se valor do campo mudar, validar entrada`.
-  - Método `GetCriteriaValues`: `se campos preenchidos, gerar critérios de busca`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements:**
+  - `EDTdescription` (Text Input): For entering the description of the salesman.
+  - `FRAMEfindOffice` (Custom Input): For selecting or entering the office.
+- **Form Actions:**
+  - **Initialize:** Clears the form fields and sets up the office input.
+  - **GetCriteriaValues:** Generates a structured query based on the entered criteria.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do componente com o método `Initialize`, que limpa os campos e configura o componente de escritório.
-  - O usuário preenche os campos de descrição e escritório.
-  - O método `GetCriteriaValues` é chamado para gerar os critérios de busca.
+### User/Software Actions:
+- Users can input a description and select an office to filter salesmen.
+- The form generates a query with the entered criteria.
 
-* **Dados Necessários:**
-  - Descrição (campo de texto).
-  - Escritório (campo de seleção).
+### Main Components:
+- **`EDTdescription`:** A text input field for the description.
+- **`FRAMEfindOffice`:** A custom input field for the office.
+- **`GetCriteriaValues`:** A function that constructs the filtering criteria based on user input.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O botão de busca (não especificado no código) deve estar habilitado apenas se pelo menos um dos campos estiver preenchido.
-
-* **Filtros Disponíveis:**
-  - Descrição: Permite busca por texto.
-  - Escritório: Permite busca por seleção de escritório.
-
-* **Mensagens de Erro:**
-  - "Field Description must be defined" se o campo de descrição não for configurado.
-  - "Field Office must be defined" se o campo de escritório não for configurado.
-
-* **Valores Padrão dos Campos:**
-  - `EDTdescription`: Valor inicial vazio.
-  - `FRAMEfindOffice`: Valor inicial vazio.
-
-* **Validação de Campos:**
-  - `EDTdescription`: Deve ser preenchido em letras maiúsculas.
-  - `FRAMEfindOffice`: Deve conter um valor válido.
-
----
-
-## 5. Funções Principais:
-
-* **`Initialize`:**
-  - Limpa os campos e configura o componente de escritório.
-
-* **`GetCriteriaValues`:**
-  - Gera uma lista de critérios de busca baseada nos valores preenchidos nos campos.
-
-* **`m_SetFindOffice`:**
-  - Configura o componente de seleção de escritório.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos especificadas no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais especificados no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `TsLabel`, `TsEdit`, `TFRAMEFindEditSOA`: Componentes visuais para a interface do usuário.
-  - `kneConfigObjects`: Para manipulação de objetos de configuração.
-
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Componente para seleção de escritório.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `EDTdescription` (tipo: string, obrigatório, letras maiúsculas).
-  - `FRAMEfindOffice` (tipo: string, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `EDTdescription` mapeado para `FFieldDescription`.
-  - `FRAMEfindOffice` mapeado para `FFieldOffice`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Criteria: TArrayOfFieldCriteria;
-  begin
-    FRAMEfindCriteriaSalesMan.Initialize;
-    FRAMEfindCriteriaSalesMan.FieldDescription := 'DescriptionField';
-    FRAMEfindCriteriaSalesMan.FieldOffice := 'OfficeField';
-    Criteria := FRAMEfindCriteriaSalesMan.GetCriteriaValues;
-  end;
+### Pseudo-code for Actions and Events:
+- **On Form Initialization:**
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 525px; height: 34px;">
-    <label for="description" style="position: absolute; left: 6px; top: 14px;">Description:</label>
-    <input id="description" type="text" style="position: absolute; left: 66px; top: 10px; width: 152px;" />
-    <label for="office" style="position: absolute; left: 224px; top: 13px;">Office:</label>
-    <input id="office" type="text" style="position: absolute; left: 267px; top: 8px; width: 250px;" />
-  </div>
+  if form initializes then
+    clear description field
+    clear office field
+  ```
+- **On GetCriteriaValues:**
+  ```
+  if description field is not empty then
+    add description criteria to query
+  if office field is not empty then
+    add office criteria to query
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* `Assert(FFieldDescription <> '', 'Field Description must be defined');`
-  - Garante que o campo de descrição foi configurado.
-* `Assert(FieldOffice <> '', 'Field Office must be defined');`
-  - Garante que o campo de escritório foi configurado.
+### Execution Flow:
+1. **Initialization:**
+   - The `Initialize` method clears the input fields and sets up the office input.
+2. **User Interaction:**
+   - Users enter a description and/or select an office.
+3. **Query Generation:**
+   - The `GetCriteriaValues` method constructs a query based on the entered criteria.
+
+### Data Input:
+- **Description:** Text input in `EDTdescription`.
+- **Office:** Text input or selection in `FRAMEfindOffice`.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece um componente reutilizável para definir critérios de busca baseados em descrição e escritório. Ele é bem estruturado e utiliza boas práticas, como validação de campos e inicialização adequada. No entanto, não há suporte explícito para integração com APIs ou manipulação de erros mais detalhada.
+### Actions and Preconditions:
+- **GetCriteriaValues:**
+  - Preconditions:
+    - `FieldDescription` and `FieldOffice` must be defined.
+    - At least one of the fields (`EDTdescription` or `FRAMEfindOffice`) must have a value.
+
+### Available Filters:
+- **Description:** Free text input.
+- **Office:** Text input or selection.
+
+### Error Messages:
+- "Field Description must be defined" if `FieldDescription` is not set.
+- "Field Office must be defined" if `FieldOffice` is not set.
+
+### Default Field Values:
+- `EDTdescription`: Empty.
+- `FRAMEfindOffice`: Cleared.
+
+### Field Validation and Conditions:
+- **Description Field:**
+  - Converts input to uppercase.
+- **Office Field:**
+  - Validates input through the custom `FRAMEfindOffice` component.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-Componente Delphi para definir critérios de busca por descrição e escritório, gerando filtros reutilizáveis. Inclui validação de campos e inicialização automática, sendo ideal para sistemas que requerem buscas personalizadas.#### **FRfindCriteriaSalesMan.pas**
+### `Initialize`:
+- Clears the input fields and sets up the office input.
+
+### `GetCriteriaValues`:
+- Constructs a query based on the entered description and office.
+
+---
+
+## 6. API Service Consumption:
+
+No external API services are consumed in this code snippet.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The "Office" field is always visible and does not depend on other fields.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **VCL Components:** Used for UI elements and functionality.
+- **Custom Components:**
+  - `TFRAMEFindEditSOA`: A custom component for office input.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Description (`EDTdescription`):**
+   - Type: String.
+   - Required: No.
+   - Validation: Converts input to uppercase.
+2. **Office (`FRAMEfindOffice`):**
+   - Type: String.
+   - Required: No.
+   - Validation: Custom validation through `FRAMEfindOffice`.
+
+### Mapping:
+- `EDTdescription` → `FFieldDescription`.
+- `FRAMEfindOffice` → `FFieldOffice`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [User Inputs Description/Office] --> [Generate Query] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Inputs Description/Office
+Form --> GetCriteriaValues: Generate Query
+GetCriteriaValues --> Form: Return Query
+```
+
+### Code Snippets:
+```pascal
+FRAMEfindCriteriaSalesMan.Initialize;
+FRAMEfindCriteriaSalesMan.GetCriteriaValues;
+```
+
+### Screenshots:
+The following HTML represents the form layout:
+```html
+<div style="width: 525px; height: 34px;">
+  <label for="description" style="position: absolute; left: 6px; top: 14px;">Description:</label>
+  <input id="description" type="text" style="position: absolute; left: 66px; top: 10px; width: 152px;" />
+  
+  <label for="office" style="position: absolute; left: 224px; top: 13px;">Office:</label>
+  <input id="office" type="text" style="position: absolute; left: 267px; top: 8px; width: 250px;" />
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Error Handling in `GetCriteriaValues`:**
+  - Ensures that `FieldDescription` and `FieldOffice` are defined before generating the query.
+- **Initialization Logic:**
+  - Clears fields and sets up the office input in `Initialize`.
+
+---
+
+## 12. Conclusion:
+
+The `FRfindCriteriaSalesMan` component provides a simple and effective way to filter salesmen based on description and office. It ensures proper validation and query generation. However, it lacks advanced error handling and does not integrate with external APIs.
+
+---
+
+## 13. Short Summary:
+
+The `FRfindCriteriaSalesMan` form allows users to filter salesmen by description and office, generating structured queries for search operations. It ensures input validation and provides a clean, user-friendly interface.#### **FRfindCriteriaSalesMan.pas**
 
 ```
 unit FRfindCriteriaSalesMan;

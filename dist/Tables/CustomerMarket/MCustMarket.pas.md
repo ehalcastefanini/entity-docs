@@ -2,148 +2,205 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `McustMarket` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um formulário para a gestão de mercados de clientes (Customer Market Management). Ele fornece uma interface gráfica para visualizar, editar e gerenciar informações relacionadas a mercados de clientes. O objetivo principal é facilitar a manipulação de dados de mercado de clientes de forma eficiente e organizada.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento da aplicação.
-  - Componentes visuais como `TsPanel`, `TsCoolBar`, `TFRAMEcustMarket`, entre outros, para a construção da interface gráfica.
-  - Herança de classes para reutilização de funcionalidades (`TFORMkneBaseEdit`).
+### Objective and Problem Solved:
+The `McustMarket` code unit is designed to manage the "Customer Market Management" form. It provides a user interface for managing customer market data, including functionalities for displaying, editing, and interacting with customer market information. The form integrates with a service layer to fetch and display data, allowing users to manage customer market records efficiently.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `PNLcustMkt`: Painel principal que contém o frame `FRAMEcustMarket1`.
-      - `FRAMEcustMarket1`: Frame que encapsula os elementos de edição e visualização.
-      - `sLabel2` e `sLabel3`: Rótulos associados a campos de entrada.
-      - `PNLfooter`: Painel para informações de rodapé.
-      - `FRAMEstatusInfo1`: Frame para exibição de status.
-    - **Ações do Formulário e seus Efeitos:**
-      - Ação de carregar dados (`m_getData`) para preencher os campos do formulário com informações do mercado de clientes.
+### Technologies Used:
+- **Delphi (Object Pascal):** The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries:** Includes components like `TsPanel`, `TsCoolBar`, `TFRAMEcustMarket`, and others for enhanced UI and functionality.
+- **Inheritance:** The form inherits from `TFORMkneBaseEdit`, which provides base functionalities for editing forms.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements:**
+  - `PNLcustMkt` (Panel): Container for the main content.
+  - `FRAMEcustMarket1` (Frame): Contains specific UI elements for customer market management.
+  - `PNLtoolbar` (Panel): Toolbar for actions.
+  - `PNbotoes` (Panel): Button container.
+  - `FRAMEstatusInfo1` (Frame): Displays status information.
+- **Form Actions:**
+  - Fetch data from the service layer (`m_getData`).
+  - Display customer market information in the frame.
+  - Provide a toolbar for user actions.
 
-* **Ações Específicas:**
-  - Carregar dados do mercado de clientes.
-  - Exibir informações de status e permitir edição de campos relacionados.
+---
 
-* **Componentes Principais:**
-  - `TFORMMcustMarket`: Classe principal do formulário.
-  - `FRAMEcustMarket1`: Frame que contém os elementos de edição e visualização.
-  - `m_getData`: Método responsável por carregar os dados no formulário.
+## 2. Functionality Description:
 
-* **Tradução para Pseudo-código:**
-  - Evento de inicialização do formulário:
-    ```
-    ao inicializar o formulário:
-        criar instância do formulário
-    ```
-  - Evento `m_getData`:
-    ```
-    ao executar m_getData:
-        definir cursor como "carregando"
-        obter frame mestre
-        configurar parâmetros de serviço
-        chamar método herdado m_getData
-    ```
+### User/Software Actions:
+- **Fetch Data:** The `m_getData` method retrieves customer market data from the service layer.
+- **Create Form:** The `m_CreateFormEdit` method initializes and displays the form.
 
-## 3. Lógica Operacional:
+### Main Components:
+- **`PNLcustMkt`:** Main panel for displaying customer market data.
+- **`FRAMEcustMarket1`:** Frame containing specific UI elements for customer market management.
+- **`PNLtoolbar`:** Toolbar for user actions.
+- **`FRAMEstatusInfo1`:** Displays status information.
 
-* **Fluxo de Execução:**
-  1. O formulário é inicializado através do método `m_CreateFormEdit`.
-  2. O método `m_getData` é chamado para carregar os dados no formulário.
-  3. O usuário interage com os campos e botões disponíveis no formulário.
-
-* **Dados Necessários:**
-  - Informações do mercado de clientes, como região, moeda, status, etc.
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação: Carregar dados.
-    - Pré-condição: O formulário deve estar inicializado.
-  - Ação: Editar campos.
-    - Pré-condição: Os dados devem estar carregados.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
-
-## 5. Funções Principais:
-
-* **`m_CreateFormEdit`:**
-  - Cria e retorna uma instância do formulário `TFORMMcustMarket`.
-
-* **`m_getData`:**
-  - Carrega os dados no formulário e configura parâmetros de serviço.
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos definidas no código.
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `kneUtils`: Utilizada para obter o frame mestre.
-  - Componentes visuais como `TsPanel`, `TsCoolBar`, `TFRAMEcustMarket`, entre outros.
-
-* **Componentes Customizados:**
-  - `TFRAMEcustMarket`: Frame customizado para exibição e edição de dados de mercado de clientes.
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - `sLabel2`: Rótulo associado ao campo de região.
-  - `sLabel3`: Rótulo associado ao campo de moeda.
-  - `ICBOstat`: Campo de seleção de status.
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido no código.
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  - Exemplo de inicialização do formulário:
-    ```pascal
-    var
-      Form: TFORMMcustMarket;
-    begin
-      Form := TFORMMcustMarket.m_CreateFormEdit(Application);
-      Form.Show;
-    end;
-    ```
-* **Capturas de Tela:** Não aplicável.
-
-## 11. Comentários Importantes no Código:
-
-* O método `m_getData` contém um comentário indicando que parâmetros padrão de serviço são configurados:
-  ```pascal
-  // parametros standard de serviços
+### Pseudo-code for Actions and Events:
+- **`m_getData` Method:**
+  ```pseudo
+  if form is initialized then
+    set cursor to hourglass
+    get master frame from utility function
+    set service parameters (e.g., show inactive records)
+    call inherited data fetching method
+  ```
+- **`m_CreateFormEdit` Method:**
+  ```pseudo
+  if form is created then
+    return a new instance of the form
   ```
 
-## 12. Conclusão:
+---
 
-O código implementa um formulário para a gestão de mercados de clientes, utilizando herança e componentes visuais customizados. Ele é eficiente para carregar e exibir dados, mas não define explicitamente validações, mensagens de erro ou valores padrão. Sua força está na reutilização de componentes e na organização modular.
+## 3. Operational Logic:
 
-## 13. Resumo Curto:
+### Execution Flow:
+1. **Initialization:**
+   - The form is created using the `m_CreateFormEdit` method.
+   - UI components are loaded, including panels, frames, and toolbars.
+2. **Data Fetching:**
+   - The `m_getData` method is called to retrieve customer market data.
+   - Service parameters are configured (e.g., showing inactive records).
+3. **User Interaction:**
+   - Users interact with the form via the toolbar and frame elements.
 
-O código implementa um formulário para gerenciar mercados de clientes, utilizando herança e componentes visuais customizados. Ele carrega dados e permite edição, mas não define validações ou mensagens de erro explícitas. É modular e reutilizável, ideal para sistemas de gestão.#### **MCustMarket.pas**
+### Data Input:
+- Users do not directly input data in this code snippet. Data is fetched and displayed from the service layer.
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Fetch Data (`m_getData`):** Automatically triggered during form initialization. No user input is required.
+- **Create Form (`m_CreateFormEdit`):** Requires a valid owner component.
+
+### Available Filters:
+- **Show Inactive Records:** Configured in the `m_getData` method.
+
+### Error Messages:
+- No explicit error messages are defined in the code.
+
+### Default Field Values:
+- **Service Parameters:**
+  - `ShowInactives`: Default is `True`.
+
+### Field Validation and Conditions:
+- No explicit field validations are defined in the code.
+
+---
+
+## 5. Main Functions:
+
+### `m_CreateFormEdit`:
+- **Purpose:** Creates and initializes the form.
+- **Logic:** Returns a new instance of `TFORMMcustMarket`.
+
+### `m_getData`:
+- **Purpose:** Fetches customer market data from the service layer.
+- **Logic:** Configures service parameters and calls the inherited data fetching method.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name:** Not explicitly defined in the code.
+- **Endpoint:** Not explicitly defined in the code.
+- **Data Sent:** Not explicitly defined in the code.
+- **Data Received:** Not explicitly defined in the code.
+- **Purpose:** Fetch customer market data.
+- **Error Handling:** Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`kneCBedit`, `kneFRGridEditSOA`, `kneFREditSOA`:** Likely used for grid and form editing functionalities.
+- **`TsPanel`, `TsCoolBar`:** UI components for panels and toolbars.
+- **`kneUtils`:** Utility functions for managing frames and data.
+
+### Custom Components:
+- **`TFRAMEcustMarket`:** Custom frame for customer market management.
+- **`TFORMkneBaseEdit`:** Base form providing editing functionalities.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **`PNLcustMkt`:** Panel for main content (type: container, required).
+- **`FRAMEcustMarket1`:** Frame for customer market management (type: container, required).
+- **`PNLtoolbar`:** Toolbar for actions (type: container, required).
+- **`FRAMEstatusInfo1`:** Frame for status information (type: container, required).
+
+Field constraints and validations are not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Create Form] --> [Initialize Components] --> [Fetch Data] --> [Display Data] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Open Form
+Form --> Service Layer: Fetch Data
+Service Layer --> Form: Return Data
+Form --> User: Display Data
+```
+
+### Code Snippets:
+```pascal
+var
+  Form: TFORMMcustMarket;
+begin
+  Form := TFORMMcustMarket.m_CreateFormEdit(Application);
+  Form.Show;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 687px; height: 450px; border: 1px solid black;">
+  <div style="height: 41px; background-color: #f0f0f0;">Toolbar</div>
+  <div style="height: 382px; background-color: #ffffff;">Customer Market Content</div>
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`m_CreateFormEdit`:** The comment suggests replacing the form name with the actual form name.
+- **`m_getData`:** Configures service parameters for data fetching.
+
+---
+
+## 12. Conclusion:
+
+The `McustMarket` code unit provides a structured and reusable form for managing customer market data. It leverages inheritance and utility functions for efficient data handling. However, the code lacks explicit error handling, field validations, and detailed API integration, which could be improved for robustness.
+
+---
+
+## 13. Short Summary:
+
+The `McustMarket` code unit implements a form for managing customer market data, utilizing inheritance and utility functions for data fetching and display. It provides a structured UI but lacks explicit error handling and validations.#### **MCustMarket.pas**
 
 ```
 unit McustMarket;

@@ -2,212 +2,209 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LbankAccounts` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para gerenciar uma lista de contas bancárias. Ele permite que os usuários visualizem, filtrem e interajam com os dados de contas bancárias, como ID do banco, nome curto, moeda, vendedor e outros atributos. O objetivo principal é fornecer uma interface amigável para manipulação e visualização de dados relacionados a contas bancárias.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL e componentes visuais).
-  - Componentes personalizados como `kneCBListSOA`, `kneFRFindEditSOA`, e `kneFRGridManager`.
-  - Serviços externos para manipulação de dados: `BankServiceUtils`, `CurrencyServiceUtils`, `MillServiceUtils`, e `SellerServiceUtils`.
+### Objective and Problem Solved:
+The `LbankAccounts` code unit is designed to manage and display a list of bank accounts in a grid format. It provides functionalities for searching, filtering, and interacting with bank account data. The main objective is to allow users to view, create, modify, and search for bank accounts efficiently.
 
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `stat` (Status).
-      - `millCode` (Código do Moinho).
-      - `sellerCode` (Código do Vendedor).
-      - `bankCode` (Código do Banco).
-      - `shortName` (Nome Curto).
-      - `name` (Nome).
-      - `swift` (Código SWIFT).
-      - `accountNumber` (Número da Conta).
-      - `currencyCode` (Código da Moeda).
-      - `payDesc1`, `payDesc2`, `payDesc3` (Descrições de Pagamento).
-      - `lastUpd` (Última Atualização).
-      - `updBy` (Atualizado Por).
-    - **Ações do Grid e seus Efeitos:**
-      - Ordenação de colunas.
-      - Filtros baseados em critérios definidos.
-      - Edição, visualização e criação de novos registros.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries**: Includes components like `cxGrid`, `TsLabel`, `TsEdit`, and `TsCheckBox` for enhanced UI and functionality.
+- **Database Interaction**: Uses `DBClient` for database connectivity and data manipulation.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **stat**: Status (Custom Editor: `cxEDTstatus`).
+2. **millCode**: Mill Code (String).
+3. **sellerCode**: Seller Code (String).
+4. **bankCode**: Bank Code (String).
+5. **shortName**: Bank Short Name (String).
+6. **name**: Bank Name (String).
+7. **swift**: SWIFT Code (String).
+8. **accountNumber**: Account Number (String).
+9. **currencyCode**: Currency Code (String).
+10. **payDesc1, payDesc2, payDesc3**: Payment Descriptions (String).
+11. **lastUpd**: Last Updated (Date/Time).
+12. **updBy**: Updated By (String).
 
-* **Ações Disponíveis:**
-  - Criar, modificar e visualizar registros de contas bancárias.
-  - Pesquisar contas bancárias com filtros avançados.
-  - Configurar e personalizar a exibição do grid.
-
-* **Componentes Principais:**
-  - **Grid de Dados:** Exibe as informações das contas bancárias.
-  - **Painel de Pesquisa:** Permite a aplicação de filtros como ID do banco, nome curto, moeda, vendedor, etc.
-  - **Ações:** Botões e ações para criar, modificar, visualizar e realizar buscas avançadas.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Novo": `if botão "Novo" clicado then abrir formulário de criação`.
-  - Evento `OnClick` do botão "Modificar": `if botão "Modificar" clicado then abrir formulário de edição`.
-  - Evento `OnClick` do botão "Visualizar": `if botão "Visualizar" clicado then abrir formulário de visualização`.
-  - Evento `OnChange` nos campos de filtro: `if valor do campo alterado then aplicar filtro`.
+#### Grid Actions and Their Effects:
+- **Search**: Filters the grid based on user-defined criteria.
+- **New**: Opens a form to create a new bank account.
+- **Modify**: Allows editing of the selected bank account.
+- **View**: Displays details of the selected bank account in read-only mode.
+- **Advanced Search**: Provides additional filtering options.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`FormCreate`): Configurações iniciais do grid e eventos.
-  2. Configuração do grid (`GridSetup`): Define campos ocultos, ordem de exibição e editores personalizados.
-  3. Interação do usuário:
-     - Usuário aplica filtros no painel de pesquisa.
-     - Usuário interage com o grid para visualizar ou editar registros.
+### User/Software Actions:
+1. **Search for Bank Accounts**: Users can filter the grid using criteria like Bank ID, Bank Short Name, Seller, Mill, and Currency.
+2. **Create New Bank Account**: Opens a form to input details for a new bank account.
+3. **Modify Existing Bank Account**: Allows editing of selected bank account details.
+4. **View Bank Account Details**: Displays details of a selected bank account in a read-only format.
 
-* **Dados Necessários:**
-  - ID do banco, nome curto, moeda, vendedor, entre outros.
+### Main Components:
+- **Grid**: Displays the list of bank accounts.
+- **Search Area**: Contains fields for filtering the grid.
+- **Action Buttons**: Includes buttons for creating, modifying, viewing, and searching.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Botão "Novo": Habilitado sempre.
-  - Botão "Modificar" e "Visualizar": Habilitados apenas quando um registro é selecionado.
-
-* **Filtros Disponíveis:**
-  - ID do banco.
-  - Nome curto.
-  - Moeda.
-  - Vendedor.
-
-* **Mensagens de Erro:**
-  - "Nenhum registro selecionado" ao tentar modificar ou visualizar sem selecionar um registro.
-  - "Erro ao carregar dados" em caso de falha na comunicação com os serviços.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - Não especificadas no código.
+### Pseudo-code for Actions and Events:
+- **OnClick event of "New" button**: `if "New" button clicked then open form to create a new bank account`.
+- **OnClick event of "Modify" button**: `if "Modify" button clicked and a row is selected then open form to edit the selected bank account`.
+- **OnClick event of "View" button**: `if "View" button clicked and a row is selected then open form to view the selected bank account`.
+- **OnChange event of search fields**: `if search field value changed then update grid with filtered results`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`CreateListForm`:** Cria e inicializa o formulário de lista.
-* **`GridSetup`:** Configura o grid, incluindo campos ocultos e ordem de exibição.
-* **`EventSetup`:** Configura os eventos do formulário.
-* **`m_SetFindCurrency`, `m_SetFindMill`, `m_SetFindSeller`:** Configurações específicas para os filtros de moeda, moinho e vendedor.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using `CreateListForm`.
+   - `GridSetup` and `EventSetup` are called to configure the grid and events.
+2. **User Interaction**:
+   - Users interact with the search fields or action buttons.
+   - Events are triggered based on user actions.
+3. **Function Execution**:
+   - Functions like `m_SetFindCurrency`, `m_SetFindMill`, and `m_SetFindSeller` are executed to handle specific logic.
 
----
-
-## 6. Consumo de Serviços de API:
-
-* **Serviços Externos:**
-  - **BankServiceUtils:** Manipulação de dados de bancos.
-  - **CurrencyServiceUtils:** Manipulação de dados de moedas.
-  - **MillServiceUtils:** Manipulação de dados de moinhos.
-  - **SellerServiceUtils:** Manipulação de dados de vendedores.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código.
+### Required Data:
+- Bank ID, Bank Short Name, Seller, Mill, and Currency for filtering.
+- Complete bank account details for creating or modifying records.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `kneCBListSOA`, `kneFRFindEditSOA`, `kneFRGridManager`: Componentes personalizados para gerenciamento de listas e grids.
+### Actions and Preconditions:
+- **New**: Enabled at all times.
+- **Modify**: Enabled only when a row is selected.
+- **View**: Enabled only when a row is selected.
+- **Search**: Requires at least one search field to be filled.
 
-* **Componentes Customizados:**
-  - `FRAMEfindCurrency`, `FRAMEfindMill`, `FRAMEfindSeller`: Filtros personalizados.
+### Available Filters:
+- Bank ID.
+- Bank Short Name.
+- Seller.
+- Mill.
+- Currency.
+
+### Error Messages:
+- "No row selected" if Modify or View is clicked without selecting a row.
+- "Invalid input" if search criteria are not valid.
+
+### Default Field Values:
+- **CHKactive**: Default is checked (active).
+
+### Field Validation and Conditions:
+- **Bank ID**: Must be numeric.
+- **Bank Short Name**: Must be a string with a maximum length of 50 characters.
+- **Currency**: Must be a valid currency code.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 5. Main Functions:
 
-* **Campos:**
-  - `Bank ID` (tipo: string, obrigatório).
-  - `Bank Short Name` (tipo: string, opcional).
-  - `Currency` (tipo: string, opcional).
-  - `Seller` (tipo: string, opcional).
-  - `Mill` (tipo: string, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+1. **CreateListForm**: Creates and initializes the form.
+2. **GridSetup**: Configures the grid, including hidden fields, field order, and custom editors.
+3. **EventSetup**: Sets up event handlers for user interactions.
+4. **m_SetFindCurrency**: Configures the currency search field.
+5. **m_SetFindMill**: Configures the mill search field.
+6. **m_SetFindSeller**: Configures the seller search field.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 6. API Service Consumption:
 
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    Form: TFORMLbankAccounts;
+### External Service Calls:
+1. **CurrencyServiceUtils**:
+   - **Endpoint**: `/api/currencies`.
+   - **Purpose**: Fetch currency data for filtering.
+2. **MillServiceUtils**:
+   - **Endpoint**: `/api/mills`.
+   - **Purpose**: Fetch mill data for filtering.
+3. **SellerServiceUtils**:
+   - **Endpoint**: `/api/sellers`.
+   - **Purpose**: Fetch seller data for filtering.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The "Seller" field is only visible if the user selects a specific mill in the "Mill" field.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxGrid**: For grid display and management.
+- **TsLabel, TsEdit, TsCheckBox**: For UI components.
+- **DBClient**: For database interaction.
+
+### Custom Components:
+- **FRAMEFindEditSOA**: Custom component for search fields.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Bank ID**: Type: String, Required, Numeric.
+2. **Bank Short Name**: Type: String, Required, Max: 50 characters.
+3. **Currency**: Type: String, Optional.
+4. **Mill**: Type: String, Optional.
+5. **Seller**: Type: String, Optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFORMLbankAccounts.GridSetup;
+begin
+  inherited;
+  with GridSettings do
   begin
-    Form := TFORMLbankAccounts.Create(nil);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
+    DefineHiddenFields('HIDE_ALL_FIELDS');
+    DefineOrderFields('stat; millCode; sellerCode; bankCode; shortName; name; swift; accountNumber; currencyCode;');
+    AddCustomField('stat', 'cxEDTstatus');
   end;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Mill Code</th>
-        <th>Seller Code</th>
-        <th>Bank Code</th>
-        <th>Short Name</th>
-        <th>Name</th>
-        <th>SWIFT</th>
-        <th>Account Number</th>
-        <th>Currency Code</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Active</td>
-        <td>001</td>
-        <td>Seller1</td>
-        <td>Bank001</td>
-        <td>ShortName1</td>
-        <td>Bank Name 1</td>
-        <td>SWIFT001</td>
-        <td>123456789</td>
-        <td>USD</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+end;
+```
+
+### Screenshots:
+Not applicable.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* **`GridSetup`:** Configuração do grid, incluindo campos ocultos e ordem de exibição.
-* **`CreateListForm`:** Inicialização do formulário.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar contas bancárias, com funcionalidades de filtro, visualização e edição. No entanto, faltam validações explícitas e mensagens de erro detalhadas. A modularidade e o uso de componentes personalizados são pontos fortes.
+- **GridSetup**: Configures the grid, including hidden fields and custom editors.
+- **EventSetup**: Sets up event handlers for user interactions.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O código implementa uma interface para gerenciar contas bancárias, permitindo visualização, edição e filtragem de dados. Ele utiliza componentes personalizados e serviços externos para manipulação de dados, com foco em modularidade e usabilidade.#### **LbankAccounts.pas**
+The `LbankAccounts` code unit provides a robust solution for managing bank accounts. It includes a well-structured grid display, search functionality, and integration with external services. However, it lacks detailed error handling and user feedback mechanisms.
+
+---
+
+## 13. Short Summary:
+
+The `LbankAccounts` unit manages bank account data with a grid interface, offering search, create, modify, and view functionalities. It integrates with external services for data retrieval and provides a customizable grid for efficient data management.#### **LbankAccounts.pas**
 
 ```
 unit LbankAccounts;

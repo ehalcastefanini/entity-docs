@@ -2,170 +2,233 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocumentsInformation`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um componente de interface gráfica para gerenciar informações de documentos associados a entidades, como clientes ou consignatários. Ele permite visualizar, adicionar e excluir registros de documentos, além de configurar propriedades específicas para os campos exibidos em uma grade (grid). O objetivo é facilitar a manipulação e visualização de dados relacionados a documentos de forma estruturada e eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid e cxEditRepository:** Utilizados para criar e gerenciar a interface gráfica, incluindo a grade de dados e os editores personalizados.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **ClientDataSet:** Para manipulação de dados em memória.
+### Objective:
+The `FRdocumentsInformation` unit is designed to manage and display document-related information in a grid format. It provides functionalities for adding, editing, and validating document data, such as document type, number of copies, email, fax, and address number. The grid is highly customizable, allowing for specific field configurations, validations, and user interactions.
 
-* **Forma do Componente:**
-  - **Grade de Exibição (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `tpDoc` (Tipo de Documento): ComboBox com opções como "INV", "OACK", "PLIST".
-      - `nCopies` (Número de Cópias): Campo numérico.
-      - `defMethod` (Método de Envio): ComboBox com opções como "MAIL", "FAX", "POSTAL".
-      - `addressNum` (Número de Endereço): Campo numérico.
-      - `Email`: Campo de texto.
-      - `Fax`: Campo de texto.
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Insere um novo registro.
-      - Excluir (`DELETE`): Remove o registro selecionado.
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **SOAP Services**: For interacting with external services.
+- **Database Components**: For managing and validating data.
+- **cxGrid**: A component for displaying and managing tabular data.
+- **cxEditRepository**: For custom field editors and validations.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **grid display**. 
 
-* **Ações Específicas:**
-  - Adicionar um novo documento.
-  - Excluir um documento existente.
-  - Validar e formatar campos como e-mail, fax e número de endereço.
+#### Grid Columns and Their Types:
+1. **tpDoc**: Document type (Image ComboBox).
+2. **nCopies**: Number of copies (Mask Item).
+3. **defMethod**: Default method (Image ComboBox).
+4. **addressNum**: Address number (Mask Item).
+5. **Email**: Email address (Mask Item).
+6. **Fax**: Fax number (Mask Item).
+7. **name**: Name (String).
+8. **addText**: Additional text (String).
+9. **lastUpd**: Last updated (String).
+10. **updBy**: Updated by (String).
 
-* **Componentes Principais:**
-  - **Grade (Grid):** Exibe os dados dos documentos.
-  - **Painel de Ações:** Contém botões para adicionar e excluir registros.
-  - **Editores Personalizados:** Configuram a entrada de dados para campos específicos.
+#### Grid Actions and Their Effects:
+- **Add**: Adds a new record to the grid.
+- **Delete**: Deletes the selected record from the grid.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão "Adicionar" clicado then insere novo registro`.
-  - Evento `OnClick` do botão "Excluir": `if botão "Excluir" clicado then remove registro selecionado`.
-  - Evento `OnChange` de um campo: `if valor do campo alterado then valida o campo`.
+---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização: O componente é carregado e configurado com base no tipo de formulário pai.
-  - Interação do Usuário: O usuário pode adicionar ou excluir registros na grade.
-  - Funções Executadas:
-    - `Create` (Arquivo: `FRdocumentsInformation`): Configura o componente e define propriedades iniciais.
-    - `ACTaddExecute` (Arquivo: `FRdocumentsInformation`): Adiciona um novo registro.
-    - `CDStableBeforeEdit` e `CDStableBeforePost` (Arquivo: `FRdocumentsInformation`): Validam os dados antes de editar ou salvar.
+### User/Software Actions:
+1. Add a new document record.
+2. Edit existing document records.
+3. Validate email addresses.
+4. Configure grid settings (e.g., hidden fields, field order, custom editors).
 
-* **Dados Necessários:**
-  - Tipo de Documento.
-  - Número de Cópias.
-  - Método de Envio.
-  - Número de Endereço.
-  - E-mail.
-  - Fax.
+### Main Components:
+- **Grid Settings**: Configures the grid's appearance and behavior.
+- **Custom Editors**: Provides specific input types for fields (e.g., combo boxes, masks).
+- **Validation Functions**: Ensures data integrity (e.g., email validation).
 
-## 4. Regras de Negócio:
+### Pseudo-code for Actions and Events:
+- **On Add Button Click**:  
+  `if add button clicked then add new record to dataset`
+- **On Before Edit Event**:  
+  `if dataset is about to be edited then perform pre-edit checks`
+- **On Before Post Event**:  
+  `if dataset is about to be posted then validate data`
+- **Email Validation**:  
+  `if email validation function called then check email format`
 
-* **Ações e Pré-condições:**
-  - Ação "Adicionar": Disponível sempre.
-  - Ação "Excluir": Disponível apenas se um registro estiver selecionado.
+---
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+## 3. Operational Logic:
 
-* **Mensagens de Erro:**
-  - "E-mail inválido" se o formato do e-mail for incorreto.
-  - "Número de endereço inválido" se o valor não atender ao formato esperado.
-  - "Fax inválido" se o valor não atender ao formato esperado.
+### Execution Flow:
+1. **Initialization**:
+   - The `TFRAMEdocumentsInformation` is created.
+   - Grid settings are configured (e.g., hidden fields, field order, custom editors).
+   - Default values and configurations are loaded.
+2. **User Interaction**:
+   - Users can add, edit, or delete records in the grid.
+   - Validations are triggered during data entry or before saving.
+3. **Functions**:
+   - `Create`: Initializes the frame and configures grid settings.
+   - `CDStableBeforeEdit`: Prepares the dataset for editing.
+   - `CDStableBeforePost`: Validates data before saving.
+   - `ACTaddExecute`: Adds a new record to the dataset.
 
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
+### Required Data:
+- Document type, number of copies, default method, address number, email, and fax.
 
-* **Validação de Campos:**
-  - `Email`: Deve ter no máximo 300 caracteres.
-  - `Fax`: Deve seguir o formato de número de fax.
-  - `addressNum` e `nCopies`: Devem ser numéricos.
+---
 
-## 5. Funções Principais:
+## 4. Business Rules:
 
-* **`Create`:** Configura o componente com base no formulário pai e define propriedades iniciais.
-* **`ACTaddExecute`:** Adiciona um novo registro à grade.
-* **`CDStableBeforeEdit` e `CDStableBeforePost`:** Validam os dados antes de editar ou salvar.
+### Actions and Preconditions:
+- **Add Action**: Enabled at all times.
+- **Delete Action**: Enabled only when a record is selected.
+- **Save Action**: Enabled only when all required fields are valid.
 
-## 6. Consumo de Serviços API:
+### Available Filters:
+- No explicit filters are defined in the code.
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
+### Error Messages:
+- "Invalid email format" if the email validation fails.
+- "Required field not completed" if a mandatory field is empty.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* Não há campos condicionais definidos no código.
+### Field Validation and Conditions:
+- **Email**: Must be a valid email format.
+- **Fax**: Must match the regular expression `(\+\d{1,4})?\d{1,15}`.
+- **Address Number**: Must be a numeric value (1-2 digits).
+- **Number of Copies**: Must be a numeric value (1-2 digits).
 
-## 8. Dependências:
+---
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxEditRepository`: Para a interface gráfica.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
+## 5. Main Functions:
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base herdada para funcionalidades adicionais.
+1. **`Create`**:
+   - Initializes the frame and configures grid settings.
+   - Sets default values and properties.
+2. **`CDStableBeforeEdit`**:
+   - Prepares the dataset for editing.
+3. **`CDStableBeforePost`**:
+   - Validates data before saving.
+4. **`ACTaddExecute`**:
+   - Adds a new record to the dataset.
+5. **`m_ExistsRecord`**:
+   - Checks if a record exists in the dataset.
+6. **`ValidEmails`**:
+   - Validates email addresses.
 
-## 9. Listagem de Campos e Validações:
+---
 
-* **Campos:**
-  - `tpDoc` (string, obrigatório, opções: "INV", "OACK", "PLIST").
-  - `nCopies` (numérico, obrigatório, máximo: 2 dígitos).
-  - `defMethod` (string, obrigatório, opções: "MAIL", "FAX", "POSTAL").
-  - `addressNum` (numérico, obrigatório, máximo: 2 dígitos).
-  - `Email` (string, opcional, máximo: 300 caracteres).
-  - `Fax` (string, opcional, formato de fax).
+## 6. API Service Consumption:
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido explicitamente no código.
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Not explicitly defined in the code.
+- **Error Handling**: Not explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+---
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  FRAMEdocumentsInformation := TFRAMEdocumentsInformation.Create(Self);
-  FRAMEdocumentsInformation.ShowActionPanel := True;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Tipo de Documento</th>
-        <th>Número de Cópias</th>
-        <th>Método de Envio</th>
-        <th>Número de Endereço</th>
-        <th>Email</th>
-        <th>Fax</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>INV</td>
-        <td>1</td>
-        <td>MAIL</td>
-        <td>12</td>
-        <td>example@example.com</td>
-        <td>+123456789</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+## 7. Conditional Fields (Form Logic):
 
-## 11. Comentários Importantes no Código:
+- **Address Number Field**: Always visible.
+- **Conditions**: No conditional fields are defined in the code.
 
-* Configuração de propriedades específicas para diferentes tipos de formulários no método `Create`.
-* Validação de campos no método `CDStableBeforePost`.
+---
 
-## 12. Conclusão:
+## 8. Dependencies:
 
-O código implementa uma interface robusta para gerenciar informações de documentos, com validações e configurações específicas para os campos. No entanto, faltam detalhes sobre integração com APIs externas e valores padrão para alguns campos.
+### External Libraries:
+- **cxGrid**: For grid display and management.
+- **cxEditRepository**: For custom field editors.
+- **SOAPHTTPClient**: For SOAP service interactions.
 
-## 13. Resumo Curto:
+### Custom Components:
+- **TFRAMEBaseGridEditSOA**: Base class for grid management.
+- **kneFRGridManager**: For managing grid settings.
 
-Componente Delphi para gerenciar informações de documentos em uma grade, com validações e editores personalizados. Suporta ações de adicionar e excluir registros, configurando propriedades específicas para diferentes tipos de formulários.#### **FRdocumentsInformation.pas**
+---
+
+## 9. Fields and Validations Listing:
+
+1. **tpDoc**:  
+   - Type: Image ComboBox.  
+   - Required: Yes.  
+   - Values: `INV`, `OACK`, `PLIST`.
+
+2. **nCopies**:  
+   - Type: Mask Item.  
+   - Required: Yes.  
+   - Validation: Numeric (1-2 digits).
+
+3. **defMethod**:  
+   - Type: Image ComboBox.  
+   - Required: Yes.  
+   - Values: `MAIL`, `FAX`, `POSTAL`.
+
+4. **addressNum**:  
+   - Type: Mask Item.  
+   - Required: Yes.  
+   - Validation: Numeric (1-2 digits).
+
+5. **Email**:  
+   - Type: Mask Item.  
+   - Required: Yes.  
+   - Validation: Valid email format.
+
+6. **Fax**:  
+   - Type: Mask Item.  
+   - Required: No.  
+   - Validation: Matches regex `(\+\d{1,4})?\d{1,15}`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEdocumentsInformation.ACTaddExecute(Sender: TObject);
+begin
+  // Add a new record to the dataset
+  CDStable.Append;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**: Configures hidden fields, field order, and custom editors.
+- **Validation Functions**: Ensures data integrity before saving.
+
+---
+
+## 12. Conclusion:
+
+The `FRdocumentsInformation` unit provides a robust framework for managing document-related data in a grid format. It includes customizable grid settings, field validations, and user actions. However, the lack of explicit API integration and error handling limits its extensibility.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocumentsInformation` unit manages document data in a grid format, offering customizable settings, field validations, and user actions like adding and editing records. It is part of a larger system for document management.#### **FRdocumentsInformation.pas**
 
 ```
 unit FRdocumentsInformation;

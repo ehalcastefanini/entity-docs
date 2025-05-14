@@ -2,207 +2,205 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcarrierAvailableVehicle`
 
-### Objetivo Principal:
-O objetivo principal do código fornecido é criar uma interface de usuário para gerenciar veículos disponíveis associados a transportadoras. Ele permite que os usuários visualizem, adicionem e excluam veículos, além de realizar buscas específicas por tipo de veículo. O código implementa uma grade (grid) para exibir os dados e fornece ações para manipulação dos registros.
+## 1. Overview:
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação utilizada para criar a aplicação.
-- **Componentes cxGrid**: Utilizados para exibir e manipular dados em formato de tabela.
-- **SOAP**: Utilizado para comunicação com serviços externos.
-- **Bibliotecas Personalizadas**: Incluem `kneFRGridEditSOA`, `kneFRGridManager`, entre outras, para funcionalidades específicas.
+### Objective and Problem Solved:
+The `FRcarrierAvailableVehicle` unit is designed to manage and display a grid of available vehicles for a carrier. It provides functionalities to add, delete, and edit vehicle details, as well as search for specific vehicle types. This component is part of a larger system that handles carrier and vehicle management, streamlining the process of managing vehicle data.
 
-### Tipo de Interface:
-- **Grade (Grid Display)**:
-  - **Colunas da Grade**:
-    - `vehicleType` (Tipo de Veículo): String.
-    - `description` (Descrição): String.
-    - `numVehicle` (Número do Veículo): String.
-    - `box` (Caixa): Boolean (Checkbox).
-  - **Ações da Grade**:
-    - Adicionar (`ADD`): Permite adicionar um novo veículo.
-    - Excluir (`DELETE`): Permite excluir um veículo existente.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP Services**: The code interacts with SOAP-based web services for vehicle-related operations.
+- **Database Components**: Uses `TcxGridDBTableView` for displaying and managing data from a database.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **vehicleType**: String (Editable, with a custom button for searching).
+2. **description**: String (Read-only).
+3. **numVehicle**: Integer (Read-only).
+4. **box**: Boolean (Checkbox).
 
-### Ações Disponíveis:
-- Adicionar um novo veículo.
-- Excluir um veículo existente.
-- Buscar veículos por tipo ou código.
-
-### Componentes Principais:
-- **Grade (cxGrid)**: Exibe os dados dos veículos.
-- **Botões de Ação**: Permitem adicionar e excluir registros.
-- **Campos Personalizados**:
-  - `cxEDTfindVehicleType`: Botão para buscar tipos de veículos.
-  - `cxEDTRCheckBox`: Checkbox para indicar se o veículo possui caixa.
-
-### Pseudo-código:
-- Evento `OnEditValueChanged`:
-  ```pseudo
-  se o valor de um campo na grade for alterado, então execute a função de validação.
-  ```
-- Evento `OnButtonClick` do botão de busca:
-  ```pseudo
-  se o botão de busca for clicado, então execute a função de busca de tipo de veículo.
-  ```
-- Ação `ADD`:
-  ```pseudo
-  se o botão "Adicionar" for clicado, então abra o formulário para adicionar um novo veículo.
-  ```
-- Ação `DELETE`:
-  ```pseudo
-  se o botão "Excluir" for clicado, então remova o veículo selecionado.
-  ```
+#### Grid Actions and Their Effects:
+1. **Add**: Allows the user to add a new vehicle.
+2. **Delete**: Deletes the selected vehicle from the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-### Fluxo de Execução:
-1. Inicialização:
-   - A interface é carregada com os componentes da grade e os campos configurados.
-   - Os campos `vehicleType` e `box` são configurados com editores personalizados.
-2. Interações do Usuário:
-   - O usuário pode clicar nos botões de ação para adicionar ou excluir veículos.
-   - O usuário pode alterar valores diretamente na grade.
-   - O botão de busca permite localizar tipos de veículos.
+### User/Software Actions:
+- Add a new vehicle.
+- Delete an existing vehicle.
+- Search for a vehicle type using a custom button.
+- Edit specific fields in the grid.
 
-### Dados Necessários:
-- Tipo de Veículo (`vehicleType`).
-- Descrição (`description`).
-- Número do Veículo (`numVehicle`).
-- Indicação de Caixa (`box`).
+### Main Components:
+1. **Grid (`cxDBVtable`)**: Displays vehicle data.
+2. **Custom Editors**:
+   - `cxEDTfindVehicleType`: Button for searching vehicle types.
+   - `cxEDTRCheckBox`: Checkbox for the "box" field.
+3. **Action Panel**: Provides buttons for adding and deleting vehicles.
 
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Adicionar**:
-  - Pré-condição: Nenhuma.
-  - Ação: Abre um formulário para adicionar um novo veículo.
-- **Excluir**:
-  - Pré-condição: Um veículo deve estar selecionado na grade.
-  - Ação: Remove o veículo selecionado.
-
-### Filtros Disponíveis:
-- Busca por tipo de veículo.
-- Busca por código de veículo.
-
-### Mensagens de Erro:
-- "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-- "Tipo de veículo inválido" se o tipo de veículo não for encontrado.
-
-### Valores Padrão dos Campos:
-- Não definidos explicitamente no código.
-
-### Validações e Condições:
-- `vehicleType`: Deve ser validado para garantir que o tipo de veículo existe.
-- `box`: Aceita apenas valores `Y` (Sim) ou `N` (Não).
+### Pseudo-code for Actions and Events:
+- **OnClick event of Add button**: `if Add button clicked then execute ACTaddExecute`.
+- **OnClick event of Delete button**: `if Delete button clicked then delete selected row`.
+- **OnButtonClick event of vehicleType field**: `if button clicked then execute m_FindVehicleType`.
+- **OnEditValueChanged event of grid**: `if grid cell value changed then execute cxDBVtableEditValueChanged`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-- **`Create`**:
-  - Configura a grade e define os campos e ações disponíveis.
-- **`m_FindVehicleType`**:
-  - Executa a busca de tipos de veículos.
-- **`m_FindByCodeVehicleType`**:
-  - Valida e busca informações adicionais com base no código do veículo.
+### Execution Flow:
+1. **Initialization**:
+   - The `TFRAMEcarrierAvailableVehicle` frame is created.
+   - Grid settings are configured (e.g., hidden fields, order of fields, key fields, custom editors).
+   - Action panel is set up with "Add" and "Delete" actions.
+2. **User Interactions**:
+   - Users can add or delete vehicles using the action panel.
+   - Users can search for vehicle types using the custom button in the `vehicleType` column.
+   - Users can edit specific fields in the grid.
 
----
-
-## 6. Consumo de Serviços API:
-
-- **Serviço**: `VehicleServiceUtils`.
-- **Endpoint**: Não especificado no código.
-- **Dados Enviados**: Código do veículo ou tipo de veículo.
-- **Dados Recebidos**: Informações detalhadas sobre o veículo.
-- **Propósito**: Buscar informações de veículos.
-- **Tratamento de Erros**: Não especificado no código.
+### Data Input:
+- **vehicleType**: Editable, with a search button.
+- **box**: Editable, as a checkbox.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-- Não há campos condicionais explícitos no código.
+### Actions and Preconditions:
+1. **Add**:
+   - Preconditions: None.
+   - Action: Adds a new row to the grid.
+2. **Delete**:
+   - Preconditions: A row must be selected.
+   - Action: Deletes the selected row.
 
----
+### Available Filters:
+- No explicit filters are defined in the code.
 
-## 8. Dependências:
+### Error Messages:
+- No error messages are explicitly defined in the code.
 
-### Bibliotecas Externas:
-- **cxGrid**: Para exibição de dados em formato de tabela.
-- **SOAPHTTPClient**: Para comunicação com serviços SOAP.
+### Default Field Values:
+- **box**: Default value is "N" (unchecked).
 
-### Componentes Personalizados:
-- **kneFRGridEditSOA**: Base para a interface de edição.
-- **kneFRGridManager**: Gerenciamento da grade.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-- `vehicleType` (tipo: string, obrigatório, não possui validação explícita no código).
-- `description` (tipo: string, obrigatório, não possui validação explícita no código).
-- `numVehicle` (tipo: string, obrigatório, não possui validação explícita no código).
-- `box` (tipo: boolean, obrigatório, valores permitidos: `Y` ou `N`).
+### Field Validation and Conditions:
+- **vehicleType**: Must be a valid vehicle type (validated via `m_FindVehicleType`).
+- **box**: Accepts only "Y" (checked) or "N" (unchecked).
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-### Diagrama de Fluxo:
-Não aplicável.
+1. **`Create`**:
+   - Configures the grid and action panel.
+   - Sets up custom editors and event handlers.
+2. **`m_FindVehicleType`**:
+   - Handles the search functionality for the `vehicleType` field.
+3. **`m_FindByCodeVehicleType`**:
+   - Validates and retrieves details for a specific vehicle type.
+4. **`cxDBVtableEditValueChanged`**:
+   - Handles changes in grid cell values.
+5. **`ACTaddExecute`**:
+   - Adds a new vehicle to the grid.
 
-### Diagrama de Sequência:
-Não aplicável.
+---
 
-### Código HTML Representando a Grade:
-```html
-<table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
-  <thead>
-    <tr>
-      <th style="border: 1px solid black;">Tipo de Veículo</th>
-      <th style="border: 1px solid black;">Descrição</th>
-      <th style="border: 1px solid black;">Número do Veículo</th>
-      <th style="border: 1px solid black;">Caixa</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="border: 1px solid black;">Caminhão</td>
-      <td style="border: 1px solid black;">Veículo de carga</td>
-      <td style="border: 1px solid black;">12345</td>
-      <td style="border: 1px solid black;">Sim</td>
-    </tr>
-  </tbody>
-</table>
+## 6. API Service Consumption:
+
+- **Service Name**: `VehicleServiceUtils`.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Vehicle type or other related data for validation or retrieval.
+- **Data Received**: Vehicle details.
+- **Purpose**: Validate and retrieve vehicle details.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Field**: `vehicleType`.
+- **Condition**: The search button is only functional when the field is not empty.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAP Components**: For interacting with web services.
+- **DevExpress TcxGrid**: For grid display and data management.
+
+### Custom Components:
+- **`TFRAMEBaseGridEditSOA`**: Base frame for grid editing.
+- **`TVehicleServiceUtils`**: Utility class for vehicle-related operations.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **vehicleType**:
+   - Type: String.
+   - Editable: Yes.
+   - Validation: Must be a valid vehicle type.
+2. **description**:
+   - Type: String.
+   - Editable: No.
+3. **numVehicle**:
+   - Type: Integer.
+   - Editable: No.
+4. **box**:
+   - Type: Boolean.
+   - Editable: Yes.
+   - Default: "N" (unchecked).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcarrierAvailableVehicle.m_FindVehicleType(Sender: TObject; AButtonIndex: Integer);
+begin
+  // Logic to search for a vehicle type
+end;
 ```
 
----
-
-## 11. Comentários Importantes no Código:
-
-- Configuração da grade e campos personalizados no método `Create`.
-- Atribuição de eventos para busca de tipos de veículos.
+### Screenshots:
+Not applicable.
 
 ---
 
-## 12. Conclusão:
+## 11. Important Comments in the Code:
 
-O código implementa uma interface funcional para gerenciar veículos disponíveis, com suporte a ações básicas como adicionar, excluir e buscar registros. No entanto, faltam detalhes sobre validações e tratamento de erros, o que pode ser uma limitação.
+- **Grid Settings**:
+  - Hidden fields: `carrierCode`.
+  - Key fields: `carrierCode;vehicleType`.
+  - Custom editors: `vehicleType` (button), `box` (checkbox).
+- **Action Panel**:
+  - Available actions: "ADD;DELETE".
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-Interface para gerenciar veículos disponíveis, com grade para exibição de dados, suporte a ações de adicionar e excluir, e busca por tipo de veículo. Utiliza componentes cxGrid e serviços SOAP para comunicação.#### **FRcarrierAvailableVehicle.pas**
+The `FRcarrierAvailableVehicle` unit provides a robust framework for managing carrier vehicles. It integrates grid-based data management with custom search and validation functionalities. However, the lack of explicit error handling and detailed API documentation could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRcarrierAvailableVehicle` unit manages a grid of carrier vehicles, allowing users to add, delete, and search for vehicles. It integrates SOAP services for validation and retrieval, with customizable grid settings and action panels.#### **FRcarrierAvailableVehicle.pas**
 
 ```
 unit FRcarrierAvailableVehicle;

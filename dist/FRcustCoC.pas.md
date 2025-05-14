@@ -2,198 +2,212 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustCoC` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface gráfica para gerenciar informações relacionadas a certificações FSC, PEFC e CW. Ele permite que os usuários insiram, editem e validem dados como números de certificação, datas de início e término, e licenças associadas a cada tipo de certificação. O objetivo principal é fornecer uma interface organizada e funcional para manipular esses dados de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL) para desenvolvimento da interface gráfica.
-  - Componentes de terceiros como `TsGroupBox`, `TsLabel`, `TsDBEdit`, `TcxDBDateEdit`, e outros para estilização e funcionalidade.
-  - Integração com banco de dados via `TsDBCheckBox` e `TsDBEdit`.
+### Objective and Problem Solved:
+The `FRcustCoC` code unit defines a form (`TFRAMEcustCoC`) that manages certification data for three types of certifications: FSC, PEFC, and CW. It allows users to input, validate, and manage certification details such as certification numbers, license numbers, and validity dates. The form also provides functionality to enable or disable fields based on user interactions with checkboxes.
 
-* **Tipo de Formulário:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de texto (`TsDBEdit`) para entrada de números de certificação e licenças.
-      - Campos de data (`TcxDBDateEdit`) para seleção de datas de início e término.
-      - Caixas de seleção (`TsDBCheckBox`) para ativar/desativar certificações.
-    - **Ações do Formulário e seus Efeitos:**
-      - Ativação/desativação de campos com base no estado das caixas de seleção.
-      - Validação de dados ao salvar.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the form and its components.
+- **SOAP Services**: Used for potential external service calls (though not explicitly defined in the provided code).
+- **Database Components**: Includes `TsDBEdit`, `TsDBCheckBox`, and `TcxDBDateEdit` for binding form fields to a database.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Ativar ou desativar campos relacionados a certificações específicas (FSC, PEFC, CW) com base no estado das caixas de seleção.
-  - Validar os dados inseridos antes de salvar.
-  - Exibir ou ocultar painéis de ações.
-
-* **Componentes Principais:**
-  - **GRPfsc, GRPpefc, GRPcw:** Grupos que contêm os campos e controles relacionados a cada tipo de certificação.
-  - **CHBnormaFsc, CHBnormaPefc, CHBfscCw:** Caixas de seleção para ativar/desativar certificações.
-  - **EDTcertifNumFsc, EDTcertifNumPefc, EDTcertifNumCw:** Campos de texto para números de certificação.
-  - **DTEstartDateFsc, DTEendDateFsc, DTEstartDatePefc, DTEendDatePefc, DTEstartDateCw, DTEendDateCw:** Campos de data para início e término das certificações.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` da caixa de seleção: `se caixa de seleção marcada então habilitar campos relacionados`.
-  - Evento `OnClick` do botão salvar: `se todos os campos obrigatórios preenchidos então salvar dados`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `TsDBEdit`: Text input fields for certification and license numbers.
+  - `TcxDBDateEdit`: Date input fields for start and end dates.
+  - `TsDBCheckBox`: Checkboxes for enabling/disabling certification types.
+  - `TsLabel`: Labels for field descriptions.
+  - `TsGroupBox`: Group boxes for organizing certification sections.
+- **Form Actions and Effects**:
+  - Clicking checkboxes enables or disables related fields.
+  - Validation is performed before saving data.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do componente: Configuração de propriedades como `FrameType` e visibilidade do painel de ações.
-  - Interação do usuário: Marcar/desmarcar caixas de seleção ativa/desativa os campos correspondentes.
-  - Validação: Antes de salvar, os dados são validados para garantir consistência.
+### User Actions:
+- Enable or disable certification sections (FSC, PEFC, CW) by interacting with checkboxes.
+- Input certification numbers, license numbers, and validity dates.
+- Validate the form data before saving.
 
-* **Dados Necessários:**
-  - Números de certificação.
-  - Datas de início e término.
-  - Licenças associadas.
+### Main Components:
+- **Group Boxes (`TsGroupBox`)**: Organize fields for FSC, PEFC, and CW certifications.
+- **Checkboxes (`TsDBCheckBox`)**: Control the activation of related fields.
+- **Date Editors (`TcxDBDateEdit`)**: Allow users to input start and end dates.
+- **Text Editors (`TsDBEdit`)**: Allow users to input certification and license numbers.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - A ativação de campos depende do estado das caixas de seleção.
-  - O botão salvar só deve ser habilitado se todos os campos obrigatórios estiverem preenchidos.
-
-* **Filtros Disponíveis:**
-  - Não aplicável (não há filtros explícitos no código).
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Data inválida" se uma data não estiver no formato esperado.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validação de Campos:**
-  - Campos de data devem aceitar apenas valores válidos.
-  - Campos de texto devem aceitar apenas caracteres permitidos.
-
----
-
-## 5. Funções Principais:
-
-* **CHBnormaFscClick, CHBnormaPefcClick, CHBfscCwClick:**
-  - Habilitam ou desabilitam campos relacionados com base no estado das caixas de seleção.
-
-* **m_Validate:**
-  - Valida os dados antes de salvar.
-
-* **ShowData:**
-  - Exibe os dados no formulário.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Os campos relacionados a cada certificação (FSC, PEFC, CW) só são habilitados se a respectiva caixa de seleção estiver marcada.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `TsGroupBox`, `TsLabel`, `TsDBEdit`, `TcxDBDateEdit`, entre outros, para estilização e funcionalidade.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseCtrlEditSOA`: Classe base para o frame.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - Certif Number FSC (tipo: string, obrigatório).
-  - Start Date FSC (tipo: data, obrigatório).
-  - End Date FSC (tipo: data, obrigatório).
-  - License Number FSC (tipo: string, obrigatório).
-  - Certif Number PEFC (tipo: string, obrigatório).
-  - Start Date PEFC (tipo: data, obrigatório).
-  - End Date PEFC (tipo: data, obrigatório).
-  - License Number PEFC (tipo: string, obrigatório).
-  - Certif Number CW (tipo: string, obrigatório).
-  - Start Date CW (tipo: data, obrigatório).
-  - End Date CW (tipo: data, obrigatório).
-  - License Number CW (tipo: string, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido explicitamente no código.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```pascal
-  procedure TFRAMEcustCoC.CHBfscCwClick(Sender: TObject);
-  begin
-    inherited;
-    if not Assigned(EDTcertifNumCw) then Exit;
-    EDTcertifNumCw.Enabled := CHBfscCw.Checked;
-    EDTlicenseCw.Enabled := CHBfscCw.Checked;
-    DTEstartDateCw.Enabled := CHBfscCw.Checked;
-    DTEendDateCw.Enabled := CHBfscCw.Checked;
-  end;
+### Pseudo-code for Actions and Events:
+- `OnClick` event of `CHBnormaFsc`:
+  ```pseudo
+  if checkbox clicked then
+    enable or disable related FSC fields
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="font-family: Verdana;">
-    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-      <label>Certif Number FSC:</label>
-      <input type="text" />
-      <label>Start Date FSC:</label>
-      <input type="date" />
-      <label>End Date FSC:</label>
-      <input type="date" />
-      <label>License Number FSC:</label>
-      <input type="text" />
-    </div>
-  </div>
+- `OnClick` event of `CHBnormaPefc`:
+  ```pseudo
+  if checkbox clicked then
+    enable or disable related PEFC fields
+  ```
+- `OnClick` event of `CHBfscCw`:
+  ```pseudo
+  if checkbox clicked then
+    enable or disable related CW fields
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração inicial do frame:
-  ```pascal
-  FrameType := frtGhost;
-  ShowActionPanel := False;
-  AvailableActions := '';
-  ```
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default settings in the `Create` constructor.
+   - Action panels are hidden, and no actions are available by default.
+2. **User Interaction**:
+   - Users interact with checkboxes to enable or disable fields.
+   - Users input data into text and date fields.
+3. **Validation**:
+   - The `m_Validate` function ensures all required fields are correctly filled before saving.
 
-* Validação de campos:
-  ```pascal
-  function TFRAMEcustCoC.m_Validate: Boolean;
-  ```
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface funcional para gerenciar certificações FSC, PEFC e CW. Ele é bem estruturado, mas poderia ser melhorado com validações mais robustas e mensagens de erro mais detalhadas. A dependência de componentes externos pode ser uma limitação em termos de portabilidade.
+### Data Requirements:
+- Certification numbers, license numbers, and validity dates for FSC, PEFC, and CW certifications.
 
 ---
 
-## 13. Resumo Curto:
+## 4. Business Rules:
 
-Interface em Delphi para gerenciar certificações FSC, PEFC e CW, permitindo entrada, validação e manipulação de dados. Utiliza componentes visuais avançados e lógica condicional para habilitar/desabilitar campos com base em interações do usuário.#### **FRcustCoC.pas**
+### Actions and Preconditions:
+- **Enable/Disable Fields**:
+  - Preconditions: The corresponding checkbox must be checked to enable fields.
+  - Actions: Enable or disable related fields (certification number, license number, start date, end date).
+- **Validation**:
+  - Preconditions: All required fields must be filled and valid.
+
+### Available Filters:
+- No explicit filters are defined in the provided code.
+
+### Error Messages:
+- No explicit error messages are defined in the provided code.
+
+### Default Field Values:
+- No default values are explicitly defined in the provided code.
+
+### Field Validation and Conditions:
+- Validation logic is implemented in the `m_Validate` function, but specific conditions are not detailed in the provided code.
+
+---
+
+## 5. Main Functions:
+
+### Functions:
+1. **`Create` Constructor**:
+   - Initializes the form with default settings.
+   - Hides the action panel and disables actions.
+2. **`CHBnormaFscClick`**:
+   - Enables or disables FSC-related fields based on the checkbox state.
+3. **`CHBnormaPefcClick`**:
+   - Enables or disables PEFC-related fields based on the checkbox state.
+4. **`CHBfscCwClick`**:
+   - Enables or disables CW-related fields based on the checkbox state.
+5. **`m_Validate`**:
+   - Validates the form data before saving.
+
+---
+
+## 6. API Service Consumption:
+
+No explicit API service calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Conditional Field**: FSC, PEFC, and CW fields are enabled only when their respective checkboxes are checked.
+- **Conditions**:
+  - FSC fields are visible and editable only when `CHBnormaFsc` is checked.
+  - PEFC fields are visible and editable only when `CHBnormaPefc` is checked.
+  - CW fields are visible and editable only when `CHBfscCw` is checked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **Delphi VCL Components**: Used for form creation and UI elements.
+- **SOAP Components**: Potentially used for external service calls.
+
+### Custom Components:
+- `TFRAMEBaseCtrlEditSOA`: Base class for the form, providing shared functionality.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **FSC Fields**:
+   - Certification Number (`EDTcertifNumFsc`): Type: string, required.
+   - License Number (`EDTlicenseFsc`): Type: string, required.
+   - Start Date (`DTEstartDateFsc`): Type: date, required.
+   - End Date (`DTEendDateFsc`): Type: date, required.
+2. **PEFC Fields**:
+   - Certification Number (`EDTcertifNumPefc`): Type: string, required.
+   - License Number (`EDTlicensePefc`): Type: string, required.
+   - Start Date (`DTEstartDatePefc`): Type: date, required.
+   - End Date (`DTEendDatePefc`): Type: date, required.
+3. **CW Fields**:
+   - Certification Number (`EDTcertifNumCw`): Type: string, required.
+   - License Number (`EDTlicenseCw`): Type: string, required.
+   - Start Date (`DTEstartDateCw`): Type: date, required.
+   - End Date (`DTEendDateCw`): Type: date, required.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [User Interacts with Checkboxes] --> [Enable/Disable Fields] --> [Validate Data] --> [Save Data]
+```
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustCoC.CHBfscCwClick(Sender: TObject);
+begin
+  inherited;
+  EDTcertifNumCw.Enabled := CHBfscCw.Checked;
+  EDTlicenseCw.Enabled := CHBfscCw.Checked;
+  DTEstartDateCw.Enabled := CHBfscCw.Checked;
+  DTEendDateCw.Enabled := CHBfscCw.Checked;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- The `Create` constructor initializes the form and hides the action panel.
+- The `CHBfscCwClick` method dynamically enables or disables CW-related fields.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustCoC` code unit provides a structured form for managing certification data. Its strengths include dynamic field enabling/disabling and validation logic. However, the lack of explicit error messages and detailed validation rules limits its robustness.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustCoC` form manages FSC, PEFC, and CW certifications, enabling dynamic field control and validation. It is part of a larger system for certification management, with potential integration for database and SOAP services.#### **FRcustCoC.pas**
 
 ```
 unit FRcustCoC;

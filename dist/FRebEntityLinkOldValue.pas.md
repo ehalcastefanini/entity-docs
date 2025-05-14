@@ -2,181 +2,198 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRebEntityLinkOldValue`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado define um componente de interface gráfica chamado `TFRAMEebEntityLinkOldValue`, que herda de `TFRAMEBaseCtrlEditSOA`. Este componente é utilizado para exibir e gerenciar dados relacionados a uma entidade chamada `EbEntityLink`. O objetivo principal é evitar atualizações automáticas de dados mestre/detalhe, garantindo que os dados exibidos na interface permaneçam inalterados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar o componente.
-  - **VCL (Visual Component Library):** Biblioteca de componentes visuais do Delphi.
-  - **SOAP:** Protocolo utilizado para comunicação com serviços web.
-  - **DBClient:** Componente para manipulação de dados em memória.
+### Objective and Problem Solved:
+The `FRebEntityLinkOldValue` code defines a Delphi frame (`TFRAMEebEntityLinkOldValue`) that inherits from `TFRAMEBaseCtrlEditSOA`. This frame is designed to manage and display details of an entity's old values in a master-detail relationship. The main objective is to prevent automatic updates of the detail data when the master data changes, ensuring that the old values remain static and unaltered.
 
-* **Forma do Componente:**
-  - Este componente não é um formulário nem uma grade de exibição. Ele é uma estrutura de interface (`Frame`) que gerencia dados relacionados a uma entidade.
+### Technologies Used:
+- **Delphi Framework**: The code is written in Delphi, utilizing its object-oriented programming capabilities.
+- **SOAP Services**: The `SOAPHTTPClient` and `Rio` components suggest integration with SOAP-based web services.
+- **Database Components**: The `DB` and `DBClient` units indicate interaction with databases.
+- **UI Components**: Includes standard Delphi UI components like `Buttons`, `Panels`, and `Forms`.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - O componente é responsável por exibir dados relacionados à entidade `EbEntityLink` sem permitir alterações nos mesmos.
-  - Ele desativa a atualização automática entre os dados mestre e detalhe.
-
-* **Componentes Principais:**
-  - `MasterKeyFields`: Define os campos de chave mestre. Neste caso, está vazio para evitar atualizações automáticas.
-  - `DataPacketName`: Nome do pacote de dados relacionado à entidade.
-  - `PropertyName`: Nome do campo que contém os detalhes da entidade.
-  - `FrameType`: Define o tipo de frame como `frtDetail`.
-  - `ShowActionPanel`: Desativa o painel de ações.
-  - `AvailableActions`: Define as ações disponíveis (nenhuma neste caso).
-
-* **Pseudo-código das Ações e Eventos:**
-  - Inicialização do Frame:
-    ```pseudo
-    ao criar o frame:
-        desativar atualizações automáticas mestre/detalhe
-        definir o nome do pacote de dados como 'EbEntityLink'
-        definir o nome da propriedade como 'old'
-        configurar o tipo de frame como detalhe
-        ocultar o painel de ações
-        desativar ações disponíveis
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements**:
+  - `MasterKeyFields` (string): Used to define the master-detail relationship fields.
+  - `DataPacketName` (string): Specifies the name of the detail in the metadata.
+  - `PropertyName` (string): Indicates the field in the master entity metadata containing the details.
+  - `FrameType` (enum): Defines the type of frame (`frtDetail` in this case).
+  - `ShowActionPanel` (boolean): Determines whether the action panel is visible.
+  - `AvailableActions` (string): Specifies the actions available in the frame.
+- **Form Actions**:
+  - Prevents automatic updates of detail data when the master data changes.
+  - Configures the frame to display static old values.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. O componente é inicializado através do construtor `Create`.
-  2. Durante a inicialização:
-     - As propriedades do frame são configuradas para evitar atualizações automáticas.
-     - O nome do pacote de dados e a propriedade são definidos.
-     - O painel de ações é desativado.
+### User/Software Actions:
+- The frame is initialized with specific properties to prevent automatic updates of detail data.
+- It displays old values of an entity in a master-detail relationship.
 
-* **Dados Necessários:**
-  - Nenhum dado precisa ser preenchido pelo usuário, pois o frame é configurado para exibir dados estáticos.
+### Main Components:
+- **`MasterKeyFields`**: Ensures no fields are linked to avoid automatic updates.
+- **`DataPacketName`**: Identifies the detail data in the metadata.
+- **`PropertyName`**: Points to the field containing the details in the master entity.
+- **`FrameType`**: Configures the frame as a detail frame.
+- **`ShowActionPanel`**: Hides the action panel for this frame.
+- **`AvailableActions`**: Disables all actions for this frame.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Nenhuma ação interativa está disponível para o usuário, pois o painel de ações está desativado.
-
-* **Filtros Disponíveis:**
-  - Não aplicável, pois o frame não possui filtros configurados.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - `MasterKeyFields`: Valor padrão é vazio (`''`).
-  - `DataPacketName`: Valor padrão é `'EbEntityLink'`.
-  - `PropertyName`: Valor padrão é `'old'`.
-  - `FrameType`: Valor padrão é `frtDetail`.
-  - `ShowActionPanel`: Valor padrão é `False`.
-  - `AvailableActions`: Valor padrão é vazio (`''`).
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
+### Pseudo-code Translation:
+- **Initialization**:
+  ```pseudo
+  if frame is created then
+    set MasterKeyFields to empty
+    set DataPacketName to 'EbEntityLink'
+    set PropertyName to 'old'
+    set FrameType to frtDetail
+    hide ActionPanel
+    disable AvailableActions
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create(AOwner: TComponent)`**
-  - Configura as propriedades do frame para evitar atualizações automáticas e define os valores padrão para exibição de dados relacionados à entidade `EbEntityLink`.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created using the `Create` constructor.
+   - Properties like `MasterKeyFields`, `DataPacketName`, `PropertyName`, `FrameType`, `ShowActionPanel`, and `AvailableActions` are set.
+2. **User Interaction**:
+   - No direct user interaction is expected as the frame is configured to display static data.
 
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas a serviços externos definidas no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
+### Data Requirements:
+- No user input is required. The frame relies on metadata and master entity data to display the old values.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `InvokeRegistry`, `SOAPHTTPClient`: Utilizadas para comunicação com serviços SOAP.
-  - `DB`, `DBClient`: Utilizadas para manipulação de dados em memória.
+### Actions and Preconditions:
+- **Action**: Display old values of an entity.
+  - **Precondition**: Metadata and master entity data must be available.
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseCtrlEditSOA`: Componente base do qual o frame herda funcionalidades.
+### Available Filters:
+- No filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- `MasterKeyFields`: Default is an empty string.
+- `DataPacketName`: Default is `'EbEntityLink'`.
+- `PropertyName`: Default is `'old'`.
+- `FrameType`: Default is `frtDetail`.
+- `ShowActionPanel`: Default is `False`.
+- `AvailableActions`: Default is an empty string.
+
+### Field Validation and Conditions:
+- No explicit field validations or conditions are defined in the code.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 5. Main Functions:
 
-* **Campos Definidos no Código:**
-  - `MasterKeyFields` (tipo: string, valor padrão: vazio).
-  - `DataPacketName` (tipo: string, valor padrão: `'EbEntityLink'`).
-  - `PropertyName` (tipo: string, valor padrão: `'old'`).
-  - `FrameType` (tipo: enumeração, valor padrão: `frtDetail`).
-  - `ShowActionPanel` (tipo: booleano, valor padrão: `False`).
-  - `AvailableActions` (tipo: string, valor padrão: vazio).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido explicitamente no código.
+### `Create` Constructor:
+- **Purpose**: Initializes the frame with specific properties to prevent automatic updates of detail data and configure it to display old values.
+- **Business Logic**:
+  - Prevents master-detail automatic updates by setting `MasterKeyFields` to an empty string.
+  - Configures the frame to display old values using `DataPacketName` and `PropertyName`.
+  - Disables the action panel and available actions.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 6. API Service Consumption:
 
-* **Fluxograma:**  
+- No external API calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: Used for SOAP-based web service communication.
+- **DB and DBClient**: Used for database interactions.
+
+### Custom Components:
+- **TFRAMEBaseCtrlEditSOA**: The base class for the frame, likely providing common functionality for editing and managing data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **MasterKeyFields** (type: string, default: empty, optional): Prevents automatic updates by leaving it empty.
+- **DataPacketName** (type: string, default: `'EbEntityLink'`, required): Specifies the detail name in the metadata.
+- **PropertyName** (type: string, default: `'old'`, required): Points to the field containing the details in the master entity.
+- **FrameType** (type: enum, default: `frtDetail`, required): Configures the frame as a detail frame.
+- **ShowActionPanel** (type: boolean, default: `False`, optional): Hides the action panel.
+- **AvailableActions** (type: string, default: empty, optional): Disables all actions.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Create Frame] --> [Set Properties] --> [Display Old Values] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame Initialization --> Set Properties --> Display Old Values
+```
+
+### Code Snippets:
+```delphi
+var
+  Frame: TFRAMEebEntityLinkOldValue;
+begin
+  Frame := TFRAMEebEntityLinkOldValue.Create(Self);
+  // Frame is now configured to display old values
+end;
+```
+
+### Screenshots:
+Not applicable as the `.dfm` file is not provided.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Comment**: Explains why `MasterKeyFields` is left empty:
   ```plaintext
-  Início -> Inicialização do Frame -> Configuração de Propriedades -> Fim
+  // masterfields fica com nenhum campo para evitar a actualização automática master/detail
+  // principalmente pq quase todos os campos da entidade são keys.
   ```
 
-* **Diagrama de Sequência:**  
+- **Comment**: Describes the purpose of `DataPacketName` and `PropertyName`:
   ```plaintext
-  Usuário -> Inicializa Frame -> Configurações Aplicadas -> Dados Exibidos
+  // o nome do detail no datapacket(metadata) é sempre no singular
+  // nome do campo da metadata(entidadeMaster) que vai conter os details
   ```
 
-* **Trecho de Código:**
-  ```delphi
-  constructor TFRAMEebEntityLinkOldValue.Create(AOwner: TComponent);
-  begin
-    inherited;
-    MasterKeyFields := '';
-    DataPacketName := 'EbEntityLink';
-    PropertyName := 'old';
-    FrameType := frtDetail;
-    ShowActionPanel := False;
-    AvailableActions := '';
-  end;
-  ```
+---
 
-* **HTML Representando o Template:**  
-  Não aplicável, pois o arquivo `.dfm` não foi fornecido.
+## 12. Conclusion:
+
+The `TFRAMEebEntityLinkOldValue` frame is a specialized component designed to display static old values of an entity in a master-detail relationship. Its strength lies in its ability to prevent automatic updates of detail data, ensuring data integrity. However, it lacks user interaction capabilities and error handling mechanisms.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 13. Short Summary:
 
-* **Comentários no Construtor:**
-  - Explicação sobre a desativação de atualizações automáticas mestre/detalhe.
-  - Justificativa para não definir campos de chave mestre.
-
----
-
-## 12. Conclusão:
-
-O código define um frame especializado para exibir dados relacionados à entidade `EbEntityLink` sem permitir alterações. Ele é útil em cenários onde os dados devem ser exibidos de forma estática. No entanto, o código não possui validações ou interações configuradas, limitando sua funcionalidade.
-
----
-
-## 13. Resumo Curto:
-
-O componente `TFRAMEebEntityLinkOldValue` exibe dados estáticos relacionados à entidade `EbEntityLink`, desativando atualizações automáticas mestre/detalhe. Ele é configurado para exibição sem interatividade, sendo ideal para cenários de consulta de dados.#### **FRebEntityLinkOldValue.pas**
+The `TFRAMEebEntityLinkOldValue` frame displays static old values of an entity in a master-detail relationship, preventing automatic updates. It is configured with specific properties to ensure data integrity and is suitable for scenarios where historical data needs to remain unchanged.#### **FRebEntityLinkOldValue.pas**
 
 ```
 unit FRebEntityLinkOldValue;

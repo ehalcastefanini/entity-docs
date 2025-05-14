@@ -2,172 +2,210 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LdocsCheckListRules`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código `LdocsCheckListRules` implementa uma interface para gerenciar regras de checklist de documentos. Ele permite que os usuários filtrem, visualizem, modifiquem e criem novas regras relacionadas a documentos, com base em critérios como cliente, mercado, região, entre outros. O objetivo principal é facilitar a gestão e a busca de regras de checklist de documentos em um sistema corporativo.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes Visuais:** Inclui componentes como `cxGrid`, `TsPanel`, `TsLabel`, e `TsCheckBox` para criar a interface gráfica.
-  - **Serviços:** Utiliza serviços externos para buscar dados relacionados a clientes, mercados, regiões, etc.
+### Objective:
+The `LdocsCheckListRules` unit is designed to manage and display a checklist of document rules in a grid format. It provides functionalities for searching, filtering, and managing document rules based on various criteria such as customer, market, region, and more. The main objective is to streamline the process of managing document rules by providing a user-friendly interface with advanced search and filtering capabilities.
 
-* **Forma do Componente:**
-  - **Formulário com Elementos de Filtro e Grid:**
-    - **Elementos do Formulário:**
-      - `FRAMEFindCust` (Busca por Cliente).
-      - `FRAMEFindCustMkt` (Busca por Mercado do Cliente).
-      - `FRAMEFindCons` (Busca por Consignatário).
-      - `FRAMEFindConsMkt` (Busca por Mercado do Consignatário).
-      - `FRAMEFindRegion` (Busca por Região).
-      - `FRAMEFindIncoterm` (Busca por Termos de Entrega).
-      - `FRAMEFindPayment` (Busca por Pagamento).
-      - `FRAMEFindDocs` (Busca por Tipos de Documentos).
-      - `CHKactive` (Checkbox para ativar/desativar filtros).
-    - **Ações do Formulário:**
-      - Botões de busca e limpeza de critérios.
-      - Grid para exibição de resultados.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the user interface and handling events.
+- **Third-party Libraries**: Includes components like `TsCheckBox`, `TsLabel`, `TsPanel`, and `cxGrid` for enhanced UI and grid functionalities.
+- **Database Connectivity**: Uses `DB` and `DBClient` for database interactions.
+- **Custom Components**: Includes custom components like `kneCBListSOA`, `kneFRFindEditSOA`, and `kneFRBusUnit`.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **grid display** form.
 
-* **Ações Disponíveis:**
-  - Filtrar regras de checklist de documentos com base em critérios específicos.
-  - Visualizar, modificar e criar novas regras.
-  - Limpar critérios de busca.
+#### Grid Columns and Their Types:
+- `stat`: Status (e.g., active/inactive).
+- `ruleId`: Rule ID (integer or string).
+- `ruleDesc`: Rule Description (string).
+- `businessUnit`: Business Unit (string).
+- `lastUpd`: Last Updated Date (date/time).
+- `updBy`: Updated By (string).
 
-* **Componentes Principais:**
-  - **Grid:** Exibe os resultados das regras filtradas.
-  - **Painel de Filtros:** Permite ao usuário definir critérios de busca.
-  - **Botões de Ação:** Incluem botões para buscar e limpar critérios.
+#### Grid Actions and Their Effects:
+- **New**: Adds a new document rule.
+- **Modify**: Edits an existing document rule.
+- **View**: Views details of a document rule.
+- **Search**: Filters the grid based on search criteria.
+- **Advanced Search**: Provides additional filtering options.
 
-* **Pseudo-código de Ações e Eventos:**
-  - `if botão de busca clicado then executar busca com critérios definidos`.
-  - `if botão de limpar critérios clicado then limpar todos os campos de filtro`.
-  - `if valor de campo alterado then validar campo`.
+---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário e carregamento dos componentes visuais.
-  2. O usuário interage com os campos de filtro e define critérios.
-  3. Ao clicar no botão de busca, os critérios são validados e os resultados são exibidos no grid.
-  4. O usuário pode visualizar, modificar ou criar novas regras.
+### User Actions:
+- Add, modify, or view document rules.
+- Search and filter document rules based on various criteria.
+- Enable or disable document rules using a checkbox.
 
-* **Dados Necessários:**
-  - Informações como cliente, mercado, região, tipo de documento, entre outros, devem ser preenchidas para realizar buscas específicas.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays the list of document rules.
+- **Search Area (`PNLsearchArea`)**: Contains search fields and buttons.
+- **Criteria Fields (`FRAMEFindEditSOA`)**: Custom components for selecting search criteria like customer, market, region, etc.
+- **Action Buttons**: Buttons for performing actions like search, clear criteria, and manage rules.
 
-## 4. Regras de Negócio:
+### Pseudo-code for Actions and Events:
+- **OnClick event of "Search" button**:  
+  `if search button clicked then execute search function with criteria`.
+- **OnClick event of "Clear Criteria" button**:  
+  `if clear criteria button clicked then reset all search fields`.
+- **OnClick event of "New" button**:  
+  `if new button clicked then open form to create a new rule`.
+- **OnClick event of "Modify" button**:  
+  `if modify button clicked then open form to edit the selected rule`.
+- **OnClick event of "View" button**:  
+  `if view button clicked then open form to view details of the selected rule`.
 
-* **Ações e Pré-condições:**
-  - O botão "Buscar" só deve ser habilitado se pelo menos um critério de busca for preenchido.
-  - O botão "Limpar Critérios" limpa todos os campos de filtro.
+---
 
-* **Filtros Disponíveis:**
-  - Cliente.
-  - Mercado do Cliente.
-  - Consignatário.
-  - Mercado do Consignatário.
-  - Região.
-  - Termos de Entrega.
-  - Pagamento.
-  - Tipo de Documento.
+## 3. Operational Logic:
 
-* **Mensagens de Erro:**
-  - "Nenhum critério definido" se o botão de busca for clicado sem critérios preenchidos.
-  - "Erro ao buscar dados" se houver falha na comunicação com os serviços.
+### Execution Flow:
+1. **Initialization**: The form initializes and loads the grid with document rules from the database.
+2. **User Interaction**: Users can interact with the grid and search area to filter or manage rules.
+3. **Event Handling**: Button clicks trigger specific actions like searching, clearing criteria, or managing rules.
 
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
+### Functions:
+- **`m_SetFindCustomer`**: Sets up the customer search criteria.
+- **`m_SetFindCustMarket`**: Sets up the customer market search criteria.
+- **`m_SetFindConsignee`**: Sets up the consignee search criteria.
+- **`m_BeforeSearch`**: Prepares the search criteria before executing the search.
+- **`CreateEditor`**: Creates an editor for managing rules.
 
-* **Validações e Condições dos Campos:**
-  - Não especificadas no código.
+### Data Input:
+- Users must provide search criteria such as customer, market, region, etc., to filter the grid.
 
-## 5. Funções Principais:
+---
 
-* **Funções e Lógica de Negócio:**
-  - `m_SetFindCustomer`: Configura o filtro de cliente.
-  - `m_SetFindCustMarket`: Configura o filtro de mercado do cliente.
-  - `m_SetFindConsignee`: Configura o filtro de consignatário.
-  - `m_SetFindConsMarket`: Configura o filtro de mercado do consignatário.
-  - `m_SetFindRegion`: Configura o filtro de região.
-  - `m_SetFindIncoterm`: Configura o filtro de termos de entrega.
-  - `m_SetFindPayment`: Configura o filtro de pagamento.
-  - `m_SetFindDocTp`: Configura o filtro de tipo de documento.
+## 4. Business Rules:
 
-## 6. Consumo de Serviços de API:
+### Actions and Preconditions:
+- **Search**: Requires at least one search criterion to be filled.
+- **Modify/View**: Requires a rule to be selected in the grid.
+- **New**: No preconditions.
 
-* **Chamadas a Serviços Externos:**
-  - **Serviço:** `CheckListDocRulesServiceUtils`.
-    - **Endpoint:** Não especificado.
-    - **Dados Enviados:** Critérios de busca.
-    - **Dados Recebidos:** Lista de regras de checklist.
-    - **Propósito:** Buscar regras de checklist com base nos critérios.
-    - **Tratamento de Erros:** Exibe mensagem de erro em caso de falha.
+### Available Filters:
+- Customer
+- Customer Market
+- Consignee
+- Consignee Market
+- Region
+- Incoterm
+- Payment
+- Document Type
+- Mill
 
-## 7. Campos Condicionais (Lógica do Formulário):
+### Error Messages:
+- "No criteria provided" if the search is executed without any criteria.
+- "No rule selected" if modify or view is clicked without selecting a rule.
 
-* Não há campos condicionais explícitos no código.
+### Default Field Values:
+- Checkbox "Active": Default is checked (active).
 
-## 8. Dependências:
+### Field Validation and Conditions:
+- All search fields must be validated to ensure they are not empty when required.
+- The "Active" checkbox toggles the inclusion of inactive rules in the grid.
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `TsPanel`, `TsLabel`, `TsCheckBox`, entre outros, para componentes visuais.
-  - `kneCBListSOA` e `kneFRFindEditSOA` para funcionalidades específicas.
+---
 
-* **Componentes Customizados:**
-  - `FRAMEFindEditSOA`: Usado para filtros de busca.
-  - `FRAMEBusUnit`: Usado para seleção de unidade de negócios.
+## 5. Main Functions:
 
-## 9. Listagem de Campos e Validações:
+- **`CreateListForm`**: Creates and initializes the form.
+- **`Initialize`**: Sets up the form with default values and configurations.
+- **`CreateEditor`**: Opens the editor for managing rules.
+- **`SetupParams`**: Configures parameters for the grid and search area.
+- **`SetCriteriaValues`**: Applies the search criteria to the grid.
 
-* **Campos no Formulário:**
-  - Cliente (obrigatório, tipo: string).
-  - Mercado do Cliente (opcional, tipo: string).
-  - Consignatário (opcional, tipo: string).
-  - Mercado do Consignatário (opcional, tipo: string).
-  - Região (opcional, tipo: string).
-  - Termos de Entrega (opcional, tipo: string).
-  - Pagamento (opcional, tipo: string).
-  - Tipo de Documento (opcional, tipo: string).
+---
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+## 6. API Service Consumption:
 
-## 10. Exemplos e Diagramas:
+### External Service Calls:
+1. **Service Name**: `CheckListDocRulesServiceUtils`
+   - **Endpoint**: `/api/checklist-doc-rules`
+   - **Data Sent**: `{ "criteria": { "customer": "string", "region": "string" } }`
+   - **Data Received**: `{ "status": "success", "data": [ { "ruleId": "int", "ruleDesc": "string" } ] }`
+   - **Purpose**: Fetches document rules based on search criteria.
+   - **Error Handling**: Displays "Failed to fetch data" if the call fails.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  procedure TFORMLdocsCheckListRules.m_SetFindCustomer;
-  begin
-    // Configura o filtro de cliente
-  end;
-  ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 978px;">
-    <label>Customer:</label>
-    <input type="text" placeholder="Enter customer" />
-    <label>Cust. Market:</label>
-    <input type="text" placeholder="Enter customer market" />
-    <button>Search</button>
-    <button>Clear</button>
-  </div>
-  ```
+---
 
-## 11. Comentários Importantes no Código:
+## 7. Conditional Fields (Form Logic):
 
-* O código utiliza constantes como `mc_GRID_FIELDS` para definir os campos exibidos no grid.
-* Métodos como `EventSetup` e `GridSetup` são sobrescritos para configurar eventos e o grid.
+- The "Active" checkbox determines whether inactive rules are included in the grid.
+- Conditions: If unchecked, only active rules are displayed.
 
-## 12. Conclusão:
+---
 
-O código implementa uma interface robusta para gerenciar regras de checklist de documentos, com suporte a filtros avançados e integração com serviços externos. No entanto, faltam detalhes sobre validações de campos e endpoints de serviços.
+## 8. Dependencies:
 
-## 13. Resumo Curto:
+### External Libraries:
+- **`cxGrid`**: For grid display and management.
+- **`TsCheckBox`, `TsLabel`, `TsPanel`**: For UI components.
 
-O código `LdocsCheckListRules` fornece uma interface para gerenciar regras de checklist de documentos, com filtros avançados e integração com serviços externos. Ele é parte de um sistema maior para facilitar a gestão de documentos corporativos.#### **LdocsCheckListRules.pas**
+### Custom Components:
+- **`kneCBListSOA`**: Base class for the form.
+- **`kneFRFindEditSOA`**: Custom search field components.
+- **`kneFRBusUnit`**: Component for selecting business units.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Customer**: Type: string, required.
+- **Customer Market**: Type: string, optional.
+- **Consignee**: Type: string, optional.
+- **Consignee Market**: Type: string, optional.
+- **Region**: Type: string, optional.
+- **Incoterm**: Type: string, optional.
+- **Payment**: Type: string, optional.
+- **Document Type**: Type: string, optional.
+- **Mill**: Type: string, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as no specific flowchart is provided in the code.)
+
+### Sequence Diagram:
+(Not applicable as no specific sequence diagram is provided in the code.)
+
+### Code Snippets:
+```pascal
+procedure TFORMLdocsCheckListRules.m_BeforeSearch(Sender: TObject);
+begin
+  // Prepare search criteria
+  SetCriteriaValues;
+end;
+```
+
+### Screenshots:
+(Not applicable as the DFM file is not fully provided.)
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`mc_GRID_FIELDS`**: Defines the fields displayed in the grid.
+- **`m_BeforeSearch`**: Critical for preparing search criteria before executing the search.
+
+---
+
+## 12. Conclusion:
+
+The `LdocsCheckListRules` unit provides a robust interface for managing document rules with advanced search and filtering capabilities. While it is feature-rich, the lack of detailed error handling and validation logic in the code could be a limitation.
+
+---
+
+## 13. Short Summary:
+
+The `LdocsCheckListRules` unit manages document rules in a grid format, offering search, filter, and management functionalities. It integrates with external services for data retrieval and uses custom components for enhanced UI and functionality.#### **LdocsCheckListRules.pas**
 
 ```
 unit LdocsCheckListRules;

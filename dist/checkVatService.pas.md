@@ -2,207 +2,240 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for VAT Check Service Integration Code
 
-* **Objetivo Principal e Problema Resolvido:**
-  Este código foi gerado a partir de um arquivo WSDL para consumir o serviço web "checkVatService" da União Europeia, que permite verificar a validade de números de IVA (Imposto sobre o Valor Acrescentado) de empresas registradas em países da UE. Ele resolve o problema de validação de números de IVA de forma automatizada, permitindo que sistemas integrem essa funcionalidade diretamente.
+## 1. Overview:
 
-* **Funcionalidade de Alto Nível:**
-  O código fornece métodos para realizar duas operações principais:
-  - `checkVat`: Verifica a validade de um número de IVA.
-  - `checkVatApprox`: Realiza uma verificação aproximada de um número de IVA.
-  
-  Um exemplo prático seria um sistema de faturação que utiliza este serviço para validar o número de IVA de um cliente antes de emitir uma fatura.
+### Objective and Problem Solved:
+The provided code snippet is designed to integrate with the European Commission's VAT Information Exchange System (VIES) web service. It allows users or applications to validate VAT numbers and retrieve related information. The main objective is to provide a Delphi 7-compatible implementation for interacting with the `checkVat` and `checkVatApprox` operations of the VIES service.
 
-* **Tecnologias Utilizadas:**
-  - **Delphi 7**: Linguagem de programação e ambiente de desenvolvimento.
-  - **SOAP**: Protocolo para comunicação com o serviço web.
-  - **WSDL**: Descrição do serviço web para geração automática de código.
+This code solves the problem of validating VAT numbers programmatically, ensuring compliance with EU regulations and enabling businesses to verify the VAT status of their partners or customers.
 
-* **Tipo de Interface:**
-  Este código não contém um formulário ou exibição de grade. Ele é puramente funcional e serve como uma interface para consumir o serviço web.
+### Technologies Used:
+- **Delphi 7**: The code is specifically adapted for Delphi 7, with modifications to ensure compatibility.
+- **SOAP Web Services**: The code interacts with the VIES web service using SOAP.
+- **WSDL (Web Services Description Language)**: The service definition is based on the WSDL file provided by the European Commission.
+- **Windows API**: Used for internet connectivity checks and other system-level operations.
+
+### Form or Grid Display:
+This code does not involve a form or grid display. It is a backend service integration.
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 2. Functionality Description:
 
-* **Ações Específicas:**
-  - Verificar a validade de um número de IVA (`checkVat`).
-  - Realizar uma verificação aproximada de um número de IVA (`checkVatApprox`).
-  - Verificar a conectividade com a Internet antes de realizar as chamadas ao serviço.
+### Actions:
+- Validate a VAT number using the `checkVat` function.
+- Perform an approximate VAT number validation using the `checkVatApprox` function.
+- Check internet connectivity before making service calls.
 
-* **Componentes Principais:**
-  - **Classes:**
-    - `checkVat`: Representa os parâmetros para a verificação de IVA.
-    - `checkVatResponse`: Representa a resposta da verificação de IVA.
-    - `checkVatApprox`: Representa os parâmetros para a verificação aproximada de IVA.
-    - `checkVatApproxResponse`: Representa a resposta da verificação aproximada de IVA.
-  - **Interface:**
-    - `checkVatPortType`: Define os métodos para comunicação com o serviço web.
-  - **Função Auxiliar:**
-    - `HasInternetConnectivity`: Verifica se há conectividade com a Internet.
+### Main Components:
+1. **Classes**:
+   - `checkVat`: Represents the request parameters for the `checkVat` operation.
+   - `checkVatResponse`: Represents the response from the `checkVat` operation.
+   - `checkVatApprox`: Represents the request parameters for the `checkVatApprox` operation.
+   - `checkVatApproxResponse`: Represents the response from the `checkVatApprox` operation.
 
-* **Pseudo-código das Ações e Eventos:**
-  - `checkVat`:
-    ```
-    se parâmetros válidos então
-        chamar serviço web checkVat
-        retornar resposta
-    ```
-  - `checkVatApprox`:
-    ```
-    se parâmetros válidos então
-        chamar serviço web checkVatApprox
-        retornar resposta
-    ```
-  - `HasInternetConnectivity`:
-    ```
-    verificar conectividade com a Internet
-    retornar verdadeiro ou falso
-    ```
+2. **Interface**:
+   - `checkVatPortType`: Defines the methods for interacting with the VIES service.
 
----
+3. **Utility Function**:
+   - `HasInternetConnectivity`: Checks if the system has internet access.
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização das classes e configuração do serviço.
-  2. Verificação de conectividade com a Internet usando `HasInternetConnectivity`.
-  3. Chamada ao método `checkVat` ou `checkVatApprox` com os parâmetros necessários.
-  4. Recebimento e processamento da resposta do serviço.
-
-* **Dados Necessários:**
-  - Para `checkVat`:
-    - Número de IVA.
-    - Código do país.
-  - Para `checkVatApprox`:
-    - Número de IVA.
-    - Código do país.
-    - Informações adicionais para verificação aproximada.
-
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - A chamada ao serviço só deve ser feita se houver conectividade com a Internet.
-  - Os parâmetros (número de IVA e código do país) devem ser válidos.
-
-* **Filtros Disponíveis:**
-  Não aplicável, pois o código não possui filtros.
-
-* **Mensagens de Erro:**
-  - "Sem conectividade com a Internet" se não houver conexão.
-  - "Parâmetros inválidos" se os parâmetros fornecidos forem incorretos.
-  - "Erro ao chamar o serviço" se a chamada ao serviço falhar.
-
-* **Valores Padrão dos Campos:**
-  Não aplicável, pois o código não possui campos de entrada.
-
-* **Validação de Campos e Condições:**
-  - O número de IVA deve ser validado antes de ser enviado ao serviço.
-  - O código do país deve ser um código ISO válido.
-
----
-
-## 5. Funções Principais:
-
-* **checkVat**:
-  - Verifica a validade de um número de IVA.
-  - Retorna uma resposta indicando se o número é válido ou não.
-
-* **checkVatApprox**:
-  - Realiza uma verificação aproximada de um número de IVA.
-  - Retorna uma resposta com informações adicionais.
-
-* **HasInternetConnectivity**:
-  - Verifica se há conectividade com a Internet antes de realizar as chamadas ao serviço.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Serviço:** checkVatService.
-* **Endpoint:** `http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl`.
-* **Dados Enviados:**
-  - Para `checkVat`: `{ "countryCode": "string", "vatNumber": "string" }`.
-  - Para `checkVatApprox`: `{ "countryCode": "string", "vatNumber": "string", "additionalInfo": "string" }`.
-* **Dados Recebidos:**
-  - `{ "valid": "boolean", "name": "string", "address": "string" }`.
-* **Propósito:** Validar números de IVA.
-* **Tratamento de Erros:** Exibe mensagens de erro em caso de falha na chamada.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-Não aplicável, pois o código não possui interface de formulário.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `Windows`, `SysUtils`, `Classes`, `WinInet`: Utilizadas para funcionalidades básicas do sistema e conectividade com a Internet.
-  - `FG_Win64utils`: Biblioteca adicional para suporte a funcionalidades específicas.
-
-* **Componentes Personalizados:**
-  - Não há componentes personalizados.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `countryCode` (tipo: string, obrigatório).
-  - `vatNumber` (tipo: string, obrigatório).
-  - `additionalInfo` (tipo: string, opcional para `checkVatApprox`).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  Não aplicável, pois o código não interage diretamente com um banco de dados.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    vatService: checkVatPortType;
-    response: checkVatResponse;
-  begin
-    if HasInternetConnectivity then
-    begin
-      vatService := GetcheckVatPortType;
-      response := vatService.checkVat(checkVat.Create('PT', '123456789'));
-      ShowMessage(response.valid);
-    end
-    else
-      ShowMessage('Sem conectividade com a Internet');
-  end;
+### Pseudo-code for Actions and Events:
+- **Internet Connectivity Check**:
   ```
-* **Capturas de Tela:** Não aplicável.
+  if HasInternetConnectivity() then
+      proceed with service call
+  else
+      display error "No internet connection"
+  ```
+
+- **VAT Validation**:
+  ```
+  if checkVat(parameters) called then
+      return checkVatResponse
+  ```
+
+- **Approximate VAT Validation**:
+  ```
+  if checkVatApprox(parameters) called then
+      return checkVatApproxResponse
+  ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* O código foi adaptado para Delphi 7, substituindo `string` por `WideString` para maior compatibilidade.
-* Implementação de timeouts para evitar que a aplicação fique "pendurada" durante chamadas ao serviço.
+### Execution Flow:
+1. **Initialization**:
+   - Classes and interfaces are initialized.
+   - Internet connectivity is checked using `HasInternetConnectivity`.
+
+2. **User Interaction**:
+   - The user or application provides VAT number details.
+   - The appropriate function (`checkVat` or `checkVatApprox`) is called.
+
+3. **Service Call**:
+   - The service call is made with a 2-second timeout to prevent the application from hanging.
+
+4. **Response Handling**:
+   - The response is processed and returned to the user or application.
+
+### Data Required:
+- VAT number (string).
+- Country code (string).
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-Este código fornece uma interface robusta para consumir o serviço web de validação de números de IVA da União Europeia. Ele é eficiente, com suporte a timeouts e verificação de conectividade, mas depende de conectividade com a Internet e de parâmetros válidos para funcionar corretamente.
+### Actions and Preconditions:
+- **`checkVat`**:
+  - Preconditions: Valid VAT number and country code must be provided.
+  - Action: Validates the VAT number and returns the response.
+
+- **`checkVatApprox`**:
+  - Preconditions: Approximate VAT number and country code must be provided.
+  - Action: Performs an approximate validation and returns the response.
+
+### Filters:
+No filters are explicitly defined in the code.
+
+### Error Messages:
+- "No internet connection" if `HasInternetConnectivity` returns false.
+- "Service timeout" if the service call exceeds 2 seconds.
+
+### Default Field Values:
+Not applicable as the code does not define default values for fields.
+
+### Field Validation and Conditions:
+- VAT number: Must be a valid string.
+- Country code: Must be a valid string.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-Código em Delphi 7 para consumir o serviço web "checkVatService", permitindo validar números de IVA de empresas da UE. Inclui suporte a timeouts, verificação de conectividade e métodos para validação direta e aproximada.#### **checkVatService.pas**
+1. **`checkVat`**:
+   - Validates a VAT number using the VIES service.
+   - Returns a `checkVatResponse` object.
+
+2. **`checkVatApprox`**:
+   - Performs an approximate validation of a VAT number.
+   - Returns a `checkVatApproxResponse` object.
+
+3. **`HasInternetConnectivity`**:
+   - Checks if the system has internet access.
+
+4. **`GetcheckVatPortType`**:
+   - Configures and initializes the service interface with a 2-second timeout.
+
+---
+
+## 6. API Service Consumption:
+
+### Service Name:
+VIES VAT Validation Service.
+
+### Endpoints:
+- `checkVat`
+- `checkVatApprox`
+
+### Data Sent:
+- `checkVat`: `{ "countryCode": "string", "vatNumber": "string" }`
+- `checkVatApprox`: `{ "countryCode": "string", "vatNumber": "string" }`
+
+### Data Received:
+- `checkVatResponse`: `{ "valid": "boolean", "name": "string", "address": "string" }`
+- `checkVatApproxResponse`: `{ "valid": "boolean", "name": "string", "address": "string" }`
+
+### Purpose:
+- Validate VAT numbers and retrieve related information.
+
+### Error Handling:
+- Displays "No internet connection" if connectivity is unavailable.
+- Displays "Service timeout" if the service call exceeds 2 seconds.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+Not applicable as the code does not involve a form.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **Windows API**: Used for internet connectivity checks.
+- **SysUtils, Classes**: Standard Delphi libraries for system utilities and class management.
+- **WinInet**: Used for internet-related operations.
+
+### Custom Components:
+- None explicitly defined.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- `countryCode` (type: WideString, required).
+- `vatNumber` (type: WideString, required).
+
+### Mapping:
+- `countryCode` → `countryCode` in the WSDL.
+- `vatNumber` → `vatNumber` in the WSDL.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable as the code is backend logic.
+
+### Sequence Diagram:
+Not applicable as the code is backend logic.
+
+### Code Snippets:
+```delphi
+var
+  vatService: checkVatPortType;
+  response: checkVatResponse;
+begin
+  if HasInternetConnectivity then
+  begin
+    vatService := GetcheckVatPortType;
+    response := vatService.checkVat(parameters);
+    // Process response
+  end
+  else
+    ShowMessage('No internet connection');
+end;
+```
+
+### Screenshots:
+Not applicable as the code does not involve a form.
+
+---
+
+## 11. Important Comments in the Code:
+
+- The code was adapted for Delphi 7 from a newer Delphi version.
+- Timeouts were implemented to optimize performance and prevent application hangs.
+- Internet connectivity checks were added to ensure reliable service calls.
+
+---
+
+## 12. Conclusion:
+
+The provided code snippet is a robust implementation for integrating with the VIES VAT validation service in Delphi 7. It includes necessary adaptations for compatibility, performance optimizations, and error handling. However, it is limited to Delphi 7 and SOAP-based services, which may not be ideal for modern applications.
+
+---
+
+## 13. Short Summary:
+
+This Delphi 7 code integrates with the VIES VAT validation service, enabling VAT number validation with optimized performance and error handling. It includes internet connectivity checks and a 2-second timeout for reliable service calls.#### **checkVatService.pas**
 
 ```
 // ************************************************************************ //

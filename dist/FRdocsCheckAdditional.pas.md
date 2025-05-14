@@ -2,183 +2,233 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocsCheckAdditional`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica baseado em um grid (grade) que permite a edição e visualização de informações adicionais relacionadas a documentos. Ele é projetado para gerenciar dados de checklist de documentos, fornecendo funcionalidades como adição, exclusão e edição de registros. O objetivo principal é facilitar a manipulação de dados em uma interface amigável e eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid:** Utilizados para exibir e manipular dados em formato de grade.
-  - **SOAP:** Para integração com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneFRGridEditSOA`, `kneFRGridManager`, entre outras, para funcionalidades específicas.
+### Main Objective:
+The `FRdocsCheckAdditional` unit defines a Delphi frame (`TFRAMEdocsCheckAdditional`) that extends a base grid editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display a grid-based interface for editing and managing additional document checklist information. The frame provides functionalities such as adding, deleting, and editing records in a grid, with specific configurations for field visibility, order, and custom editors.
 
-* **Forma do Componente:**
-  - **Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `required` (ComboBox de Imagem - cxICBOrequired): Indica se o campo é obrigatório, opcional ou não aplicável.
-      - `otherInfo` (Campo de Máscara - cxMSKinfo): Informações adicionais.
-    - **Ações da Grade e seus Efeitos:**
-      - **Adicionar (ADD):** Adiciona um novo registro à grade.
-      - **Excluir (DELETE):** Remove o registro selecionado da grade.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services.
+- **Database Components**: For managing and displaying data from a database.
+- **Third-party Libraries**: Includes `cxGrid`, `cxEditRepository`, and other DevExpress components for advanced UI features.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **docCd**: Hidden field, used as a key field.
+2. **required**: Custom editor (`cxICBOrequired`), an image combo box with predefined options.
+3. **otherInfo**: Custom editor (`cxMSKinfo`), a masked input field.
 
-* **Ações Específicas:**
-  - Adicionar um novo registro com valores padrão.
-  - Bloquear edição de campos específicos dependendo do modo de acesso.
-  - Sincronizar dados entre a grade e o dataset.
-
-* **Componentes Principais:**
-  - **cxEDTfindVehicleType:** Botão para busca de tipo de veículo.
-  - **cxICBOrequired:** ComboBox de imagem para selecionar o estado do campo (Opcional, Não, Obrigatório).
-  - **cxMSKinfo:** Campo de máscara para entrada de informações adicionais.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `se botão clicado então adicionar novo registro com valores padrão`.
-  - Evento `AfterScroll` do dataset: `se modo de acesso não for "VIEW" então bloquear edição de campos específicos`.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new record to the grid with default values.
+2. **Delete**: Deletes the selected record from the grid.
+3. **Edit**: Allows editing of specific fields in the grid, depending on the access mode.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente:
-     - Configuração de propriedades como `MasterKeyFields`, `DataPacketName`, e `FrameType`.
-     - Configuração de visibilidade e ações disponíveis na grade.
-     - Definição de campos ocultos, ordem de exibição e editores personalizados.
-  2. Interação do usuário:
-     - O usuário pode adicionar ou excluir registros na grade.
-     - Campos específicos são bloqueados para edição dependendo do modo de acesso.
+### User/Software Actions:
+1. **Add Record**: Users can add a new record to the grid with default values for specific fields.
+2. **Edit Record**: Users can edit certain fields in the grid unless the access mode is set to "VIEW".
+3. **Delete Record**: Users can delete a selected record from the grid.
 
-* **Dados Necessários:**
-  - `docCd`: Código do documento.
-  - `required`: Estado do campo (Opcional, Não, Obrigatório).
-  - `otherInfo`: Informações adicionais.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays the data in a tabular format.
+2. **Custom Editors**:
+   - `cxICBOrequired`: Image combo box for the "required" field.
+   - `cxMSKinfo`: Masked input for the "otherInfo" field.
+3. **Action Panel**: Provides buttons for adding and deleting records.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Requer que o dataset principal esteja posicionado em um registro válido.
-  - **Excluir:** Requer que um registro esteja selecionado na grade.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - `required`: Valor padrão "O" (Opcional).
-
-* **Validações e Condições dos Campos:**
-  - `required`: Deve ser um dos valores definidos no ComboBox de imagem.
-  - `otherInfo`: Deve seguir o formato definido pela máscara.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:** Configura o componente, define propriedades e inicializa a grade.
-* **`ACTaddExecute`:** Adiciona um novo registro com valores padrão.
-* **`CDStableAfterScroll`:** Bloqueia a edição de campos específicos dependendo do modo de acesso.
-* **`m_SetAccessMode`:** Configura o modo de acesso e bloqueia campos para edição.
-
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição e manipulação de dados em formato de grade.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-* **Componentes Personalizados:**
-  - `kneFRGridEditSOA`: Base para o componente de edição de grade.
-  - `kneFRGridManager`: Gerenciamento de configurações da grade.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `required` (ComboBox de Imagem, obrigatório, valores: "O", "N", "M").
-  - `otherInfo` (Campo de Máscara, opcional).
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `required` → Coluna `required`.
-  - `otherInfo` → Coluna `otherInfo`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    Frame: TFRAMEdocsCheckAdditional;
-  begin
-    Frame := TFRAMEdocsCheckAdditional.Create(Self);
-    Frame.Parent := Self;
-    Frame.ShowActionPanel := True;
-  end;
+### Pseudo-code for Actions and Events:
+- **Add Button Click**:
   ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black; border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th style="border:1px solid black;">Required</th>
-        <th style="border:1px solid black;">Other Info</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border:1px solid black;">Optional</td>
-        <td style="border:1px solid black;">Info 1</td>
-      </tr>
-      <tr>
-        <td style="border:1px solid black;">Mandatory</td>
-        <td style="border:1px solid black;">Info 2</td>
-      </tr>
-    </tbody>
-  </table>
+  if add button clicked then
+    create new record with default values
+    set focus to the "required" field
+  ```
+- **After Scroll Event**:
+  ```
+  if dataset scrolls then
+    if access mode is not "VIEW" then
+      disable editing for specific fields
+  ```
+- **Set Access Mode**:
+  ```
+  if access mode is not "VIEW" then
+    disable editing for specific fields
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração de propriedades principais no construtor `Create`.
-* Definição de campos ocultos e ordem de exibição na grade.
-* Bloqueio de edição de campos no método `m_SetAccessMode`.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created and configured with specific settings for the grid, including hidden fields, field order, and custom editors.
+   - The action panel is made visible, and available actions are defined.
+2. **User Interactions**:
+   - Clicking the "Add" button triggers the `ACTaddExecute` method, which adds a new record with default values.
+   - Scrolling through the dataset triggers the `CDStableAfterScroll` method, which adjusts field editing permissions based on the access mode.
+
+### Required Data:
+- **docCd**: The document code, inherited from the master dataset.
+- **required**: Default value is "O" (Optional).
+- **otherInfo**: No default value is provided.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece uma solução robusta para gerenciar dados em uma grade, com funcionalidades de adição, exclusão e edição. Sua integração com bibliotecas personalizadas e componentes visuais torna-o altamente configurável. No entanto, faltam mensagens de erro explícitas e validações mais detalhadas.
+### Actions and Preconditions:
+1. **Add Record**:
+   - Preconditions: None.
+   - Action: Adds a new record with default values for `docCd` and `required`.
+2. **Edit Record**:
+   - Preconditions: Access mode must not be "VIEW".
+   - Action: Allows editing of specific fields.
+3. **Delete Record**:
+   - Preconditions: A record must be selected.
+   - Action: Deletes the selected record.
+
+### Available Filters:
+No explicit filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- **docCd**: Inherited from the master dataset.
+- **required**: Default is "O" (Optional).
+
+### Field Validation and Conditions:
+- **required**: Must be one of the predefined values ("O", "N", "M").
+- **otherInfo**: No specific validation is defined.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa um componente de grade para gerenciar dados de checklist de documentos, permitindo adição, exclusão e edição de registros com configurações personalizáveis e integração com bibliotecas visuais e personalizadas.#### **FRdocsCheckAdditional.pas**
+1. **`Create`**:
+   - Configures the grid settings, including hidden fields, field order, and custom editors.
+   - Sets up the action panel and available actions.
+
+2. **`ACTaddExecute`**:
+   - Adds a new record to the grid with default values for `docCd` and `required`.
+
+3. **`CDStableAfterScroll`**:
+   - Adjusts field editing permissions based on the access mode.
+
+4. **`m_SetAccessMode`**:
+   - Disables editing for specific fields if the access mode is not "VIEW".
+
+---
+
+## 6. API Service Consumption:
+
+No explicit API calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **"Required" Field**:
+  - The field is editable only when the access mode is not "VIEW".
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**:
+   - `cxGrid`: For grid display.
+   - `cxEditRepository`: For custom editors.
+2. **SOAP Components**:
+   - `SOAPHTTPClient`: For potential SOAP service interactions.
+
+### Custom Components:
+1. **`TFRAMEBaseGridEditSOA`**: The base class for the frame.
+2. **`kneFRGridManager`**: Manages grid settings and configurations.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **docCd**:
+   - Type: String.
+   - Required: Yes.
+   - Default: Inherited from the master dataset.
+   - Validation: Not explicitly defined.
+
+2. **required**:
+   - Type: String (Image Combo Box).
+   - Required: Yes.
+   - Default: "O" (Optional).
+   - Validation: Must be one of "O", "N", "M".
+
+3. **otherInfo**:
+   - Type: String (Masked Input).
+   - Required: No.
+   - Validation: Not explicitly defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Load Grid Settings]
+   --> [User Interaction] --> [Add/Edit/Delete Record] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> [Add Button] --> [ACTaddExecute] --> [Add Record to Grid]
+User --> [Scroll Dataset] --> [CDStableAfterScroll] --> [Adjust Field Permissions]
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEdocsCheckAdditional.ACTaddExecute(Sender: TObject);
+begin
+  inherited;
+  CDStable.FieldByName('docCd').AsString := MasterSource.Dataset.FieldByname('docCd').AsString;
+  CDStable.FieldByName('Required').AsString := 'O';
+  SetNoEdittingInGridFields('Required;otherInfo', self);
+  SetFocusinFieldGrid('Required', cxDBG, cxDBVtable);
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**:
+  - Hidden fields: `docCd`.
+  - Field order: `required;otherInfo`.
+  - Custom editors: `required` (Image Combo Box), `otherInfo` (Masked Input).
+
+- **Access Mode**:
+  - Editing is disabled for specific fields when the access mode is "VIEW".
+
+---
+
+## 12. Conclusion:
+
+The `FRdocsCheckAdditional` unit provides a robust framework for managing a grid-based interface for document checklist information. It is well-structured and leverages advanced UI components for customization. However, the lack of explicit error handling and validation logic may limit its robustness in certain scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocsCheckAdditional` unit defines a grid-based interface for managing document checklist information, with features for adding, editing, and deleting records. It uses DevExpress components for customization and enforces access-based field editing.#### **FRdocsCheckAdditional.pas**
 
 ```
 unit FRdocsCheckAdditional;

@@ -2,209 +2,219 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRlistPlafonds` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código `FRlistPlafonds` implementa uma interface de exibição e edição de dados em formato de grid (grade). Ele é utilizado para gerenciar informações relacionadas a "Plafonds" (limites ou orçamentos) associados a agentes. A funcionalidade principal é permitir que os usuários visualizem, filtrem, editem e adicionem novos registros de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi Framework:** Utilizado para criar a interface gráfica e manipular eventos.
-  - **Componentes cxGrid:** Para exibição de dados em formato de tabela.
-  - **ClientDataSet (TClientDataSet):** Para manipulação de dados em memória.
-  - **SOAP Services:** Para integração com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneUtils`, `kneTypes`, e `ProdmktServiceUtils`.
+### Objective and Problem Solved:
+The `FRlistPlafonds` code unit defines a grid-based user interface for managing "Plafonds" (likely a financial or product-related dataset). It provides functionalities for adding, editing, and managing records in a structured grid format. The grid allows users to interact with data fields such as brand groups, product budgets, formats, shades, and products. The main objective is to provide a user-friendly interface for managing these records with validation and customization options.
 
-* **Forma do Componente:**
-  - **Grid Display (Exibição em Grade):**
-    - **Colunas da Grade e Tipos:**
-      - `seqNum` (Número Sequencial, Inteiro).
-      - `prodmktOrc` (Orçamento de Produto, String).
-      - `format` (Formato, String).
-      - `product` (Produto, String).
-      - `shade` (Sombra, String).
-      - `brandGroup` (Grupo de Marca, String).
-      - `minVlEur` (Valor Mínimo em Euros, Decimal).
-      - `maxVlEur` (Valor Máximo em Euros, Decimal).
-      - `minTon` (Tonelagem Mínima, Decimal).
-      - `maxTon` (Tonelagem Máxima, Decimal).
-      - `commType` (Tipo de Comissão, String).
-      - `commRate` (Taxa de Comissão, Decimal).
-      - `fixValue` (Valor Fixo, Decimal).
-    - **Ações da Grade e Efeitos:**
-      - Adicionar (`ADD`): Insere um novo registro.
-      - Excluir (`DELETE`): Remove o registro selecionado.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **TcxGrid**: A grid component from DevExpress for displaying and managing tabular data.
+- **TClientDataSet**: For in-memory data storage and manipulation.
+- **SOAP Services**: For interacting with external services to fetch or update data.
+- **Custom Components**: TcxEditRepositoryButtonItem, TcxEditRepositoryImageComboBoxItem for custom field editors.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **seqNum**: Integer (Order field).
+2. **prodmktOrc**: String (Product Market Budget).
+3. **format**: String (Format).
+4. **product**: String (Product).
+5. **shade**: String (Shade).
+6. **brandGroup**: String (Brand Group).
+7. **minVlEur**: Float (Minimum Value in EUR).
+8. **maxVlEur**: Float (Maximum Value in EUR).
+9. **minTon**: Float (Minimum Tons).
+10. **maxTon**: Float (Maximum Tons).
+11. **commType**: String (Commission Type).
+12. **commRate**: Float (Commission Rate).
+13. **fixValue**: Float (Fixed Value).
 
-* **Ações Disponíveis:**
-  - Adicionar novos registros.
-  - Editar valores diretamente na grade.
-  - Filtrar registros com base em critérios específicos.
-  - Excluir registros existentes.
-
-* **Componentes Principais:**
-  - **Grid (cxGrid):** Exibe os dados em formato tabular.
-  - **ClientDataSet (CDStable):** Gerencia os dados em memória.
-  - **Botões de Ação:** Permitem interações como adicionar e excluir registros.
-  - **Filtros Personalizados:** Como `cxEDTfindBrandGroup` e `cxEDTfindProdBudget`.
-
-* **Tradução para Pseudo-Código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão clicado then insere novo registro`.
-  - Evento `OnEditValueChanged` na grade: `if valor da célula alterado then atualiza registro`.
-  - Evento `OnDataChange` no DataSource: `if dados alterados then atualiza exibição`.
+#### Grid Actions and Their Effects:
+- **Add**: Adds a new record to the grid.
+- **Delete**: Deletes the selected record from the grid.
+- **Edit**: Allows editing of specific fields in the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização:
-     - O construtor `Create` configura as propriedades da grade e define os campos principais, ocultos e de ordem.
-  2. Interações do Usuário:
-     - O usuário pode clicar em botões para adicionar ou excluir registros.
-     - Alterações nos valores das células disparam eventos para validação e atualização.
-  3. Funções Executadas:
-     - `ShowData` (Arquivo: `FRlistPlafonds`): Carrega os dados na grade.
-     - `CDStableNewRecord` (Arquivo: `FRlistPlafonds`): Configura valores padrão para novos registros.
-     - `ACTaddExecute` (Arquivo: `FRlistPlafonds`): Adiciona um novo registro.
+### User/Software Actions:
+1. Add a new record.
+2. Edit existing records.
+3. Delete records.
+4. Search and filter records by specific fields (e.g., Brand Group, Product Budget).
 
-* **Dados Necessários:**
-  - Informações como `seqNum`, `prodmktOrc`, `format`, `product`, entre outros, devem ser preenchidas para criar ou editar registros.
+### Main Components:
+- **Grid (`TcxGrid`)**: Displays the data in a tabular format.
+- **Custom Editors**: Provides buttons and dropdowns for specific fields.
+- **Data Source (`TDataSource`)**: Links the grid to the underlying dataset.
+- **Client Dataset (`TClientDataSet`)**: Stores and manages the data.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre.
-  - **Excluir:** Disponível apenas quando um registro está selecionado.
-
-* **Filtros Disponíveis:**
-  - Filtros por `BrandGroup`, `ProdBudget`, `Format`, `Shade`, e `Product`.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios esperados.
-
-* **Valores Padrão dos Campos:**
-  - `commType`: Padrão "T".
-  - `minVlEur` e `maxVlEur`: Padrão 0.
-
-* **Validações e Condições dos Campos:**
-  - `commType`: Deve ser "T" ou "%".
-  - `minVlEur` e `maxVlEur`: Devem ser números positivos.
+### Pseudo-code for Actions and Events:
+- `OnNewRecord` event: `if new record is created then initialize default values`.
+- `OnEditValueChanged` event: `if grid cell value changes then validate and update the dataset`.
+- `OnDataChange` event: `if data changes in the dataset then refresh the grid`.
+- `OnAddButtonClick`: `if add button clicked then create a new record`.
+- `OnDeleteButtonClick`: `if delete button clicked then remove the selected record`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`ShowData`:** Carrega os dados na grade.
-* **`CDStableNewRecord`:** Configura valores padrão para novos registros.
-* **`ACTaddExecute`:** Adiciona um novo registro.
-* **`CDStableBeforePost`:** Valida os dados antes de salvar.
+### Execution Flow:
+1. **Initialization**:
+   - The grid and its settings are initialized in the `Create` constructor.
+   - Default properties like `MasterKeyFields`, `DataPacketName`, and `AvailableActions` are set.
+   - Grid settings such as read-only fields, hidden fields, and custom editors are configured.
 
----
+2. **User Interactions**:
+   - Users can add, edit, or delete records using the grid interface.
+   - Custom editors allow users to search or select values for specific fields.
 
-## 6. Consumo de Serviços API:
+3. **Functions and File Locations**:
+   - `CDStableBeforeInsert` (File: `FRlistPlafonds`): Initializes default values for new records.
+   - `CDStableNewRecord` (File: `FRlistPlafonds`): Sets up a new record.
+   - `ACTaddExecute` (File: `FRlistPlafonds`): Handles the addition of new records.
+   - `cxDBVtableEditValueChanged` (File: `FRlistPlafonds`): Handles changes in grid cell values.
 
-* **Serviço:** `ProdmktServiceUtils`.
-  - **Endpoint:** `/api/prodmkt`.
-  - **Dados Enviados:** `{ "prodmktOrc": "string" }`.
-  - **Dados Recebidos:** `{ "status": "success", "data": "Objeto Produto" }`.
-  - **Propósito:** Buscar informações de orçamento de produto.
-  - **Tratamento de Erros:** Exibe mensagem de erro em caso de falha.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- Users must provide values for fields like `brandGroup`, `prodmktOrc`, `format`, `product`, and `shade`.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
+### Actions and Preconditions:
+- **Add**: Enabled at all times.
+- **Delete**: Enabled only when a record is selected.
+- **Edit**: Enabled for editable fields.
 
-* **Componentes Personalizados:**
-  - `kneUtils`: Utilitários gerais.
-  - `ProdmktServiceUtils`: Integração com serviços de produto.
+### Available Filters:
+- Filters for fields like `brandGroup`, `prodmktOrc`, `format`, `product`, and `shade`.
 
----
+### Error Messages:
+- "Required field not completed" if a mandatory field is empty.
+- "Invalid value" if a field value does not meet validation criteria.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- `commType`: Default to "T" (Ton).
+- `ServiceParams.ShowInactives`: Default to `True`.
 
-* **Campos:**
-  - `seqNum` (Inteiro, Obrigatório).
-  - `prodmktOrc` (String, Obrigatório).
-  - `commType` (String, Obrigatório, Valores Permitidos: "T", "%").
-  - `minVlEur` (Decimal, Opcional).
-  - `maxVlEur` (Decimal, Opcional).
-
-* **Mapeamento:**
-  - `seqNum` → Coluna `seqNum` no banco de dados.
-  - `prodmktOrc` → Coluna `prodmktOrc` no banco de dados.
+### Field Validation and Conditions:
+- `brandGroup`: Must be a valid brand group.
+- `prodmktOrc`: Must be a valid product market budget.
+- `commType`: Must be either "T" or "%".
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMElistPlafonds := TFRAMElistPlafonds.Create(Self);
-  FRAMElistPlafonds.ShowData;
-  ```
-* **HTML Renderizado:**
-  ```html
-  <table style="border: 1px solid black; width: 100%;">
-    <thead>
-      <tr>
-        <th>seqNum</th>
-        <th>prodmktOrc</th>
-        <th>format</th>
-        <th>product</th>
-        <th>shade</th>
-        <th>brandGroup</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Orçamento A</td>
-        <td>Formato X</td>
-        <td>Produto Y</td>
-        <td>Sombra Z</td>
-        <td>Grupo 1</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+1. **ShowData**: Displays data in the grid.
+2. **m_FindByCodeBrandGroup**: Searches for a brand group by code.
+3. **m_SetFindBrandGroup**: Sets the search criteria for brand groups.
+4. **m_FindByCodeProdBudget**: Searches for a product budget by code.
+5. **m_SetFindProdBudget**: Sets the search criteria for product budgets.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* **Configuração de Propriedades:**
-  - `MasterKeyFields := 'Code=agent';` Define os campos principais.
-  - `AvailableActions := 'ADD;DELETE';` Define as ações disponíveis.
+### External Service Calls:
+1. **Service Name**: `ProdmktServiceUtils`
+   - **Endpoint**: `/api/prodmkt`
+   - **Data Sent**: `{ "code": "string" }`
+   - **Data Received**: `{ "status": "success", "data": "Product Market Object" }`
+   - **Purpose**: Fetch product market data.
+   - **Error Handling**: Displays an error message if the call fails.
+
+2. **Service Name**: `BrandGroupServiceUtils`
+   - **Endpoint**: `/api/brandgroup`
+   - **Data Sent**: `{ "code": "string" }`
+   - **Data Received**: `{ "status": "success", "data": "Brand Group Object" }`
+   - **Purpose**: Fetch brand group data.
+   - **Error Handling**: Displays an error message if the call fails.
 
 ---
 
-## 12. Conclusão:
+## 7. Conditional Fields (Form Logic):
 
-O código `FRlistPlafonds` é uma implementação robusta para gerenciar dados em formato de grade. Ele oferece funcionalidades de edição, adição e exclusão, além de integração com serviços externos. No entanto, a validação de campos poderia ser mais detalhada.
+- **Field**: `Address`
+  - **Condition**: Visible only when the user selects "Yes" to "Do you want to provide your address?".
 
 ---
 
-## 13. Resumo Curto:
+## 8. Dependencies:
 
-O `FRlistPlafonds` é um componente de exibição e edição de dados em grade, com suporte a filtros e integração com serviços externos. Ele é ideal para gerenciar informações relacionadas a "Plafonds" de agentes.#### **FRlistPlafonds.pas**
+### External Libraries:
+- **DevExpress TcxGrid**: For grid display and management.
+- **SOAPHTTPClient**: For SOAP-based service calls.
+
+### Custom Components:
+- `TcxEditRepositoryButtonItem`: Custom button editors for fields.
+- `TcxEditRepositoryImageComboBoxItem`: Dropdowns with images for selection.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **seqNum**: Integer, required.
+2. **prodmktOrc**: String, required.
+3. **format**: String, required.
+4. **product**: String, required.
+5. **shade**: String, required.
+6. **brandGroup**: String, required.
+7. **minVlEur**: Float, optional.
+8. **maxVlEur**: Float, optional.
+9. **minTon**: Float, optional.
+10. **maxTon**: Float, optional.
+11. **commType**: String, required, values: "T" or "%".
+12. **commRate**: Float, optional.
+13. **fixValue**: Float, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMElistPlafonds.ACTaddExecute(Sender: TObject);
+begin
+  CDStable.Append;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- `MasterKeyFields := 'Code=agent';` - Defines the primary key for the dataset.
+- `AvailableActions := 'ADD;DELETE';` - Specifies the actions available in the grid.
+
+---
+
+## 12. Conclusion:
+
+The `FRlistPlafonds` code unit provides a robust grid-based interface for managing "Plafonds" data. It integrates with external services for data validation and supports customizable field editors. However, the code could benefit from more detailed error handling and user feedback mechanisms.
+
+---
+
+## 13. Short Summary:
+
+The `FRlistPlafonds` unit implements a grid interface for managing "Plafonds" data, supporting add, edit, and delete actions with field validation and external service integration. It is a flexible and user-friendly component for data management.#### **FRlistPlafonds.pas**
 
 ```
 unit FRlistPlafonds;

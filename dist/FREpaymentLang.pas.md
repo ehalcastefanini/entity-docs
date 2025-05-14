@@ -2,191 +2,227 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FREpaymentLang`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um componente de interface gráfica para edição de informações relacionadas a idiomas de pagamento (`PaymentLang`). Ele é baseado em um grid (tabela) que exibe e gerencia dados de forma estruturada. O objetivo principal é permitir a visualização, edição e gerenciamento de informações de idiomas associados a pagamentos, com funcionalidades específicas como campos somente leitura, campos ocultos, e editores personalizados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi Framework:** Utilizado para desenvolvimento da aplicação.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de tabela.
-  - **SOAPHTTPClient:** Para integração com serviços SOAP.
-  - **DBClient:** Para manipulação de dados em memória.
-  - **Estilos e Repositórios de Edição (cxStyles, TcxEditRepository):** Para personalização da interface gráfica.
+### Objective and Problem Solved:
+The `FREpaymentLang` code snippet defines a Delphi frame (`TFReditPaymentLang`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display payment language details in a grid format. It provides functionality for configuring grid settings, such as defining read-only fields, hidden fields, field order, and custom editors. This frame is designed to handle multilingual payment descriptions and related metadata.
 
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `languageCode` (string, somente leitura).
-      - `descrip` (string, editável com editor personalizado).
-      - `dateText` (string, editável com editor personalizado).
-    - **Ações do Grid e seus Efeitos:**
-      - Ordenação de colunas.
-      - Edição de campos específicos.
-      - Ocultação de campos não relevantes.
+### Technologies Used:
+- **Delphi Framework**: For building the application.
+- **DevExpress Components**: For grid and UI elements (`cxGrid`, `cxStyles`, `cxEditRepositoryItems`).
+- **SOAP Services**: For data communication (`SOAPHTTPClient`, `Rio`).
+- **Database Components**: For data binding and manipulation (`DB`, `DBClient`).
 
----
+### Form Type:
+This is a **grid display**. 
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **languageCode**: Read-only field.
+2. **descrip**: Editable field with a custom editor (`cxEDTupperCase`).
+3. **dateText**: Editable field with a custom editor (`cxEDTupperCase`).
 
-* **Ações Específicas:**
-  - Exibir dados em um grid com colunas configuradas.
-  - Permitir edição de campos específicos com validações e editores personalizados.
-  - Ocultar campos irrelevantes.
-  - Configurar campos como somente leitura.
-
-* **Componentes Principais:**
-  - `TFRAMEBaseGridEditSOA`: Classe base que fornece funcionalidades de grid e edição.
-  - `cxEDTupperCase`: Editor personalizado que transforma texto em letras maiúsculas.
-  - `GridSettings`: Configurações do grid, como campos ocultos, ordem de exibição e editores personalizados.
-
-* **Tradução para Pseudo-código:**
-  - `OnCreate` do componente: `Ao inicializar, configure campos, editores e visibilidade do painel de ações.`
-  - `SetKeyEditing`: `Se EditKey for falso, desabilite a edição do campo 'languageCode'.`
+#### Grid Actions and Their Effects:
+- **Read-Only Fields**: Prevent editing of specific fields (`languageCode`).
+- **Hidden Fields**: Hide all fields not explicitly defined (`HIDE_ALL_FIELDS`).
+- **Field Order**: Arrange fields in a specific order (`languageCode`, `descrip`, `dateText`).
+- **Custom Editors**: Apply specific formatting or behavior to fields (`cxEDTupperCase` for uppercase text).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente (`Create`):
-     - Configurações do grid são aplicadas (campos somente leitura, ocultos, ordem, etc.).
-     - Painel de ações é desativado.
-  2. Interação do usuário:
-     - Usuário pode visualizar e editar campos permitidos no grid.
-  3. Evento `SetKeyEditing`:
-     - Desabilita a edição do campo `languageCode` quando necessário.
+### User/Software Actions:
+- View and edit payment language details in a grid.
+- Restrict editing of specific fields (`languageCode`).
+- Automatically format text fields (`descrip`, `dateText`) to uppercase.
 
-* **Dados Necessários:**
-  - `languageCode`: Código do idioma.
-  - `descrip`: Descrição do idioma.
-  - `dateText`: Texto relacionado à data.
+### Main Components:
+1. **Grid Settings**: Configures the grid's behavior, including read-only fields, hidden fields, field order, and custom editors.
+2. **Custom Editor (`cxEDTupperCase`)**: Ensures text input is converted to uppercase.
+3. **Action Panel Visibility**: Configurable to show or hide the action panel.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação: Edição de campos.
-    - Pré-condição: Campo não deve ser somente leitura.
-  - Ação: Ocultar campos.
-    - Pré-condição: Campo deve estar listado em `DefineHiddenFields`.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - `languageCode`: Somente leitura.
-  - `descrip` e `dateText`: Editáveis com editor que transforma texto em maiúsculas.
+### Pseudo-Code for Actions and Events:
+- **On Frame Initialization**:
+  ```
+  if frame is created then
+    set MasterKeyFields to 'key'
+    set DataPacketName to 'PaymentLang'
+    set PropertyName to 'details'
+    set FrameType to 'frtDetail'
+    hide action panel
+    configure grid settings
+  ```
+- **On Key Editing**:
+  ```
+  if EditKey is false then
+    disable editing for 'languageCode' column
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:**
-  - Configura o grid com campos somente leitura, ocultos, ordem de exibição e editores personalizados.
-* **`SetKeyEditing`:**
-  - Desabilita a edição do campo `languageCode`.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created using the `Create` constructor.
+   - Grid settings are configured, including read-only fields, hidden fields, field order, and custom editors.
+   - The action panel is hidden by default.
 
----
+2. **User Interaction**:
+   - Users can view and edit fields in the grid.
+   - Editing is restricted for the `languageCode` field.
 
-## 6. Consumo de Serviços API:
+3. **Functions**:
+   - **`Create` (File: `FREpaymentLang.pas`)**:
+     Configures the frame and grid settings.
+   - **`SetKeyEditing` (File: `FREpaymentLang.pas`)**:
+     Disables editing for the `languageCode` field.
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `cxGrid`: Para exibição de dados em formato de tabela.
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para grids com edição.
+### Data Requirements:
+- **Input Data**: Payment language details, including `languageCode`, `descrip`, and `dateText`.
+- **Output Data**: Updated payment language details.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `languageCode` (string, somente leitura).
-  - `descrip` (string, editável, texto em maiúsculas).
-  - `dateText` (string, editável, texto em maiúsculas).
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `languageCode` → `languageCode`.
-  - `descrip` → `descrip`.
-  - `dateText` → `dateText`.
+### Actions and Preconditions:
+- **Grid Editing**:
+  - `languageCode` is read-only and cannot be edited.
+  - `descrip` and `dateText` are editable but must be in uppercase.
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **`languageCode`**: Read-only.
+- **`descrip` and `dateText`**: Automatically converted to uppercase using `cxEDTupperCase`.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
+1. **`Create`**:
+   - Configures the frame and grid settings.
+   - Sets properties like `MasterKeyFields`, `DataPacketName`, and `FrameType`.
+   - Defines grid behavior (read-only fields, hidden fields, field order, custom editors).
+
+2. **`SetKeyEditing`**:
+   - Disables editing for the `languageCode` field.
+
+---
+
+## 6. API Service Consumption:
+
+- No explicit API calls are defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **DevExpress Components**: For grid and UI elements.
+- **SOAP Components**: For data communication.
+
+### Custom Components:
+- **`TFRAMEBaseGridEditSOA`**: Base frame for grid editing.
+- **`cxEDTupperCase`**: Custom editor for uppercase text.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **languageCode**:
+   - Type: String.
+   - Read-only.
+   - Validation: Not editable.
+
+2. **descrip**:
+   - Type: String.
+   - Editable.
+   - Validation: Automatically converted to uppercase.
+
+3. **dateText**:
+   - Type: String.
+   - Editable.
+   - Validation: Automatically converted to uppercase.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Create Frame] --> [Configure Grid Settings] --> [Hide Action Panel] --> [User Interaction] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: View/Edit Grid
+Frame --> Grid: Configure Settings
+Grid --> User: Display Data
+```
+
+### Code Snippets:
+```delphi
+procedure TFReditPaymentLang.SetKeyEditing(const EditKey: Boolean);
+begin
+  inherited;
+  cxDBVtable.GetColumnByFieldName('languageCode').Options.Editing := False;
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings Configuration**:
   ```delphi
-  var
-    Frame: TFReditPaymentLang;
+  // Configure grid settings, including read-only fields, hidden fields, and field order.
+  with GridSettings do
   begin
-    Frame := TFReditPaymentLang.Create(Self);
-    Frame.SetKeyEditing(False);
+    DefineReadOnlyFields('languageCode');
+    DefineHiddenFields('HIDE_ALL_FIELDS');
+    DefineOrderFields('languageCode;descrip;dateText');
+    AddCustomField('descrip', 'cxEDTupperCase');
+    AddCustomField('dateText', 'cxEDTupperCase');
   end;
   ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black; border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th style="border:1px solid black;">languageCode</th>
-        <th style="border:1px solid black;">descrip</th>
-        <th style="border:1px solid black;">dateText</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border:1px solid black;">EN</td>
-        <td style="border:1px solid black;">English</td>
-        <td style="border:1px solid black;">2023-10-01</td>
-      </tr>
-      <tr>
-        <td style="border:1px solid black;">FR</td>
-        <td style="border:1px solid black;">Français</td>
-        <td style="border:1px solid black;">2023-10-02</td>
-      </tr>
-    </tbody>
-  </table>
+
+- **Key Editing**:
+  ```delphi
+  // Disable editing for the 'languageCode' field.
+  cxDBVtable.GetColumnByFieldName('languageCode').Options.Editing := False;
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 12. Conclusion:
 
-* Configuração de campos somente leitura, ocultos e ordem de exibição no método `Create`.
-* Desabilitação de edição do campo `languageCode` no método `SetKeyEditing`.
-
----
-
-## 12. Conclusão:
-
-O código implementa um componente eficiente para exibição e edição de dados relacionados a idiomas de pagamento. Ele é altamente configurável, com suporte a campos somente leitura, ocultos e editores personalizados. No entanto, faltam mensagens de erro e validações mais robustas.
+The `FREpaymentLang` frame is a well-structured component for managing payment language details in a grid format. It provides robust configuration options for grid behavior, including read-only fields, hidden fields, and custom editors. However, it lacks explicit error handling, default values, and API integration.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-O componente `TFReditPaymentLang` gerencia dados de idiomas de pagamento em um grid configurável, com suporte a edição personalizada e campos somente leitura. Ele é ideal para aplicações que exigem manipulação estruturada de dados.#### **FREpaymentLang.pas**
+The `FREpaymentLang` frame manages payment language details in a grid, with configurable settings for read-only fields, hidden fields, and custom editors. It ensures data consistency by restricting editing and formatting text fields to uppercase.#### **FREpaymentLang.pas**
 
 ```
 unit FREpaymentLang;

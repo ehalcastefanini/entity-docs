@@ -2,172 +2,211 @@
 
 #### **Documentation**
 
-# Documentação do Código: Unidade `MebEntityLink`
+# Documentation for `MebEntityLink` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-* **Objetivo Principal:**  
-  O objetivo principal deste código é gerenciar a interface de edição de links de entidades de negócios (EBusiness Entity Link). Ele permite que os usuários visualizem, editem e salvem informações relacionadas a entidades e seus vínculos, garantindo que os dados originais sejam preservados para operações de modificação.
+### Objective and Problem Solved:
+The `MebEntityLink` code unit is designed to manage and edit entity links in an e-business application. It provides a user interface for viewing, modifying, and saving entity link data. The main objective is to allow users to interact with entity link records, including their original and modified states, ensuring data integrity and proper handling of changes.
 
-* **Tecnologias Utilizadas:**  
-  - Delphi (Object Pascal) para desenvolvimento da interface e lógica de negócios.
-  - Componentes visuais como `TsPanel`, `TFRAMEebEntityLink`, e `TFRAMEebEntityLinkOldValue` para construção da interface.
-  - Serviços utilitários como `TEbEntityLinkServiceUtils` para manipulação de dados.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries**: Includes components like `TsPanel`, `TFRAMEebEntityLink`, and `TFRAMEebEntityLinkOldValue` for UI and data handling.
+- **Service Layer**: Utilizes `EbEntityLinkServiceUtils` for backend service interactions.
 
-* **Forma do Componente:**  
-  Este código implementa um **formulário** com os seguintes elementos:
-  - **Elementos do Formulário:**
-    - Comboboxes (`TcxDBImageComboBox`) para seleção de tipos de entidade e partes.
-    - Painéis (`TsPanel`) para organização visual.
-    - Frames (`TFRAMEebEntityLink` e `TFRAMEebEntityLinkOldValue`) para exibição e edição de dados.
-  - **Ações do Formulário:**
-    - Carregar dados de uma entidade.
-    - Editar e salvar informações de vínculo de entidade.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements**:
+  - `FRAMEebEntityLink1`: Displays the current entity link data.
+  - `FRAMEebEntityLinkOldValue1`: Displays the original entity link data for comparison.
+  - `ICBOentity_tp`, `ICBOeb_entity_type`, `ICBOeb_Party_Tp`: Combo boxes for selecting entity types and parties.
+- **Form Actions**:
+  - **Save**: Saves the modified entity link data.
+  - **Cancel**: Cancels the operation and reverts changes.
 
-## 2. Descrição da Funcionalidade:
+---
 
-* **Ações Disponíveis:**
-  - Criar o formulário de edição.
-  - Carregar dados de uma entidade e seus vínculos.
-  - Preservar os dados originais para operações de modificação.
+## 2. Functionality Description:
 
-* **Componentes Principais:**
-  - `TFORMMebEntityLink`: Classe principal que gerencia o formulário.
-  - `TFRAMEebEntityLink` e `TFRAMEebEntityLinkOldValue`: Frames que exibem e manipulam os dados.
-  - `TEbEntityLinkServiceUtils`: Serviço utilitário para manipulação de dados.
+### User/Software Actions:
+- View current and original entity link data.
+- Modify entity link details using combo boxes.
+- Save or cancel changes.
 
-* **Tradução para Pseudo-código:**
-  - Evento `m_CreateFormEdit`:  
-    ```pseudo
-    se formulário for criado então inicializar componentes
-    ```
-  - Evento `m_getData`:  
-    ```pseudo
-    se dados forem carregados então
-      configurar parâmetros do serviço
-      carregar dados originais e alterados
-    fim
-    ```
+### Main Components:
+- **`FRAMEebEntityLink1`**: Displays the current entity link data.
+- **`FRAMEebEntityLinkOldValue1`**: Displays the original entity link data.
+- **Combo Boxes**: Allow users to select and modify entity types and parties.
 
-## 3. Lógica Operacional:
+### Pseudo-code for Actions and Events:
+- **On Form Creation**:
+  - `if form created then initialize components and load data`.
+- **On Save Button Click**:
+  - `if save button clicked then validate data and save changes`.
+- **On Cancel Button Click**:
+  - `if cancel button clicked then revert changes and close form`.
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`m_CreateFormEdit`).
-  2. Carregamento de dados da entidade e configuração de parâmetros do serviço (`m_getData`).
-  3. Exibição dos dados nos frames `TFRAMEebEntityLink` e `TFRAMEebEntityLinkOldValue`.
+---
 
-* **Dados Necessários:**
-  - Tipo de entidade (`EntityTp`).
-  - Tipo de parte (`ebPartyTp`).
-  - Identificador da parte (`ebParty`).
-  - Identificador da entidade (`entity`).
+## 3. Operational Logic:
 
-## 4. Regras de Negócio:
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using `m_CreateFormEdit`.
+   - UI components are initialized, and data is loaded using `m_getData`.
+2. **User Interaction**:
+   - Users can view and modify entity link data.
+   - Changes are saved or canceled based on user actions.
+3. **Data Handling**:
+   - Data is fetched and updated via `EbEntityLinkServiceUtils`.
 
-* **Ações e Pré-condições:**
-  - Ação: Carregar dados.  
-    Pré-condição: Os parâmetros da entidade devem estar definidos.
-  - Ação: Salvar dados.  
-    Pré-condição: Os dados devem ser válidos e completos.
+### Required User Data:
+- Entity Type
+- Party Type
+- Party
+- Entity Type
+- Entity
 
-* **Filtros Disponíveis:**
-  - Mostrar inativos (`ShowInactives`).
+---
 
-* **Mensagens de Erro:**
-  - "Parâmetros insuficientes" se os parâmetros necessários não forem fornecidos.
+## 4. Business Rules:
 
-* **Valores Padrão dos Campos:**
-  - `ebEntityType`: vazio.
-  - `ebPartyTp`: vazio.
-  - `ebParty`: vazio.
-  - `entityTp`: vazio.
-  - `entity`: vazio.
+### Actions and Preconditions:
+- **Save**: Enabled only if all required fields are filled.
+- **Cancel**: Always enabled.
 
-* **Validações e Condições dos Campos:**
-  - `EntityTp`: Deve ser preenchido.
-  - `ebPartyTp`: Deve ser preenchido.
-  - `ebParty`: Deve ser preenchido.
-  - `entity`: Deve ser preenchido.
+### Available Filters:
+- No explicit filters are defined in the code.
 
-## 5. Funções Principais:
+### Error Messages:
+- "Required field not completed" if a required field is empty.
+- "Invalid data" if the entered data does not meet validation criteria.
 
-* `m_CreateFormEdit`: Cria e inicializa o formulário de edição.
-* `m_getData`: Carrega os dados da entidade e configura os parâmetros do serviço.
+### Default Field Values:
+- Not explicitly defined in the code.
 
-## 6. Consumo de Serviços de API:
+### Field Validation and Conditions:
+- **Entity Type**: Must be selected from the combo box.
+- **Party Type**: Must be selected from the combo box.
+- **Party**: Must be selected from the combo box.
 
-* **Chamadas a Serviços Externos:**
-  - Serviço: `TEbEntityLinkServiceUtils`.
-  - Dados enviados: `{ "ebEntityType": "string", "ebPartyTp": "string", "ebParty": "string", "entityTp": "string", "entity": "string" }`.
-  - Dados recebidos: `{ "status": "success", "data": "Entity Link object" }`.
-  - Propósito: Carregar e salvar dados de vínculo de entidade.
-  - Tratamento de erros: Exibe mensagem de erro em caso de falha.
+---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 5. Main Functions:
 
-* Não há campos condicionais explícitos definidos no código.
+### `m_CreateFormEdit`:
+- **Purpose**: Creates and initializes the form.
+- **Logic**: Instantiates the form and sets up its components.
 
-## 8. Dependências:
+### `m_getData`:
+- **Purpose**: Loads data into the form.
+- **Logic**: Fetches data from the service layer and populates the UI components.
 
-* **Bibliotecas Externas:**
-  - `kneUtils`: Utilitários genéricos.
-  - `EbEntityLinkServiceUtils`: Manipulação de dados de vínculo de entidade.
+---
 
-* **Componentes Customizados:**
-  - `TFRAMEebEntityLink` e `TFRAMEebEntityLinkOldValue`: Frames para exibição e edição de dados.
+## 6. API Service Consumption:
 
-## 9. Listagem de Campos e Validações:
+### Service Name: `EbEntityLinkServiceUtils`
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: `{ "ebEntityType": "string", "ebPartyTp": "string", "ebParty": "string", "entityTp": "string", "entity": "string" }`.
+- **Data Received**: `{ "status": "success", "data": "EntityLink object" }`.
+- **Purpose**: Fetch and update entity link data.
+- **Error Handling**: Displays error messages if the service call fails.
 
-* `EntityTp` (tipo: string, obrigatório).
-* `ebPartyTp` (tipo: string, obrigatório).
-* `ebParty` (tipo: string, obrigatório).
-* `entity` (tipo: string, obrigatório).
+---
 
-## 10. Exemplos e Diagramas:
+## 7. Conditional Fields (Form Logic):
 
-* **Diagrama de Fluxo:**  
-  Não aplicável.
+- **"Entity Type" Combo Box**: Visible and editable only when the form is in edit mode.
 
-* **Diagrama de Sequência:**  
-  Não aplicável.
+---
 
-* **Exemplo de Código:**  
-  ```pascal
-  var
-    Form: TFORMMebEntityLink;
-  begin
-    Form := TFORMMebEntityLink.Create(nil);
-    try
-      Form.m_getData;
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
-  end;
-  ```
+## 8. Dependencies:
 
-* **HTML Representando o Formulário:**  
-  ```html
-  <div style="width: 652px; height: 315px; border: 1px solid #000;">
-    <div style="height: 41px; background-color: #f0f0f0;">Toolbar</div>
-    <div style="height: 247px; background-color: #ffffff;">
-      <div style="height: 245px; border: 1px solid #ccc;">FRAMEebEntityLink</div>
-      <div style="height: 245px; border: 1px solid #ccc;">FRAMEebEntityLinkOldValue</div>
-    </div>
-  </div>
-  ```
+### External Libraries:
+- **`TsPanel`**: Used for panel components.
+- **`TFRAMEebEntityLink`**: Custom frame for displaying entity link data.
+- **`TFRAMEebEntityLinkOldValue`**: Custom frame for displaying original entity link data.
 
-## 11. Comentários Importantes no Código:
+### Custom Components:
+- **`TFRAMEebEntityLink`**: Displays current entity link data.
+- **`TFRAMEebEntityLinkOldValue`**: Displays original entity link data.
 
-* O método `m_getData` contém lógica para carregar dados originais e alterados, garantindo que os dados sejam preservados durante modificações.
+---
 
-## 12. Conclusão:
+## 9. Fields and Validations Listing:
 
-O código implementa um formulário robusto para gerenciar vínculos de entidades de negócios. Ele é bem estruturado, mas depende de serviços externos para manipulação de dados. Uma limitação é a falta de validações explícitas para os campos no código.
+### Fields:
+- **Entity Type**:
+  - Type: Combo Box
+  - Required: Yes
+- **Party Type**:
+  - Type: Combo Box
+  - Required: Yes
+- **Party**:
+  - Type: Combo Box
+  - Required: Yes
 
-## 13. Resumo Curto:
+### Mapping:
+- **Entity Type**: Maps to `EntityTp` in the database.
+- **Party Type**: Maps to `ebPartyTp` in the database.
+- **Party**: Maps to `ebParty` in the database.
 
-O código gerencia um formulário para edição de vínculos de entidades de negócios, permitindo carregar, editar e salvar dados. Ele utiliza frames e serviços externos para manipulação de dados, garantindo a preservação de registros originais durante modificações.#### **MebEntityLink.pas**
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Form Initialization] --> [Load Data] --> [User Interaction]
+    --> [Save Changes] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Open Form
+Form --> Service: Fetch Data
+Service --> Form: Return Data
+User --> Form: Modify Data
+Form --> Service: Save Data
+Service --> Form: Confirm Save
+```
+
+### Code Snippets:
+```delphi
+// Create and initialize the form
+Result := TFORMMebEntityLink.Create(AOwner);
+
+// Load data into the form
+procedure TFORMMebEntityLink.m_getData;
+begin
+  // Fetch and populate data
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Optimization of Resources**:
+  - `lv_MasterFrame := TFRAMEBaseEditSOA(kneUtils.TkneGeneric.fg_GetMasterFrame(Self));`
+- **Service Parameters**:
+  - `lv_MasterFrame.ServiceParams.ShowInactives := True;`
+
+---
+
+## 12. Conclusion:
+
+The `MebEntityLink` code unit provides a robust solution for managing entity links in an e-business application. It ensures data integrity by allowing users to view and modify both current and original entity link data. However, the code lacks explicit error handling and default field values, which could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `MebEntityLink` form facilitates the management of e-business entity links, allowing users to view, modify, and save entity link data while maintaining data integrity through service interactions.#### **MebEntityLink.pas**
 
 ```
 unit MebEntityLink;

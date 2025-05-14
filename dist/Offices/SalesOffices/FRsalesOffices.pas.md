@@ -2,180 +2,222 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRsalesOffices` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário para gerenciar informações de escritórios de vendas, incluindo a descrição, código do escritório e o gerente geral associado. Ele permite a interação com serviços externos para buscar e validar dados relacionados ao gerente geral. O objetivo é facilitar a edição e visualização de informações de escritórios de vendas em um sistema.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do formulário e lógica de negócios.
-  - Componentes visuais como `TsLabel`, `TsDBEdit`, e `TFRAMEFindEditSOA` para a interface do usuário.
-  - Serviços SOAP para integração com dados externos (`TOfficeServiceUtils` e `TSalesManServiceUtils`).
+### Objective and Problem Solved:
+The `FRsalesOffices` code unit defines a form (`TFRAMEsalesOffices`) for managing sales office data. It provides an interface for users to input and edit information about sales offices, including their description, office code, and general manager. The form integrates with data services to fetch and update information, ensuring seamless interaction with the backend.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `LBLname`: Rótulo para o campo "Descrição".
-      - `LBLsalesman`: Rótulo para o campo "Código do Escritório".
-      - `LBLGeneralManager`: Rótulo para o campo "Gerente Geral".
-      - `EDTdescrip`: Campo de edição vinculado ao banco de dados para a descrição do escritório.
-      - `EDTofficeCode`: Campo de edição vinculado ao banco de dados para o código do escritório.
-      - `FRAMEfindGeneralManager`: Componente para busca e seleção do gerente geral.
-    - **Ações do Formulário e seus Efeitos:**
-      - Busca de gerente geral através do componente `FRAMEfindGeneralManager`.
-      - Validação e exibição de informações relacionadas ao gerente geral.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP Services**: The form interacts with SOAP-based services (`TOfficeServiceUtils` and `TSalesManServiceUtils`) for data operations.
+- **Database Components**: Uses `TClientDataSet` and `TDataSource` for database interaction.
+- **Custom Components**: Includes custom components like `TsLabel`, `TsDBEdit`, and `TFRAMEFindEditSOA`.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Permitir a edição de informações de escritórios de vendas.
-  - Buscar e associar um gerente geral ao escritório.
-  - Exibir informações de status relacionadas ao escritório.
-
-* **Componentes Principais:**
-  - `EDTdescrip` e `EDTofficeCode`: Campos de edição para entrada de dados.
-  - `FRAMEfindGeneralManager`: Componente para busca e seleção de gerentes gerais.
-  - `FRAMEstatusInfo1`: Exibe informações de status relacionadas ao escritório.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão de busca: `se botão clicado então abrir diálogo de busca`.
-  - Evento `OnChange` do campo de descrição: `se valor do campo alterado então validar entrada`.
-  - Evento de inicialização: `ao inicializar, configurar propriedades e serviços`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTdescrip` (Text Input): For entering the description of the sales office.
+  - `EDTofficeCode` (Text Input): For entering the office code.
+  - `FRAMEfindGeneralManager` (Search Input): For selecting the general manager.
+- **Form Actions and Effects**:
+  - Data is fetched and updated via SOAP services.
+  - The "General Manager" field includes a search dialog for selecting a manager.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configura propriedades como `MasterSource`, `DataPacketName` e `ProviderService`.
-     - Configura o componente de busca de gerente geral (`m_SetFindGeneralManager`).
-  2. Interação do Usuário:
-     - O usuário preenche os campos "Descrição" e "Código do Escritório".
-     - O usuário utiliza o componente de busca para selecionar um gerente geral.
-  3. Salvamento ou validação dos dados.
+### User/Software Actions:
+- Users can input or edit the sales office description and office code.
+- Users can search and select a general manager using a dialog.
+- The form interacts with backend services to fetch and save data.
 
-* **Dados Necessários:**
-  - Descrição do escritório.
-  - Código do escritório.
-  - Gerente geral (opcional, mas recomendado).
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names.
+- **Editable Fields (`TsDBEdit`)**: Allow users to input data.
+- **Search Field (`TFRAMEFindEditSOA`)**: Provides a dialog for selecting a general manager.
+- **Status Info Frame (`TFRAMEstatusInfo`)**: Displays additional status information.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - A busca de gerente geral só é possível se o componente `FRAMEfindGeneralManager` estiver configurado corretamente.
-  - Campos obrigatórios devem ser preenchidos antes de salvar.
-
-* **Filtros Disponíveis:**
-  - Filtro para busca de gerente geral baseado no nome.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se os campos obrigatórios não forem preenchidos.
-  - "Gerente geral inválido" se o gerente selecionado não for válido.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validação de Campos:**
-  - `EDTdescrip`: Deve aceitar texto.
-  - `EDTofficeCode`: Deve aceitar texto em maiúsculas.
-
----
-
-## 5. Funções Principais:
-
-* **Funções e Lógica de Negócio:**
-  - `Create`: Configura o formulário e inicializa os serviços.
-  - `m_SetFindGeneralManager`: Configura o componente de busca de gerente geral.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `TOfficeServiceUtils`.
-    - Endpoint: Não especificado no código.
-    - Propósito: Gerenciar dados de escritórios.
-  - Serviço: `TSalesManServiceUtils`.
-    - Endpoint: Não especificado no código.
-    - Propósito: Buscar informações de gerentes gerais.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo de busca de gerente geral (`FRAMEfindGeneralManager`) é configurado dinamicamente no método `m_SetFindGeneralManager`.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `InvokeRegistry`, `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneFRCtrlEditSOA`: Componentes personalizados para edição.
-
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Componente para busca e seleção.
-  - `TFRAMEstatusInfo`: Exibe informações de status.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - `EDTdescrip` (tipo: string, obrigatório, não possui validações explícitas no código).
-  - `EDTofficeCode` (tipo: string, obrigatório, texto em maiúsculas).
-  - `FRAMEfindGeneralManager` (tipo: componente de busca, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `EDTdescrip` → Coluna `descrip`.
-  - `EDTofficeCode` → Coluna `officeCode`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  FRAMEsalesOffices := TFRAMEsalesOffices.Create(Self);
-  FRAMEsalesOffices.EDTdescrip.Text := 'Novo Escritório';
+### Pseudo-code for Actions and Events:
+- **On Form Initialization**:
   ```
-* **HTML Renderizado:**
-  ```html
-  <div style="font-family: Tahoma; color: #4D4D4D;">
-    <label style="display: block; margin-top: 10px;">Sales Office:</label>
-    <input type="text" style="width: 200px; text-transform: uppercase;" placeholder="Office Code">
-    <label style="display: block; margin-top: 10px;">Description:</label>
-    <input type="text" style="width: 400px;" placeholder="Description">
-    <label style="display: block; margin-top: 10px;">General Manager:</label>
-    <input type="text" style="width: 300px;" placeholder="Search General Manager">
-  </div>
+  if form is created then
+    set data source and service properties
+    configure general manager search field
+  ```
+- **On General Manager Search**:
+  ```
+  if search dialog is opened then
+    display list of managers
+    allow user to select a manager
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração do componente de busca de gerente geral no método `m_SetFindGeneralManager`.
-* Inicialização de propriedades do formulário no construtor `Create`.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default properties (`MasterSource`, `MasterKeyFields`, etc.).
+   - The `m_SetFindGeneralManager` method configures the search field for the general manager.
+   - The `TOfficeServiceUtils` service is instantiated for data operations.
+2. **User Interaction**:
+   - Users input data into the fields (`EDTdescrip`, `EDTofficeCode`).
+   - Users can open the search dialog to select a general manager.
+3. **Data Handling**:
+   - Data is fetched and updated via the `TOfficeServiceUtils` and `TSalesManServiceUtils` services.
+
+### Required User Data:
+- **Description**: Text input for the sales office description.
+- **Office Code**: Text input for the office code.
+- **General Manager**: Selected via the search dialog.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece uma interface funcional para gerenciar escritórios de vendas, com integração a serviços externos para busca de dados. Sua principal limitação é a falta de validações explícitas e mensagens de erro detalhadas. No entanto, ele é modular e extensível.
+### Actions and Preconditions:
+- **General Manager Search**:
+  - Action: Opens a dialog to select a general manager.
+  - Preconditions: The form must be initialized, and the data source must be set.
+
+### Available Filters:
+- The search dialog for the general manager filters by:
+  - Code: `salesman`
+  - Description: `name`
+
+### Error Messages:
+- Not explicitly defined in the code.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **Office Code**: Uppercase input enforced (`CharCase = ecUpperCase`).
+- **General Manager**: Requires a valid selection from the search dialog.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa um formulário para gerenciar escritórios de vendas, permitindo edição de dados e busca de gerentes gerais via integração SOAP. Ele é modular, mas carece de validações explícitas e mensagens de erro detalhadas.#### **FRsalesOffices.pas**
+### Functions:
+1. **`Create` Constructor**:
+   - Initializes the form and sets default properties.
+   - Configures the general manager search field.
+2. **`m_SetFindGeneralManager`**:
+   - Configures the `FRAMEfindGeneralManager` component, including its data source, field mappings, and search dialog.
+
+---
+
+## 6. API Service Consumption:
+
+### External Service Calls:
+1. **Service Name**: `TOfficeServiceUtils`
+   - **Purpose**: Fetch and update sales office data.
+2. **Service Name**: `TSalesManServiceUtils`
+   - **Purpose**: Fetch general manager data for the search dialog.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **General Manager Field**:
+  - **Condition**: The field is visible and functional when the form is initialized.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based service communication.
+- **DB and DBClient**: For database interaction.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`**: Custom component for search functionality.
+- **`TFRAMEstatusInfo`**: Custom component for displaying status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Description (`EDTdescrip`)**:
+   - Type: String
+   - Required: Not explicitly defined.
+2. **Office Code (`EDTofficeCode`)**:
+   - Type: String
+   - Required: Not explicitly defined.
+   - Validation: Uppercase enforced.
+3. **General Manager (`FRAMEfindGeneralManager`)**:
+   - Type: Search Field
+   - Required: Not explicitly defined.
+
+### Mapping:
+- `EDTdescrip` → Database Field: `descrip`
+- `EDTofficeCode` → Database Field: `officeCode`
+- `FRAMEfindGeneralManager` → Database Fields: `manager`, `managerName`
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not include complex workflows.)
+
+### Sequence Diagram:
+(Not applicable as the code does not include interactions with multiple components.)
+
+### Code Snippets:
+```delphi
+procedure TFRAMEsalesOffices.m_SetFindGeneralManager;
+begin
+  with FRAMEfindGeneralManager do
+  begin
+    EditSettings.DataSource := DStable;
+    EditSettings.FieldNameForCode := 'manager';
+    EditSettings.FieldNameForDesc := 'managerName';
+    FindDialog.ProviderService := TSalesManServiceUtils.Create(FindDialog);
+  end;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="font-family: Tahoma; color: #4D4D4D;">
+  <label style="display: block; margin-top: 10px;">Sales Office:</label>
+  <input type="text" style="width: 120px; text-transform: uppercase;" placeholder="Office Code">
+  
+  <label style="display: block; margin-top: 10px;">Description:</label>
+  <input type="text" style="width: 550px;" placeholder="Description">
+  
+  <label style="display: block; margin-top: 10px;">General Manager:</label>
+  <input type="text" style="width: 300px;" placeholder="Search General Manager">
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization**:
+  - The `Create` constructor sets up the form and its components.
+- **General Manager Search**:
+  - The `m_SetFindGeneralManager` method configures the search field and dialog.
+
+---
+
+## 12. Conclusion:
+
+The `FRsalesOffices` code unit provides a robust form for managing sales office data. It integrates with SOAP services for data operations and includes a search dialog for selecting a general manager. However, error handling and field validation are not explicitly defined, which could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRsalesOffices` unit defines a form for managing sales office data, integrating SOAP services for data operations and providing a search dialog for selecting a general manager. It ensures seamless interaction with backend services but lacks explicit error handling and validation.#### **FRsalesOffices.pas**
 
 ```
 unit FRsalesOffices;

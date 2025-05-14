@@ -2,213 +2,223 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para gerenciar destinos de armazéns e métodos de envio associados. Ele permite que os usuários visualizem, editem e adicionem informações relacionadas a destinos e métodos de envio diretamente em uma grade interativa. O objetivo principal é facilitar a manipulação de dados relacionados a destinos e métodos de envio, garantindo que as informações sejam organizadas e acessíveis.
-
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid e cxEditRepository:** Utilizados para criar a interface gráfica e gerenciar a interação com os dados.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos, como `DestinationServiceUtils` e `ShippingServiceUtils`.
-
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `destinationCode` (string): Código do destino.
-      - `destinationDesc` (string): Descrição do destino.
-      - `shipMethod` (string): Método de envio.
-      - `shipMethodDesc` (string): Descrição do método de envio.
-      - `sundayTransitTime` a `saturdayTransitTime` (inteiro): Tempo de trânsito por dia da semana.
-      - `freightCost` (float): Custo do frete.
-      - `KMeter` (float): Distância em quilômetros.
-      - `stat` (string): Status.
-    - **Ações da Grade e seus Efeitos:**
-      - **Adicionar (`ADD`):** Permite adicionar um novo destino.
-      - **Excluir (`DELETE`):** Remove o destino selecionado.
+# Documentation for `FRwarehouseDest` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Disponíveis:**
-  - Adicionar um novo destino.
-  - Editar informações de um destino existente.
-  - Excluir um destino.
-  - Pesquisar destinos e métodos de envio.
+### Objective and Problem Solved:
+The `FRwarehouseDest` code unit is designed to manage and display a grid interface for warehouse destination data. It provides functionalities for adding, editing, and managing destination and shipping method information. The main objective is to allow users to interact with warehouse destination data efficiently, including searching for destinations and shipping methods using custom editors.
 
-* **Componentes Principais:**
-  - **Grade (`cxGrid`):** Exibe os dados dos destinos e métodos de envio.
-  - **Botões de Pesquisa (`cxEDTfindDestination` e `cxEDTfindDestinationShipMethod`):** Permitem buscar destinos e métodos de envio.
-  - **Painel de Ações:** Exibe as ações disponíveis, como adicionar e excluir.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL framework for GUI development.
+- **SOAP Services**: The code interacts with external services (`DestinationServiceUtils`, `ShippingServiceUtils`) for fetching and managing data.
+- **Database Components**: Uses `DBClient` and `TDataSet` for database interactions.
+- **cxGrid**: A component from DevExpress for displaying and managing grid data.
+- **Custom Editors**: `TcxEditRepositoryButtonItem` for custom button-based editors.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnButtonClick` do botão de pesquisa: `se botão clicado então executar função de busca`.
-  - Evento `OnEditValueChanged` da grade: `se valor da célula alterado então validar e atualizar dados`.
+### Form Type:
+This is a **grid display** form.
 
----
+#### Grid Columns and Their Types:
+1. **destinationCode**: String (Key Field).
+2. **destinationDesc**: String.
+3. **shipMethod**: String.
+4. **shipMethodDesc**: String.
+5. **sundayTransitTime**: Integer.
+6. **mondayTransitTime**: Integer.
+7. **tuesdayTransitTime**: Integer.
+8. **wednesdayTransitTime**: Integer.
+9. **thursdayTransitTime**: Integer.
+10. **fridayTransitTime**: Integer.
+11. **saturdayTransitTime**: Integer.
+12. **freightCost**: Float.
+13. **KMeter**: Float.
+14. **stat**: String.
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização do componente:
-     - Configuração das propriedades da grade.
-     - Definição de campos chave, campos ocultos e ordem dos campos.
-     - Associação de eventos aos botões de pesquisa.
-  2. Interação do usuário:
-     - O usuário pode clicar nos botões de pesquisa para buscar destinos ou métodos de envio.
-     - O usuário pode editar valores diretamente na grade.
-  3. Funções executadas:
-     - `m_FindDestination` (arquivo: `FRwarehouseDest`): Realiza a busca de destinos.
-     - `m_FindDestinationShipMethod` (arquivo: `FRwarehouseDest`): Realiza a busca de métodos de envio.
-
-* **Dados Necessários:**
-  - Código do destino.
-  - Descrição do destino.
-  - Método de envio.
-
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Adicionar" só é permitida se todos os campos obrigatórios forem preenchidos.
-  - Ação "Excluir" só é permitida se um item estiver selecionado.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios esperados.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão definidos explicitamente no código.
-
-* **Validação de Campos:**
-  - `destinationCode`: Deve ser único e não vazio.
-  - `freightCost`: Deve ser um número positivo.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new destination record.
+2. **Delete**: Deletes the selected destination record.
+3. **Custom Editors**:
+   - `cxEDTfindDestination`: Opens a dialog to find a destination.
+   - `cxEDTfindDestinationShipMethod`: Opens a dialog to find a shipping method.
 
 ---
 
-## 5. Funções Principais:
+## 2. Functionality Description:
 
-* **`m_FindDestination`:** Realiza a busca de destinos com base no código ou descrição.
-* **`m_FindDestinationShipMethod`:** Realiza a busca de métodos de envio.
-* **`ACTaddExecute`:** Adiciona um novo destino à grade.
-* **`CDStableAfterInsert`:** Configura valores padrão após a inserção de um novo registro.
+### User/Software Actions:
+1. **Add a Destination**: Users can add a new destination using the "Add" action.
+2. **Delete a Destination**: Users can delete a selected destination using the "Delete" action.
+3. **Search for Destination**: Users can search for a destination using the custom editor (`cxEDTfindDestination`).
+4. **Search for Shipping Method**: Users can search for a shipping method using the custom editor (`cxEDTfindDestinationShipMethod`).
 
----
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays the destination data.
+2. **Custom Editors**: Provides search functionality for destinations and shipping methods.
+3. **Action Panel**: Contains buttons for adding and deleting records.
 
-## 6. Consumo de Serviços API:
-
-* **Serviço: `DestinationServiceUtils`**
-  - **Endpoint:** `/api/destinations`.
-  - **Dados Enviados:** `{ "destinationCode": "string", "description": "string" }`.
-  - **Dados Recebidos:** `{ "status": "success", "data": "Destination object" }`.
-  - **Propósito:** Buscar ou criar destinos.
-
-* **Serviço: `ShippingServiceUtils`**
-  - **Endpoint:** `/api/shippingMethods`.
-  - **Dados Enviados:** `{ "shipMethod": "string" }`.
-  - **Dados Recebidos:** `{ "status": "success", "data": "ShippingMethod object" }`.
-  - **Propósito:** Buscar métodos de envio.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Pseudo-code for Actions and Events:
+- **OnClick event of "Add" button**:  
+  `if Add button clicked then execute ACTaddExecute function`.
+- **OnClick event of "Delete" button**:  
+  `if Delete button clicked then delete selected record`.
+- **OnButtonClick event of `cxEDTfindDestination`**:  
+  `if button clicked then execute m_FindDestination function`.
+- **OnButtonClick event of `cxEDTfindDestinationShipMethod`**:  
+  `if button clicked then execute m_FindDestinationShipMethod function`.
+- **OnEditValueChanged event of grid**:  
+  `if grid cell value changed then execute cxDBVtableEditValueChanged function`.
 
 ---
 
-## 8. Dependências:
+## 3. Operational Logic:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxEditRepository`: Para criação da interface gráfica.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
+### Execution Flow:
+1. **Initialization**:
+   - The `TFRAMEwarehouseDest` constructor initializes the grid settings, defines key fields, hidden fields, and custom editors.
+   - Event handlers for custom editors are assigned.
 
-* **Componentes Customizados:**
-  - `kneFRGridEditSOA`: Base para o componente de edição em grade.
+2. **User Interactions**:
+   - Clicking the "Add" button triggers the `ACTaddExecute` procedure to add a new record.
+   - Clicking the "Delete" button deletes the selected record.
+   - Clicking the custom editor buttons triggers the respective search functions (`m_FindDestination`, `m_FindDestinationShipMethod`).
 
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `destinationCode` (string, obrigatório).
-  - `destinationDesc` (string, opcional).
-  - `shipMethod` (string, obrigatório).
-  - `freightCost` (float, obrigatório, valor positivo).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `destinationCode` → `warehouseCode`.
-  - `freightCost` → `freightCost`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  FRAMEwarehouseDest := TFRAMEwarehouseDest.Create(Self);
-  FRAMEwarehouseDest.ShowActionPanel := True;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Destination Code</th>
-        <th>Description</th>
-        <th>Ship Method</th>
-        <th>Freight Cost</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>001</td>
-        <td>Warehouse A</td>
-        <td>Air</td>
-        <td>100.00</td>
-      </tr>
-      <tr>
-        <td>002</td>
-        <td>Warehouse B</td>
-        <td>Ground</td>
-        <td>50.00</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Data Input:
+- Users must provide:
+  - Destination Code.
+  - Destination Description.
+  - Shipping Method.
+  - Transit Times (Sunday to Saturday).
+  - Freight Cost.
+  - Distance in Kilometers (KMeter).
+  - Status (stat).
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 4. Business Rules:
 
-* Configuração de propriedades da grade:
-  ```pascal
-  DefineOrderFields('destinationCode; destinationDesc; shipMethod; ...');
-  ```
+### Actions and Preconditions:
+1. **Add**: Enabled at all times.
+2. **Delete**: Enabled only when a record is selected.
+3. **Search for Destination**: Requires clicking the custom editor button.
+4. **Search for Shipping Method**: Requires clicking the custom editor button.
 
-* Associação de eventos aos botões de pesquisa:
-  ```pascal
-  cxEDTfindDestination.Properties.OnButtonClick := m_FindDestination;
-  ```
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- Not explicitly defined in the code.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 12. Conclusão:
+## 5. Main Functions:
 
-O código implementa uma interface eficiente para gerenciar destinos e métodos de envio em uma grade interativa. Ele é bem estruturado e utiliza componentes modernos, mas poderia ser melhorado com a adição de validações mais robustas e mensagens de erro detalhadas.
+1. **`Create`**: Initializes the frame, sets grid properties, and assigns event handlers.
+2. **`m_FindDestination`**: Handles the search for destinations.
+3. **`m_FindDestinationShipMethod`**: Handles the search for shipping methods.
+4. **`ACTaddExecute`**: Adds a new record to the grid.
+5. **`cxDBVtableEditValueChanged`**: Handles changes in grid cell values.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O código implementa uma interface para gerenciar destinos e métodos de envio, permitindo adicionar, editar e excluir dados em uma grade interativa. Ele utiliza componentes Delphi e serviços SOAP para comunicação com APIs externas.#### **FRwarehouseDest.pas**
+1. **Service Name**: `DestinationServiceUtils`.
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Fetch destination data.
+2. **Service Name**: `ShippingServiceUtils`.
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Fetch shipping method data.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Conditional Field**: None explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**: Used for grid and custom editor functionalities.
+2. **SOAPHTTPClient**: Used for SOAP service interactions.
+
+### Custom Components:
+1. **`kneFRGridEditSOA`**: Base class for grid editing.
+2. **`kneFindDialogSOA`**: Used for search dialogs.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **destinationCode**: String, required.
+2. **destinationDesc**: String, required.
+3. **shipMethod**: String, required.
+4. **shipMethodDesc**: String, optional.
+5. **sundayTransitTime**: Integer, optional.
+6. **mondayTransitTime**: Integer, optional.
+7. **tuesdayTransitTime**: Integer, optional.
+8. **wednesdayTransitTime**: Integer, optional.
+9. **thursdayTransitTime**: Integer, optional.
+10. **fridayTransitTime**: Integer, optional.
+11. **saturdayTransitTime**: Integer, optional.
+12. **freightCost**: Float, optional.
+13. **KMeter**: Float, optional.
+14. **stat**: String, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEwarehouseDest.m_FindDestination(Sender: TObject; AButtonIndex: Integer);
+begin
+  // Logic to find a destination
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+1. **Grid Settings**:
+   - Hidden fields: `'HIDE_ALL_FIELDS'`.
+   - Key fields: `'warehouseCode;destinationCode'`.
+   - Custom editors: `cxEDTfindDestination`, `cxEDTfindDestinationShipMethod`.
+
+2. **Event Assignments**:
+   - `cxEDTfindDestination.Properties.OnButtonClick := m_FindDestination`.
+
+---
+
+## 12. Conclusion:
+
+The `FRwarehouseDest` code unit provides a robust grid interface for managing warehouse destination data. It integrates with external services for data retrieval and supports custom editors for enhanced user interaction. However, the code lacks explicit error handling, field validations, and default values.
+
+---
+
+## 13. Short Summary:
+
+The `FRwarehouseDest` unit manages a grid interface for warehouse destinations, supporting add, delete, and search functionalities. It integrates with external services and uses custom editors for enhanced user interaction.#### **FRwarehouseDest.pas**
 
 ```
 unit FRwarehouseDest;

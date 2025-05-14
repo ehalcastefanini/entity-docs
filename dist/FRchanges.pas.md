@@ -2,176 +2,200 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica chamado `TFRAMEchanges`, que herda de `TFRAMEBaseGridEditSOA`. Ele é utilizado para exibir e gerenciar alterações de dados de clientes em um formato de grade (grid). O objetivo principal é fornecer uma interface para visualizar, editar e organizar dados relacionados a alterações de clientes, com funcionalidades específicas como campos ocultos, campos somente leitura e ordenação de colunas.
-
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes Visuais:** Inclui bibliotecas como `cxGrid`, `cxDBData`, `cxEdit`, e `TsPanel` para criar a interface gráfica.
-  - **SOAP:** Utilizado para comunicação com serviços externos.
-  - **Banco de Dados:** Integração com dados via `DBClient`.
-
-* **Tipo de Interface:**
-  - **Grade (Grid):**
-    - **Colunas da Grade e Tipos:**
-      - `descrip` (Descrição): Texto.
-      - `lastUpd` (Última Atualização): Data/Hora.
-      - `updBy` (Atualizado Por): Texto.
-    - **Ações da Grade e Efeitos:**
-      - Ordenação de colunas.
-      - Definição de campos ocultos.
-      - Configuração de campos somente leitura.
+# Documentation for `FRchanges` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Configuração de propriedades da grade, como campos ocultos, campos somente leitura e ordenação.
-  - Controle de visibilidade de painéis de ações.
-  - Configuração de ações disponíveis na interface.
+### Objective and Problem Solved:
+The `FRchanges` code unit defines a Delphi frame (`TFRAMEchanges`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display a grid of customer-related changes, providing functionalities such as data visualization, field customization, and action handling. It is designed to handle customer change records efficiently, allowing users to view and interact with the data in a structured grid format.
 
-* **Componentes Principais:**
-  - **Grade (Grid):** Exibe os dados de alterações de clientes.
-  - **Painéis de Ação:** Inclui botões para adicionar, aplicar e cancelar ações.
-  - **Propriedades de Configuração:** Permite definir campos-chave, campos ocultos e ordem de exibição.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services.
+- **Database Components**: For managing and displaying data from a database.
+- **Third-party Libraries**: Includes `cxGrid`, `cxStyles`, and `sPanel` for advanced UI components and styling.
 
-* **Pseudo-código de Ações e Eventos:**
-  - Inicialização do componente:
-    ```
-    ao criar o componente:
-        configurar campos-chave
-        configurar nome do pacote de dados
-        configurar propriedades da grade
-    ```
-  - Configuração de campos ocultos:
-    ```
-    se campos devem ser ocultos:
-        definir campos ocultos
-    ```
-  - Configuração de visibilidade do painel:
-    ```
-    se painel de ações não deve ser exibido:
-        ocultar painel
-    ```
+### Form Type:
+This is a **grid display** form.
+
+#### Grid Columns and Their Types:
+1. **descrip**: String (Description of the change).
+2. **lastUpd**: Date/Time (Last update timestamp).
+3. **updBy**: String (User who made the update).
+
+#### Grid Actions and Their Effects:
+- **Add Action**: Adds a new record to the grid.
+- **Apply Action**: Saves changes made to the grid.
+- **Cancel Action**: Cancels any unsaved changes.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização:
-    - O componente é criado e as propriedades são configuradas no construtor `Create`.
-    - A grade é configurada com campos ocultos, campos somente leitura e ordem de exibição.
-  - Interações do Usuário:
-    - O usuário pode interagir com a grade para visualizar os dados.
-    - Botões de ação (Adicionar, Aplicar, Cancelar) estão disponíveis para manipulação de dados.
+### User/Software Actions:
+- View customer change records in a grid.
+- Add new records.
+- Apply changes to existing records.
+- Cancel unsaved changes.
 
-* **Dados Necessários:**
-  - Código do cliente (`customerCode`).
-  - Código da entidade (`entityCode`).
-  - Sequência numérica (`numSeq`).
+### Main Components:
+1. **Grid**: Displays customer change records.
+2. **Action Panel**: Contains buttons for adding, applying, and canceling actions.
+3. **Footer Panel**: Can be hidden or shown based on the configuration.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível quando o botão "Adicionar" é clicado.
-  - **Aplicar:** Disponível após alterações serem feitas.
-  - **Cancelar:** Disponível para reverter alterações.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - `MasterKeyFields`: `'customerCode=entityCode'`.
-  - `DataPacketName`: `'CustomerChanges'`.
-  - `PropertyName`: `'changes'`.
-
-* **Validações e Condições dos Campos:**
-  - Campos ocultos: `'HIDE_ALL_FIELDS'`.
-  - Campos ordenados: `'descrip; lastUpd; updBy'`.
+### Pseudo-code for Actions and Events:
+- **OnClick event of Add Button**: `if Add button clicked then open new record editor`.
+- **OnClick event of Apply Button**: `if Apply button clicked then save changes to database`.
+- **OnClick event of Cancel Button**: `if Cancel button clicked then discard unsaved changes`.
+- **OnGridFieldChange event**: `if grid field value changed then validate field`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:** Configura as propriedades iniciais do componente, como campos-chave, nome do pacote de dados e propriedades da grade.
-* **`SetForDOCADDR`:** Configura a grade para não permitir edição e oculta o painel de rodapé.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created and initialized with default settings.
+   - Grid settings are configured, including hidden fields, field order, and key fields.
+   - Action panel and footer visibility are set.
 
----
+2. **User Interactions**:
+   - Users interact with the grid to view or edit records.
+   - Buttons in the action panel trigger specific actions (e.g., add, apply, cancel).
 
-## 6. Consumo de Serviços API:
+### Functions:
+- **`TFRAMEchanges.Create`** (File: `FRchanges.pas`):
+  - Initializes the frame with default settings.
+  - Configures grid properties and visibility of panels.
+- **`TFRAMEchanges.SetForDOCADDR`** (File: `FRchanges.pas`):
+  - Disables editing in the grid and hides the footer panel.
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxDBData`, `cxEdit`: Para criação e manipulação de grades e dados.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `DBClient`: Para integração com banco de dados.
-
-* **Componentes Personalizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base herdada para criar o componente `TFRAMEchanges`.
+### Data Requirements:
+- Users must provide valid data for the grid fields (e.g., description, last update, updated by).
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos da Grade:**
-  - `descrip` (Texto, não obrigatório).
-  - `lastUpd` (Data/Hora, não obrigatório).
-  - `updBy` (Texto, não obrigatório).
+### Actions and Preconditions:
+- **Add Action**: Enabled by default; opens a new record editor.
+- **Apply Action**: Enabled only if there are unsaved changes.
+- **Cancel Action**: Enabled only if there are unsaved changes.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `customerCode` mapeado para `entityCode`.
-  - `numSeq` como campo-chave.
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- No explicit field validations are defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:**  
-  - Inicialização do componente → Configuração de propriedades → Exibição da grade → Interação do usuário.
+1. **`TFRAMEchanges.Create`**:
+   - Configures the frame and grid settings.
+   - Sets default properties such as `MasterKeyFields`, `DataPacketName`, and `PropertyName`.
 
-* **Diagrama de Sequência:**  
-  - Usuário interage com a grade → Ações são executadas (Adicionar, Aplicar, Cancelar).
+2. **`TFRAMEchanges.SetForDOCADDR`**:
+   - Disables editing in the grid.
+   - Hides the footer panel.
 
-* **Código HTML Representando a Grade:**
+---
+
+## 6. API Service Consumption:
+
+- No explicit API calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The code does not define any conditional fields.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`cxGrid`**: For advanced grid components.
+- **`sPanel`**: For styled panels.
+- **`SOAPHTTPClient`**: For SOAP service interactions.
+
+### Custom Components:
+- **`TFRAMEBaseGridEditSOA`**: Base class for grid-editing frames.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields in the Grid:
+1. **descrip**: String, no validations defined.
+2. **lastUpd**: Date/Time, no validations defined.
+3. **updBy**: String, no validations defined.
+
+### Mapping of Displayed Values and Database Columns:
+- **descrip**: Maps to the description of the change.
+- **lastUpd**: Maps to the last update timestamp.
+- **updBy**: Maps to the user who made the update.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Load Grid Data] --> [User Interacts with Grid]
+    --> [Add/Apply/Cancel Actions] --> [Save or Discard Changes] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: Interacts with grid
+Frame --> Database: Fetches and updates data
+Frame --> User: Displays updated grid
+```
+
+### Code Snippets:
+```delphi
+// Example: Creating the frame
+var
+  Frame: TFRAMEchanges;
+begin
+  Frame := TFRAMEchanges.Create(Self);
+  Frame.Parent := Self;
+end;
+```
+
+### Screenshots:
+The DFM file is available, and the following HTML represents the grid template:
+
 ```html
-<table style="border: 1px solid black; width: 100%; border-collapse: collapse;">
+<table style="border: 1px solid black; width: 100%; text-align: left;">
   <thead>
     <tr>
-      <th style="border: 1px solid black; padding: 5px;">Descrição</th>
-      <th style="border: 1px solid black; padding: 5px;">Última Atualização</th>
-      <th style="border: 1px solid black; padding: 5px;">Atualizado Por</th>
+      <th>Description</th>
+      <th>Last Update</th>
+      <th>Updated By</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="border: 1px solid black; padding: 5px;">Alteração 1</td>
-      <td style="border: 1px solid black; padding: 5px;">2023-10-01</td>
-      <td style="border: 1px solid black; padding: 5px;">Usuário A</td>
+      <td>Change 1</td>
+      <td>2023-10-01</td>
+      <td>User A</td>
     </tr>
     <tr>
-      <td style="border: 1px solid black; padding: 5px;">Alteração 2</td>
-      <td style="border: 1px solid black; padding: 5px;">2023-10-02</td>
-      <td style="border: 1px solid black; padding: 5px;">Usuário B</td>
+      <td>Change 2</td>
+      <td>2023-10-02</td>
+      <td>User B</td>
     </tr>
   </tbody>
 </table>
@@ -179,24 +203,27 @@
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* **Configuração de Propriedades:**
-  - `MasterKeyFields`, `DataPacketName`, `PropertyName` são configurados no construtor `Create`.
-* **Configuração da Grade:**
-  - Campos ocultos e ordem de exibição são definidos no método `Create`.
+- **Grid Settings**:
+  - Hidden fields are defined using `DefineHiddenFields('HIDE_ALL_FIELDS')`.
+  - Field order is set using `DefineOrderFields('descrip; lastUpd; updBy')`.
+  - Key fields are defined as `entityCode` and `numSeq`.
 
----
-
-## 12. Conclusão:
-
-O código implementa um componente de grade altamente configurável para exibir e gerenciar alterações de clientes. Ele é bem estruturado e utiliza boas práticas de herança e encapsulamento. No entanto, faltam mensagens de erro e validações explícitas, o que pode limitar a robustez do componente.
+- **Action Panel Visibility**:
+  - Controlled by `ShowActionPanel` and `PNLfooter.Visible`.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O `TFRAMEchanges` é um componente de grade em Delphi para gerenciar alterações de clientes, com suporte a campos ocultos, ordenação e ações de edição. Ele é configurável e extensível, mas carece de validações e mensagens de erro explícitas.#### **FRchanges.pas**
+The `FRchanges` code unit provides a robust framework for managing and displaying customer change records in a grid format. Its strengths include customizable grid settings and a clean separation of concerns. However, it lacks explicit error handling, field validations, and API integration, which could limit its functionality in more complex scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRchanges` unit defines a grid-based frame for managing customer change records, with customizable settings and basic action handling. It is part of a larger system for data management but lacks explicit validations and error handling.#### **FRchanges.pas**
 
 ```
 unit FRchanges;

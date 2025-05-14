@@ -2,195 +2,218 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRextShipDelCust`
 
-* **Objetivo Principal:**  
-  O código implementa um formulário para gerenciar configurações relacionadas à entrega de clientes (ShipDelCustomer). Ele permite que o usuário configure alertas de entrega, como dias de alerta, horário de alerta e e-mails associados. Além disso, o formulário possui lógica para ativar ou desativar campos com base em uma checkbox de pré-entrega.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**  
-  - Delphi (VCL Framework).
-  - Componentes visuais como `TsLabel`, `TsDBCheckBox`, `TcxDBTimeEdit`, `TcxDBMaskEdit`, e `TsDBEdit`.
-  - Manipulação de banco de dados com `TDataSet` e `TClientDataSet`.
+### Main Objective:
+The `FRextShipDelCust` code snippet defines a Delphi frame (`TFRAMEextShipDelCust`) that is used to manage and display shipping delivery customer-related data. It provides a user interface for configuring alert settings, such as alert days, alert time, and CSA emails, with the ability to enable or disable these fields based on a checkbox selection.
 
-* **Tipo de Formulário:**  
-  - **Formulário:**  
-    - **Elementos do Formulário e Tipos:**  
-      - `CHKcheckPreDeliv` (Checkbox): Ativa ou desativa os campos relacionados a alertas de entrega.  
-      - `EDTcsaEmails` (Campo de texto): Campo para inserir e-mails.  
-      - `EDTalertTime` (Campo de hora): Campo para configurar o horário do alerta.  
-      - `EDTalertDays` (Campo de máscara): Campo para configurar os dias de alerta.  
-    - **Ações do Formulário e Efeitos:**  
-      - Clique na checkbox ativa/desativa os campos relacionados.  
-      - Alterações nos campos são validadas e salvas no banco de dados.
+### Technologies Used:
+- **Delphi VCL (Visual Component Library):** Used for creating the user interface and handling events.
+- **SOAP/HTTP Client:** For potential integration with external services.
+- **Database Components:** For managing and interacting with datasets.
+- **Third-party Libraries:** Includes `TsLabel`, `TsDBCheckBox`, `TsDBEdit`, and other components for enhanced UI functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Disponíveis:**  
-  - Ativar/desativar campos relacionados a alertas de entrega.  
-  - Configurar dias, horário e e-mails para alertas.  
-  - Validar e salvar os dados no banco de dados.
-
-* **Componentes Principais:**  
-  - `CHKcheckPreDeliv`: Controla a ativação dos campos.  
-  - `SetComponentesState`: Método que altera o estado dos campos com base na checkbox.  
-  - `m_Validate`: Método para validação dos dados antes de salvar.  
-  - `ShowData`: Método para exibir os dados no formulário.
-
-* **Tradução para Pseudo-código:**  
-  - Evento `OnClick` da checkbox:  
-    ```pseudo
-    se checkbox marcada então
-        ativar campos relacionados
-    senão
-        desativar campos relacionados e limpar valores
-    ```
-  - Evento `AfterEdit` do dataset:  
-    ```pseudo
-    se dataset for editado então
-        validar e salvar alterações
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements:**
+  - `CHKcheckPreDeliv` (Checkbox): Enables or disables related fields.
+  - `EDTcsaEmails` (Text Field): Input for CSA emails.
+  - `EDTalertTime` (Time Field): Input for alert time.
+  - `EDTalertDays` (Mask Edit Field): Input for alert days.
+- **Form Actions:**
+  - Checkbox click (`CHKcheckPreDelivClick`): Toggles the state of related fields.
+  - Dataset edit (`CDStableAfterEdit`): Handles changes in the dataset.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**  
-  1. Inicialização do formulário (`Create`): Configura propriedades e estilos.  
-  2. Exibição de dados (`ShowData`): Carrega os dados e ajusta o estado dos componentes com base na checkbox.  
-  3. Interação do usuário:  
-     - Clique na checkbox ativa/desativa os campos.  
-     - Alterações nos campos são validadas e salvas.  
+### User/Software Actions:
+- Enable or disable alert-related fields by toggling the `CHKcheckPreDeliv` checkbox.
+- Input values for alert days, alert time, and CSA emails.
+- Automatically clear alert-related fields when the checkbox is unchecked.
 
-* **Dados Necessários:**  
-  - Dias de alerta (`EDTalertDays`).  
-  - Horário de alerta (`EDTalertTime`).  
-  - E-mails para alerta (`EDTcsaEmails`).  
+### Main Components:
+- **Checkbox (`CHKcheckPreDeliv`):** Controls the state of related fields.
+- **Text Fields (`EDTcsaEmails`, `EDTalertTime`, `EDTalertDays`):** Allow users to input specific data.
+- **Dataset (`CDStable`):** Manages the data being edited or displayed.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**  
-  - Checkbox `CHKcheckPreDeliv`: Deve estar marcada para ativar os campos de alerta.  
-  - Campos de alerta: Devem ser preenchidos apenas se a checkbox estiver marcada.
-
-* **Filtros Disponíveis:**  
-  - Não aplicável (não há filtros explícitos no código).
-
-* **Mensagens de Erro:**  
-  - Não definidas explicitamente no código.
-
-* **Valores Padrão dos Campos:**  
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**  
-  - `EDTalertDays`: Deve aceitar apenas números (não definido explicitamente).  
-  - `EDTalertTime`: Deve aceitar apenas valores de hora (não definido explicitamente).  
-  - `EDTcsaEmails`: Deve aceitar apenas texto (não definido explicitamente).
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:**  
-  Configura propriedades do formulário e estilos dos componentes.  
-
-* **`ShowData`:**  
-  Exibe os dados no formulário e ajusta o estado dos componentes.  
-
-* **`SetComponentesState`:**  
-  Ativa ou desativa os campos de alerta com base no estado da checkbox.  
-
-* **`CHKcheckPreDelivClick`:**  
-  Evento que controla a ativação/desativação dos campos e limpa os valores se necessário.  
-
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* **Campo Condicional:**  
-  - Os campos `EDTalertDays`, `EDTalertTime` e `EDTcsaEmails` só são visíveis/ativos se a checkbox `CHKcheckPreDeliv` estiver marcada.  
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**  
-  - `TsLabel`, `TsDBCheckBox`, `TcxDBTimeEdit`, `TcxDBMaskEdit`, `TsDBEdit` (componentes visuais).  
-
-* **Componentes Customizados:**  
-  - `TkneControls`: Usado para alterar o estado dos componentes.  
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**  
-  - `CHKcheckPreDeliv` (Checkbox, obrigatório).  
-  - `EDTalertDays` (Texto, opcional).  
-  - `EDTalertTime` (Hora, opcional).  
-  - `EDTcsaEmails` (Texto, opcional).  
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**  
-  - `EDTalertDays` → `alertDays`.  
-  - `EDTalertTime` → `alertTime`.  
-  - `EDTcsaEmails` → `csaEmails`.  
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:**  
-  Não aplicável.
-
-* **Diagrama de Sequência:**  
-  Não aplicável.
-
-* **Exemplo de Código:**  
-  ```delphi
-  FRAMEextShipDelCust := TFRAMEextShipDelCust.Create(Self);
-  FRAMEextShipDelCust.ShowData;
+### Pseudo-code for Actions and Events:
+- `OnClick` event of `CHKcheckPreDeliv`:
   ```
-
-* **HTML Representando o Formulário:**  
-  ```html
-  <div style="font-family: Verdana; color: #4D4D4D;">
-    <label for="alertDays">Alert Days:</label>
-    <input type="text" id="alertDays" style="margin-bottom: 10px;"><br>
-    <label for="alertTime">Alert Time:</label>
-    <input type="time" id="alertTime" style="margin-bottom: 10px;"><br>
-    <label for="csaEmails">CSA Emails:</label>
-    <input type="email" id="csaEmails" style="margin-bottom: 10px;"><br>
-    <input type="checkbox" id="checkPreDeliv"> Enable Alerts
-  </div>
+  if checkbox is checked then
+    enable related fields
+  else
+    disable related fields and clear their values
+  ```
+- `AfterEdit` event of `CDStable`:
+  ```
+  if dataset is edited then
+    perform necessary updates
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração de propriedades no construtor (`Create`).  
-* Lógica de ativação/desativação de campos no método `SetComponentesState`.  
+### Execution Flow:
+1. **Initialization:**
+   - The frame is initialized with default properties (`MasterKeyFields`, `DataPacketName`, etc.).
+   - The action panel is hidden, and available actions are cleared.
+   - The style controller for `EDTalertTime` is set.
+
+2. **User Interaction:**
+   - When the checkbox (`CHKcheckPreDeliv`) is clicked, the state of related fields is toggled.
+   - If the checkbox is unchecked, the related fields are cleared.
+
+3. **Functions and File Locations:**
+   - `Create` (Initialization): Defined in `FRextShipDelCust`.
+   - `ShowData` (Display Data): Defined in `FRextShipDelCust`.
+   - `SetComponentesState` (Toggle Field States): Defined in `FRextShipDelCust`.
+   - `CHKcheckPreDelivClick` (Checkbox Click Event): Defined in `FRextShipDelCust`.
+
+### Required Data:
+- Alert days, alert time, and CSA emails (if the checkbox is checked).
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código implementa um formulário funcional para gerenciar alertas de entrega de clientes. Ele é bem estruturado, mas carece de validações explícitas e mensagens de erro. Além disso, não há suporte para filtros ou valores padrão.
+### Actions and Preconditions:
+- **Enable/Disable Fields:**
+  - Action: Toggle the state of alert-related fields.
+  - Precondition: Checkbox (`CHKcheckPreDeliv`) must be clicked.
+
+- **Clear Fields:**
+  - Action: Clear alert-related fields.
+  - Precondition: Checkbox (`CHKcheckPreDeliv`) must be unchecked.
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- No explicit validations are defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa um formulário para configurar alertas de entrega de clientes, permitindo ativar/desativar campos com base em uma checkbox. Ele é parte de um sistema maior de gerenciamento de entregas.#### **FRextShipDelCust.pas**
+### Functions:
+1. **`Create`:** Initializes the frame with default properties and configurations.
+2. **`ShowData`:** Displays data and sets the state of components based on the checkbox value.
+3. **`SetComponentesState`:** Enables or disables related fields based on the checkbox state.
+4. **`CHKcheckPreDelivClick`:** Handles the click event of the checkbox and updates the state of related fields.
+
+---
+
+## 6. API Service Consumption:
+
+- No API service calls are explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Field:** Alert days, alert time, and CSA emails.
+- **Condition:** These fields are enabled only when the `CHKcheckPreDeliv` checkbox is checked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsLabel`, `TsDBCheckBox`, `TsDBEdit`:** Used for UI components.
+- **`cxDBEdit`, `cxTimeEdit`:** Used for advanced input fields.
+- **`TkneControls`:** Used for managing control states.
+
+### Custom Components:
+- **`TFRAMEBaseCtrlEditSOA`:** Base frame class providing inherited functionality.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Alert Days (`EDTalertDays`):**
+   - Type: Mask Edit.
+   - Required: Not explicitly defined.
+2. **Alert Time (`EDTalertTime`):**
+   - Type: Time Edit.
+   - Required: Not explicitly defined.
+3. **CSA Emails (`EDTcsaEmails`):**
+   - Type: Text Edit.
+   - Required: Not explicitly defined.
+
+### Mapping:
+- No explicit mapping to database columns is defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [User Clicks Checkbox]
+    --> [Toggle Field States] --> [Clear Fields if Unchecked] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Checkbox: Click
+Checkbox --> Frame: Trigger Event
+Frame --> Fields: Enable/Disable
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEextShipDelCust.CHKcheckPreDelivClick(Sender: TObject);
+begin
+  SetComponentesState(CHKcheckPreDeliv.Checked);
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="font-family: Verdana; color: #4D4D4D;">
+  <label for="alertDays">Alert Days:</label>
+  <input type="text" id="alertDays" style="margin-left: 10px;"><br>
+  <label for="alertTime">Alert Time:</label>
+  <input type="time" id="alertTime" style="margin-left: 10px;"><br>
+  <label for="csaEmails">CSA Emails:</label>
+  <input type="email" id="csaEmails" style="margin-left: 10px;"><br>
+  <input type="checkbox" id="checkPreDeliv"> Enable Alerts
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization:**
+  - Sets default properties and hides the action panel.
+- **Checkbox Click Event:**
+  - Toggles the state of related fields and clears them if unchecked.
+
+---
+
+## 12. Conclusion:
+
+The `FRextShipDelCust` frame provides a simple and effective way to manage shipping delivery customer alert settings. While it is functional, the code lacks explicit error handling, field validations, and default values, which could improve its robustness.
+
+---
+
+## 13. Short Summary:
+
+The `FRextShipDelCust` frame manages alert settings for shipping delivery customers, allowing users to enable or disable fields based on a checkbox. It initializes with default properties and provides a clean interface for managing alert days, time, and CSA emails.#### **FRextShipDelCust.pas**
 
 ```
 unit FRextShipDelCust;

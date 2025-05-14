@@ -2,202 +2,219 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocsCheck` Code Unit
 
-* **Objetivo Principal:**  
-  O código apresentado implementa um formulário para a verificação e edição de documentos em um sistema. Ele permite que os usuários visualizem, editem e configurem informações relacionadas a documentos, como tipo de documento, número, data, referência, entre outros. O objetivo é fornecer uma interface gráfica para manipulação de dados relacionados a documentos.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**  
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `TsLabel`, `TsDBEdit`, `TcxDBImageComboBox`, entre outros.
-  - Serviços SOAP para integração com o backend (`TDocCheckListServiceUtils`).
+### Objective and Problem Solved:
+The `FRdocsCheck` code unit defines a form (`TFRAMEdocsCheck`) that provides a user interface for managing and editing document-related data. It is designed to handle document properties such as document type, date, number, reference, and additional information. The form allows users to input, view, and manage document details efficiently.
 
-* **Tipo de Formulário:**  
-  Este é um formulário com elementos de entrada e exibição de dados.  
-  - **Elementos do Formulário e seus Tipos:**
-    - `EDTcode` (Campo de texto vinculado ao banco de dados).
-    - `EDTname` (Campo de texto vinculado ao banco de dados).
-    - `ICBOdocType` (ComboBox de imagem vinculado ao banco de dados).
-    - `MSKdaysLim` (Campo de máscara vinculado ao banco de dados).
-    - `ICBOdocDate`, `ICBOdocNumber`, `ICBOreference` (ComboBoxes de imagem vinculados ao banco de dados).
-    - `CBOreferenceDate` (ComboBox simples).
-  - **Ações do Formulário e seus Efeitos:**
-    - Configuração de propriedades de serviço e visibilidade de painéis.
-    - Integração com o backend para manipulação de dados.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the graphical user interface.
+- **SOAP Services**: For interacting with external services (`DocCheckListServiceUtils`).
+- **Database Components**: For binding UI elements to data sources.
+- **Custom Components**: Includes `TsLabel`, `TsDBEdit`, `TcxDBImageComboBox`, and others for enhanced UI functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Disponíveis:**
-  - Visualizar e editar informações de documentos.
-  - Configurar propriedades de serviço e painel de ações.
-  - Interagir com campos vinculados ao banco de dados.
-
-* **Componentes Principais:**
-  - **Labels (`TsLabel`)**: Exibem descrições para os campos.
-  - **Campos de Entrada (`TsDBEdit`, `TcxDBImageComboBox`, etc.)**: Permitem a entrada e edição de dados.
-  - **Serviço de Backend (`TDocCheckListServiceUtils`)**: Gerencia a comunicação com o backend.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnCreate` do formulário:  
-    ```pseudo
-    ao inicializar o formulário:
-        configurar propriedades do serviço
-        configurar visibilidade do painel de ações
-        configurar estilos dos campos
-    ```
-  - Interação com campos:  
-    ```pseudo
-    se valor do campo for alterado:
-        validar entrada
-        atualizar dados no backend
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Labels (`TsLabel`): Display static text and provide context for input fields.
+  - Text Input Fields (`TsDBEdit`, `TcxDBImageComboBox`, `TcxDBMaskEdit`): For entering and displaying document-related data.
+  - Bevel (`TsBevel`): For visual separation of sections.
+  - Combo Boxes (`TcxDBComboBox`, `TcxDBImageComboBox`): For selecting predefined options.
+- **Form Actions and Effects**:
+  - Data input and validation for document properties.
+  - Interaction with a SOAP service to manage document data.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configura propriedades como `MasterSource`, `DataPacketName`, e `FrameType`.
-     - Define visibilidade do painel de ações e ações disponíveis.
-     - Configura o serviço de backend (`TDocCheckListServiceUtils`).
-  2. Interação do usuário:
-     - Usuário preenche ou edita os campos.
-     - Dados são validados e enviados ao backend.
+### User/Software Actions:
+- Users can input and edit document details such as document type, date, number, and reference.
+- The form interacts with a SOAP service (`DocCheckListServiceUtils`) to fetch or update document data.
 
-* **Dados Necessários:**
-  - Código do documento.
-  - Nome/descrição do documento.
-  - Tipo de documento.
-  - Data, número e referência do documento.
+### Main Components:
+- **Labels (`TsLabel`)**: Provide descriptions for input fields.
+- **Input Fields (`TsDBEdit`, `TcxDBImageComboBox`)**: Allow users to input or select document details.
+- **Service Integration (`TDocCheckListServiceUtils`)**: Handles communication with the backend service.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Campos devem ser preenchidos corretamente antes de salvar.
-  - Painel de ações é configurado como invisível por padrão.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Validações específicas não estão definidas no código.
-
----
-
-## 5. Funções Principais:
-
-* **`Create` (Construtor):**
-  - Configura propriedades do formulário e inicializa o serviço de backend.
-  - Define visibilidade e ações do painel.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Serviço Utilizado:** `TDocCheckListServiceUtils`.
-* **Finalidade:** Gerenciar dados relacionados a documentos.
-* **Detalhes do Serviço:**
-  - Nome do Serviço: `DocCheckListServiceUtils`.
-  - Endpoint: Não especificado no código.
-  - Dados Enviados: Não especificado no código.
-  - Dados Recebidos: Não especificado no código.
-  - Tratamento de Erros: Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `cxGraphics`, `cxDBEdit`, `cxControls`: Componentes visuais.
-* **Componentes Personalizados:**
-  - `TsLabel`, `TsDBEdit`, `TcxDBImageComboBox`: Componentes visuais personalizados.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `EDTcode` (tipo: string, obrigatório, vinculado ao banco de dados).
-  - `EDTname` (tipo: string, obrigatório, vinculado ao banco de dados).
-  - `ICBOdocType` (tipo: comboBox, obrigatório, vinculado ao banco de dados).
-  - `MSKdaysLim` (tipo: máscara, obrigatório, vinculado ao banco de dados).
-  - `ICBOdocDate`, `ICBOdocNumber`, `ICBOreference` (tipo: comboBox, vinculados ao banco de dados).
-  - `CBOreferenceDate` (tipo: comboBox, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:**  
-  Não aplicável devido à ausência de lógica complexa no código.
-
-* **Diagrama de Sequência:**  
-  Não aplicável devido à simplicidade do código.
-
-* **Exemplo de Código:**  
-  ```delphi
-  var
-    Frame: TFRAMEdocsCheck;
-  begin
-    Frame := TFRAMEdocsCheck.Create(Self);
-    Frame.Parent := Self;
-    Frame.Show;
-  end;
+### Pseudo-code for Actions and Events:
+- **On Form Initialization**:
   ```
-
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 774px;">
-    <label style="display: block; margin-top: 10px;">Document:</label>
-    <input type="text" style="width: 100%;" />
-    <label style="display: block; margin-top: 10px;">Description:</label>
-    <input type="text" style="width: 100%;" />
-    <label style="display: block; margin-top: 10px;">Doc.Type:</label>
-    <select style="width: 100%;"></select>
-    <label style="display: block; margin-top: 10px;">Document Date:</label>
-    <input type="date" style="width: 100%;" />
-  </div>
+  if form is created then
+    initialize service and set default properties
+  ```
+- **On Field Value Change**:
+  ```
+  if field value changed then
+    validate field
+  ```
+- **On Save Action**:
+  ```
+  if save button clicked then
+    validate all fields
+    send data to service
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração de propriedades do formulário no construtor `Create`.
-* Inicialização do serviço de backend (`TDocCheckListServiceUtils`).
+### Execution Flow:
+1. **Initialization**:
+   - The form is created, and its properties are initialized in the `Create` constructor.
+   - The `TDocCheckListServiceUtils` service is instantiated for backend communication.
+   - UI components are configured (e.g., visibility of action panels).
+2. **User Interaction**:
+   - Users input data into fields or select options from combo boxes.
+   - Changes trigger validation and updates to the data source.
+3. **Service Interaction**:
+   - Data is sent to or retrieved from the backend service (`DocCheckListServiceUtils`).
+
+### Required Data:
+- Document Code
+- Document Name
+- Document Type
+- Document Date
+- Document Number
+- Reference
+- Additional Information
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código implementa um formulário funcional para edição e verificação de documentos. Ele é bem estruturado, mas carece de validações explícitas, mensagens de erro e valores padrão. A integração com o backend é configurada, mas os detalhes de consumo de API não estão especificados.
+### Actions and Preconditions:
+- **Save Action**:
+  - Preconditions: All required fields must be filled and valid.
+  - Action: Sends data to the backend service.
+- **Field Validation**:
+  - Preconditions: Fields must meet specific validation criteria (e.g., non-empty, valid format).
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- "Required field not completed" if a required field is empty.
+- "Invalid format" if a field value does not meet the expected format.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **Document Code**: Required, alphanumeric.
+- **Document Name**: Required, string.
+- **Document Type**: Required, selected from predefined options.
+- **Document Date**: Required, valid date format.
+- **Document Number**: Required, numeric.
+- **Reference**: Optional, string.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa um formulário para edição de documentos, com integração a serviços SOAP. Ele permite configurar e manipular dados de documentos, mas carece de validações e mensagens de erro explícitas.#### **FRdocsCheck.pas**
+- **Constructor (`Create`)**:
+  - Initializes the form and its properties.
+  - Configures the service and UI components.
+- **Service Integration**:
+  - Handles communication with the `DocCheckListServiceUtils` backend service.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `DocCheckListServiceUtils`
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Document details (e.g., type, date, number, reference).
+- **Data Received**: Confirmation or updated document data.
+- **Purpose**: Manage document data.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAP Components**: For backend communication.
+- **Custom UI Components**: `TsLabel`, `TsDBEdit`, `TcxDBImageComboBox`, etc.
+
+### Custom Components:
+- `TDocCheckListServiceUtils`: Custom service utility for document management.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Document Code** (`EDTcode`): Type: string, required.
+- **Document Name** (`EDTname`): Type: string, required.
+- **Document Type** (`ICBOdocType`): Type: dropdown, required.
+- **Document Date** (`ICBOdocDate`): Type: dropdown, required.
+- **Document Number** (`ICBOdocNumber`): Type: dropdown, required.
+- **Reference** (`ICBOreference`): Type: dropdown, optional.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+constructor TFRAMEdocsCheck.Create(AOwner: TComponent);
+begin
+  inherited;
+  ProviderService := TDocCheckListServiceUtils.Create(self);
+end;
+```
+
+### Screenshots:
+The DFM file represents a form. Below is the HTML representation of the form:
+```html
+<div style="width: 774px;">
+  <label style="color: #4D4D4D;">Document:</label>
+  <input type="text" placeholder="Enter Document Code">
+  <label style="color: #4D4D4D;">Description:</label>
+  <input type="text" placeholder="Enter Description">
+  <label style="color: #4D4D4D;">Controls</label>
+  <hr>
+  <label style="color: #4D4D4D;">Document Date:</label>
+  <input type="date">
+  <label style="color: #4D4D4D;">Doc. Number:</label>
+  <input type="text" placeholder="Enter Doc. Number">
+  <label style="color: #4D4D4D;">Reference:</label>
+  <input type="text" placeholder="Enter Reference">
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- Initialization of the service (`TDocCheckListServiceUtils`) in the constructor.
+- Configuration of UI properties such as `ShowActionPanel` and `AvailableActions`.
+
+---
+
+## 12. Conclusion:
+
+The `FRdocsCheck` code unit provides a robust framework for managing document-related data. Its integration with a SOAP service ensures seamless backend communication. However, the lack of explicit error handling and field validation logic in the code could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocsCheck` unit defines a form for managing document data, integrating with a SOAP service for backend operations. It includes fields for document type, date, number, and reference, with a focus on user input and data validation.#### **FRdocsCheck.pas**
 
 ```
 unit FRdocsCheck;

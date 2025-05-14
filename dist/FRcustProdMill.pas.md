@@ -2,216 +2,211 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustProdMill` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica baseado em uma grade (grid) para exibir e gerenciar informações relacionadas a unidades de negócios e moinhos associados a clientes. Ele permite a manipulação de dados, como a seleção de unidades de negócios, e configurações específicas para exibição e edição de colunas. O objetivo principal é fornecer uma interface eficiente para visualizar e editar dados de moinhos de clientes.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes cxGrid:** Utilizados para criar e gerenciar a grade de dados.
-  - **SOAP:** Para integração com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneFRGridEditSOA`, `kneUtils`, e `MillServiceUtils`.
+### Objective and Problem Solved:
+The `FRcustProdMill` code unit defines a Delphi frame (`TFRAMEcustProdMill`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display a grid of customer-mill relationships, allowing users to view and interact with data related to business units, mill codes, descriptions, and SAP information. The frame provides functionality for configuring grid properties, managing column states, and handling specific business logic for customer-mill data.
 
-* **Forma:**
-  - **Tipo:** Exibição em grade (grid display).
-  - **Colunas da Grade e seus Tipos:**
-    - `checked` (checkbox).
-    - `businessUnit` (string).
-    - `millCode` (string).
-    - `millDesc` (string).
-    - `millCustCode` (string).
-    - `sap` (string).
-  - **Ações da Grade e seus Efeitos:**
-    - Configuração de colunas como somente leitura.
-    - Ocultação de colunas.
-    - Definição de ordem de exibição das colunas.
-    - Adição de editores personalizados para colunas.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the user interface and managing components.
+- **DevExpress cxGrid**: A third-party grid component for displaying and interacting with tabular data.
+- **SOAP Services**: Used for interacting with external services (e.g., `MillServiceUtils`).
+- **Custom Components**: Includes custom styles, panels, and edit repositories.
 
----
+### Form Type:
+This code represents a **grid display**.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **checked**: Boolean (checkbox).
+2. **businessUnit**: String.
+3. **millCode**: String.
+4. **millDesc**: String.
+5. **millCustCode**: String.
+6. **sap**: String.
 
-* **Ações Específicas:**
-  - Configurar colunas como editáveis ou somente leitura.
-  - Ocultar colunas específicas.
-  - Definir a ordem de exibição das colunas.
-  - Adicionar editores personalizados para colunas específicas.
-  - Configurar a visibilidade do painel de ações.
-
-* **Componentes Principais:**
-  - `TFRAMEcustProdMill`: Classe principal que gerencia a grade e suas configurações.
-  - `cxEDTchecked`: Item de repositório de edição para checkbox.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnCreate`:
-    ```pseudo
-    ao inicializar o componente:
-        configurar campos como somente leitura
-        ocultar campos
-        definir ordem dos campos
-        adicionar editores personalizados
-    ```
-  - Método `SetColumnState`:
-    ```pseudo
-    se coluna especificada for encontrada:
-        definir estado de edição da coluna
-    ```
-  - Método `SetForDOCADDR`:
-    ```pseudo
-    para cada coluna na grade:
-        desabilitar edição
-    ocultar painel de rodapé
-    ```
+#### Grid Actions and Their Effects:
+- **Read-Only Fields**: Certain fields are marked as non-editable.
+- **Hidden Fields**: Fields can be hidden from the grid.
+- **Custom Editors**: Specific columns (e.g., `checked`) use custom editors like checkboxes.
+- **Key Fields**: Defines primary keys for the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente (`Create`):
-     - Configurações iniciais da grade, como campos somente leitura, campos ocultos, ordem de exibição e editores personalizados.
-  2. Interações do Usuário:
-     - O usuário pode visualizar e interagir com os dados na grade.
-  3. Métodos Específicos:
-     - `SetColumnState`: Configura o estado de edição de uma coluna.
-     - `SetForDOCADDR`: Desabilita a edição de todas as colunas e oculta o painel de rodapé.
+### User/Software Actions:
+1. **View Customer-Mill Data**: Displays a grid with customer-mill relationships.
+2. **Set Column States**: Allows enabling or disabling editing for specific columns.
+3. **Configure Grid Properties**: Customizes grid settings such as read-only fields, hidden fields, and column order.
+4. **Set for Document Address (DOCADDR)**: Adjusts the grid for specific use cases by disabling editing and hiding the footer panel.
 
-* **Dados Necessários:**
-  - Informações sobre unidades de negócios e moinhos, como `businessUnit`, `millCode`, `millDesc`, etc.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays customer-mill data.
+- **Footer Panel (`PNLfooter`)**: Provides additional actions (hidden in some cases).
+- **Custom Checkbox Editor (`cxEDTchecked`)**: Used for the `checked` column.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação: Configurar colunas como somente leitura.
-    - Pré-condição: A coluna deve existir na grade.
-  - Ação: Ocultar colunas.
-    - Pré-condição: A coluna deve ser especificada.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:**
-  - Configura as propriedades iniciais da grade, como campos somente leitura, campos ocultos, ordem de exibição e editores personalizados.
-
-* **`SetColumnState`:**
-  - Define o estado de edição de uma coluna específica.
-
-* **`SetForDOCADDR`:**
-  - Desabilita a edição de todas as colunas e oculta o painel de rodapé.
-
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica de Formulário):
-
-* Não há campos condicionais definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição e manipulação de grades.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneFRGridEditSOA`: Biblioteca personalizada para edição de grades.
-
-* **Componentes Personalizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base herdada para funcionalidades adicionais.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `checked` (tipo: checkbox, não obrigatório).
-  - `businessUnit` (tipo: string, não definido no código).
-  - `millCode` (tipo: string, não definido no código).
-  - `millDesc` (tipo: string, não definido no código).
-  - `millCustCode` (tipo: string, não definido no código).
-  - `sap` (tipo: string, não definido no código).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não explicitamente definido no código.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  procedure TFRAMEcustProdMill.SetColumnState(pv_ColName: String; pv_Edit: Boolean);
-  begin
-    if ColumnExists(pv_ColName) then
-      SetColumnEditable(pv_ColName, pv_Edit);
-  end;
+### Pseudo-Code for Actions and Events:
+- **OnCreate Event**:
   ```
-* **HTML Renderizado:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Checked</th>
-        <th>Business Unit</th>
-        <th>Mill Code</th>
-        <th>Mill Description</th>
-        <th>Mill Customer Code</th>
-        <th>SAP</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><input type="checkbox" /></td>
-        <td>Unit 1</td>
-        <td>Code 1</td>
-        <td>Description 1</td>
-        <td>Customer 1</td>
-        <td>SAP 1</td>
-      </tr>
-    </tbody>
-  </table>
+  if frame is created then
+    initialize grid settings
+    set default properties
+  ```
+- **Set Column State**:
+  ```
+  if column state needs to be changed then
+    set column editable or non-editable
+  ```
+- **Set for DOCADDR**:
+  ```
+  if SetForDOCADDR is called then
+    disable editing for all columns
+    hide footer panel
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração inicial da grade no método `Create`.
-* Definição de colunas somente leitura, ocultas e ordem de exibição.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created using the `Create` constructor.
+   - Grid settings are configured (e.g., read-only fields, hidden fields, column order).
+   - Default properties like `MasterKeyFields`, `DataPacketName`, and `FrameType` are set.
+
+2. **User Interactions**:
+   - Users interact with the grid to view or modify data (if allowed).
+   - Specific actions like `SetForDOCADDR` or `SetKeyEditing` can be triggered programmatically.
+
+### Functions and File Locations:
+- **`Create`** (Initialization): `FRcustProdMill.pas`.
+- **`SetColumnState`** (Column State Management): `FRcustProdMill.pas`.
+- **`SetForDOCADDR`** (Adjust Grid for DOCADDR): `FRcustProdMill.pas`.
+- **`SetKeyEditing`** (Key Editing Management): `FRcustProdMill.pas`.
+
+### Required Data:
+- Customer-mill data, including `businessUnit`, `millCode`, `millDesc`, `millCustCode`, and `sap`.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece uma interface robusta para exibição e manipulação de dados em uma grade. Ele é altamente configurável, permitindo ajustes como colunas somente leitura, ocultação de colunas e editores personalizados. No entanto, faltam validações explícitas e mensagens de erro, o que pode limitar a usabilidade em cenários mais complexos.
+### Actions and Preconditions:
+- **Set Column State**: Requires the column name and edit state as inputs.
+- **Set for DOCADDR**: Disables editing for all columns and hides the footer panel.
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- **`checked`**: Default value is `0` (unchecked).
+
+### Field Validation and Conditions:
+- **`checked`**: Boolean values (`1` for checked, `0` for unchecked).
+- Other field validations are not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa uma grade configurável para gerenciar dados de moinhos de clientes, permitindo ajustes como colunas somente leitura, ocultação e editores personalizados. Ele é parte de um sistema maior, mas carece de validações e mensagens de erro explícitas.#### **FRcustProdMill.pas**
+1. **`Create`**:
+   - Initializes the frame and configures grid settings.
+   - Sets default properties like `MasterKeyFields` and `DataPacketName`.
+
+2. **`SetColumnState`**:
+   - Enables or disables editing for a specific column.
+
+3. **`SetForDOCADDR`**:
+   - Disables editing for all columns and hides the footer panel.
+
+4. **`SetKeyEditing`**:
+   - Disables editing for specific key columns.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `MillServiceUtils`.
+- **Purpose**: Interacts with mill-related data (details not explicitly defined in the code).
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Footer Panel (`PNLfooter`)**:
+  - Visible only when not in DOCADDR mode.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **DevExpress cxGrid**: Used for grid display and interaction.
+- **SOAPHTTPClient**: Used for SOAP service communication.
+
+### Custom Components:
+- **`cxEDTchecked`**: Custom checkbox editor for the `checked` column.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **checked**: Boolean, default `0` (unchecked).
+2. **businessUnit**: String, no validation defined.
+3. **millCode**: String, no validation defined.
+4. **millDesc**: String, no validation defined.
+5. **millCustCode**: String, no validation defined.
+6. **sap**: String, no validation defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Frame Created] --> [Initialize Grid Settings] --> [User Interacts with Grid]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: View/Modify Data
+Frame --> Grid: Display Data
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustProdMill.SetColumnState(pv_ColName: String; pv_Edit: Boolean);
+begin
+  cxDBVtable.Columns[pv_ColName].Options.Editing := pv_Edit;
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`[18-03-2016, #22748]`**: Indicates a specific change or feature addition.
+- **`[14-10-2015, #22272]`**: Documents the order of fields in the grid.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustProdMill` code unit provides a robust framework for managing customer-mill data in a grid format. It offers flexibility in configuring grid properties and supports specific business logic. However, the lack of explicit error handling and field validations may limit its robustness in certain scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustProdMill` unit defines a grid-based frame for managing customer-mill relationships, offering configurable grid settings and specific business logic for data interaction. It integrates with SOAP services and uses DevExpress components for enhanced UI functionality.#### **FRcustProdMill.pas**
 
 ```
 unit FRcustProdMill;

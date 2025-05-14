@@ -2,176 +2,205 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustOrdUnits`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar unidades de pedidos de clientes. Ele fornece uma grade (grid) para exibir, editar e interagir com os dados relacionados às unidades de pedidos. O objetivo principal é facilitar a manipulação e visualização de dados de unidades de pedidos de clientes em um formato estruturado e interativo.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do componente.
-  - Componentes visuais como `TcxGrid`, `TcxGridDBTableView` para exibição de dados em formato de grade.
-  - Integração com serviços SOAP para manipulação de dados remotos.
-  - Uso de bibliotecas auxiliares como `kneUtils`, `kneFindDialog`, e `kneDialogFactory`.
+### Objective and Problem Solved:
+The `FRcustOrdUnits` unit defines a Delphi frame (`TFRAMEcustOrdUnits`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). Its primary purpose is to manage and display customer order units in a grid format. It provides functionalities for adding, editing, and managing customer order units, including custom field handling and integration with a find dialog for selecting units.
 
-* **Forma do Componente:**
-  - **Grade de Exibição (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `businessUnit` (string): Unidade de negócio.
-      - `formatOrc` (string): Formato do orçamento.
-      - `unitCd` (string): Código da unidade.
-      - `unitDesc` (string): Descrição da unidade.
-    - **Ações da Grade e seus Efeitos:**
-      - Edição de valores diretamente na grade.
-      - Busca de valores em campos específicos utilizando diálogos de busca.
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **SOAP Services**: For interacting with external services.
+- **Database Components**: For managing and displaying data in a grid.
+- **Custom Components**: Includes custom grid settings and find dialog utilities.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **businessUnit**: String.
+2. **formatOrc**: String.
+3. **unitCd**: String (with custom editor for find functionality).
+4. **unitDesc**: String.
 
-* **Ações Específicas:**
-  - Adicionar novas unidades de pedidos.
-  - Editar valores diretamente na grade.
-  - Buscar e preencher valores em campos específicos utilizando diálogos de busca.
-
-* **Componentes Principais:**
-  - `TcxGrid`: Exibe os dados em formato de grade.
-  - `TcxGridDBTableView`: Permite a edição e interação com os dados.
-  - `TsBitBtn`: Botões para ações como adicionar, aplicar e cancelar.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `se botão adicionar for clicado então execute ACTaddExecute`.
-  - Evento `OnEditValueChanged` da grade: `se valor de célula for alterado então execute cxDBVtableEditValueChanged`.
-  - Evento `OnButtonClick` do campo de busca: `se botão de busca for clicado então execute m_SetFindUnitCd`.
+#### Grid Actions and Their Effects:
+1. **Add Button**: Adds a new customer order unit.
+2. **Edit Value Change**: Updates the grid when a value is edited.
+3. **Find Button**: Opens a dialog to find and select a unit.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização: O componente é criado e configurado no construtor `Create`. As propriedades da grade e os campos visíveis são definidos.
-  - Interação do Usuário: O usuário pode clicar em botões para adicionar ou aplicar alterações, ou editar diretamente os valores na grade.
-  - Funções Executadas:
-    - `ACTaddExecute` (arquivo atual): Adiciona uma nova unidade.
-    - `cxDBVtableEditValueChanged` (arquivo atual): Atualiza valores na grade.
-    - `m_SetFindUnitCd` (arquivo atual): Abre um diálogo de busca para preencher campos.
+### User/Software Actions:
+1. Add a new customer order unit using the "Add" button.
+2. Edit existing values in the grid.
+3. Use the find dialog to search and select a unit.
 
-* **Dados Necessários:**
-  - Código do cliente (`customerCode`).
-  - Informações das unidades (`unitCd`, `unitDesc`).
+### Main Components:
+- **Grid (`cxDBG`)**: Displays customer order units.
+- **Add Button (`BTNadd`)**: Triggers the addition of a new unit.
+- **Find Dialog (`TFORMkneFindDialog`)**: Allows users to search for units.
+- **Custom Field (`unitCd`)**: Includes a custom editor for find functionality.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Botão "Adicionar": Disponível sempre que o componente está ativo.
-  - Botão "Aplicar": Disponível após alterações na grade.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Campo `unitCd`: Utiliza um diálogo de busca para validação e preenchimento.
+### Pseudo-code for Actions and Events:
+- **OnClick event of Add Button**: `if add button clicked then execute add action`.
+- **OnEditValueChanged event of Grid**: `if grid value changed then update corresponding data`.
+- **OnButtonClick event of Find Button**: `if find button clicked then open find dialog`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **ACTaddExecute:** Adiciona uma nova unidade de pedido.
-* **cxDBVtableEditValueChanged:** Atualiza os valores na grade quando editados.
-* **m_SetFindUnitCd:** Abre um diálogo de busca para preencher o campo `unitCd`.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with specific settings for the grid and actions.
+   - Custom field editors and event handlers are configured.
+2. **User Interaction**:
+   - Users can add, edit, or search for customer order units.
+   - Clicking the "Find" button opens a dialog to search for units.
+3. **Functions**:
+   - `Create` (File: `FRcustOrdUnits.pas`): Initializes the frame and its components.
+   - `m_SetFindUnitCd` (File: `FRcustOrdUnits.pas`): Handles the find dialog logic.
+   - `ACTaddExecute` (File: `FRcustOrdUnits.pas`): Executes the add action.
 
----
-
-## 6. Consumo de Serviços API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `kneDialogFactory`.
-  - Propósito: Abrir diálogos de busca para preencher campos.
-  - Dados Enviados: Não especificado.
-  - Dados Recebidos: Não especificado.
-  - Tratamento de Erros: Não especificado.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- **Customer Code (`custCd`)**: Used as a key field.
+- **Unit Code (`unitCd`)**: Required for adding or editing units.
+- **Unit Description (`unitDesc`)**: Optional but recommended for clarity.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `kneUtils`, `kneFindDialog`, `kneDialogFactory`: Utilizadas para funcionalidades auxiliares como busca e manipulação de dados.
-  - `cxGrid`, `cxGridDBTableView`: Componentes visuais para exibição de dados.
+### Actions and Preconditions:
+1. **Add Action**:
+   - Preconditions: None.
+   - Action: Adds a new row to the grid.
+2. **Edit Action**:
+   - Preconditions: A row must be selected.
+   - Action: Updates the selected row.
+3. **Find Action**:
+   - Preconditions: None.
+   - Action: Opens a dialog to search for units.
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base herdada para funcionalidades de edição em grade.
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No explicit error messages are defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **unitCd**: Custom editor with find functionality.
+- **unitDesc**: No explicit validation defined.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 5. Main Functions:
 
-* **Campos:**
-  - `businessUnit` (string): Não definido no código.
-  - `formatOrc` (string): Não definido no código.
-  - `unitCd` (string): Validação via diálogo de busca.
-  - `unitDesc` (string): Não definido no código.
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `unitCd` → `priceUnitCode`.
-  - `unitDesc` → `descrip`.
+1. **`Create`**:
+   - Initializes the frame and its components.
+   - Configures grid settings and custom field editors.
+2. **`m_SetFindUnitCd`**:
+   - Opens the find dialog and maps selected values to the grid.
+3. **`ACTaddExecute`**:
+   - Adds a new customer order unit to the grid.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 6. API Service Consumption:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```pascal
-  procedure TFRAMEcustOrdUnits.ACTaddExecute(Sender: TObject);
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Likely to fetch or update customer order units.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **unitCd**: Includes a custom editor with a find button.
+- **Conditions**: The find dialog is triggered only when the find button is clicked.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **SOAPHTTPClient**: For SOAP service integration.
+2. **cxGrid**: For grid display and management.
+3. **kneUtils**: Custom utility functions.
+
+### Custom Components:
+1. **TFORMkneFindDialog**: Custom dialog for finding units.
+2. **TFRAMEBaseGridEditSOA**: Base frame for grid editing.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **businessUnit**: String, no explicit validation defined.
+2. **formatOrc**: String, no explicit validation defined.
+3. **unitCd**: String, custom editor with find functionality.
+4. **unitDesc**: String, no explicit validation defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEcustOrdUnits.m_SetFindUnitCd(Sender: TObject; AButtonIndex: Integer);
+var
+  lv_Find: TFORMkneFindDialog;
+begin
+  lv_Find := TkneDialogFactory.GetFindDialog(Application);
+  with lv_Find do
   begin
-    // Lógica para adicionar uma nova unidade
+    Options.DataSelection.FieldNameForCode := 'priceUnitCode';
+    Options.DataSelection.TargetFieldNameForCode := 'unitCd';
+    ShowModal;
   end;
-  ```
-* **Capturas de Tela:** Não aplicável.
+end;
+```
+
+### Screenshots:
+Not applicable.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* Configuração de propriedades no construtor `Create`:
-  ```pascal
-  MasterKeyFields := 'customerCode=custCd';
-  DataPacketName := 'CustomerUnits';
-  PropertyName := 'customerUnits';
-  FrameType := frtDetail;
-  ```
+1. **Grid Settings**:
+   - `DefineHiddenFields('HIDE_ALL_FIELDS')`: Hides all fields initially.
+   - `DefineOrderFields(mc_GRID_FIELDS)`: Orders fields based on the constant `mc_GRID_FIELDS`.
 
-* Configuração de campos visíveis na grade:
-  ```pascal
-  DefineOrderFields(mc_GRID_FIELDS);
-  ```
+2. **Custom Field Editor**:
+   - `AddCustomField('unitCd','cxEDTfind')`: Adds a custom editor for the `unitCd` field.
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código fornece uma interface robusta para gerenciar unidades de pedidos de clientes, com funcionalidades de edição e busca integradas. No entanto, faltam definições explícitas de validações, mensagens de erro e valores padrão, o que pode limitar a usabilidade em cenários mais complexos.
+The `FRcustOrdUnits` unit provides a robust framework for managing customer order units in a grid format. It includes custom field handling and integration with a find dialog. However, the code lacks explicit error handling, field validations, and API service details, which could limit its usability in certain scenarios.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-O código implementa uma interface de grade para gerenciar unidades de pedidos de clientes, permitindo edição e busca de dados. Ele utiliza componentes visuais e integrações SOAP para manipulação de dados.#### **FRcustOrdUnits.pas**
+The `FRcustOrdUnits` unit defines a grid-based interface for managing customer order units, with features like custom field editors and a find dialog. It is part of a larger system for handling customer data but lacks explicit error handling and validation.#### **FRcustOrdUnits.pas**
 
 ```
 unit FRcustOrdUnits;

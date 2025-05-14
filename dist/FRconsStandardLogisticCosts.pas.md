@@ -2,220 +2,204 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRconsStandardLogisticCosts`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar custos logísticos padrão associados a consignatários. Ele permite a visualização, edição e manipulação de dados relacionados a métodos de envio, armazéns e custos padrão. O objetivo principal é fornecer uma interface para que os usuários possam gerenciar esses dados de forma eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de tabela.
-  - **SOAP:** Para comunicação com serviços externos.
-  - **TClientDataSet:** Para manipulação de dados em memória.
-  - **Bibliotecas de terceiros:** Como `kneUtils`, `Global`, `kneTypes`, entre outras.
+### Objective and Problem Solved:
+The `FRconsStandardLogisticCosts` unit is designed to manage and display standard logistic costs in a grid-based interface. It provides functionalities for adding, deleting, and editing logistic cost records, as well as performing specific actions like loading data and calculating logistics statistics. The primary problem it solves is the efficient management and visualization of logistic cost data, including warehouse and shipping method details.
 
-* **Tipo de Interface:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `stat` (Status): Tipo string.
-      - `whse` (Armazém): Tipo string.
-      - `whseName` (Nome do Armazém): Tipo string.
-      - `shipMthd` (Método de Envio): Tipo string.
-      - `shipMthdName` (Nome do Método de Envio): Tipo string.
-      - `payload` (Carga): Tipo numérico.
-      - `stdCost` (Custo Padrão): Tipo numérico.
-    - **Ações da Grade e seus Efeitos:**
-      - Edição de valores diretamente na grade.
-      - Adição e exclusão de registros.
-      - Busca por métodos de envio e armazéns.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services like `ConsigneeServiceUtils`, `WarehouseNoDetailsServiceUtils`, and `ShippingServiceUtils`.
+- **TClientDataSet**: For managing in-memory datasets.
+- **cxGrid**: For displaying and managing grid-based data.
+- **ActionList**: For managing user actions like "Add," "Delete," and "Load."
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **stat**: Status (string).
+2. **whse**: Warehouse code (string).
+3. **whseName**: Warehouse name (string).
+4. **shipMthd**: Shipping method code (string).
+5. **shipMthdName**: Shipping method name (string).
+6. **payload**: Payload (numeric).
+7. **stdCost**: Standard cost (numeric).
 
-* **Ações Disponíveis:**
-  - Adicionar novos registros.
-  - Excluir registros existentes.
-  - Editar valores diretamente na grade.
-  - Buscar métodos de envio e armazéns por meio de botões de busca.
-
-* **Componentes Principais:**
-  - **Grade (cxGrid):** Exibe os dados em formato tabular.
-  - **Botão "Loads":** Executa a ação associada à carga de dados.
-  - **Painel de Ações:** Contém botões para adicionar, excluir e outras ações.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`: `se valor da célula for alterado então validar e salvar`.
-  - Evento `OnNewRecord`: `se novo registro for criado então inicializar valores padrão`.
-  - Ação `ACTloadsExecute`: `se botão "Loads" for clicado então carregar dados`.
-  - Ação `ACTaddExecute`: `se botão "Adicionar" for clicado então criar novo registro`.
-  - Ação `ACTdeleteExecute`: `se botão "Excluir" for clicado então remover registro selecionado`.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new record to the grid.
+2. **Delete**: Deletes the selected record from the grid.
+3. **Loads**: Executes a specific action to load data into the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente:
-     - Configuração de propriedades como `MasterKeyFields`, `DataPacketName`, e `FrameType`.
-     - Configuração da grade, incluindo campos ocultos, ordem de exibição e editores personalizados.
-  2. Interação do usuário:
-     - O usuário pode adicionar, editar ou excluir registros.
-     - Botões de busca permitem localizar métodos de envio e armazéns.
-  3. Funções executadas:
-     - `m_FindByCodeShipMethod` (arquivo: `FRconsStandardLogisticCosts.pas`): Localiza método de envio por código.
-     - `m_FindByCodeWhse` (arquivo: `FRconsStandardLogisticCosts.pas`): Localiza armazém por código.
-     - `m_CalcLogCostsStat` (arquivo: `FRconsStandardLogisticCosts.pas`): Calcula estatísticas de custos logísticos.
+### User/Software Actions:
+1. Add new logistic cost records.
+2. Delete existing records.
+3. Load data into the grid.
+4. Edit specific fields in the grid (e.g., warehouse, shipping method).
+5. Calculate logistics statistics.
 
-* **Dados Necessários:**
-  - Código do consignatário.
-  - Código do armazém.
-  - Método de envio.
-  - Carga e custo padrão.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays logistic cost data.
+- **Action Buttons**: Includes "Add," "Delete," and "Loads" buttons.
+- **ClientDataSet (`CDStable`)**: Manages the data displayed in the grid.
+- **SOAP Services**: Interacts with external services for data retrieval and updates.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Botão "Adicionar": Habilitado sempre.
-  - Botão "Excluir": Habilitado apenas se um registro estiver selecionado.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios de validação.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - `whse` e `shipMthd`: Devem ser preenchidos.
-  - `payload` e `stdCost`: Devem ser valores numéricos.
+### Pseudo-code for Actions and Events:
+- `OnEditValueChanged` event of a grid cell: `if cell value changed then validate and update record`.
+- `OnNewRecord` event of the dataset: `if new record created then initialize default values`.
+- `OnExecute` event of "Add" action: `if Add button clicked then create new record`.
+- `OnExecute` event of "Delete" action: `if Delete button clicked then remove selected record`.
+- `OnExecute` event of "Loads" action: `if Loads button clicked then load data into grid`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Descrição das Funções:**
-  - `m_FindByCodeShipMethod`: Localiza método de envio por código.
-  - `m_FindByCodeWhse`: Localiza armazém por código.
-  - `m_CalcLogCostsStat`: Calcula estatísticas de custos logísticos.
-  - `m_SetLoadsBtnStat`: Configura o estado do botão "Loads".
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with default settings, including grid configurations and SOAP service setup.
+   - Hidden fields, column order, and key fields are defined for the grid.
 
----
+2. **User Interactions**:
+   - Users can interact with the grid to edit values or perform actions using buttons.
+   - Buttons trigger specific actions like adding, deleting, or loading data.
 
-## 6. Consumo de Serviços API:
+3. **Functions and File Locations**:
+   - `cxDBVtableEditValueChanged` (in this unit): Handles cell value changes.
+   - `ACTaddExecute` (in this unit): Adds a new record.
+   - `ACTdeleteExecute` (in this unit): Deletes a selected record.
+   - `ACTloadsExecute` (in this unit): Loads data into the grid.
+   - `m_CalcLogCostsStat` (in this unit): Calculates logistics statistics.
 
-* **Chamadas a Serviços Externos:**
-  - **Nome do Serviço:** `ConsigneeServiceUtils`.
-  - **Endpoint:** Não especificado no código.
-  - **Dados Enviados:** Não especificados no código.
-  - **Dados Recebidos:** Não especificados no código.
-  - **Propósito:** Gerenciar dados de consignatários.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- Users must provide values for fields like `whse`, `shipMthd`, `payload`, and `stdCost` to add or edit records.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `kneUtils`, `Global`, `kneTypes`: Utilitários personalizados.
+### Actions and Preconditions:
+1. **Add**: Enabled when the user clicks the "Add" button.
+2. **Delete**: Enabled only when a record is selected in the grid.
+3. **Loads**: Executes without preconditions.
 
-* **Componentes Personalizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para o frame.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos:**
-  - `stat` (string, obrigatório).
-  - `whse` (string, obrigatório).
-  - `whseName` (string, opcional).
-  - `shipMthd` (string, obrigatório).
-  - `shipMthdName` (string, opcional).
-  - `payload` (numérico, obrigatório).
-  - `stdCost` (numérico, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- **whse**: Must be a valid warehouse code.
+- **shipMthd**: Must be a valid shipping method code.
+- **payload**: Should be numeric.
+- **stdCost**: Should be numeric.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  procedure TFRAMEconsStandardLogisticCosts.ACTloadsExecute(Sender: TObject);
-  begin
-    // Lógica para carregar dados
-  end;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Armazém</th>
-        <th>Nome do Armazém</th>
-        <th>Método de Envio</th>
-        <th>Nome do Método de Envio</th>
-        <th>Carga</th>
-        <th>Custo Padrão</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ativo</td>
-        <td>WH001</td>
-        <td>Armazém Central</td>
-        <td>EXP</td>
-        <td>Expresso</td>
-        <td>1000</td>
-        <td>500.00</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+1. **`m_FindByCodeShipMethod`**: Finds a shipping method by code.
+2. **`m_FindByCodeWhse`**: Finds a warehouse by code.
+3. **`m_FindServiceShipMethod`**: Handles the selection of a shipping method.
+4. **`m_FindWhse`**: Handles the selection of a warehouse.
+5. **`m_CalcLogCostsStat`**: Calculates logistics statistics for a given consignee code.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* **Configuração da Grade:**
-  ```pascal
-  DefineOrderFields('stat; whse; whseName; shipMthd; shipMthdName; payload; stdCost');
-  ```
-
-* **Atribuição de Eventos:**
-  ```pascal
-  cxEDTfind.Properties.OnButtonClick := m_FindWhse;
-  ```
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar custos logísticos padrão, com suporte a edição em grade e integração com serviços externos. No entanto, faltam detalhes sobre validações e endpoints de serviços, o que pode limitar sua aplicabilidade em cenários mais complexos.
+### External Service Calls:
+1. **Service Name**: `ConsigneeServiceUtils`
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Provides consignee-related data.
+2. **Service Name**: `WarehouseNoDetailsServiceUtils`
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Provides warehouse-related data.
+3. **Service Name**: `ShippingServiceUtils`
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Provides shipping method-related data.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa um componente para gerenciar custos logísticos padrão, permitindo edição em grade, integração com serviços SOAP e busca de dados relacionados a métodos de envio e armazéns.#### **FRconsStandardLogisticCosts.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **cxGrid**: For grid-based data display.
+2. **SOAPHTTPClient**: For SOAP service communication.
+3. **TClientDataSet**: For in-memory dataset management.
+
+### Custom Components:
+1. **TConsigneeServiceUtils**: Custom service for consignee data.
+2. **TWarehouseNoDetailsServiceUtils**: Custom service for warehouse data.
+3. **TShippingServiceUtils**: Custom service for shipping method data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **stat**: (type: string, required, not explicitly validated in the code).
+2. **whse**: (type: string, required, not explicitly validated in the code).
+3. **whseName**: (type: string, optional, not explicitly validated in the code).
+4. **shipMthd**: (type: string, required, not explicitly validated in the code).
+5. **shipMthdName**: (type: string, optional, not explicitly validated in the code).
+6. **payload**: (type: numeric, required, not explicitly validated in the code).
+7. **stdCost**: (type: numeric, required, not explicitly validated in the code).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEconsStandardLogisticCosts.ACTaddExecute(Sender: TObject);
+begin
+  CDStable.Append;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- `// SET DAS PROPRIEDADES DA FRAME`: Indicates where frame properties are set.
+- `// configurar visibilidade de painel de ac��es e ac��es dispon�veis`: Configures the visibility of the action panel and available actions.
+
+---
+
+## 12. Conclusion:
+
+The `FRconsStandardLogisticCosts` unit provides a robust framework for managing and displaying logistic cost data. Its strengths include a well-structured grid interface and integration with external services. However, the lack of explicit error handling and field validation could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRconsStandardLogisticCosts` unit manages logistic cost data using a grid interface, supporting actions like adding, deleting, and loading records. It integrates with SOAP services for data retrieval and updates, providing a comprehensive solution for logistics management.#### **FRconsStandardLogisticCosts.pas**
 
 ```
 unit FRconsStandardLogisticCosts;

@@ -2,185 +2,205 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRpaymentUsage` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa um componente de interface gráfica chamado `TFRAMEpaymentUsage`, que é uma extensão de um frame base (`TFRAMEBaseGridEditSOA`). Ele é utilizado para exibir e gerenciar dados relacionados ao uso de pagamentos em um formato de grade (grid). Este componente permite a visualização, adição e exclusão de registros, além de configurar propriedades específicas da grade, como campos visíveis, ordem de exibição e editores personalizados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes VCL:** Incluindo `TcxGrid`, `TcxEditRepositoryImageComboBoxItem`, e outros componentes visuais para a interface.
-  - **SOAP:** Para comunicação com serviços externos.
-  - **Banco de Dados:** Manipulação de dados através de `TField` e `CDStable`.
+### Objective and Problem Solved:
+The `FRpaymentUsage` code unit defines a grid-based user interface for managing payment usage data. It provides functionalities to display, add, and manage payment usage records in a structured grid format. The main objective is to allow users to interact with payment usage data efficiently, including adding new records and configuring grid settings dynamically.
 
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid):**
-    - **Colunas da Grade e Tipos:**
-      - `entityType` (Tipo: String, com editor personalizado `cxEDTicboEntityType`).
-      - `stat` (Tipo: String, com editor personalizado `cxEDTstat`).
-    - **Ações da Grade e Efeitos:**
-      - Adicionar (`ADD`): Insere um novo registro com o status padrão "ACTIVE".
-      - Excluir (`DELETE`): Remove registros selecionados.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL framework for UI components.
+- **cxGrid**: A grid component from DevExpress for displaying and managing tabular data.
+- **SOAP**: Used for communication with external services.
+- **Database Components**: Includes `DBClient` and `TField` for database interaction.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **entityType**: Custom editor (`cxEDTicboEntityType`).
+2. **stat**: Custom editor (`cxEDTstat`).
+3. **paymentCode**: Hidden field.
 
-* **Ações Disponíveis:**
-  - Adicionar um novo registro.
-  - Excluir registros existentes.
-  - Configurar e exibir dados em uma grade com colunas personalizadas.
-
-* **Componentes Principais:**
-  - `TFRAMEpaymentUsage`: Frame principal que gerencia a exibição e manipulação dos dados.
-  - `cxEDTicboEntityType`: ComboBox para seleção de valores do campo `entityType`.
-  - `GridSettings`: Configurações da grade, como campos ocultos, ordem de exibição e editores personalizados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão "Adicionar" clicado then insere novo registro com status "ACTIVE"`.
-  - Evento `OnShow` do frame: `if frame carregado then preenche valores da ComboBox com dados do campo "entityType"`.
+#### Grid Actions and Their Effects:
+1. **ADD**: Adds a new record to the grid and sets the `stat` field to "ACTIVE".
+2. **DELETE**: Deletes the selected record from the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do frame (`Create`):
-     - Configurações iniciais da grade, como campos ocultos, ordem e editores personalizados.
-     - Define ações disponíveis (`ADD` e `DELETE`).
-  2. Exibição dos dados (`ShowData`):
-     - Preenche a ComboBox `cxEDTicboEntityType` com valores possíveis do campo `entityType`.
-  3. Interação do Usuário:
-     - Ao clicar no botão "Adicionar", um novo registro é criado com o status "ACTIVE".
+### User/Software Actions:
+1. **Display Data**: Loads and displays payment usage data in the grid.
+2. **Add Record**: Adds a new record with default values.
+3. **Configure Grid**: Dynamically configures grid settings such as hidden fields, column order, and custom editors.
 
-* **Dados Necessários:**
-  - Valores possíveis para o campo `entityType` (obtidos da metadata).
-  - Dados existentes na tabela `CDStable`.
+### Main Components:
+- **Grid Settings**: Configures the grid's appearance and behavior.
+- **Custom Editors**: Provides specific editors for certain fields (e.g., `cxEDTicboEntityType`).
+- **Action Handlers**: Handles user actions like adding records.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre. Insere um registro com o status padrão "ACTIVE".
-  - **Excluir:** Disponível apenas se um registro estiver selecionado.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Campo `stat`: Valor padrão "ACTIVE".
-
-* **Validações e Condições dos Campos:**
-  - Campo `entityType`: Preenchido com valores possíveis obtidos da metadata.
-  - Campo `stat`: Valor padrão "ACTIVE".
+### Pseudo-code for Actions and Events:
+- **OnClick event of "Add" button**:  
+  `if ADD button clicked then execute ACTaddExecute`
+- **OnShowData event**:  
+  `if ShowData triggered then populate grid and fill ComboBox with metadata`
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:**
-  - Configura as propriedades iniciais do frame e da grade.
-* **`ShowData`:**
-  - Preenche a ComboBox `cxEDTicboEntityType` com valores possíveis do campo `entityType`.
-* **`ACTaddExecute`:**
-  - Insere um novo registro na tabela com o status "ACTIVE".
+### Execution Flow:
+1. **Initialization**: The `TFRAMEpaymentUsage` constructor initializes the grid settings, hidden fields, column order, and custom editors.
+2. **Data Display**: The `ShowData` method populates the grid and fills the ComboBox with metadata values.
+3. **User Interaction**: Users can add or delete records using the available actions.
 
----
+### Functions and File Locations:
+1. **Constructor** (`Create` in `FRpaymentUsage`):
+   - Initializes grid settings and available actions.
+2. **ShowData** (`ShowData` in `FRpaymentUsage`):
+   - Populates the grid and ComboBox with metadata.
+3. **Add Record** (`ACTaddExecute` in `FRpaymentUsage`):
+   - Adds a new record and sets default values.
 
-## 6. Consumo de Serviços API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
+### Required User Data:
+- **entityType**: Selected from a ComboBox.
+- **stat**: Automatically set to "ACTIVE" when adding a record.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `cxGrid`, `cxEditRepositoryItems`: Para componentes visuais e editores personalizados.
+### Actions and Preconditions:
+1. **Add Record**:
+   - Preconditions: None.
+   - Action: Adds a new record with default values.
+2. **Delete Record**:
+   - Preconditions: A record must be selected.
+   - Action: Deletes the selected record.
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Frame base herdado.
-  - `TkneDB`: Utilizado para obter valores possíveis de campos.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- **stat**: Default value is "ACTIVE" when adding a new record.
 
-* **Campos:**
-  - `entityType` (Tipo: String, obrigatório, valores definidos pela metadata).
-  - `stat` (Tipo: String, obrigatório, valor padrão "ACTIVE").
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `entityType`: Coluna correspondente no banco de dados.
-  - `stat`: Coluna correspondente no banco de dados.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:**  
-  Não aplicável.
-
-* **Diagrama de Sequência:**  
-  Não aplicável.
-
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEpaymentUsage := TFRAMEpaymentUsage.Create(Self);
-  FRAMEpaymentUsage.ShowData;
-  ```
-
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width: 100%; border: 1px solid black;">
-    <thead>
-      <tr>
-        <th style="width: 100px;">Entity Type</th>
-        <th style="width: 100px;">Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Type 1</td>
-        <td>ACTIVE</td>
-      </tr>
-      <tr>
-        <td>Type 2</td>
-        <td>INACTIVE</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- **entityType**: Populated with metadata values.
+- **stat**: Automatically set to "ACTIVE".
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração inicial do frame e da grade no método `Create`.
-* Preenchimento da ComboBox `cxEDTicboEntityType` no método `ShowData`.
-
----
-
-## 12. Conclusão:
-
-O código implementa um frame funcional para gerenciar dados de uso de pagamentos em uma grade. Ele é bem estruturado, com configurações claras para a grade e suporte a ações básicas como adicionar e excluir registros. No entanto, faltam mensagens de erro e validações mais robustas.
+1. **Constructor (`Create`)**:
+   - Initializes grid settings, hidden fields, column order, and custom editors.
+2. **ShowData**:
+   - Populates the grid and ComboBox with metadata values.
+3. **ACTaddExecute**:
+   - Adds a new record and sets the `stat` field to "ACTIVE".
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O `TFRAMEpaymentUsage` é um frame para exibição e manipulação de dados de uso de pagamentos em uma grade, com suporte a ações de adicionar e excluir registros, além de configurações personalizadas para colunas e editores.#### **FRpaymentUsage.pas**
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Metadata for populating the ComboBox.
+- **Data Received**: Possible values for the `entityType` field.
+- **Purpose**: Populate the ComboBox with metadata values.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **entityType**: Populated dynamically based on metadata values.
+- **Conditions**: The ComboBox is filled only when `ShowData` is executed.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**:
+   - `cxGrid`: For grid display and management.
+   - `cxEditRepositoryItems`: For custom editors.
+2. **SOAP Components**:
+   - `SOAPHTTPClient`: For external service communication.
+
+### Custom Components:
+- **TFRAMEBaseGridEditSOA**: Base class for grid-based forms.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **entityType**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Populated with metadata values.
+2. **stat**:
+   - Type: String.
+   - Default: "ACTIVE".
+   - Validation: None explicitly defined.
+3. **paymentCode**:
+   - Type: String.
+   - Hidden field.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Grid Settings] --> [ShowData] --> [Populate Grid and ComboBox] --> [User Interaction: Add/Delete Record] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Grid: Add Record
+Grid --> Database: Insert Record
+Database --> Grid: Update Display
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEpaymentUsage.ACTaddExecute(Sender: TObject);
+begin
+  inherited;
+  SetForEdition(CDStable);
+  CDStable.FieldByName('stat').AsString := 'ACTIVE';
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+1. **Grid Settings Initialization**:
+   - Configures hidden fields, column order, and custom editors.
+2. **ComboBox Population**:
+   - Populates the `entityType` ComboBox with metadata values.
+
+---
+
+## 12. Conclusion:
+
+The `FRpaymentUsage` code unit provides a robust framework for managing payment usage data in a grid format. It dynamically configures grid settings and supports adding new records with default values. However, error handling and API service details are not explicitly defined, which could limit its robustness in certain scenarios.
+
+---
+
+## 13. Short Summary:
+
+The `FRpaymentUsage` unit manages payment usage data in a grid interface, allowing users to add and configure records dynamically. It leverages metadata for field population and supports custom editors for enhanced usability.#### **FRpaymentUsage.pas**
 
 ```
 unit FRpaymentUsage;

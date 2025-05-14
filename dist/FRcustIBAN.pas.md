@@ -2,160 +2,203 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustIBAN` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é criar uma interface de edição para o campo "IBAN do Cliente" (Customer IBAN). Ele fornece um formulário simples que permite ao usuário visualizar e editar o IBAN associado a um cliente. Este componente pode ser utilizado em sistemas financeiros ou administrativos que necessitam de manipulação de dados bancários.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do formulário e lógica.
-  - Componentes visuais como `TsLabel`, `TsDBEdit`, `TsPanel` para a interface gráfica.
-  - `TClientDataSet` e `TDataSource` para manipulação de dados.
-  - `THTTPRIO` para integração com serviços SOAP.
+### Objective and Problem Solved:
+The `FRcustIBAN` code unit defines a form (`TFRAMEcustIBAN`) that allows users to input and manage a customer's IBAN (International Bank Account Number). This form is part of a larger system, likely used for financial or banking applications, where managing customer IBANs is essential for transactions or record-keeping.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `LBLInicialPeriod` (TsLabel): Rótulo para o campo "Customer IBAN".
-      - `EDTcustIBAN` (TsDBEdit): Campo de entrada para o IBAN do cliente.
-    - **Ações do Formulário e seus Efeitos:**
-      - O campo `EDTcustIBAN` permite a edição do IBAN do cliente, vinculado ao campo `custIBAN` no banco de dados.
+### High-Level Functionality:
+The form provides a single input field for the IBAN (`EDTcustIBAN`) and a label (`LBLInicialPeriod`) to guide the user. It inherits from a base frame (`TFRAMEBaseCtrlEditSOA`) and customizes its behavior by hiding action panels and disabling available actions. The form is connected to a data source (`DStable`) for binding the IBAN field to a database.
 
----
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and managing components.
+- **SOAP (Simple Object Access Protocol)**: For potential communication with external services.
+- **Database Components**: `TClientDataSet` and `TDataSource` for database interaction.
+- **Third-party Components**: Includes `TsLabel`, `TsDBEdit`, and `TsPanel` from the `sSkin` library for enhanced UI styling.
 
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Permitir que o usuário visualize e edite o IBAN do cliente.
-  - Atualizar automaticamente a interface quando os dados são alterados.
-
-* **Componentes Principais:**
-  - `LBLInicialPeriod`: Exibe o texto "Customer IBAN:".
-  - `EDTcustIBAN`: Campo de entrada vinculado ao banco de dados para edição do IBAN.
-  - `TClientDataSet` e `TDataSource`: Gerenciam os dados do cliente.
-
-* **Tradução para Pseudo-código:**
-  - `Ao inicializar o formulário: configurar propriedades da interface.`
-  - `Se o valor do campo IBAN for alterado: atualizar o banco de dados.`
-  - `Se o painel de ações for configurado como visível: redesenhar a interface.`
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements**:
+  - `LBLInicialPeriod` (Label): Displays the text "Customer IBAN:".
+  - `EDTcustIBAN` (Input Field): A database-bound text field for entering the customer's IBAN.
+- **Form Actions**:
+  - No visible action buttons or panels are enabled by default (`ShowActionPanel = False`).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. O formulário é inicializado com o construtor `Create`.
-  2. As propriedades da interface são configuradas, como o tipo de frame (`frtGhost`) e a visibilidade do painel de ações.
-  3. O campo `EDTcustIBAN` é vinculado ao campo `custIBAN` no banco de dados.
-  4. O usuário pode editar o IBAN no campo `EDTcustIBAN`.
+### User/Software Actions:
+- Users can input or edit the customer's IBAN in the `EDTcustIBAN` field.
+- The field is bound to a database column (`custIBAN`), ensuring data persistence.
 
-* **Dados Necessários:**
-  - O campo `custIBAN` deve estar presente no banco de dados para que o formulário funcione corretamente.
+### Main Components:
+1. **`LBLInicialPeriod`**: A label that provides context for the input field.
+2. **`EDTcustIBAN`**: A text input field bound to the `custIBAN` database column.
+3. **`DStable` and `CDStable`**: Database components for managing data binding.
+4. **`TFRAMEBaseCtrlEditSOA`**: The base frame providing inherited functionality.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - O campo `EDTcustIBAN` só estará funcional se o banco de dados estiver conectado e o campo `custIBAN` estiver disponível.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão definidos no código.
-
-* **Validação de Campos e Condições:**
-  - O campo `EDTcustIBAN` está vinculado ao banco de dados, mas não há validações explícitas no código.
-
----
-
-## 5. Funções Principais:
-
-* **Funções do Código:**
-  - `Create`: Inicializa o formulário e configura as propriedades da interface.
-  - Configuração de visibilidade do painel de ações e ações disponíveis.
-
----
-
-## 6. Consumo de Serviços API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `kneFRCtrlEditSOA`, `InvokeRegistry`, `SOAPHTTPClient`: Utilizadas para integração com serviços SOAP.
-  - `sDBEdit`, `sLabel`, `sPanel`: Componentes visuais para a interface.
-
-* **Componentes Personalizados:**
-  - `TFRAMEBaseCtrlEditSOA`: Classe base personalizada para o frame.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**
-  - `Customer IBAN` (EDTcustIBAN):
-    - Tipo: String.
-    - Obrigatório: Não definido no código.
-    - Validações: Não definidas no código.
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Campo `custIBAN` no banco de dados é vinculado ao campo `EDTcustIBAN`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Frame: TFRAMEcustIBAN;
-  begin
-    Frame := TFRAMEcustIBAN.Create(Self);
-    Frame.Show;
-  end;
+### Pseudo-code for Actions and Events:
+- **On Form Creation**:
   ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="font-family: Verdana; width: 513px; padding: 10px;">
-    <label style="color: #4D4D4D;">Customer IBAN:</label>
-    <input type="text" style="width: 408px; height: 21px; color: black;" placeholder="Enter IBAN">
-  </div>
+  if form is created then
+    set FrameType to 'frtGhost'
+    hide action panel
+    disable available actions
+  ```
+- **On IBAN Field Change**:
+  ```
+  if IBAN field value changes then
+    update the database with the new value
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* `// SET DAS PROPRIEDADES DA FRAME`: Configurações iniciais do frame.
-* `// configurar visibilidade de painel de ações e ações disponíveis`: Define a visibilidade do painel de ações.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using the `TFRAMEcustIBAN.Create` constructor.
+   - The `FrameType` is set to `frtGhost`, and the action panel is hidden.
+2. **User Interaction**:
+   - Users enter or modify the IBAN in the `EDTcustIBAN` field.
+   - Changes are automatically reflected in the database via the `DStable` data source.
+
+### Data Requirements:
+- Users must provide a valid IBAN in the `EDTcustIBAN` field.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código fornece uma interface simples e funcional para edição do IBAN do cliente. Sua principal limitação é a ausência de validações e mensagens de erro explícitas. No entanto, ele é modular e pode ser facilmente integrado a sistemas maiores.
+### Actions and Preconditions:
+- **IBAN Input**:
+  - Action: Users can input or edit the IBAN.
+  - Preconditions: The form must be loaded, and the database connection must be active.
+
+### Available Filters:
+- No filters are explicitly defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **IBAN Field**:
+  - Validation for IBAN format is not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O código implementa um formulário para edição do IBAN do cliente, utilizando componentes visuais e integração com banco de dados. Ele é funcional, mas carece de validações e mensagens de erro explícitas.#### **FRcustIBAN.pas**
+### Functions:
+1. **`TFRAMEcustIBAN.Create`**:
+   - Sets the frame type to `frtGhost`.
+   - Hides the action panel and disables available actions.
+
+---
+
+## 6. API Service Consumption:
+
+- No explicit API calls are defined in the provided code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are defined in the provided code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`sSkin` Library**: Used for enhanced UI components like `TsLabel`, `TsDBEdit`, and `TsPanel`.
+
+### Custom Components:
+- **`TFRAMEBaseCtrlEditSOA`**: A custom base frame providing inherited functionality.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **`EDTcustIBAN`**:
+   - Type: String
+   - Required: Not explicitly defined
+   - Bound to Database Column: `custIBAN`
+   - Validations: Not explicitly defined in the code.
+
+### Mapping:
+- Displayed Field: `EDTcustIBAN`
+- Database Column: `custIBAN`
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Form Initialization] --> [Set FrameType to frtGhost] --> [Hide Action Panel] --> [User Inputs IBAN] --> [Update Database] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Open Form
+Form --> Database: Bind IBAN Field
+User --> Form: Input/Edit IBAN
+Form --> Database: Save IBAN
+```
+
+### Code Snippets:
+```delphi
+constructor TFRAMEcustIBAN.Create(AOwner: TComponent);
+begin
+  inherited;
+  FrameType := frtGhost;
+  ShowActionPanel := False;
+  AvailableActions := '';
+end;
+```
+
+### Screenshots:
+The following HTML represents the form layout:
+```html
+<div style="font-family: Verdana; width: 513px;">
+  <label style="color: #4D4D4D; font-size: 11px;">Customer IBAN:</label>
+  <input type="text" style="width: 408px; height: 21px; color: black;" placeholder="Enter IBAN">
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Frame Initialization**:
+  ```delphi
+  // SET DAS PROPRIEDADES DA FRAME
+  FrameType := frtGhost;
+
+  // configurar visibilidade de painel de ações e ações disponíveis
+  ShowActionPanel := False;
+  AvailableActions := '';
+  ```
+
+---
+
+## 12. Conclusion:
+
+The `FRcustIBAN` code unit provides a simple and focused form for managing customer IBANs. Its strengths lie in its clean design and database integration. However, it lacks explicit validation for the IBAN field and error handling, which could be critical for ensuring data integrity.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustIBAN` form allows users to input and manage customer IBANs, with database integration for data persistence. It is a lightweight and focused component but lacks validation and error handling for the IBAN field.#### **FRcustIBAN.pas**
 
 ```
 unit FRcustIBAN;

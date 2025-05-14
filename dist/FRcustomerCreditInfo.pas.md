@@ -2,176 +2,206 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustomerCreditInfo`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica chamado `TFRAMEcustomerCreditInfo`, que exibe informações de crédito de clientes, como status de envio, valores de pedidos, faturas, créditos disponíveis e valores vencidos. Ele é projetado para ser usado em sistemas de gestão financeira ou ERP, permitindo que os usuários visualizem e interajam com os dados financeiros de um cliente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação usada para criar a interface gráfica e lógica do componente.
-  - **Componentes Visuais:** Inclui painéis, rótulos, campos de edição vinculados a dados (DBEdit), e botões.
-  - **Banco de Dados:** Utiliza `TDataSet` para manipulação de dados.
-  - **SOAP:** Comunicação com serviços externos via `SOAPHTTPClient`.
+### Objective and Problem Solved:
+The `FRcustomerCreditInfo` unit is designed to display and manage customer credit information in a structured and interactive form. It provides a detailed view of customer credit data, including overdue amounts, invoices, orders, and available credit in both local and foreign currencies. This form is part of a larger system that handles customer financial data, enabling users to view and interact with credit-related information efficiently.
 
-* **Forma do Componente:**
-  - **Formulário:** Este é um formulário que exibe informações financeiras do cliente.
-    - **Elementos do Formulário e Tipos:**
-      - Campos de edição vinculados a dados (`TsDBEdit` e `TsDBText`) para exibir valores financeiros.
-      - Rótulos (`TsLabel`) para descrever os campos.
-      - Painéis (`TsPanel`) para organizar visualmente os elementos.
-    - **Ações do Formulário e Efeitos:**
-      - Exibição de informações financeiras do cliente.
-      - Configuração de visibilidade de painéis e ações disponíveis.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the graphical user interface.
+- **SOAP Services**: For communication with external services.
+- **Database Components**: For binding and displaying data from a database.
+- **Custom Components**: Includes `TsPanel`, `TsLabel`, `TsDBEdit`, and others from the `s` library for enhanced UI styling.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Exibir informações de crédito do cliente.
-  - Configurar visibilidade de painéis e ações disponíveis.
-  - Manipular o modo de acesso ao componente.
-
-* **Componentes Principais:**
-  - **Painéis (`TsPanel`):** Organizam visualmente os elementos.
-  - **Campos de Edição (`TsDBEdit`):** Exibem valores financeiros vinculados ao banco de dados.
-  - **Rótulos (`TsLabel`):** Descrevem os campos exibidos.
-  - **Botões (`TsBitBtn`):** Permitem ações como adicionar, aplicar ou cancelar.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnSetAccessMode`: `se modo de acesso for alterado, então configurar visibilidade e ações disponíveis`.
-  - Evento `CDStableAfterOpen`: `se tabela de dados for aberta, então exibir informações de crédito`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - Labels (`TsLabel`): Display static text.
+  - Text Fields (`TsDBEdit`, `TsDBText`): Display and allow editing of database-bound data.
+  - Panels (`TsPanel`): Group related UI elements.
+  - Buttons (`TsBitBtn`): Trigger actions like "Add," "Apply," and "Cancel."
+- **Form Actions and Effects**:
+  - **Add Button**: Allows adding new data.
+  - **Apply Button**: Saves changes to the database.
+  - **Cancel Button**: Cancels the current operation.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente (`Create`):
-     - Configura propriedades como `MasterKeyFields`, `DataPacketName`, e `FrameType`.
-     - Define visibilidade de painéis e ações disponíveis.
-  2. Interação do Usuário:
-     - O usuário visualiza informações financeiras do cliente.
-     - Eventos como `OnSetAccessMode` e `CDStableAfterOpen` são disparados para atualizar a interface.
+### User Actions:
+- View customer credit information, including overdue amounts, invoices, and available credit.
+- Edit specific fields related to customer credit.
+- Save or cancel changes made to the data.
 
-* **Dados Necessários:**
-  - Código do cliente (`customerCode`).
-  - Informações financeiras como pedidos, faturas, créditos disponíveis e valores vencidos.
+### Main Components:
+- **Panels (`TsPanel`)**: Organize the layout and group related fields.
+- **Labels (`TsLabel`)**: Provide descriptions for fields.
+- **Database Fields (`TsDBEdit`, `TsDBText`)**: Display and allow editing of database-bound data.
+- **Buttons (`TsBitBtn`)**: Trigger actions like saving or canceling changes.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ações como "Adicionar" ou "Aplicar" só devem ser habilitadas se os dados necessários estiverem preenchidos corretamente.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
+### Pseudo-code for Actions and Events:
+- `OnClick` event of "Add" button: `if add button clicked then open new record form`.
+- `OnClick` event of "Apply" button: `if apply button clicked then save changes to database`.
+- `OnClick` event of "Cancel" button: `if cancel button clicked then discard changes`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`ShowCreditInfo`:** Exibe informações de crédito do cliente.
-* **`m_SetAccessMode`:** Configura o modo de acesso e visibilidade de ações.
-* **`CDStableAfterOpen`:** Atualiza a interface após a abertura da tabela de dados.
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default settings in the `Create` constructor.
+   - Database fields are bound to the form elements.
+   - Panels and actions are configured for visibility and availability.
 
----
+2. **User Interactions**:
+   - Users can view and edit customer credit data.
+   - Buttons trigger actions like saving or canceling changes.
 
-## 6. Consumo de Serviços API:
+3. **Functions**:
+   - `ShowCreditInfo`: Displays credit information.
+   - `m_SetAccessMode`: Configures access mode for the form.
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `DBClient`: Para manipulação de dados do cliente.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseCtrlEditSOA`: Classe base herdada para criar o componente.
+### Data Requirements:
+- Users must provide or edit the following data:
+  - Overdue amounts.
+  - Invoice details.
+  - Available credit.
+  - Currency codes.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `EDTshipStat` (tipo: texto, vinculado a dados).
-  - `EDTordersEUR` (tipo: numérico, vinculado a dados).
-  - `EDTinvoicesEUR` (tipo: numérico, vinculado a dados).
-  - `EDTavailCredEUR` (tipo: numérico, vinculado a dados).
-  - Outros campos similares para diferentes valores financeiros.
+### Actions and Preconditions:
+- **Add Button**: Enabled when the user wants to add a new record.
+- **Apply Button**: Enabled only if changes have been made to the data.
+- **Cancel Button**: Enabled when there are unsaved changes.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `EDTshipStat` mapeado para o status de envio do cliente.
-  - `EDTordersEUR` mapeado para valores de pedidos em EUR.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  constructor TFRAMEcustomerCreditInfo.Create(AOwner: TComponent);
-  begin
-    inherited;
-    MasterKeyFields := 'customerCode';
-    DataPacketName := 'CustomerCredit';
-    FrameType := frtDetail;
-  end;
-  ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 762px; height: 249px; font-family: Verdana;">
-    <div style="padding: 10px; border: 1px solid #ccc;">
-      <label>Status de Envio:</label>
-      <input type="text" value="Exemplo" />
-    </div>
-    <div style="padding: 10px; border: 1px solid #ccc;">
-      <label>Pedidos (EUR):</label>
-      <input type="number" value="1000" />
-    </div>
-    <!-- Outros campos -->
-  </div>
-  ```
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* `// SET DAS PROPRIEDADES DA FRAME`: Configura propriedades essenciais do componente.
-* `// configurar visibilidade de painel de ações e ações disponíveis`: Define a visibilidade de painéis e ações.
+### `ShowCreditInfo`:
+- Displays customer credit information on the form.
 
----
-
-## 12. Conclusão:
-
-O código implementa um componente visual para exibir informações financeiras de clientes. Ele é bem estruturado e utiliza componentes visuais e de dados para criar uma interface funcional. No entanto, faltam validações explícitas e mensagens de erro, o que pode limitar sua robustez.
+### `m_SetAccessMode`:
+- Configures the access mode for the form, determining which actions are available.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O `TFRAMEcustomerCreditInfo` é um componente Delphi que exibe informações financeiras de clientes, como status de envio, valores de pedidos e créditos disponíveis. Ele é configurável e utiliza componentes visuais e de dados para criar uma interface funcional e interativa.#### **FRcustomerCreditInfo.pas**
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Not explicitly defined in the code.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based communication.
+- **DBClient**: For database operations.
+- **sComponents**: Custom UI components for enhanced styling.
+
+### Custom Components:
+- `TsPanel`, `TsLabel`, `TsDBEdit`, `TsDBText`, `TsBitBtn`: Used for UI design and interaction.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- `EDTshipStat` (type: string, database-bound).
+- `EDTordersEUR` (type: currency, database-bound).
+- `EDTinvoicesEUR` (type: currency, database-bound).
+- `EDToutInvoicesEUR` (type: currency, database-bound).
+- `EDTworkInProgEUR` (type: currency, database-bound).
+- `EDTavailCredEUR` (type: currency, database-bound).
+- `EDTnetOutInvEur` (type: currency, database-bound).
+- `EDTcurrencyCode` (type: string, database-bound).
+- `EDToverdue1_15` (type: currency, database-bound).
+- `EDToverdue15_30` (type: currency, database-bound).
+- `EDToverdue31_60` (type: currency, database-bound).
+- `EDToverdue61_90` (type: currency, database-bound).
+- `EDToverdueM90` (type: currency, database-bound).
+- `EDToverdueTotal` (type: currency, database-bound).
+
+### Mapping:
+- Displayed values are directly bound to database columns.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+constructor TFRAMEcustomerCreditInfo.Create(AOwner: TComponent);
+begin
+  inherited;
+  MasterKeyFields := 'customerCode';
+  DataPacketName := 'CustomerCredit';
+  PropertyName := 'credit';
+  FrameType := frtDetail;
+  ShowActionPanel := False;
+  AvailableActions := '';
+  PNLfooter.Visible := False;
+  OnSetAccessMode := m_SetAccessMode;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- `// SET DAS PROPRIEDADES DA FRAME`: Indicates where frame properties are set.
+- `// configurar visibilidade de painel de ações e ações disponíveis`: Configures the visibility of action panels and available actions.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustomerCreditInfo` unit provides a structured and interactive form for managing customer credit information. While it effectively displays and allows editing of credit data, the code lacks explicit error handling, field validation, and API integration details. Its strengths lie in its modular design and use of custom components for enhanced UI.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustomerCreditInfo` unit is a Delphi-based form for managing customer credit data, featuring database-bound fields and custom UI components. It supports viewing and editing credit information but lacks explicit error handling and validation logic.#### **FRcustomerCreditInfo.pas**
 
 ```
 unit FRcustomerCreditInfo;

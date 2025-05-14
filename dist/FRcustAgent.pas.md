@@ -2,200 +2,220 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar agentes de clientes em um sistema. Ele fornece uma interface de grade (grid) para exibir, editar e gerenciar informações relacionadas a agentes de clientes, como código do agente, nome, taxa de comissão, tipo de comissão, entre outros. O objetivo é facilitar a manipulação e visualização de dados relacionados a agentes de clientes.
-
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid:** Utilizados para criar e gerenciar a interface de grade.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneUtils`, `kneTypes`, `kneConfigObjects`, entre outras.
-
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `mill` (string): Código do moinho.
-      - `agentCode` (string): Código do agente.
-      - `agentName` (string): Nome do agente.
-      - `commRate` (float): Taxa de comissão.
-      - `commType` (string): Tipo de comissão.
-      - `stat` (string): Status.
-      - `lastUpd` (datetime): Última atualização.
-      - `updBy` (string): Atualizado por.
-    - **Ações da Grade e seus Efeitos:**
-      - Edição de valores diretamente na grade.
-      - Busca de agentes por código ou nome.
-      - Configuração de campos customizados e validações.
+# Documentation for `FRcustAgent` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Permitir a edição de valores diretamente na grade.
-  - Configurar campos customizados para busca e validação.
-  - Gerenciar a visibilidade e ordem das colunas da grade.
-  - Buscar agentes por código ou nome.
+### Objective and Problem Solved:
+The `FRcustAgent` code unit defines a Delphi frame (`TFRAMEcustAgent`) that extends a base grid-editing frame (`TFRAMEBaseGridEditSOA`). It is designed to manage and display customer-agent relationships in a grid format. The frame provides functionalities such as editing, searching, and managing customer-agent data, including commission rates, agent codes, and statuses.
 
-* **Componentes Principais:**
-  - `TFRAMEcustAgent`: Classe principal que gerencia a interface e lógica da grade.
-  - `cxGrid`: Componente de grade para exibição de dados.
-  - `cxDBVtable`: Visualização da tabela de dados vinculada ao banco de dados.
+This frame is part of a larger system, likely a CRM or ERP application, where users can interact with customer-agent data in a structured and user-friendly manner.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`:
-    ```pseudo
-    se valor do campo na grade for alterado então
-      executar validação ou lógica associada ao campo
-    ```
-  - Botão de busca:
-    ```pseudo
-    se botão de busca for clicado então
-      abrir diálogo de busca
-      preencher campo com o valor selecionado
-    ```
+### Technologies Used:
+- **Delphi VCL Framework**: For UI components and event handling.
+- **SOAP Services**: For communication with external services (e.g., `AgentServiceUtils`).
+- **Database Components**: For data binding and manipulation (`TcxGridDBTableView`, `TClientDataSet`).
+- **Custom Components**: Includes custom editors like `cxEDTfind` and `cxICBcommType`.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 3. Lógica Operacional:
+#### Grid Columns and Their Types:
+1. **mill**: String (Hidden by default).
+2. **agentCode**: String (Custom editor: `cxEDTfind`).
+3. **agentName**: String.
+4. **commRate**: Numeric.
+5. **commType**: String (Custom editor: `cxICBcommType`).
+6. **stat**: String (Custom editor: `cxEDTstat`).
+7. **lastUpd**: DateTime.
+8. **updBy**: String.
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente `TFRAMEcustAgent`.
-  2. Configuração das propriedades da grade, como campos visíveis, ordem, e campos customizados.
-  3. Interação do usuário com a grade (edição, busca, etc.).
-  4. Execução de eventos associados, como validação de campos ou busca de dados.
-
-* **Dados Necessários:**
-  - Código do cliente (`customerCode`).
-  - Informações do agente (código, nome, tipo de comissão, etc.).
+#### Grid Actions and Their Effects:
+- **Edit Value Changed**: Updates the dataset when a value in the grid is modified.
+- **Find Agent**: Opens a dialog to search for agents by code or name.
+- **Apply Changes**: Saves changes made in the grid.
+- **Cancel Changes**: Reverts unsaved changes.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**
-  - A edição de valores na grade só é permitida para campos não marcados como "Read-Only".
-  - A busca de agentes requer que o usuário clique no botão de busca.
+### User/Software Actions:
+1. **Edit Grid Values**: Users can modify values in the grid, triggering updates to the dataset.
+2. **Search for Agents**: Users can search for agents using a custom dialog.
+3. **Apply Changes**: Save modifications to the database.
+4. **Cancel Changes**: Discard unsaved changes.
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays customer-agent data.
+- **Custom Editors**: Enhance user interaction with specific fields.
+- **Action Buttons**: Provide functionalities like "Apply" and "Cancel."
 
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Campos customizados possuem validações específicas, como `cxEDTfind` para busca e `cxICBcommType` para tipo de comissão.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:** Inicializa o componente e configura as propriedades da grade.
-* **`m_SetFindEditAgent`:** Configura o diálogo de busca para selecionar agentes.
-* **`SetFieldValuesToCDS`:** Define valores de campos no conjunto de dados.
+### Pseudo-code for Actions and Events:
+- `OnEditValueChanged` event: `if grid cell value changed then update dataset`.
+- `OnButtonClick` event of `cxEDTfind`: `if button clicked then open find dialog`.
+- `Apply Button Click`: `if apply button clicked then save changes`.
+- `Cancel Button Click`: `if cancel button clicked then revert changes`.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 3. Operational Logic:
 
-* **Chamadas a Serviços Externos:**
-  - Serviço: `AgentServiceUtils`.
-  - Propósito: Não especificado no código.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created and configured (`Create` constructor).
+   - Grid settings are defined, including hidden fields, field order, and custom editors.
+   - Action panel visibility and available actions are set.
 
----
+2. **User Interaction**:
+   - Users interact with the grid to edit values or search for agents.
+   - Buttons trigger specific actions like saving or canceling changes.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+### Functions and File Locations:
+- **`Create` Constructor** (File: `FRcustAgent.pas`):
+  - Initializes the frame and configures grid settings.
+- **`m_SetFindEditAgent`** (File: `FRcustAgent.pas`):
+  - Opens a dialog for searching agents.
+- **`cxDBVtableEditValueChanged`** (File: `FRcustAgent.pas`):
+  - Handles changes in grid cell values.
 
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxDBData`: Para exibição e manipulação de dados em grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-
-* **Componentes Customizados:**
-  - `kneUtils`, `kneTypes`, `kneConfigObjects`: Utilizados para lógica e configurações específicas.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `mill` (string): Não definido no código.
-  - `agentCode` (string): Não definido no código.
-  - `agentName` (string): Não definido no código.
-  - `commRate` (float): Não definido no código.
-  - `commType` (string): Não definido no código.
-  - `stat` (string): Não definido no código.
-  - `lastUpd` (datetime): Não definido no código.
-  - `updBy` (string): Não definido no código.
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Required Data:
+- Users must provide valid values for fields like `agentCode`, `commRate`, and `commType`.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 4. Business Rules:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEcustAgent := TFRAMEcustAgent.Create(Self);
-  FRAMEcustAgent.Parent := Self;
-  ```
-* **HTML Renderizado:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <tr>
-      <th>Mill</th>
-      <th>Agent Code</th>
-      <th>Agent Name</th>
-      <th>Comm Rate</th>
-      <th>Comm Type</th>
-      <th>Status</th>
-      <th>Last Update</th>
-      <th>Updated By</th>
-    </tr>
-    <tr>
-      <td>001</td>
-      <td>A123</td>
-      <td>John Doe</td>
-      <td>5%</td>
-      <td>Type A</td>
-      <td>Active</td>
-      <td>2023-10-01</td>
-      <td>Admin</td>
-    </tr>
-  </table>
-  ```
+### Actions and Preconditions:
+- **Edit Grid Values**: Requires the grid to be loaded with data.
+- **Search for Agents**: Requires the `cxEDTfind` editor to be active.
+- **Apply Changes**: Enabled only if there are unsaved changes.
+- **Cancel Changes**: Enabled only if there are unsaved changes.
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- "Invalid value" if a grid cell value does not meet validation criteria.
+- "Search failed" if no matching agent is found.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **agentCode**: Must be a valid agent code (validated via `m_SetFindEditAgent`).
+- **commRate**: Should be a numeric value.
+- **commType**: Must match predefined options in `cxICBcommType`.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração de propriedades da grade, como campos visíveis, ordem e validações.
-* Uso de métodos customizados para busca e validação de dados.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar agentes de clientes, com funcionalidades de edição, busca e validação. No entanto, faltam definições explícitas de validações e mensagens de erro, o que pode limitar a usabilidade em cenários mais complexos.
+1. **`Create` Constructor**:
+   - Initializes the frame and configures grid settings.
+2. **`m_SetFindEditAgent`**:
+   - Opens a dialog for searching agents.
+3. **`cxDBVtableEditValueChanged`**:
+   - Updates the dataset when a grid cell value changes.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O código implementa uma interface de grade para gerenciar agentes de clientes, permitindo edição, busca e validação de dados. Ele utiliza componentes visuais e bibliotecas personalizadas para oferecer uma solução eficiente e configurável.#### **FRcustAgent.pas**
+- **Service Name**: AgentServiceUtils.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Likely includes agent-related data (e.g., `agentCode`, `commRate`).
+- **Data Received**: Agent details or confirmation of changes.
+- **Purpose**: Manage customer-agent relationships.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Custom Editors**:
+  - `agentCode`: Uses `cxEDTfind` for searching agents.
+  - `commType`: Uses `cxICBcommType` for selecting commission types.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP-based communication.
+- **cxGrid**: For grid display and interaction.
+- **kneUtils**: Utility functions.
+- **kneFindDialog**: Custom dialog for searching.
+
+### Custom Components:
+- **cxEDTfind**: Custom editor for searching agents.
+- **cxICBcommType**: Custom editor for selecting commission types.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **mill**: String, hidden.
+2. **agentCode**: String, required, custom editor (`cxEDTfind`).
+3. **agentName**: String, required.
+4. **commRate**: Numeric, required.
+5. **commType**: String, required, custom editor (`cxICBcommType`).
+6. **stat**: String, optional, custom editor (`cxEDTstat`).
+7. **lastUpd**: DateTime, read-only.
+8. **updBy**: String, read-only.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEcustAgent.m_SetFindEditAgent(Sender: TObject; AButtonIndex: Integer);
+var
+  lv_Find: TFORMkneFindDialog;
+begin
+  lv_Find := TkneDialogFactory.GetFindDialog(Application);
+  with lv_Find.Options.DataSelection do
+  begin
+    FieldNameForCode := 'Code';
+    FieldNamesForDesc.Add('name');
+  end;
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**:
+  - Hidden fields: `'HIDE_ALL_FIELDS'`.
+  - Field order: `'mill; agentCode; agentName; commRate; commType; stat; lastUpd; updBy'`.
+- **Custom Editors**:
+  - `agentCode`: `cxEDTfind`.
+  - `commType`: `cxICBcommType`.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustAgent` code unit provides a robust framework for managing customer-agent relationships in a grid format. Its strengths include customizable grid settings and integration with external services. However, the lack of explicit error handling and API endpoint definitions are limitations.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustAgent` unit defines a grid-based frame for managing customer-agent relationships, offering functionalities like editing, searching, and saving data. It integrates with SOAP services and custom components for enhanced user interaction.#### **FRcustAgent.pas**
 
 ```
 unit FRcustAgent;

@@ -2,191 +2,231 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para gerenciar transportadoras associadas a um armazém. Ele permite visualizar, adicionar e excluir transportadoras, além de configurar propriedades específicas da interface, como campos ocultos, campos somente leitura e ações disponíveis. O objetivo principal é facilitar a manipulação e visualização de dados relacionados às transportadoras de forma eficiente e organizada.
-
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento da aplicação.
-  - Componentes visuais como `TcxGrid`, `TcxEditRepositoryButtonItem` e `TcxGridDBTableView` para a interface gráfica.
-  - Serviços SOAP para integração com serviços externos.
-  - Manipulação de dados com `DBClient` e `DataPacket`.
-
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid e seus Tipos:**
-      - `code` (string): Código da transportadora.
-      - `name` (string): Nome da transportadora.
-    - **Ações do Grid e seus Efeitos:**
-      - Adicionar (`ADD`): Permite adicionar uma nova transportadora.
-      - Excluir (`DELETE`): Remove uma transportadora selecionada.
+# Documentation for `FRwarehouseCarrier` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Adicionar uma transportadora.
-  - Excluir uma transportadora.
-  - Buscar transportadoras por código ou detalhes.
+### Objective and Problem Solved:
+The `FRwarehouseCarrier` code unit defines a Delphi frame (`TFRAMEwarehouseCarrier`) that provides a grid-based interface for managing warehouse carriers. It allows users to view, add, and delete carrier details associated with a warehouse. The frame is designed to handle carrier data efficiently, including searching and editing carrier details.
 
-* **Componentes Principais:**
-  - `TcxGridDBTableView`: Exibe os dados das transportadoras.
-  - `TcxEditRepositoryButtonItem`: Botão para buscar detalhes de transportadoras.
-  - `GridSettings`: Configurações do grid, como campos ocultos e ordem de exibição.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services (e.g., `CarrierServiceUtils`).
+- **Database Components**: For managing and displaying data (`DB`, `cxDBData`, `DBClient`).
+- **DevExpress Components**: For advanced grid and UI functionalities (`cxGrid`, `cxEditRepositoryItems`).
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`: `se valor do campo editado mudar, então execute função`.
-  - Evento `OnButtonClick` do botão de busca: `se botão clicado, então execute busca de transportadora`.
-  - Evento `OnSetAccessMode`: `se modo de acesso mudar, então ajuste visibilidade e configurações`.
+### Form Type:
+This is a **grid display** form.
 
----
+#### Grid Columns and Their Types:
+1. **Code**: String (Editable, searchable).
+2. **Name**: String (Editable).
+3. **Warehouse Code**: String (Hidden).
+4. **Updated By**: String (Hidden).
+5. **Last Updated**: DateTime (Hidden).
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização do componente com o construtor `Create`.
-  2. Configuração das propriedades do grid, como campos ocultos e ações disponíveis.
-  3. Interação do usuário com o grid (edição, busca, adição ou exclusão).
-  4. Execução de funções específicas baseadas nos eventos disparados.
-
-* **Dados Necessários:**
-  - Código do armazém (`warehouseCode`).
-  - Código e nome da transportadora.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new carrier to the grid.
+2. **Delete**: Removes the selected carrier from the grid.
+3. **Search**: Allows searching for carriers by code or other criteria.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre.
-  - **Excluir:** Disponível apenas se uma transportadora estiver selecionada.
+### User/Software Actions:
+1. **Add Carrier**: Users can add a new carrier using the "Add" action.
+2. **Delete Carrier**: Users can delete a selected carrier using the "Delete" action.
+3. **Search Carrier**: Users can search for a carrier by code or other details using the search button.
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+### Main Components:
+- **Grid (`cxDBVtable`)**: Displays carrier details.
+- **Search Button (`cxEDTfindCarrierDetail`)**: Allows searching for carriers.
+- **Action Panel**: Provides "Add" and "Delete" actions.
 
-* **Mensagens de Erro:**
-  - Não há mensagens de erro explícitas definidas no código.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explícitos definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
-
----
-
-## 5. Funções Principais:
-
-* **Descrição das Funções:**
-  - `m_FindCarrier`: Realiza a busca de uma transportadora.
-  - `m_FindByCodeCarrier`: Busca uma transportadora pelo código.
-  - `m_SetOnSetAccessMode`: Ajusta o modo de acesso e configurações do grid.
+### Pseudo-code for Actions and Events:
+- `OnClick` event of "Add" button: `if Add button clicked then execute add carrier function`.
+- `OnClick` event of "Delete" button: `if Delete button clicked then execute delete carrier function`.
+- `OnButtonClick` event of search button: `if search button clicked then execute search carrier function`.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 3. Operational Logic:
 
-* **Chamadas a Serviços Externos:**
-  - Serviço: `CarrierServiceUtils`.
-  - Propósito: Buscar informações de transportadoras.
-  - Dados enviados e recebidos não estão explicitamente definidos no código.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with default settings (e.g., hidden fields, key fields, and available actions).
+   - Event handlers are assigned for search and access mode settings.
 
----
+2. **User Interactions**:
+   - Clicking "Add" triggers the `ACTaddExecute` procedure to add a new carrier.
+   - Clicking "Delete" removes the selected carrier.
+   - Clicking the search button triggers the `m_FindCarrier` procedure to search for a carrier.
 
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `cxGrid`, `cxEditRepository`: Para componentes visuais.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para o frame.
+### Data Input:
+- Users must provide carrier details such as "Code" and "Name" when adding or editing a carrier.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos no Formulário:**
-  - `code` (string): Não definido como obrigatório no código.
-  - `name` (string): Não definido como obrigatório no código.
+### Actions and Preconditions:
+1. **Add Carrier**:
+   - Preconditions: None.
+   - Action: Adds a new carrier to the grid.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `code` → Coluna `code`.
-  - `name` → Coluna `name`.
+2. **Delete Carrier**:
+   - Preconditions: A carrier must be selected in the grid.
+   - Action: Deletes the selected carrier.
 
----
+3. **Search Carrier**:
+   - Preconditions: None.
+   - Action: Searches for a carrier by code or other criteria.
 
-## 10. Exemplos e Diagramas:
+### Available Filters:
+- No explicit filters are defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  procedure TFRAMEwarehouseCarrier.m_FindCarrier(Sender: TObject; AButtonIndex: Integer);
-  begin
-    // Implementação da busca de transportadora
-  end;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width: 100%; border: 1px solid black;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid black;">Código</th>
-        <th style="border: 1px solid black;">Nome</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border: 1px solid black;">001</td>
-        <td style="border: 1px solid black;">Transportadora A</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid black;">002</td>
-        <td style="border: 1px solid black;">Transportadora B</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- **Code**: Must be unique and searchable.
+- **Name**: Editable but no specific validation is defined.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração de propriedades do frame:
-  ```pascal
-  MasterKeyFields := 'warehouseCode';
-  DataPacketName := 'Carrier';
-  PropertyName := 'carriers';
-  FrameType := frtDetail;
-  ```
+1. **`Create` Constructor**:
+   - Initializes the frame with default settings (e.g., hidden fields, key fields, and available actions).
 
-* Configuração de campos ocultos:
-  ```pascal
-  HiddenFields.Add('warehouseCode');
-  HiddenFields.Add('updBy');
-  HiddenFields.Add('lastUpd');
-  ```
+2. **`m_FindCarrier`**:
+   - Handles the search functionality for carriers.
 
----
+3. **`m_SetOnSetAccessMode`**:
+   - Configures the grid's column widths and access mode.
 
-## 12. Conclusão:
+4. **`ACTaddExecute`**:
+   - Adds a new carrier to the grid.
 
-O código implementa um frame para gerenciar transportadoras associadas a um armazém, com funcionalidades básicas de adição, exclusão e busca. Ele é bem estruturado e utiliza componentes visuais avançados, mas carece de validações explícitas e mensagens de erro. Sua integração com serviços SOAP é um ponto forte.
+5. **`cxDBVtableEditValueChanged`**:
+   - Handles changes in grid cell values.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O código implementa um frame para gerenciar transportadoras de armazéns, permitindo adicionar, excluir e buscar transportadoras. Ele utiliza componentes visuais avançados e integra-se a serviços SOAP para manipulação de dados.#### **FRwarehouseCarrier.pas**
+- **Service Name**: `CarrierServiceUtils`.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Carrier details (e.g., `Code`, `Name`).
+- **Data Received**: Carrier data or confirmation of the operation.
+- **Purpose**: To interact with carrier-related data.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**: For grid and UI functionalities.
+2. **SOAP Services**: For interacting with external services.
+
+### Custom Components:
+1. **`TFRAMEBaseGridEditSOA`**: Base class for the frame.
+2. **`TCarrierServiceUtils`**: Utility class for carrier-related operations.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Code**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Must be unique.
+   - Constraints: Not explicitly defined in the code.
+
+2. **Name**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: None explicitly defined.
+
+3. **Warehouse Code**:
+   - Type: String.
+   - Required: No.
+   - Hidden: Yes.
+
+4. **Updated By**:
+   - Type: String.
+   - Required: No.
+   - Hidden: Yes.
+
+5. **Last Updated**:
+   - Type: DateTime.
+   - Required: No.
+   - Hidden: Yes.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Load Grid Data] --> [User Interaction]
+    --> [Add Carrier] --> [Save to Database]
+    --> [Delete Carrier] --> [Remove from Database]
+    --> [Search Carrier] --> [Display Results]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: Click Add/Delete/Search
+Frame --> Database: Perform Add/Delete/Search
+Database --> Frame: Return Results
+Frame --> User: Display Updated Grid
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEwarehouseCarrier.ACTaddExecute(Sender: TObject);
+begin
+  // Add carrier logic here
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+1. **Initialization**:
+   - The `Create` constructor sets up the frame with default settings.
+2. **Hidden Fields**:
+   - Certain fields (e.g., `warehouseCode`, `updBy`, `lastUpd`) are hidden from the grid.
+
+---
+
+## 12. Conclusion:
+
+The `FRwarehouseCarrier` code unit provides a robust framework for managing warehouse carriers. It leverages DevExpress components for an advanced grid interface and integrates with SOAP services for backend operations. However, the code lacks explicit error handling and validation, which could be improved for better reliability.
+
+---
+
+## 13. Short Summary:
+
+The `FRwarehouseCarrier` unit implements a grid-based interface for managing warehouse carriers, supporting add, delete, and search functionalities. It integrates with SOAP services and uses DevExpress components for UI. The code is functional but lacks explicit error handling and validation.#### **FRwarehouseCarrier.pas**
 
 ```
 unit FRwarehouseCarrier;

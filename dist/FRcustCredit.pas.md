@@ -2,144 +2,223 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustCredit` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário para gerenciar informações de crédito de clientes, como status de crédito, dias fixos de pagamento, limites de crédito, e outras informações relacionadas. Ele permite que os usuários visualizem e editem dados de crédito de clientes de forma estruturada e eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do formulário e lógica de negócios.
-  - Componentes visuais como `TDBCheckBox`, `TDBEdit`, `TDBText` para interação com o usuário.
-  - Integração com serviços SOAP para manipulação de dados remotos.
+### Objective and Problem Solved:
+The `FRcustCredit` code unit defines a user interface frame (`TFRAMEcustCredit`) for managing customer credit information. It provides a structured form for users to view and edit customer credit details, such as credit status, fixed payment days, credit limits, and other related financial data. The frame is designed to integrate with a database and display/edit data dynamically.
 
-* **Tipo de Formulário:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - `TDBCheckBox`: Checkbox para opções booleanas (ex.: "Check Credit", "Check Real Date").
-      - `TDBEdit`: Campos de entrada de texto vinculados a dados (ex.: "credStat", "fixDay1").
-      - `TDBText`: Texto exibido diretamente de uma fonte de dados.
-      - `TLabel`: Rótulos para descrever os campos.
-    - **Ações do Formulário e seus Efeitos:**
-      - Alteração de valores nos campos atualiza os dados vinculados no banco de dados.
-      - Checkbox altera valores booleanos no banco de dados.
+This frame is particularly useful in financial or customer management systems where credit-related data needs to be monitored and updated efficiently.
 
-## 2. Descrição da Funcionalidade:
+### Technologies Used:
+- **Delphi VCL (Visual Component Library):** Used for creating the user interface components.
+- **SOAP (Simple Object Access Protocol):** Used for service communication via `SOAPHTTPClient`.
+- **Database Components:** Includes `TDBCheckBox`, `TDBEdit`, and `TDBText` for binding UI elements to database fields.
+- **Custom Components:** Inherits from `TFRAMEBaseCtrlEditSOA` and uses `kneFREditSOA` and `kneFRCtrlEditSOA` for extended functionality.
 
-* **Ações Específicas:**
-  - Permitir que o usuário visualize e edite informações de crédito de clientes.
-  - Atualizar automaticamente os dados no banco de dados ao modificar os campos.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types:**
+  - `TDBCheckBox`: Checkboxes for boolean fields (e.g., "Check Credit", "Check Real Date").
+  - `TDBEdit`: Editable text fields for numeric or string data (e.g., "Credit Status", "Fixed Payment Days").
+  - `TDBText`: Read-only text fields for displaying data (e.g., "Last Updated By").
+  - `TLabel`: Static text labels for field descriptions.
+  - `TPanel`: Containers for organizing UI elements.
+  - `TGroupBox`: Grouping related fields visually.
+- **Form Actions and Effects:**
+  - Users can toggle checkboxes to update boolean fields in the database.
+  - Users can input or edit numeric/text data in `TDBEdit` fields.
+  - Data is dynamically bound to a database, and changes are reflected in real-time.
 
-* **Componentes Principais:**
-  - Painéis (`TPanel`) para organizar visualmente os elementos.
-  - Campos de entrada (`TDBEdit`) para edição de dados.
-  - Checkboxes (`TDBCheckBox`) para opções booleanas.
-  - Rótulos (`TLabel`) para descrever os campos.
+---
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um checkbox: `se checkbox clicado então alterar valor booleano no banco de dados`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar e atualizar banco de dados`.
+## 2. Functionality Description:
 
-## 3. Lógica Operacional:
+### User/Software Actions:
+- View and edit customer credit details.
+- Toggle checkboxes to enable/disable specific credit-related options.
+- Input or modify fixed payment days and credit limits.
+- View read-only information such as the last updated user and timestamp.
 
-* **Fluxo de Execução:**
-  - Inicialização do formulário (`Create`): Configura propriedades como largura, altura, e visibilidade de painéis.
-  - Interação do usuário: Modificação de campos ou checkboxes dispara eventos que atualizam os dados no banco de dados.
+### Main Components:
+- **Panels (`TPanel`):** Organize the layout into sections (e.g., credit details, currency details).
+- **Checkboxes (`TDBCheckBox`):** Allow toggling of boolean fields.
+- **Editable Fields (`TDBEdit`):** Enable input of numeric or text data.
+- **Read-Only Fields (`TDBText`):** Display non-editable information.
+- **Labels (`TLabel`):** Provide descriptions for fields.
 
-* **Dados Necessários:**
-  - Informações de crédito do cliente, como status de crédito, dias fixos de pagamento, limites de crédito, etc.
+### Pseudo-Code for Actions and Events:
+- `OnClick` event of a checkbox: `if checkbox clicked then update database field`.
+- `OnChange` event of an edit field: `if field value changed then validate and update database field`.
 
-## 4. Regras de Negócio:
+---
 
-* **Ações e Pré-condições:**
-  - Checkbox "Check Credit" só deve ser marcado se o cliente tiver crédito disponível.
-  - Campos de dias fixos de pagamento devem aceitar apenas números válidos.
+## 3. Operational Logic:
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+### Execution Flow:
+1. **Initialization:**
+   - The frame is created with default dimensions (`Width = 707`, `Height = 287`).
+   - Database bindings (`MasterSource`, `MasterKeyFields`) and service properties (`ProviderService`) are configured.
+   - Action panel visibility and available actions are set.
 
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um campo contiver dados fora do formato esperado.
+2. **User Interaction:**
+   - Users interact with checkboxes, edit fields, and view read-only data.
+   - Changes are automatically reflected in the database via data bindings.
 
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explicitamente definidos no código.
-
-* **Validação de Campos e Condições:**
-  - Campos de dias fixos de pagamento devem aceitar apenas números.
-  - Checkbox deve aceitar apenas valores booleanos.
-
-## 5. Funções Principais:
-
-* **Funções:**
-  - `Create`: Inicializa o formulário e configura propriedades como largura, altura, e visibilidade de painéis.
-  - `ProviderService`: Configura o serviço de dados para manipulação de informações de crédito.
-
-## 6. Consumo de Serviços de API:
-
-* **Chamadas a Serviços Externos:**
-  - Serviço: `CustomerServiceUtils`.
-  - Propósito: Manipular dados de crédito de clientes.
-  - Dados enviados e recebidos não estão explicitamente definidos no código.
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explicitamente definidos no código.
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneFREditSOA`, `kneFRCtrlEditSOA`: Componentes personalizados para edição de dados.
-
-* **Componentes Personalizados:**
-  - `TCustomerServiceUtils`: Utilitário para manipulação de dados de clientes.
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `checkCredit` (tipo: booleano, obrigatório).
-  - `credStat` (tipo: string, obrigatório).
-  - `fixDay1` a `fixDay5` (tipo: inteiro, obrigatório).
-  - `realDate` (tipo: booleano, obrigatório).
-  - `vatNcr` (tipo: booleano, obrigatório).
-  - `factVenc` (tipo: booleano, obrigatório).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Cada campo está vinculado a uma coluna específica no banco de dados (ex.: `checkCredit` → coluna `checkCredit`).
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
+### Functions:
+- **Constructor `Create` (File: `FRcustCredit.pas`):**
   ```pascal
-  FRAMEcustCredit := TFRAMEcustCredit.Create(Self);
-  FRAMEcustCredit.Show;
+  constructor TFRAMEcustCredit.Create(AOwner: TComponent);
+  begin
+    inherited;
+    Width := 707;
+    Height := 287;
+    MasterSource := nil;
+    MasterKeyFields := '';
+    DataPacketName := 'CustomerCredit';
+    PropertyName := '';
+    ShowActionPanel := False;
+    AvailableActions := '';
+    ProviderService := TCustomerServiceUtils.Create(self);
+  end;
   ```
-* **Captura de Tela (HTML Renderizado):**
-  ```html
-  <div style="width: 708px; height: 255px; border: 1px solid black;">
-    <div style="width: 708px; height: 63px; border-bottom: 1px solid black;">
-      <label style="position: absolute; left: 128px; top: 8px;">Credit Stat</label>
-      <label style="position: absolute; left: 22px; top: 36px;">Fixed Payment Days</label>
-      <input type="checkbox" style="position: absolute; left: 4px; top: 8px;" />
-      <input type="text" style="position: absolute; left: 200px; top: 4px; width: 49px;" />
-    </div>
+
+### Required Data:
+- Users must provide or edit the following:
+  - Credit status.
+  - Fixed payment days.
+  - Credit limits (in EUR and other currencies).
+  - Boolean options (e.g., "Check Credit", "VAT on Credits").
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Checkboxes:** Require a valid database connection to update fields.
+- **Editable Fields:** Require valid input (e.g., numeric values for credit limits).
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- Not explicitly defined in the code.
+
+### Default Field Values:
+- Not explicitly defined in the code.
+
+### Field Validation and Conditions:
+- Not explicitly defined in the code. Assumptions about validation (e.g., numeric ranges, required fields) are not provided.
+
+---
+
+## 5. Main Functions:
+
+- **`Create` Constructor:** Initializes the frame, sets dimensions, and configures properties.
+- **Database Bindings:** Automatically updates database fields when users interact with the form.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name:** `CustomerServiceUtils`.
+- **Purpose:** Provides backend service integration for customer credit data.
+- **Error Handling:** Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient:** For SOAP-based service communication.
+- **DB Components:** For database integration.
+
+### Custom Components:
+- **`TFRAMEBaseCtrlEditSOA`:** Base class for the frame, providing extended functionality.
+- **`TCustomerServiceUtils`:** Custom service utility for handling customer-related operations.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- **Check Credit (`CHKcheckCredit`):** Boolean, required.
+- **Credit Status (`EDTcredStat`):** String, required.
+- **Fixed Payment Days (`EDTfixDay1` to `EDTfixDay5`):** Numeric, optional.
+- **Credit Limits (`EDTcredLmt`, `EDTcredLmtEur`):** Numeric, required.
+- **Last Updated By (`DBTXTuser`):** Read-only.
+
+### Mapping:
+- Displayed values are directly bound to database columns via `DataField` properties.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Initialize Frame] --> [Load Data from Database] --> [User Interaction] --> [Update Database]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: Input Data
+Frame --> Database: Update Fields
+Database --> Frame: Reflect Changes
+```
+
+### Code Snippets:
+```pascal
+CHKcheckCredit.DataField := 'checkCredit';
+EDTcredStat.DataField := 'credStat';
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 708px; height: 255px; border: 1px solid black;">
+  <div style="height: 63px; border-bottom: 1px solid gray;">
+    <label style="position: absolute; left: 128px; top: 8px;">Credit Stat</label>
+    <input type="checkbox" style="position: absolute; left: 4px; top: 8px;" />
+    <input type="text" style="position: absolute; left: 200px; top: 4px;" />
   </div>
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Frame Initialization:**
+  ```pascal
+  // SET DAS PROPRIEDADES DA FRAME
+  MasterSource := nil;
+  MasterKeyFields := '';
   ```
 
-## 11. Comentários Importantes no Código:
+- **Service Configuration:**
+  ```pascal
+  ProviderService := TCustomerServiceUtils.Create(self);
+  ```
 
-* Configuração inicial do formulário no construtor `Create`.
-* Configuração do serviço de dados com `ProviderService`.
+---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código implementa um formulário funcional para gerenciar informações de crédito de clientes. Ele é bem estruturado e utiliza componentes visuais e serviços SOAP para manipulação de dados. No entanto, faltam validações explícitas e mensagens de erro detalhadas.
+The `FRcustCredit` code unit provides a robust and dynamic interface for managing customer credit data. While it integrates well with databases and services, the lack of explicit error handling and field validation may require additional implementation for production use.
 
-## 13. Resumo Curto:
+---
 
-Formulário Delphi para gerenciar informações de crédito de clientes, com integração SOAP e componentes visuais para edição e visualização de dados.#### **FRcustCredit.pas**
+## 13. Short Summary:
+
+The `FRcustCredit` frame manages customer credit data, offering a user-friendly interface for viewing and editing credit-related fields. It integrates with databases and backend services, ensuring real-time updates and efficient data handling.#### **FRcustCredit.pas**
 
 ```
 unit FRcustCredit;

@@ -2,205 +2,226 @@
 
 #### **Documentation**
 
-# Documentação do Código `FRcustLists`
+# Documentation for `FRcustLists` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-### Objetivo Principal:
-O objetivo principal do código `FRcustLists` é criar uma interface de formulário para gerenciar listas de clientes (Customer Lists). Ele permite que os usuários visualizem, editem e configurem informações relacionadas a listas de clientes, como código da lista, referência, observações, mercado e unidade de negócios. Este formulário é parte de um sistema maior que utiliza serviços SOAP para manipular dados relacionados a listas de clientes.
+### Objective and Problem Solved:
+The `FRcustLists` code unit defines a Delphi frame (`TFRAMEcustLists`) that provides a user interface for managing customer lists. It includes form elements for entering and displaying customer-related data such as market, reference, remarks, customer list code, and business unit. The frame integrates with data sources and services to handle data operations, ensuring a seamless user experience for managing customer lists.
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação utilizada para criar a interface e lógica do formulário.
-- **Componentes Visuais**: `TsLabel`, `TsDBEdit`, `TFRAMEstatusInfo`, `TFRAMEFindEditSOA`, `TFRAMEBusUnit`.
-- **Serviços SOAP**: Utilizados para comunicação com serviços externos, como `CustomerListServiceUtils` e `CustomerMarketServiceUtils`.
-- **Banco de Dados**: Conexão com banco de dados via `DataSource` e `DataSet`.
+### Technologies Used:
+- **Delphi Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services (`CustomerListServiceUtils` and `CustomerMarketServiceUtils`).
+- **Database Components**: For binding UI elements to data sources.
+- **Custom Components**: Includes `TFRAMEstatusInfo`, `TFRAMEFindEditSOA`, and `TFRAMEBusUnit`.
 
-### Tipo de Formulário:
-Este é um **formulário** com os seguintes elementos:
-- **Elementos do Formulário**:
-  - `EDTcustListCd` (Código da Lista de Clientes - Campo de texto).
-  - `EDTreference` (Referência - Campo de texto).
-  - `EDTremarks` (Observações - Campo de texto).
-  - `FRAMEFindMarket` (Mercado - Campo de busca).
-  - `FRAMEBusUnit1` (Unidade de Negócios - Campo de seleção).
-- **Ações do Formulário**:
-  - Inicialização de dados.
-  - Configuração de mercado.
-  - Bloqueio de edição de campos em determinados estados.
-
----
-
-## 2. Descrição da Funcionalidade:
-
-### Ações Disponíveis:
-- Inicializar os dados do formulário.
-- Configurar o mercado associado à lista de clientes.
-- Bloquear ou permitir a edição de campos com base no estado do formulário.
-
-### Componentes Principais:
-- **`TFRAMEstatusInfo`**: Exibe informações de status relacionadas ao formulário.
-- **`TFRAMEFindEditSOA`**: Permite buscar e selecionar mercados.
-- **`TFRAMEBusUnit`**: Gerencia a seleção de unidades de negócios.
-- **`EDTcustListCd`, `EDTreference`, `EDTremarks`**: Campos de entrada de texto para informações específicas.
-
-### Pseudo-código:
-- Evento `OnClick` de um botão: `se botão clicado então executar função`.
-- Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
-- Inicialização de dados: `ao inicializar o formulário, configurar fontes de dados e propriedades`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTreference` (Text Input - Database-bound)
+  - `EDTremarks` (Text Input - Database-bound)
+  - `EDTcustListCd` (Text Input - Database-bound, read-only in certain conditions)
+  - `FRAMEFindMarket` (Custom Component for market selection)
+  - `FRAMEBusUnit1` (Custom Component for business unit selection)
+- **Form Actions and Effects**:
+  - Data initialization and binding to the frame.
+  - Market selection triggers specific events.
+  - Business unit selection is pre-configured with default values.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-### Fluxo de Execução:
-1. **Inicialização**:
-   - O formulário é criado e inicializado no construtor `Create`.
-   - Propriedades como `MasterSource`, `DataPacketName` e `ProviderService` são configuradas.
-   - Componentes como `FRAMEstatusInfo1` e `FRAMEBusUnit1` são associados a fontes de dados.
+### User/Software Actions:
+- Users can input or view customer list details such as market, reference, remarks, and business unit.
+- The frame initializes data and binds it to the UI components.
+- Market selection triggers a custom event (`OnChangeMkt`).
 
-2. **Interações do Usuário**:
-   - O usuário pode preencher os campos de texto ou selecionar valores nos componentes de busca e seleção.
-   - Alterações nos campos podem disparar eventos para validação ou atualização de dados.
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names.
+- **Database-bound Text Inputs (`TsDBEdit`)**: Allow users to input or view data.
+- **Custom Components**:
+  - `TFRAMEFindEditSOA`: Handles market selection.
+  - `TFRAMEBusUnit`: Manages business unit selection and default values.
+  - `TFRAMEstatusInfo`: Displays status information.
 
-### Dados Necessários:
-- Código da Lista de Clientes.
-- Referência.
-- Observações.
-- Mercado.
-- Unidade de Negócios.
-
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Bloqueio de Edição**: O campo `EDTcustListCd` é bloqueado para edição em determinados estados (ex.: ao criar uma nova lista).
-- **Configuração de Mercado**: O mercado é configurado automaticamente ao inicializar o formulário.
-
-### Filtros Disponíveis:
-- Não há filtros explícitos definidos no código.
-
-### Mensagens de Erro:
-- Não há mensagens de erro explícitas definidas no código.
-
-### Valores Padrão dos Campos:
-- Não há valores padrão explícitos definidos no código.
-
-### Validações e Condições dos Campos:
-- Não há validações explícitas definidas no código.
+### Pseudo-code for Actions and Events:
+- **OnClick Event of Buttons**: Not explicitly defined in the code.
+- **OnChange Event of Market Field**:
+  ```pseudo
+  if market field value changes then
+    trigger OnChangeMkt event
+  ```
+- **Initialization**:
+  ```pseudo
+  on frame creation:
+    set data source and bind to UI components
+    configure default values for business unit
+    initialize data
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-### Funções e Lógica:
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created, and its properties are set (e.g., `MasterSource`, `DataPacketName`).
+   - Data sources are assigned to UI components.
+   - Default values for the business unit are configured.
+   - The `m_InitializeData` method is assigned to the `OnInitializeData` event.
+2. **User Interaction**:
+   - Users input data into the form fields.
+   - Market selection triggers the `OnChangeMkt` event.
+3. **Functions**:
+   - `Create` (File: `FRcustLists.pas`): Initializes the frame and its components.
+   - `SetKeyEditing` (File: `FRcustLists.pas`): Configures the state of the `EDTcustListCd` field.
+   - `m_SetFindMarket` (File: `FRcustLists.pas`): Configures the market selection component.
+
+### Required Data:
+- Market, reference, remarks, customer list code, and business unit.
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Market Selection**:
+  - Preconditions: None explicitly defined.
+  - Action: Triggers the `OnChangeMkt` event.
+- **Customer List Code Field**:
+  - Read-only when creating a new record.
+
+### Available Filters:
+- Market selection via `FRAMEFindMarket`.
+
+### Error Messages:
+- Not explicitly defined in the code.
+
+### Default Field Values:
+- Business Unit: Default value is set to `gv_DefaultBusUnit`.
+
+### Field Validation and Conditions:
+- `EDTcustListCd`: Read-only in certain conditions.
+- Other field validations are not explicitly defined in the code.
+
+---
+
+## 5. Main Functions:
+
+### Functions:
 1. **`Create`**:
-   - Inicializa o formulário e configura propriedades e componentes.
+   - Initializes the frame and its components.
+   - Configures data sources and default values.
 2. **`SetKeyEditing`**:
-   - Bloqueia a edição de campos específicos.
+   - Configures the state of the `EDTcustListCd` field.
 3. **`m_SetFindMarket`**:
-   - Configura o componente de busca de mercado.
+   - Configures the market selection component.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 6. API Service Consumption:
 
-### Chamadas a Serviços Externos:
-- **Serviço**: `CustomerListServiceUtils`.
-  - **Endpoint**: Não especificado no código.
-  - **Dados Enviados**: Não especificado no código.
-  - **Dados Recebidos**: Não especificado no código.
-  - **Propósito**: Gerenciar listas de clientes.
-- **Serviço**: `CustomerMarketServiceUtils`.
-  - **Endpoint**: Não especificado no código.
-  - **Dados Enviados**: Não especificado no código.
-  - **Dados Recebidos**: Não especificado no código.
-  - **Propósito**: Gerenciar mercados associados.
+### External Service Calls:
+1. **Service Name**: `CustomerListServiceUtils`
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Provides data for customer lists.
+2. **Service Name**: `CustomerMarketServiceUtils`
+   - **Endpoint**: Not explicitly defined.
+   - **Purpose**: Provides data for market selection.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 7. Conditional Fields (Form Logic):
 
-- Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-### Bibliotecas Externas:
-- `kneFRCtrlEditSOA`, `kneFRFindEditSOA`, `kneFRStatusInfo`, `kneFRBusUnit`: Componentes personalizados para gerenciamento de formulários e dados.
-
-### Componentes Personalizados:
-- `TFRAMEstatusInfo`, `TFRAMEFindEditSOA`, `TFRAMEBusUnit`.
+- **Market Field**:
+  - Appears as part of the form and triggers the `OnChangeMkt` event when its value changes.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 8. Dependencies:
 
-### Campos:
-- **`EDTcustListCd`**: Tipo: string, obrigatório, sem validações explícitas.
-- **`EDTreference`**: Tipo: string, opcional, sem validações explícitas.
-- **`EDTremarks`**: Tipo: string, opcional, sem validações explícitas.
-- **`FRAMEFindMarket`**: Tipo: busca, obrigatório, sem validações explícitas.
-- **`FRAMEBusUnit1`**: Tipo: seleção, obrigatório, sem validações explícitas.
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP service communication.
+- **DB and DBClient**: For database operations.
 
-### Mapeamento:
-- Não especificado no código.
+### Custom Components:
+- `TFRAMEstatusInfo`
+- `TFRAMEFindEditSOA`
+- `TFRAMEBusUnit`
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 9. Fields and Validations Listing:
 
-### Fluxograma:
-Não aplicável.
+### Fields:
+1. **Reference**:
+   - Type: String
+   - Required: Not explicitly defined.
+2. **Remarks**:
+   - Type: String
+   - Required: Not explicitly defined.
+3. **Customer List Code**:
+   - Type: String
+   - Read-only in certain conditions.
+4. **Market**:
+   - Type: Custom Component (`TFRAMEFindEditSOA`).
+5. **Business Unit**:
+   - Type: Custom Component (`TFRAMEBusUnit`).
 
-### Diagrama de Sequência:
-Não aplicável.
+### Mapping:
+- Not explicitly defined in the code.
 
-### Exemplos de Código:
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
 ```delphi
-// Inicialização do formulário
-FRAMEcustLists := TFRAMEcustLists.Create(Self);
-FRAMEcustLists.Show;
+procedure TFRAMEcustLists.SetKeyEditing(const EditKey: Boolean);
+begin
+  inherited;
+  TkneControls.SetControlState(EDTcustListCd, False);
+  FMktValue := FRAMEFindMarket.Text;
+end;
 ```
 
-### Representação HTML:
-```html
-<div style="font-family: Verdana;">
-  <label for="custListCd">Cust List Cd:</label>
-  <input type="text" id="custListCd" disabled>
-  <label for="reference">Reference:</label>
-  <input type="text" id="reference">
-  <label for="remarks">Remarks:</label>
-  <input type="text" id="remarks">
-  <label for="market">Market:</label>
-  <input type="text" id="market">
-  <label for="busUnit">Business Unit:</label>
-  <select id="busUnit">
-    <option>Unit 1</option>
-    <option>Unit 2</option>
-  </select>
-</div>
-```
+### Screenshots:
+Not applicable.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-- Configuração de propriedades no construtor `Create`.
-- Bloqueio de edição no método `SetKeyEditing`.
+- **Initialization**:
+  ```delphi
+  // SET DAS PROPRIEDADES DA FRAME
+  MasterSource := nil;
+  MasterKeyFields := '';
+  DataPacketName := 'CustomerList';
+  ```
+- **Market Configuration**:
+  ```delphi
+  procedure TFRAMEcustLists.m_SetFindMarket;
+  ```
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código `FRcustLists` é um formulário bem estruturado para gerenciar listas de clientes, com integração a serviços SOAP e componentes personalizados. No entanto, faltam validações explícitas, mensagens de erro e valores padrão para os campos, o que pode limitar sua robustez.
+The `FRcustLists` code unit provides a robust framework for managing customer lists, integrating database-bound fields and custom components. While it effectively handles data initialization and user interaction, the lack of explicit error handling and field validation may limit its robustness.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-O código `FRcustLists` implementa um formulário para gerenciar listas de clientes, integrando serviços SOAP e componentes personalizados. Ele permite configurar mercados, unidades de negócios e informações básicas da lista, mas carece de validações e mensagens de erro explícitas.#### **FRcustLists.pas**
+The `FRcustLists` unit defines a Delphi frame for managing customer lists, integrating database-bound fields, custom components, and SOAP services for seamless data handling and user interaction.#### **FRcustLists.pas**
 
 ```
 unit FRcustLists;

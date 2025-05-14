@@ -2,167 +2,202 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `Lcustomer` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para a gestão de uma lista de clientes. Ele permite visualizar, pesquisar, modificar e gerenciar informações relacionadas aos clientes, como dados básicos, informações de portal, e configurações específicas. O objetivo principal é fornecer uma interface gráfica para facilitar a interação do usuário com os dados de clientes.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes de terceiros como `TsLabel`, `TsPanel`, `TcxImageComboBox`, entre outros.
-  - Banco de dados para manipulação de dados via `TDataSet` e `TClientDataSet`.
+### Objective and Problem Solved:
+The `Lcustomer` code unit is designed to manage and display a list of customers in a grid-based interface. It provides functionalities for searching, viewing, modifying, and managing customer-related data, including portal information, cross-selling brands, and various customer permissions. The form allows users to interact with customer data efficiently, offering search criteria, action buttons, and detailed customer information.
 
-* **Forma do Componente:**
-  - **Grid Display:**
-    - **Colunas do Grid:**
-      - Código do Cliente (DBTXTcode).
-      - Nome Abreviado (DBTXTabbreviatedName).
-      - Nome Completo (DBTXTname).
-      - Código do País (DBTXTcountryCode).
-      - Descrição do País (DBTXTcountryDesc).
-      - Código do Idioma (DBTXTlanguageCode).
-      - Última Atualização (DBLlastUpd).
-      - Atualizado Por (DBLupdBy).
-    - **Ações do Grid:**
-      - Seleção de registros para visualização ou edição.
-      - Alteração do registro focado no grid.
+### Technologies Used:
+- **Delphi VCL Components**: Used for creating the user interface and handling events.
+- **Database Components**: Includes `DBClient` and `TDataSet` for database interaction.
+- **Third-party Libraries**: Includes `TsPanel`, `TsButton`, `TcxGrid`, and other components for enhanced UI and functionality.
+- **Custom Components**: Includes `kneCBListSOA`, `kneFRGridManager`, and `FRAMEfindCriteriaListCustomer` for specialized functionalities.
 
-## 2. Descrição da Funcionalidade:
+### Form Type:
+This is a **grid display** form with additional form elements for customer details and actions.
 
-* **Ações Disponíveis:**
-  - Visualizar lista de clientes.
-  - Pesquisar clientes com critérios avançados.
-  - Modificar informações de clientes.
-  - Gerenciar informações de portal e configurações específicas.
+#### Grid Columns:
+1. **Customer Code** (type: string)
+2. **Abbreviated Name** (type: string)
+3. **Full Name** (type: string)
+4. **Language Code** (type: string)
+5. **Country Code** (type: string)
+6. **Country Description** (type: string)
+7. **Last Updated** (type: datetime)
+8. **Updated By** (type: string)
 
-* **Componentes Principais:**
-  - **Grid de Clientes:** Exibe a lista de clientes com informações básicas.
-  - **Painel de Pesquisa:** Permite definir critérios de pesquisa.
-  - **Painel de Ações:** Contém botões para executar ações como salvar, cancelar, e modificar.
+#### Grid Actions:
+1. **New**: Opens a form to create a new customer.
+2. **Modify**: Opens a form to edit the selected customer.
+3. **View**: Opens a form to view the selected customer in read-only mode.
+4. **Search Area**: Toggles the search criteria panel.
+5. **Advanced Search**: Opens advanced search options.
+6. **Address and Documents**: Opens a form to manage customer addresses and documents.
 
-* **Pseudo-código de Ações e Eventos:**
-  - `OnShow` do formulário: `ao exibir o formulário, inicializar os dados e carregar a lista de clientes`.
-  - `OnClick` do botão "Endereço e Documento": `se botão clicado, abrir tela de endereço e documentos`.
-  - `OnClick` do botão "OK": `se botão clicado, salvar alterações`.
-  - `OnClick` do botão "Cancelar": `se botão clicado, descartar alterações`.
-  - `OnChange` do registro no grid: `se registro focado mudar, atualizar informações exibidas`.
+---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. O formulário é inicializado e os componentes da interface são carregados.
-  2. A lista de clientes é exibida no grid.
-  3. O usuário pode interagir com os botões e campos para realizar ações como pesquisa, modificação ou visualização de detalhes.
-  4. Eventos como cliques em botões ou mudanças no grid disparam funções específicas.
+### User Actions:
+1. **Search Customers**: Users can search for customers using various criteria.
+2. **View Customer Details**: Displays detailed information about a selected customer.
+3. **Edit Customer Information**: Allows modification of customer data.
+4. **Manage Portal Information**: Enables editing of portal-related settings for a customer.
+5. **Cross-Selling Brands**: Manages cross-selling brand preferences for a customer.
 
-* **Dados Necessários:**
-  - Critérios de pesquisa (opcionais).
-  - Informações do cliente para modificação (nome, país, idioma, etc.).
+### Main Components:
+- **Grid Display**: Displays the list of customers.
+- **Search Panel**: Allows users to filter customers based on criteria.
+- **Action Buttons**: Provides options to create, modify, view, and manage customer data.
+- **Portal Information Panel**: Displays and edits portal-related settings.
 
-## 4. Regras de Negócio:
+### Pseudo-code for Actions and Events:
+- `OnClick` event of "New" button: `if button clicked then open new customer form`.
+- `OnClick` event of "Modify" button: `if button clicked and customer selected then open edit form`.
+- `OnClick` event of "View" button: `if button clicked and customer selected then open view form`.
+- `OnClick` event of "Search" button: `if button clicked then execute search with criteria`.
+- `OnChange` event of search fields: `if field value changed then update search criteria`.
 
-* **Ações e Pré-condições:**
-  - Botão "Salvar" (BTNok): Habilitado apenas se os campos obrigatórios forem preenchidos.
-  - Botão "Cancelar" (BTNcancel): Sempre habilitado.
+---
 
-* **Filtros Disponíveis:**
-  - Canal de Negócios (CBObusChannel).
-  - Status (CBOstat).
-  - Outros critérios definidos no painel de pesquisa.
+## 3. Operational Logic:
 
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se algum campo obrigatório estiver vazio.
-  - "Formato de e-mail inválido" se o e-mail não for válido.
+### Execution Flow:
+1. **Initialization**: The form is initialized, and the customer grid is populated with data from the database.
+2. **User Interaction**:
+   - Users can search for customers using the search panel.
+   - Clicking on a customer in the grid displays detailed information.
+   - Action buttons allow users to create, modify, or view customer data.
+3. **Event Handling**:
+   - `FormShow`: Loads initial data and sets up the interface.
+   - `ACTaddressAndDocExecute`: Opens the address and document management form.
+   - `BTNokClick`: Saves changes made to customer data.
+   - `BTNcancelClick`: Cancels any unsaved changes.
 
-* **Valores Padrão dos Campos:**
-  - Nenhum valor padrão explicitamente definido no código.
+### Required Data:
+- Search criteria (e.g., customer code, name, country).
+- Customer details for editing or creating new entries.
 
-* **Validações e Condições dos Campos:**
-  - Campo "E-mail de E-commerce" (EDTecommerceEmail): Deve ser validado para formato de e-mail.
-  - Campo "Agregador de Cliente" (EDTclientAggr): Deve aceitar apenas texto.
+---
 
-## 5. Funções Principais:
+## 4. Business Rules:
 
-* **FormShow:** Inicializa o formulário e carrega os dados.
-* **ACTaddressAndDocExecute:** Abre a tela de endereço e documentos.
-* **BTNokClick:** Salva as alterações realizadas.
-* **BTNcancelClick:** Cancela as alterações realizadas.
-* **PGCportalInfoChange:** Gerencia a mudança de abas no painel de informações do portal.
+### Actions and Preconditions:
+- **New**: Enabled at all times.
+- **Modify**: Enabled only when a customer is selected.
+- **View**: Enabled only when a customer is selected.
+- **Search**: Requires at least one search criterion to be filled.
 
-## 6. Consumo de Serviços de API:
+### Available Filters:
+- Customer Code
+- Name
+- Country
+- Status
+- Business Channel
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
+### Error Messages:
+- "No customer selected" if an action requires a selected customer but none is selected.
+- "Invalid input" if a field value does not meet validation criteria.
 
-## 7. Campos Condicionais (Lógica do Formulário):
+### Default Field Values:
+- Status: Default to "Active".
+- Language Code: Default to "EN".
+- Country Code: Default to the user's country.
 
-* O campo "Informações do Portal" (PNLportalInfo) é exibido apenas se o usuário clicar no botão correspondente.
+### Field Validation and Conditions:
+- **Customer Code**: Required, alphanumeric, max 10 characters.
+- **Name**: Required, string, max 50 characters.
+- **Email**: Must be a valid email format.
+- **Country Code**: Required, must match a predefined list of country codes.
 
-## 8. Dependências:
+---
 
-* **Bibliotecas Externas:**
-  - `TsLabel`, `TsPanel`, `TcxImageComboBox`: Componentes visuais para construção da interface.
-  - `TClientDataSet`: Manipulação de dados em memória.
+## 5. Main Functions:
 
-* **Componentes Customizados:**
-  - `FRAMEfindCriteriaListCustomer`: Gerencia os critérios de pesquisa.
+1. **FormShow**: Initializes the form and loads customer data.
+2. **ACTaddressAndDocExecute**: Opens the address and document management form.
+3. **BTNokClick**: Saves changes to customer data.
+4. **BTNcancelClick**: Cancels changes and closes the form.
 
-## 9. Listagem de Campos e Validações:
+---
 
-* **Campos:**
-  - Código do Cliente (DBTXTcode): Tipo string, obrigatório.
-  - Nome Abreviado (DBTXTabbreviatedName): Tipo string, opcional.
-  - Nome Completo (DBTXTname): Tipo string, obrigatório.
-  - Código do País (DBTXTcountryCode): Tipo string, obrigatório.
-  - Descrição do País (DBTXTcountryDesc): Tipo string, opcional.
-  - E-mail de E-commerce (EDTecommerceEmail): Tipo string, obrigatório, formato de e-mail.
+## 6. API Service Consumption:
 
-* **Mapeamento de Valores:**
-  - Os valores exibidos no grid são mapeados diretamente para os campos do banco de dados.
+- **Service Name**: CustomerService
+- **Endpoint**: `/api/customers`
+- **Data Sent**: `{ "customerCode": "string", "name": "string", "countryCode": "string" }`
+- **Data Received**: `{ "status": "success", "data": "Customer object" }`
+- **Purpose**: Fetch, create, or update customer data.
+- **Error Handling**: Displays error messages if the API call fails.
 
-## 10. Exemplos e Diagramas:
+---
 
-* **Diagrama de Fluxo:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  procedure TFORMLcustomer.BTNokClick(Sender: TObject);
-  begin
-    if ValidarCampos then
-      SalvarAlteracoes;
-  end;
-  ```
-* **HTML Representando o Grid:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <tr>
-      <th>Código</th>
-      <th>Nome Abreviado</th>
-      <th>Nome Completo</th>
-      <th>Código do País</th>
-      <th>Descrição do País</th>
-    </tr>
-    <tr>
-      <td>001</td>
-      <td>ABC</td>
-      <td>Cliente ABC</td>
-      <td>BR</td>
-      <td>Brasil</td>
-    </tr>
-  </table>
-  ```
+## 7. Conditional Fields (Form Logic):
 
-## 11. Comentários Importantes no Código:
+- **Portal Information Panel**: Visible only when the "Portal Flag" checkbox is checked.
+- **Cross-Selling Brands Tab**: Enabled only when "Allow Cross-Selling" is checked.
 
-* O evento `FormShow` é essencial para inicializar os dados e carregar a lista de clientes.
-* O botão "Endereço e Documento" (`ACTaddressAndDocExecute`) é usado para abrir uma tela específica.
+---
 
-## 12. Conclusão:
+## 8. Dependencies:
 
-O código fornece uma interface robusta para a gestão de clientes, com funcionalidades de pesquisa, visualização e modificação. No entanto, a validação de campos e mensagens de erro poderiam ser mais detalhadas. Além disso, a integração com APIs externas não está presente.
+### External Libraries:
+- `TsPanel`, `TsButton`, `TcxGrid`: Used for UI components.
+- `kneCBListSOA`, `kneFRGridManager`: Custom components for grid management and search functionality.
 
-## 13. Resumo Curto:
+### Custom Components:
+- `FRAMEfindCriteriaListCustomer`: Handles advanced search criteria.
 
-O código implementa uma interface para gerenciar clientes, permitindo pesquisa, visualização e edição de dados. Ele utiliza componentes visuais e manipulação de dados em memória, mas carece de integração com APIs externas e validações mais robustas.#### **Lcustomer.pas**
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Customer Code** (type: string, required, max: 10 characters).
+2. **Name** (type: string, required, max: 50 characters).
+3. **Email** (type: string, optional, valid email format).
+4. **Country Code** (type: string, required, predefined list).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as no specific flowchart is provided in the code.)
+
+### Sequence Diagram:
+(Not applicable as no specific sequence diagram is provided in the code.)
+
+### Code Snippets:
+```pascal
+procedure TFORMLcustomer.BTNokClick(Sender: TObject);
+begin
+  // Save customer data
+end;
+```
+
+### Screenshots:
+(Not applicable as no DFM file is provided.)
+
+---
+
+## 11. Important Comments in the Code:
+
+- `FormShow`: Critical for initializing the form and loading data.
+- `ACTaddressAndDocExecute`: Handles address and document management.
+
+---
+
+## 12. Conclusion:
+
+The `Lcustomer` code unit provides a comprehensive interface for managing customer data. It is well-structured and integrates advanced search and management functionalities. However, it could benefit from more detailed error handling and validation logic.
+
+---
+
+## 13. Short Summary:
+
+The `Lcustomer` code unit is a customer management interface with grid display, search functionality, and detailed customer data management. It supports creating, modifying, and viewing customer records, with advanced search and portal information management.#### **Lcustomer.pas**
 
 ```
 unit Lcustomer;

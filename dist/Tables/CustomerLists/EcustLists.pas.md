@@ -2,198 +2,202 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `EcustLists` Code Unit
 
-* **Objetivo Principal:**  
-  O código implementa um formulário chamado `TFORMEcustLists` que gerencia listas de clientes. Ele permite a exibição e edição de dados relacionados a clientes, incluindo a funcionalidade de relacionamento mestre-detalhe entre diferentes conjuntos de dados. O formulário também inclui validações e ações específicas, como a exclusão de códigos de clientes ao alterar o mercado selecionado.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**  
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `kneCBEdit`, `kneFRGridEditSOA`, `kneFREditSOA`, entre outros.
-  - Componentes visuais como `TsPanel`, `TcxGrid`, `TsDBComboBox`, e `TsDBText`.
+### Objective:
+The `EcustLists` code unit is designed to manage and display customer lists in a structured and interactive form. It provides functionality for viewing, editing, and managing customer-related data, including master-detail relationships. The form also includes mechanisms to handle changes in market selection and ensures data integrity by prompting users before performing critical actions like deleting customer codes.
 
-* **Tipo de Formulário:**  
-  - **Grid Display:**  
-    - **Colunas do Grid:**  
-      - `cxDBG` (Grid principal para exibição de dados detalhados).  
-    - **Ações do Grid:**  
-      - Exclusão de registros detalhados ao alterar o mercado selecionado.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for building the graphical user interface and handling events.
+- **Third-party Components**: Includes components like `TsPanel`, `TcxGrid`, and `TsDBComboBox` for enhanced UI and data handling.
+- **Database Integration**: Uses data sources (`DStable`, `CDStable`) for managing and displaying database records.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Disponíveis:**  
-  - Alterar o mercado selecionado e, se necessário, excluir os códigos de clientes associados.
-  - Exibir e editar dados mestre-detalhe relacionados a listas de clientes.
-
-* **Componentes Principais:**  
-  - `FRAMEcustLists1`: Gerencia a seleção de mercado e outras informações relacionadas.
-  - `FRAMEcustListsDetail1`: Exibe os detalhes dos clientes em um grid.
-  - `PNLdata`: Painel principal que organiza os componentes visuais.
-
-* **Pseudo-código das Ações e Eventos:**  
-  - Evento `OnClick` do botão Cancelar:  
-    ```pseudo
-    se botão Cancelar for clicado então fechar o formulário.
-    ```
-  - Evento `OnChange` do mercado:  
-    ```pseudo
-    se o mercado selecionado for alterado então
-        se o usuário confirmar a exclusão então
-            excluir todos os registros detalhados.
-        senão
-            restaurar o valor anterior do mercado.
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements**:
+  - `FRAMEcustLists1`: A frame for managing customer lists.
+  - `FRAMEcustListsDetail1`: A frame for displaying detailed customer data in a grid.
+  - `PNLdata`: A panel for organizing the layout.
+  - `IMLbuttons`: An image list for button icons.
+- **Form Actions**:
+  - **Market Change**: Prompts the user and deletes customer codes if the market is changed.
+  - **Cancel Button**: Cancels the current operation.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**  
-  1. O formulário é inicializado com a função `m_CreateFormEdit`.
-  2. Os dados são carregados com a função `m_getData`, que configura a relação mestre-detalhe.
-  3. O usuário pode interagir com os componentes, como alterar o mercado ou editar os dados no grid.
-  4. Alterações no mercado disparam o evento `m_OnChangeMkt`, que pode excluir registros detalhados.
+### User/Software Actions:
+- View and edit customer lists.
+- Change the market selection and handle related data updates.
+- Delete customer codes after user confirmation.
 
-* **Dados Necessários:**  
-  - Mercado selecionado no componente `FRAMEFindMarket`.
-  - Dados detalhados exibidos no grid `cxDBG`.
+### Main Components:
+- **`FRAMEcustLists1`**: Handles market selection and displays customer list information.
+- **`FRAMEcustListsDetail1`**: Displays detailed customer data in a grid format.
+- **`PNLdata`**: Organizes the layout of the form.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**  
-  - Alterar mercado: O mercado deve ser selecionado no componente `FRAMEFindMarket`.
-  - Exclusão de registros: O usuário deve confirmar a exclusão ao alterar o mercado.
-
-* **Filtros Disponíveis:**  
-  - Filtro de mercado no componente `FRAMEFindMarket`.
-
-* **Mensagens de Erro:**  
-  - "Cust codes will be deleted. Are you Sure?" ao alterar o mercado.
-
-* **Valores Padrão dos Campos:**  
-  - Não especificado no código.
-
-* **Validações e Condições dos Campos:**  
-  - O mercado selecionado deve ser validado para evitar inconsistências.
+### Pseudo-code for Actions and Events:
+- **OnClick event of Cancel Button**:  
+  `if cancel button clicked then close form`.
+- **OnChange event of Market Field**:  
+  `if market value changed then prompt user for confirmation`.  
+  `if user confirms then delete all customer codes`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`m_CreateFormEdit`:**  
-  Cria e inicializa o formulário `TFORMEcustLists`.
+### Execution Flow:
+1. **Initialization**: The form is created using the `m_CreateFormEdit` method, which initializes the components and sets up the master-detail relationship.
+2. **Data Loading**: The `m_getData` method loads data into the form and sets up event handlers.
+3. **User Interaction**:
+   - Changing the market triggers the `m_OnChangeMkt` method, which prompts the user and deletes customer codes if confirmed.
+   - Clicking the cancel button closes the form.
 
-* **`m_getData`:**  
-  Carrega os dados e configura a relação mestre-detalhe.
-
-* **`m_OnChangeMkt`:**  
-  Gerencia a lógica de alteração do mercado, incluindo a exclusão de registros detalhados.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas a serviços externos especificadas no código.
+### Required User Data:
+- Market selection in `FRAMEcustLists1`.
+- Customer details in `FRAMEcustListsDetail1`.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 4. Business Rules:
 
-* Não há campos condicionais explícitos no código.
+### Actions and Preconditions:
+- **Market Change**:
+  - Preconditions: A market must be selected.
+  - Action: Prompts the user and deletes customer codes if confirmed.
+- **Cancel Button**:
+  - Preconditions: None.
+  - Action: Closes the form.
 
----
+### Available Filters:
+- Market selection in `FRAMEcustLists1`.
 
-## 8. Dependências:
+### Error Messages:
+- "Cust codes will be deleted. Are you Sure?" if the market is changed.
 
-* **Bibliotecas Externas:**  
-  - `kneCBEdit`, `kneFRGridEditSOA`, `kneFREditSOA`, entre outros.
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Componentes Personalizados:**  
-  - `TFRAMEcustLists` e `TFRAMEcustListsDetail`.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos no Formulário:**  
-  - `FRAMEFindMarket` (tipo: string, obrigatório, não especificado no código).
-  - `cxDBG` (grid para exibição de dados detalhados).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**  
-  - Não especificado no código.
+### Field Validation and Conditions:
+- Market field: Must match the format expected by the system.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:**  
-  Não aplicável.
+### Functions:
+1. **`m_CreateFormEdit`**:
+   - Creates and initializes the form.
+2. **`m_getData`**:
+   - Loads data into the form and sets up event handlers.
+3. **`m_OnChangeMkt`**:
+   - Handles market changes and deletes customer codes after user confirmation.
 
-* **Diagrama de Sequência:**  
-  Não aplicável.
+---
 
-* **Exemplo de Código:**  
-  ```delphi
-  var
-    Form: TFORMEcustLists;
+## 6. API Service Consumption:
+
+No external API services are consumed in this code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The market field (`FRAMEFindMarket`) triggers conditional logic:
+  - If the market value changes, the system prompts the user and deletes customer codes if confirmed.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsPanel`, `TcxGrid`, `TsDBComboBox`**: Used for UI components.
+- **`kneUtils`**: Provides utility functions.
+
+### Custom Components:
+- **`FRAMEcustLists1`**: Custom frame for managing customer lists.
+- **`FRAMEcustListsDetail1`**: Custom frame for displaying detailed customer data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Market Field**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Must match the expected format.
+2. **Customer Codes**:
+   - Type: String.
+   - Required: Yes.
+   - Validation: Not explicitly defined in the code.
+
+### Mapping:
+- Displayed values are mapped to database columns via `DStable` and `CDStable`.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [Load Data] --> [User Interaction]
+    --> [Market Change?] --> [Prompt User] --> [Delete Customer Codes]
+    --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Form: Change Market
+Form --> User: Prompt Confirmation
+User --> Form: Confirm
+Form --> Database: Delete Customer Codes
+```
+
+### Code Snippets:
+```delphi
+procedure TFORMEcustLists.m_OnChangeMkt(Sender: TObject);
+begin
+  if not SameText(FRAMEcustLists1.FRAMEFindMarket.Text, FMktValue) then
   begin
-    Form := TFORMEcustLists.Create(Application);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
+    if MessageDlg('Cust codes will be deleted. Are you Sure?', mtWarning, [mbYes, mbNo], 0) = mrYes then
+    begin
+      CDStable.DisableControls;
+      try
+        while not CDStable.Eof do
+          CDStable.Delete;
+      finally
+        CDStable.EnableControls;
+      end;
     end;
   end;
-  ```
+end;
+```
 
-* **HTML Renderizado:**  
-  ```html
-  <div style="width: 784px; border: 1px solid #ccc; font-family: Verdana;">
-    <div style="height: 155px; border-bottom: 1px solid #ccc;">
-      <label for="market">Market:</label>
-      <input id="market" type="text" style="width: 100%;">
-    </div>
-    <div style="height: 326px;">
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid #ccc;">Column 1</th>
-            <th style="border: 1px solid #ccc;">Column 2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="border: 1px solid #ccc;">Data 1</td>
-            <td style="border: 1px solid #ccc;">Data 2</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  ```
+### Screenshots:
+Not applicable (no DFM file provided).
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* **Comentário NAVOPTECH2022-4707:**  
-  Indica a lógica de exclusão de códigos de clientes ao alterar o mercado.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário funcional para gerenciar listas de clientes com uma relação mestre-detalhe. Ele é bem estruturado, mas poderia ser melhorado com validações mais robustas e mensagens de erro mais detalhadas. A dependência de componentes personalizados pode dificultar a manutenção.
+- **`//NAVOPTECH2022-4707 (cmosilva 20-07-2023)`**: Indicates a specific change or feature related to market change handling.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O formulário `TFORMEcustLists` gerencia listas de clientes com suporte a relações mestre-detalhe e validações ao alterar o mercado. Ele utiliza componentes personalizados e oferece funcionalidades básicas de edição e exclusão de dados.#### **EcustLists.pas**
+The `EcustLists` code unit provides a robust solution for managing customer lists with master-detail relationships. It ensures data integrity through user prompts and handles market changes effectively. However, the code lacks explicit field validations and default values, which could be improved for better usability.
+
+---
+
+## 13. Short Summary:
+
+The `EcustLists` code unit manages customer lists with master-detail relationships, handles market changes with user prompts, and ensures data integrity. It is a well-structured form but could benefit from more explicit field validations and default values.#### **EcustLists.pas**
 
 ```
 unit EcustLists;

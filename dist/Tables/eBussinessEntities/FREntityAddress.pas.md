@@ -2,206 +2,216 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRentityAddress`
 
-* **Objetivo Principal:**  
-  O código implementa um formulário para gerenciar endereços de entidades. Ele permite que os usuários insiram, editem e validem informações relacionadas a endereços, como endereço principal, endereço secundário, cidade, código postal, descrição do endereço e país. Este formulário é utilizado como parte de um sistema maior para gerenciar dados de entidades.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**  
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `TsLabel`, `TsDBEdit`, e `TFRAMEFindEditSOA`.
-  - Serviços SOAP para integração com dados externos.
+### Objective:
+The `FRentityAddress` code snippet defines a Delphi frame (`TFRAMEentityAddress`) designed to manage and display address-related information. It provides a user interface for entering and editing address details such as street address, city, postal code, and country. The frame is part of a larger system and is intended to be used as a reusable component for address management.
 
-* **Tipo de Formulário:**  
-  Este é um formulário com os seguintes elementos:
-  - **Elementos do Formulário e Tipos:**
-    - `EDTaddress` (Campo de texto para endereço principal).
-    - `EDTaddress2` (Campo de texto para endereço secundário).
-    - `EDTaddress3` (Campo de texto para endereço terciário).
-    - `EDTcity` (Campo de texto para cidade).
-    - `EDTpostDescript` (Campo de texto para descrição do endereço).
-    - `FRAMEfindCountry` (Campo de busca para selecionar o país).
-    - `EDTpostCode` (Campo de texto para código postal).
-  - **Ações do Formulário e Efeitos:**
-    - Validação de dados ao salvar.
-    - Inicialização de dados ao carregar o formulário.
-    - Configuração de propriedades específicas para os campos.
+### Technologies Used:
+- **Delphi (Object Pascal)**: The primary programming language used for the implementation.
+- **VCL (Visual Component Library)**: Used for UI components like labels, edit boxes, and panels.
+- **SOAP Services**: For potential integration with external services (e.g., `CountryServiceUtils`).
+- **Database Components**: Includes `TDataSet`, `TClientDataSet`, and `TsDBEdit` for data binding and manipulation.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Disponíveis:**
-  - Inserir novos registros de endereço.
-  - Editar registros existentes.
-  - Validar os dados inseridos.
-  - Salvar alterações pendentes.
-
-* **Componentes Principais:**
-  - `TFRAMEentityAddress`: Classe principal que gerencia o formulário.
-  - `TsLabel`: Rótulos para identificar os campos.
-  - `TsDBEdit`: Campos de entrada de texto vinculados a um banco de dados.
-  - `TFRAMEFindEditSOA`: Componente para busca de países.
-  - `TFRAMEstatusInfo`: Exibe informações de status relacionadas ao formulário.
-
-* **Pseudo-código de Ações e Eventos:**
-  - `OnNewRecord` do dataset: `se novo registro for criado, inicializar valores padrão`.
-  - `OnBeforeInsert` do dataset: `se antes de inserir, verificar condições`.
-  - `OnDataChange` do dataset: `se dados forem alterados, atualizar status`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `TsLabel`: Labels for fields.
+  - `TsDBEdit`: Editable fields bound to a database.
+  - `TFRAMEFindEditSOA`: A custom component for searching and selecting countries.
+  - `TFRAMEstatusInfo`: A custom component for displaying status information.
+- **Form Actions and Effects**:
+  - Data initialization and validation.
+  - Saving changes to the database.
+  - Managing visibility and configuration of UI elements.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configura propriedades como `MasterSource`, `DataPacketName`, e `FrameType`.
-     - Configura visibilidade de painéis e ações disponíveis.
-     - Atribui eventos como `OnInitializeData`.
-  2. Interação do Usuário:
-     - Usuário preenche os campos do formulário.
-     - Ao salvar, o método `ApplyChanges` é chamado para validar e salvar os dados.
-  3. Funções Executadas:
-     - `ApplyChanges` (Arquivo: `FRentityAddress.pas`): Salva alterações pendentes.
-     - `m_SetFindCounty` (Arquivo: `FRentityAddress.pas`): Configura o campo de busca de país.
-     - `m_InitializeData` (Arquivo: `FRentityAddress.pas`): Inicializa os dados do formulário.
+### User/Software Actions:
+- Users can input or edit address details such as street address, city, postal code, and country.
+- The frame validates the data and applies changes when required.
+- The frame interacts with a database to save or retrieve address information.
 
-* **Dados Necessários:**
-  - Endereço principal, cidade, código postal, descrição do endereço e país.
+### Main Components:
+1. **Labels (`TsLabel`)**: Display field names and provide focus control for corresponding input fields.
+2. **Editable Fields (`TsDBEdit`)**: Allow users to input address details.
+3. **Country Selector (`TFRAMEFindEditSOA`)**: A custom component for selecting a country.
+4. **Status Info (`TFRAMEstatusInfo`)**: Displays status information related to the frame's data source.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Salvar": Só pode ser executada se todos os campos obrigatórios forem preenchidos corretamente.
-
-* **Filtros Disponíveis:**
-  - Campo de busca para selecionar o país.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Formato inválido" se o valor inserido não atender ao formato esperado.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - `EDTaddress`: Deve conter texto.
-  - `EDTpostCode`: Deve conter apenas números.
-  - `FRAMEfindCountry`: Deve ser selecionado um país válido.
+### Pseudo-code for Actions and Events:
+- **On New Record Creation**:
+  - `if new record is created then initialize default values`.
+- **Before Insert**:
+  - `if before insert event triggered then perform necessary setup`.
+- **Data Change**:
+  - `if data in a field changes then validate and update related fields`.
+- **Apply Changes**:
+  - `if user saves changes then validate and save data to the database`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`ApplyChanges`:**  
-  Salva alterações pendentes no formulário. Não invoca diretamente o serviço de gravação, pois isso é responsabilidade do formulário principal.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with default properties (e.g., `MasterSource`, `DataPacketName`).
+   - The `m_SetFindCounty` method configures the country selector.
+   - The `OnInitializeData` event is assigned to `m_InitializeData`.
+2. **User Interaction**:
+   - Users input data into the fields.
+   - Changes are validated and saved using the `ApplyChanges` method.
+3. **Functions**:
+   - `ApplyChanges` (File: `FRentityAddress.pas`): Saves pending changes.
+   - `m_SetFindCounty` (File: `FRentityAddress.pas`): Configures the country selector.
+   - `m_InitializeData` (File: `FRentityAddress.pas`): Initializes data for the frame.
 
-* **`m_SetFindCounty`:**  
-  Configura o campo de busca para o país.
-
-* **`m_InitializeData`:**  
-  Inicializa os dados do formulário ao carregar.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Nenhuma chamada direta a serviços externos é feita neste código.**  
-  A gravação dos dados é responsabilidade do formulário principal que utiliza este frame.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Required Data:
+- Address fields: Address, Address 2, Address 3, City, Post Description, Post Code, and Country.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `InvokeRegistry`, `SOAPHTTPClient`: Para integração com serviços SOAP.
-  - `kneUtils`, `kneTypes`: Utilitários personalizados.
+### Actions and Preconditions:
+- **Save Changes**:
+  - Preconditions: All required fields must be filled and valid.
+  - Action: Saves the data to the database.
+- **Country Selection**:
+  - Preconditions: The country selector must be configured.
 
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA`: Campo de busca para seleção de país.
-  - `TFRAMEstatusInfo`: Exibe informações de status.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos do Formulário:**
-  - `EDTaddress` (tipo: string, obrigatório).
-  - `EDTaddress2` (tipo: string, opcional).
-  - `EDTaddress3` (tipo: string, opcional).
-  - `EDTcity` (tipo: string, obrigatório).
-  - `EDTpostDescript` (tipo: string, opcional).
-  - `FRAMEfindCountry` (tipo: busca, obrigatório).
-  - `EDTpostCode` (tipo: string, obrigatório, apenas números).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido explicitamente no código.
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:**  
-  Não aplicável.
-
-* **Diagrama de Sequência:**  
-  Não aplicável.
-
-* **Exemplo de Código:**  
-  ```pascal
-  var
-    Frame: TFRAMEentityAddress;
-  begin
-    Frame := TFRAMEentityAddress.Create(Self);
-    Frame.Show;
-  end;
-  ```
-
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 1033px; height: 522px;">
-    <label for="address">Address:</label>
-    <input type="text" id="address" style="width: 200px;"><br>
-    <label for="address2">Address 2:</label>
-    <input type="text" id="address2" style="width: 200px;"><br>
-    <label for="address3">Address 3:</label>
-    <input type="text" id="address3" style="width: 200px;"><br>
-    <label for="city">City:</label>
-    <input type="text" id="city" style="width: 200px;"><br>
-    <label for="postDescript">Post Descrip.:</label>
-    <input type="text" id="postDescript" style="width: 200px;"><br>
-    <label for="country">Country:</label>
-    <input type="text" id="country" style="width: 200px;"><br>
-    <label for="postCode">Post Code:</label>
-    <input type="text" id="postCode" style="width: 200px;"><br>
-  </div>
-  ```
+1. **`ApplyChanges`**:
+   - Saves pending changes to the database.
+   - Ensures that the parent form handles the saving of addresses and contacts.
+2. **`m_SetFindCounty`**:
+   - Configures the country selector component.
+3. **`m_InitializeData`**:
+   - Initializes the frame's data when a new record is created.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* O método `ApplyChanges` não grava diretamente os dados, delegando essa responsabilidade ao formulário principal.
-
----
-
-## 12. Conclusão:
-
-O código implementa um formulário funcional para gerenciar endereços de entidades. Ele é modular e utiliza componentes personalizados para facilitar a integração com outros sistemas. No entanto, a validação e os valores padrão poderiam ser mais detalhados.
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent/Received**: Not explicitly defined in the code.
+- **Purpose**: Not explicitly defined in the code.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-Formulário modular em Delphi para gerenciar endereços de entidades, com validação básica e integração com serviços SOAP. Utiliza componentes personalizados para busca e exibição de status.#### **FREntityAddress.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **VCL Components**: For UI elements.
+- **SOAP Components**: For potential integration with external services.
+
+### Custom Components:
+- `TFRAMEFindEditSOA`: Used for country selection.
+- `TFRAMEstatusInfo`: Displays status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Address** (type: string, required).
+2. **Address 2** (type: string, optional).
+3. **Address 3** (type: string, optional).
+4. **City** (type: string, required).
+5. **Post Description** (type: string, optional).
+6. **Post Code** (type: string, required).
+7. **Country** (type: string, required).
+
+### Mapping:
+- Database columns are not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [User Inputs Data] --> [Validate Data] --> [Save Changes] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Frame: Input Data
+Frame --> Database: Save Data
+Database --> Frame: Confirmation
+```
+
+### Code Snippets:
+```pascal
+procedure TFRAMEentityAddress.ApplyChanges;
+begin
+  SavePendingChanges;
+end;
+```
+
+### Screenshots:
+HTML representation of the form:
+```html
+<div style="width: 1033px; height: 522px;">
+  <label style="position: absolute; top: 13px; left: 8px;">Address:</label>
+  <input type="text" style="position: absolute; top: 13px; left: 100px;" />
+  <label style="position: absolute; top: 39px; left: 8px;">Address 2:</label>
+  <input type="text" style="position: absolute; top: 39px; left: 100px;" />
+  <label style="position: absolute; top: 65px; left: 8px;">Address 3:</label>
+  <input type="text" style="position: absolute; top: 65px; left: 100px;" />
+  <label style="position: absolute; top: 91px; left: 8px;">City:</label>
+  <input type="text" style="position: absolute; top: 91px; left: 100px;" />
+  <label style="position: absolute; top: 117px; left: 8px;">Post Description:</label>
+  <input type="text" style="position: absolute; top: 117px; left: 100px;" />
+  <label style="position: absolute; top: 143px; left: 8px;">Country:</label>
+  <input type="text" style="position: absolute; top: 143px; left: 100px;" />
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- The `ApplyChanges` method does not invoke a service for saving data. Instead, the parent form handles the saving process.
+- The `m_SetFindCounty` method is critical for configuring the country selector.
+
+---
+
+## 12. Conclusion:
+
+The `FRentityAddress` frame is a reusable component for managing address data. It provides a structured UI and integrates with a database for data persistence. However, the code lacks explicit error handling, field validation, and API integration details.
+
+---
+
+## 13. Short Summary:
+
+The `FRentityAddress` frame is a Delphi component for managing address data, featuring editable fields, data validation, and database integration. It is designed for reuse in larger systems but lacks explicit error handling and validation logic.#### **FREntityAddress.pas**
 
 ```
 unit FRentityAddress;

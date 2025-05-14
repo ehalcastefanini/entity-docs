@@ -2,195 +2,206 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRdocsCheckRulesCriteria`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código `TFRAMEdocsCheckRulesCriteria` é um componente de interface gráfica que gerencia e exibe critérios de regras de verificação de documentos em um formato de grade (grid). Ele permite que os usuários visualizem, adicionem e editem critérios associados a regras específicas. O objetivo principal é facilitar a manipulação e visualização de dados relacionados a critérios de verificação de documentos.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação principal.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de grade.
-  - **SOAP:** Para integração com serviços externos.
-  - **Bibliotecas Personalizadas:** Como `kneUtils`, `BaseServiceUtils`, entre outras.
+### Objective:
+The `FRdocsCheckRulesCriteria` unit defines a Delphi frame (`TFRAMEdocsCheckRulesCriteria`) that provides a grid-based interface for managing and editing rule criteria for document checklists. It allows users to add, delete, and modify criteria, with specific configurations for grid behavior and field properties.
 
-* **Forma do Componente:**
-  - **Grade de Exibição (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `paramId` (ID do parâmetro, tipo: string).
-      - `paramDesc` (Descrição do parâmetro, tipo: string).
-      - `signField` (Campo de sinal, tipo: combobox com opções `=` e `<>`).
-      - `paramValue` (Valor do parâmetro, tipo: string).
-      - `paramValueDesc` (Descrição do valor do parâmetro, tipo: string).
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Permite adicionar novos critérios.
-      - Excluir (`DELETE`): Remove critérios selecionados.
+### Technologies Used:
+- **Delphi VCL Framework**: For UI components and event handling.
+- **cxGrid**: A grid component for displaying and editing tabular data.
+- **SOAP Services**: For interacting with external services.
+- **Database Components**: For managing and displaying data from a database.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **paramId**: Identifier for the parameter (type: string).
+2. **paramDesc**: Description of the parameter (type: string).
+3. **signField**: Sign field with a dropdown list (`=` or `<>`) (type: combo box).
+4. **paramValue**: Value of the parameter (type: string, editable).
+5. **paramValueDesc**: Description of the parameter value (type: string).
 
-* **Ações Específicas:**
-  - Adicionar novos critérios.
-  - Editar valores diretamente na grade.
-  - Configurar visibilidade e ordem das colunas.
-
-* **Componentes Principais:**
-  - `cxGrid`: Componente principal para exibição de dados.
-  - `cxDBVtable`: Visualização da tabela vinculada ao banco de dados.
-  - `cxCBXsignField`: Combobox para seleção de sinais (`=` ou `<>`).
-  - `ACTaddExecute`: Ação para adicionar novos critérios.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão clicado then execute função adicionar`.
-  - Evento `OnEditValueChanged` da grade: `if valor da célula alterado then atualize valor no banco de dados`.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new rule criterion to the grid.
+2. **Delete**: Removes the selected rule criterion from the grid.
+3. **Edit**: Allows modification of existing rule criteria.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente com o método `Create`.
-  2. Configuração inicial da grade com `GridSetup`.
-  3. Interação do usuário (ex.: clique no botão "Adicionar") dispara eventos como `ACTaddExecute`.
+### User/Software Actions:
+- Add new rule criteria.
+- Edit existing rule criteria.
+- Delete selected rule criteria.
+- Interact with the grid to modify specific fields.
 
-* **Dados Necessários:**
-  - `paramId`: Identificador único do parâmetro.
-  - `paramDesc`: Descrição do parâmetro.
-  - `signField`: Sinal selecionado (`=` ou `<>`).
-  - `paramValue`: Valor do parâmetro.
+### Main Components:
+1. **Grid (`cxDBG`)**: Displays the rule criteria.
+2. **ComboBox (`cxCBXsignField`)**: Provides a dropdown for selecting comparison operators (`=` or `<>`).
+3. **Custom Editors**: Configured for specific fields like `signField` and `paramValue`.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Adicionar" só é permitida se os campos obrigatórios forem preenchidos.
-  - Ação "Excluir" requer seleção de um item na grade.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se o valor inserido não for compatível com o tipo esperado.
-
-* **Valores Padrão dos Campos:**
-  - `signField`: Valor padrão `=`.
-
-* **Validações e Condições dos Campos:**
-  - `paramValue`: Deve ser validado para garantir que não esteja vazio.
-  - `signField`: Deve aceitar apenas valores `=` ou `<>`.
+### Pseudo-code for Actions and Events:
+- **Add Button Click**:  
+  `if add button clicked then execute ACTaddExecute procedure`
+- **Grid Cell Value Change**:  
+  `if grid cell value changed then execute cxDBVtableEditValueChanged procedure`
+- **Find Parameter Value**:  
+  `if find button clicked then execute m_FindParamValue procedure`
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Funções e Lógica de Negócio:**
-  - `Create`: Inicializa o componente e configura propriedades básicas.
-  - `GridSetup`: Configura a grade, incluindo visibilidade e ordem das colunas.
-  - `ACTaddExecute`: Adiciona novos critérios à grade.
-  - `cxDBVtableEditValueChanged`: Atualiza valores no banco de dados quando alterados na grade.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is created using the `Create` constructor.
+   - Grid settings are configured in the `GridSetup` method.
+   - Action panel and available actions (`ADD`, `DELETE`) are set up.
 
----
+2. **User Interactions**:
+   - Users can add, delete, or edit rule criteria via the grid.
+   - Changes in grid cells trigger the `cxDBVtableEditValueChanged` event.
 
-## 6. Consumo de Serviços API:
+### Functions:
+1. **`Create`** (File: `FRdocsCheckRulesCriteria.pas`):
+   - Initializes the frame and sets up grid properties.
+2. **`GridSetup`** (File: `FRdocsCheckRulesCriteria.pas`):
+   - Configures grid fields, hidden fields, and custom editors.
+3. **`ACTaddExecute`** (File: `FRdocsCheckRulesCriteria.pas`):
+   - Handles the addition of new rule criteria.
+4. **`cxDBVtableEditValueChanged`** (File: `FRdocsCheckRulesCriteria.pas`):
+   - Handles changes in grid cell values.
 
-* **Chamadas a Serviços Externos:**
-  - Nome do Serviço: `CheckListDocParamsToAddServiceUtils`.
-  - Endpoint: Não especificado no código.
-  - Dados Enviados: Não especificado no código.
-  - Dados Recebidos: Não especificado no código.
-  - Propósito: Gerenciar critérios de verificação de documentos.
-  - Tratamento de Erros: Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxDBData`, `SOAPHTTPClient`, entre outras.
-
-* **Componentes Personalizados:**
-  - `kneFRGridEditSOA`: Classe base para o componente.
-  - `kneUtils`: Utilitários personalizados.
+### Required Data:
+- Rule criteria details such as `paramId`, `paramDesc`, `signField`, `paramValue`, and `paramValueDesc`.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `paramId` (tipo: string, obrigatório).
-  - `paramDesc` (tipo: string, obrigatório).
-  - `signField` (tipo: combobox, obrigatório, valores permitidos: `=` ou `<>`).
-  - `paramValue` (tipo: string, obrigatório).
-  - `paramValueDesc` (tipo: string, opcional).
+### Actions and Preconditions:
+1. **Add**:
+   - Preconditions: None.
+   - Action: Adds a new row to the grid.
+2. **Delete**:
+   - Preconditions: A row must be selected.
+   - Action: Deletes the selected row.
+3. **Edit**:
+   - Preconditions: A cell must be selected.
+   - Action: Allows editing of the selected cell.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `paramId` → Coluna `paramId`.
-  - `paramDesc` → Coluna `paramDesc`.
-  - `signField` → Coluna `signField`.
-  - `paramValue` → Coluna `paramValue`.
-  - `paramValueDesc` → Coluna `paramValueDesc`.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEdocsCheckRulesCriteria := TFRAMEdocsCheckRulesCriteria.Create(Self);
-  FRAMEdocsCheckRulesCriteria.ShowActionPanel := True;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>paramId</th>
-        <th>paramDesc</th>
-        <th>signField</th>
-        <th>paramValue</th>
-        <th>paramValueDesc</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Descrição 1</td>
-        <td>=</td>
-        <td>Valor 1</td>
-        <td>Descrição Valor 1</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- **signField**: Dropdown list with fixed options (`=` or `<>`).
+- **paramValue**: Uppercase input enforced.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração inicial da grade no método `GridSetup`.
-* Propriedades principais definidas no construtor `Create`.
+1. **`Create`**:
+   - Initializes the frame and sets up metadata and grid properties.
+2. **`GridSetup`**:
+   - Configures grid fields, hidden fields, and custom editors.
+3. **`ACTaddExecute`**:
+   - Adds a new rule criterion to the grid.
+4. **`cxDBVtableEditValueChanged`**:
+   - Handles changes in grid cell values.
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código fornece uma interface robusta para gerenciar critérios de verificação de documentos. Sua integração com serviços externos e uso de componentes visuais avançados tornam-no eficiente. No entanto, faltam detalhes sobre validações e tratamento de erros.
+- **Service Name**: Not explicitly defined in the code.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Not explicitly defined in the code.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-Componente Delphi para gerenciar critérios de verificação de documentos em uma grade, permitindo adicionar, editar e excluir critérios com integração a serviços externos.#### **FRdocsCheckRulesCriteria.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **cxGrid**: For grid display and interaction.
+2. **SOAPHTTPClient**: For SOAP service interactions.
+3. **DBClient**: For database operations.
+
+### Custom Components:
+1. **TFRAMEBaseGridEditSOA**: Base frame class for grid editing.
+2. **kneFRGridManager**: Utility for managing grid settings.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **paramId**: (type: string, required, not explicitly validated in the code).
+2. **paramDesc**: (type: string, required, not explicitly validated in the code).
+3. **signField**: (type: combo box, required, options: `=` or `<>`).
+4. **paramValue**: (type: string, required, uppercase enforced).
+5. **paramValueDesc**: (type: string, optional).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEdocsCheckRulesCriteria.ACTaddExecute(Sender: TObject);
+begin
+  // Logic to add a new rule criterion
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`Create` Constructor**:
+  - Sets up metadata and grid properties.
+- **`GridSetup` Method**:
+  - Configures grid fields and custom editors.
+
+---
+
+## 12. Conclusion:
+
+The `FRdocsCheckRulesCriteria` unit provides a robust framework for managing rule criteria in a grid-based interface. While it offers flexibility in grid configuration and field customization, the lack of explicit error handling and validation logic may require additional implementation for production use.
+
+---
+
+## 13. Short Summary:
+
+The `FRdocsCheckRulesCriteria` unit defines a grid-based interface for managing document checklist rule criteria, supporting add, delete, and edit actions with configurable grid settings and field properties. It integrates with SOAP services and database components for data management.#### **FRdocsCheckRulesCriteria.pas**
 
 ```
 unit FRdocsCheckRulesCriteria;

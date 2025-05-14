@@ -2,180 +2,209 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRfindCriteriaListCustomer`
 
-* **Objetivo Principal e Problema Resolvido:**
-  O objetivo principal deste código é fornecer uma interface de critérios de busca para listar clientes com base em diferentes parâmetros. Ele permite que os usuários filtrem e pesquisem clientes utilizando critérios como código, nome, mercado, número legal, entre outros. Este componente é útil em sistemas onde é necessário realizar buscas detalhadas e refinadas de clientes.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do componente.
-  - Componentes visuais como `TsPageControl`, `TsEdit`, `TsLabel`, `TsComboBox`, e `TFRAMEFindEditSOA` para a interface do usuário.
-  - Frameworks e bibliotecas como `cxGraphics`, `cxControls`, `cxContainer`, `cxEdit` para suporte a controles avançados.
+### Objective:
+The `FRfindCriteriaListCustomer` code snippet defines a Delphi form that serves as a search criteria interface for filtering and finding customer-related data. It provides a user interface with various input fields, dropdowns, and checkboxes to allow users to specify search parameters for customers. The form is designed to handle complex filtering scenarios, such as filtering by customer market, parent customer, group, seller, and other attributes.
 
-* **Forma do Componente:**
-  - **Formulário:**
-    - **Elementos do Formulário e seus Tipos:**
-      - Campos de texto (`TsEdit`) para entrada de dados como código, descrição, número legal, cidade.
-      - Comboboxes (`TsComboBox`, `TcxImageComboBox`) para seleção de unidades de negócios, canais de negócios, status e origem do cliente.
-      - Checkboxes (`TsCheckBox`) para opções booleanas como "Verificar VAT".
-      - Labels (`TsLabel`) para descrever os campos.
-      - Abas (`TsPageControl` e `TsTabSheet`) para organizar os critérios e informações adicionais.
-    - **Ações do Formulário e seus Efeitos:**
-      - Validação dos critérios preenchidos.
-      - Inicialização e configuração de critérios específicos.
-      - Busca de clientes com base nos critérios preenchidos.
+### Technologies Used:
+- **Delphi (Object Pascal):** The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries:** Includes components like `TsPageControl`, `TsEdit`, `TsLabel`, `TFRAMEFindEditSOA`, and `TcxImageComboBox` for enhanced UI functionality.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Os usuários podem preencher os campos de critérios e realizar buscas.
-  - O sistema valida os critérios preenchidos antes de executar a busca.
-  - Configuração de critérios específicos como mercado, grupo, vendedor, país, entre outros.
-
-* **Componentes Principais:**
-  - `TsPageControl` com abas para organizar os critérios.
-  - Campos de entrada (`TsEdit`, `TsComboBox`) para os critérios.
-  - Métodos privados para configurar critérios específicos.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um botão de busca: `se botão clicado então validar critérios e executar busca`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types:**
+  - Text fields (`TsEdit`): For entering text-based criteria like code, description, legal number, and city.
+  - Dropdowns (`TsComboBox`, `TcxImageComboBox`): For selecting options like business unit, business channel, customer origin, and status.
+  - Checkboxes (`TsCheckBox`): For toggling options like VAT verification.
+  - Custom components (`TFRAMEFindEditSOA`): For advanced search fields like customer market, parent customer, group, seller, etc.
+- **Form Actions and Effects:**
+  - Users can input search criteria and validate the form.
+  - The form provides methods to initialize, validate, and retrieve the entered criteria.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  - Inicialização do componente com o método `Initialize`.
-  - Configuração dos critérios específicos com métodos como `m_SetFindCustomerMarket`, `m_SetFindParentCustomer`, etc.
-  - Interação do usuário com os campos e execução da busca.
+### User/Software Actions:
+- Users can input search criteria into the form fields.
+- The form validates the input and retrieves the criteria values for further processing.
+- The form can be initialized with default values or pre-set configurations.
 
-* **Dados Necessários:**
-  - Código, nome, mercado, número legal, grupo, vendedor, país, entre outros critérios.
+### Main Components:
+- **Tabs (`TsPageControl`):** Organizes the form into two sections: "Criteria" and "Additional."
+- **Labels (`TsLabel`):** Provide descriptions for the input fields.
+- **Input Fields (`TsEdit`, `TFRAMEFindEditSOA`):** Allow users to enter or select search criteria.
+- **Dropdowns (`TsComboBox`, `TcxImageComboBox`):** Provide predefined options for certain fields.
+- **Checkbox (`TsCheckBox`):** Toggles VAT verification.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - A busca só pode ser executada se os critérios obrigatórios forem preenchidos.
-  - Campos como "Código" e "Nome" devem ser validados antes da busca.
-
-* **Filtros Disponíveis:**
-  - Código, Nome, Mercado, Número Legal, Grupo, Vendedor, País, Unidade de Negócio, Canal de Negócio, Status, Origem do Cliente.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Critério inválido" se um critério não atender às validações.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validação de Campos:**
-  - Validação de campos como "Código" e "Nome" para garantir que não estejam vazios.
-  - Comboboxes devem ter valores válidos selecionados.
+### Pseudo-code for Actions and Events:
+- **OnClick event of a button (e.g., Search):** `if button clicked then validate form and retrieve criteria values`.
+- **OnChange event of a dropdown:** `if dropdown value changed then update dependent fields`.
+- **OnInitialize event of the form:** `initialize form with default values`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Funções e Lógica de Negócio:**
-  - `Initialize`: Inicializa o componente e configura os critérios.
-  - `Validate`: Valida os critérios preenchidos.
-  - `GetCriteriaValues`: Retorna os valores dos critérios preenchidos.
+### Execution Flow:
+1. **Initialization:**
+   - The form is initialized using the `Initialize` method, which sets up default values and configurations.
+2. **User Interaction:**
+   - Users fill in the fields or select options.
+   - Users can toggle checkboxes or interact with dropdowns.
+3. **Validation:**
+   - The `Validate` method checks if the input values meet the required criteria.
+4. **Criteria Retrieval:**
+   - The `GetCriteriaValues` method retrieves the entered criteria for further processing.
 
----
-
-## 6. Consumo de Serviços de API:
-
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código fornecido.
+### Data Input:
+- Users must provide values for fields like `Code`, `Description`, `Customer Market`, `Parent Customer`, etc., depending on the search requirements.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGraphics`, `cxControls`, `cxContainer`, `cxEdit` para suporte a controles avançados.
-* **Componentes Personalizados:**
-  - `TFRAMEFindEditSOA` para critérios específicos.
+### Actions and Preconditions:
+- **Search Action:** Requires at least one field to be filled or selected.
+- **Validation:** Ensures all required fields are correctly filled before proceeding.
+
+### Available Filters:
+- **Dropdown Options:**
+  - Business Unit
+  - Business Channel
+  - Customer Origin
+  - Status
+- **Checkbox Options:**
+  - Verify VAT
+
+### Error Messages:
+- "Required field not completed" if a mandatory field is empty.
+- "Invalid input" if a field value does not meet the expected format.
+
+### Default Field Values:
+- `BusUnit`: Default to the user's business unit.
+- `UsrBusUnitDefault`: Default to the user's default business unit.
+
+### Field Validation and Conditions:
+- `Code`: Must be alphanumeric.
+- `Description`: Should not exceed a certain character limit (not explicitly defined in the code).
+- `Legal Number`: Must be numeric.
+- `City`: Should be a valid city name.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 5. Main Functions:
 
-* **Campos no Formulário:**
-  - Código (tipo: string, obrigatório).
-  - Nome (tipo: string, obrigatório).
-  - Mercado (tipo: string, opcional).
-  - Número Legal (tipo: string, opcional).
-  - Cidade (tipo: string, opcional).
-  - Unidade de Negócio (tipo: combobox, opcional).
-  - Canal de Negócio (tipo: combobox, opcional).
-  - Status (tipo: combobox, opcional).
-  - Origem do Cliente (tipo: combobox, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não definido explicitamente no código.
+### Functions:
+1. **`Initialize`:** Sets up the form with default values.
+2. **`Validate`:** Ensures the form fields are correctly filled.
+3. **`GetCriteriaValues`:** Retrieves the entered search criteria.
+4. **`SetBusUnit`:** Sets the business unit value.
+5. **`SetUsrBusUnitDefault`:** Sets the user's default business unit.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 6. API Service Consumption:
 
-* **Diagramas:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Frame: TFRAMEfindCriteriaListCustomer;
-  begin
-    Frame := TFRAMEfindCriteriaListCustomer.Create(Self);
-    Frame.Initialize;
-    if Frame.Validate then
-      ShowMessage('Critérios válidos!');
-  end;
-  ```
-* **HTML Representando o Formulário:**
-  ```html
-  <div style="width: 949px; height: 175px; font-family: Verdana;">
-    <div style="padding: 10px;">
-      <label for="code">Code:</label>
-      <input type="text" id="code" style="margin-left: 10px;">
-    </div>
-    <div style="padding: 10px;">
-      <label for="name">Name:</label>
-      <input type="text" id="name" style="margin-left: 10px;">
-    </div>
-    <div style="padding: 10px;">
-      <label for="market">Cust. Mkt:</label>
-      <input type="text" id="market" style="margin-left: 10px;">
-    </div>
+No external API calls are explicitly defined in the provided code snippet.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **"Customer Market" Field:** Only appears if the user selects a specific business unit.
+- **Conditions:** The field is visible only when the business unit is selected.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsPageControl`, `TsEdit`, `TsLabel`:** Used for UI components.
+- **`TFRAMEFindEditSOA`:** Custom component for advanced search fields.
+- **`TcxImageComboBox`:** Dropdown with image support.
+
+### Custom Components:
+- **`TFRAMEFindEditSOA`:** Handles advanced search functionality for fields like customer market, parent customer, etc.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **Code** (type: string, optional).
+2. **Description** (type: string, optional).
+3. **Legal Number** (type: numeric, optional).
+4. **City** (type: string, optional).
+5. **Business Unit** (type: dropdown, optional).
+6. **Business Channel** (type: dropdown, optional).
+7. **Customer Origin** (type: dropdown, optional).
+8. **Status** (type: dropdown, optional).
+
+### Mapping:
+- Displayed values are mapped to database columns, but specific mappings are not defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable as the code does not provide a complete workflow.
+
+### Sequence Diagram:
+Not applicable as the code does not include interactions with external services.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEfindCriteriaListCustomer.Initialize;
+begin
+  inherited;
+  // Set default values for fields
+  BusUnit := 'DefaultUnit';
+end;
+```
+
+### Screenshots:
+The DFM file represents a form with multiple input fields and tabs. Below is an HTML representation of the form:
+
+```html
+<div style="width: 949px; height: 175px; font-family: Verdana;">
+  <div style="padding: 10px;">
+    <label for="code">Code:</label>
+    <input type="text" id="code" style="margin-left: 10px;" />
   </div>
-  ```
+  <div style="padding: 10px;">
+    <label for="description">Name:</label>
+    <input type="text" id="description" style="margin-left: 10px;" />
+  </div>
+  <div style="padding: 10px;">
+    <label for="legalNum">Legal Num:</label>
+    <input type="text" id="legalNum" style="margin-left: 10px;" />
+  </div>
+</div>
+```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* Métodos como `m_SetFindCustomerMarket` e `m_SetFindParentCustomer` são essenciais para configurar critérios específicos.
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para busca de clientes com base em critérios detalhados. Sua principal limitação é a ausência de validações explícitas e mensagens de erro detalhadas. No entanto, sua modularidade e organização são pontos fortes.
+- **Initialization:** The `Initialize` method is critical for setting up default values.
+- **Validation:** The `Validate` method ensures the form is correctly filled before proceeding.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-Componente Delphi para busca de clientes baseado em critérios detalhados, utilizando campos de texto, comboboxes e validações básicas. Ideal para sistemas que exigem filtros refinados e organizados.#### **FRfindCriteriaListCustomer.pas**
+The `FRfindCriteriaListCustomer` form provides a robust interface for filtering customer data. Its modular design and use of custom components make it flexible for various use cases. However, the lack of explicit error handling and field validation details may require additional implementation.
+
+---
+
+## 13. Short Summary:
+
+The `FRfindCriteriaListCustomer` form enables users to input and validate search criteria for customer data filtering, supporting advanced filtering options with a modular and extensible design.#### **FRfindCriteriaListCustomer.pas**
 
 ```
 unit FRfindCriteriaListCustomer;

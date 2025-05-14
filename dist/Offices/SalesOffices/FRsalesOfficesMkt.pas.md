@@ -2,181 +2,208 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRsalesOfficesMkt` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar escritórios de vendas e seus mercados associados. Ele permite a exibição, edição e manipulação de dados relacionados a escritórios e mercados em um formato de grade (grid). O objetivo principal é fornecer uma interface amigável para gerenciar esses dados, incluindo a adição, exclusão e busca de mercados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para desenvolver a aplicação.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de tabela.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **DataSet e ClientDataSet:** Para manipulação de dados em memória.
+### Objective and Problem Solved:
+The `FRsalesOfficesMkt` code unit defines a frame (`TFRAMEsalesOfficesMkt`) that provides a grid-based interface for managing sales offices and their associated markets. It allows users to view, add, and delete market data related to sales offices. The main objective is to provide a user-friendly interface for managing this data while ensuring proper validation and configuration of the grid.
 
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `marketCode` (Código do Mercado): String.
-      - `marketDesc` (Descrição do Mercado): String.
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`add`): Permite adicionar um novo mercado.
-      - Excluir (`delete`): Permite excluir um mercado existente.
-      - Buscar (`cxEDTfindMarket`): Permite buscar mercados por código ou descrição.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the user interface and handling events.
+- **SOAP Services**: Used for interacting with external services (e.g., `CustomerMarketServiceUtils`).
+- **Database Components**: Includes `TDataSet` and `TField` for database interaction.
+- **cxGrid**: A component from DevExpress for displaying and managing tabular data.
+- **Custom Components**: Includes `TcxEditRepositoryButtonItem` for custom button functionality in the grid.
 
----
+### Form Type:
+This code represents a **grid display**.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **marketCode**: Custom editor (`cxEDTfindMarket`).
+2. **marketDesc**: Standard text field.
 
-* **Ações Específicas:**
-  - Adicionar um mercado.
-  - Excluir um mercado.
-  - Buscar mercados por código ou descrição.
-  - Configurar campos da grade, como visibilidade, ordem e editores personalizados.
-
-* **Componentes Principais:**
-  - `TFRAMEsalesOfficesMkt`: Classe principal que gerencia a interface e as interações.
-  - `cxGrid`: Componente de grade para exibição de dados.
-  - `cxEDTfindMarket`: Botão para busca de mercados.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `if botão adicionar clicado then execute função adicionar`.
-  - Evento `OnClick` do botão "Excluir": `if botão excluir clicado then execute função excluir`.
-  - Evento `OnButtonClick` do botão de busca: `if botão buscar clicado then execute função buscar`.
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new market entry.
+2. **Delete**: Deletes the selected market entry.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente `TFRAMEsalesOfficesMkt`:
-     - Configurações de campos, visibilidade e ações disponíveis.
-     - Configuração de eventos, como `OnSetAccessMode` e `OnButtonClick`.
-  2. Interações do usuário:
-     - Clique no botão "Adicionar" chama a função `ACTaddExecute`.
-     - Clique no botão "Excluir" remove o item selecionado.
-     - Clique no botão de busca chama a função `m_FindMarket`.
+### User/Software Actions:
+1. Add a new market entry.
+2. Delete an existing market entry.
+3. Search for a market using a custom button in the grid.
 
-* **Dados Necessários:**
-  - Código do mercado (`marketCode`).
-  - Descrição do mercado (`marketDesc`).
+### Main Components:
+- **Grid (`cxGrid`)**: Displays the market data.
+- **Custom Button (`cxEDTfindMarket`)**: Allows users to search for markets.
+- **Action List (`AvailableActions`)**: Defines the actions available in the grid (e.g., add, delete).
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ação "Adicionar": Disponível sempre.
-  - Ação "Excluir": Disponível apenas se um item estiver selecionado.
-  - Ação "Buscar": Disponível sempre.
-
-* **Filtros Disponíveis:**
-  - Busca por código do mercado.
-  - Busca por descrição do mercado.
-
-* **Mensagens de Erro:**
-  - "Nenhum item selecionado" se tentar excluir sem selecionar um item.
-  - "Erro ao buscar mercado" se a busca falhar.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - `marketCode`: Deve ser único e não vazio.
-  - `marketDesc`: Deve ser preenchido.
+### Pseudo-code for Actions and Events:
+- **Add Button Click**:  
+  `if add button clicked then execute ACTaddExecute`
+- **Grid Value Change**:  
+  `if grid value changed then execute cxDBVtableEditValueChanged`
+- **Custom Button Click**:  
+  `if custom button clicked then execute m_FindMarket`
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **Funções e Lógica de Negócio:**
-  - `ACTaddExecute`: Adiciona um novo mercado.
-  - `m_FindMarket`: Realiza a busca de mercados.
-  - `VerifyDataBeforeSave`: Verifica se os dados estão corretos antes de salvar.
-  - `m_ConfigFields`: Configura os campos da grade.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized in the `Create` constructor.
+   - Grid settings are configured (e.g., hidden fields, key fields, custom editors).
+   - Available actions (`add`, `delete`) are defined.
+   - Event handlers are assigned (e.g., `OnSetAccessMode`, `OnButtonClick`).
 
----
+2. **User Interactions**:
+   - Users can add or delete entries using the grid.
+   - Users can search for markets using the custom button.
 
-## 6. Consumo de Serviços API:
+### Functions and File Locations:
+1. **`Create`** (Initialization):  
+   File: `FRsalesOfficesMkt.pas`  
+   Function: `TFRAMEsalesOfficesMkt.Create`
+2. **`ACTaddExecute`** (Add Action):  
+   File: `FRsalesOfficesMkt.pas`  
+   Function: `ACTaddExecute`
+3. **`m_FindMarket`** (Search Market):  
+   File: `FRsalesOfficesMkt.pas`  
+   Function: `m_FindMarket`
 
-* **Chamadas a Serviços Externos:**
-  - **Nome do Serviço:** CustomerMarketServiceUtils.
-  - **Endpoint:** Não especificado no código.
-  - **Dados Enviados:** Não especificado no código.
-  - **Dados Recebidos:** Não especificado no código.
-  - **Propósito:** Gerenciar dados de mercados.
-  - **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para o componente.
+### Data Required:
+- **Market Code**: Unique identifier for the market.
+- **Market Description**: Description of the market.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `marketCode` (tipo: string, obrigatório).
-  - `marketDesc` (tipo: string, obrigatório).
+### Actions and Preconditions:
+1. **Add Action**:
+   - Preconditions: None.
+   - Action: Adds a new market entry.
+2. **Delete Action**:
+   - Preconditions: A market entry must be selected.
+   - Action: Deletes the selected market entry.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `marketCode` mapeado para a coluna `marketCode`.
-  - `marketDesc` mapeado para a coluna `marketDesc`.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```delphi
-  procedure TFRAMEsalesOfficesMkt.ACTaddExecute(Sender: TObject);
-  begin
-    // Lógica para adicionar um novo mercado
-  end;
-  ```
-* **Capturas de Tela:** Não aplicável.
+### Field Validation and Conditions:
+- **marketCode**: Custom editor (`cxEDTfindMarket`) is used for validation.
+- **marketDesc**: No specific validation is defined.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração de campos da grade:
-  ```delphi
-  HiddenFields.Add('HIDE_ALL_FIELDS');
-  OrderFields.Add('marketCode');
-  OrderFields.Add('marketDesc');
-  ```
-
-* Configuração de ações disponíveis:
-  ```delphi
-  AvailableActions := 'add;delete';
-  ```
+1. **`Create`**: Initializes the frame and configures the grid settings.
+2. **`ACTaddExecute`**: Handles the "Add" action.
+3. **`m_FindMarket`**: Handles the custom button click for searching markets.
+4. **`m_OnSetAccessMode`**: Configures access mode and grid column widths.
+5. **`VerifyDataBeforeSave`**: Ensures data is valid before saving (not fully implemented in the provided code).
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código fornece uma interface robusta para gerenciar escritórios de vendas e mercados associados. Ele é bem estruturado e utiliza componentes modernos, como `cxGrid`. No entanto, faltam detalhes sobre o consumo de serviços externos e validações mais robustas para os campos.
+- **Service Name**: `CustomerMarketServiceUtils`
+- **Purpose**: Interacts with external services for market-related operations.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa uma interface para gerenciar escritórios de vendas e mercados, permitindo adicionar, excluir e buscar mercados. Ele utiliza `cxGrid` para exibição de dados e suporta ações básicas de manipulação.#### **FRsalesOfficesMkt.pas**
+- **Custom Button (`cxEDTfindMarket`)**: Visible and functional only when the grid is active.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+1. **DevExpress Components**: Used for grid and editor functionalities.
+2. **SOAPHTTPClient**: Used for SOAP service interactions.
+
+### Custom Components:
+1. **`TcxEditRepositoryButtonItem`**: Custom button for searching markets.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **marketCode**:  
+   - Type: String  
+   - Editor: Custom (`cxEDTfindMarket`)  
+   - Validation: Not explicitly defined.
+2. **marketDesc**:  
+   - Type: String  
+   - Validation: Not explicitly defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Frame] --> [Configure Grid] --> [User Interactions]
+    --> [Add/Delete/Search Actions] --> [End]
+```
+
+### Sequence Diagram:
+```plaintext
+User --> Grid: Add/Delete/Search
+Grid --> Frame: Trigger Event
+Frame --> SOAP Service: Fetch/Save Data
+SOAP Service --> Frame: Return Response
+Frame --> Grid: Update Display
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEsalesOfficesMkt.ACTaddExecute(Sender: TObject);
+begin
+  // Code to add a new market entry
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
+---
+
+## 11. Important Comments in the Code:
+
+1. **Grid Configuration**:
+   - Hidden fields: `HIDE_ALL_FIELDS`
+   - Key fields: `salesdir`
+   - Custom editor: `marketCode` uses `cxEDTfindMarket`.
+
+2. **Available Actions**:
+   - Defined as `add;delete`.
+
+---
+
+## 12. Conclusion:
+
+The `FRsalesOfficesMkt` code unit provides a robust framework for managing sales offices and their markets. It leverages DevExpress components for a feature-rich grid interface and integrates with SOAP services for data operations. However, the code lacks explicit error handling and field validation, which could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `FRsalesOfficesMkt` unit implements a grid-based interface for managing sales office markets, supporting add, delete, and search functionalities. It uses DevExpress components and SOAP services for data operations, with configurable grid settings and custom editors.#### **FRsalesOfficesMkt.pas**
 
 ```
 unit FRsalesOfficesMkt;

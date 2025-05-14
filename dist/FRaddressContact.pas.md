@@ -2,206 +2,232 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar contatos associados a endereços. Ele permite a exibição, edição e manipulação de dados de contatos em um formato de grade. O objetivo principal é fornecer uma interface amigável para gerenciar contatos relacionados a uma entidade específica.
-
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL Framework).
-  - Componentes de grade (cxGrid, cxGridDBTableView).
-  - Serviços SOAP para integração com back-end.
-  - Manipulação de dados com `DBClient` e `TDataSet`.
-
-* **Forma do Componente:**
-  - **Grade de Exibição:**
-    - **Colunas da Grade e seus Tipos:**
-      - `contactType` (string).
-      - `contactNameDummy` (string).
-      - `contactDesc` (string).
-      - `position` (string).
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Permite adicionar um novo contato.
-      - Excluir (`DELETE`): Remove o contato selecionado.
+# Documentation for `FRaddressContact` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Adicionar um novo contato.
-  - Editar informações de contatos existentes.
-  - Excluir contatos.
-  - Pesquisar contatos por código ou nome.
+### Objective and Problem Solved:
+The `FRaddressContact` code unit defines a frame (`TFRAMEaddressContact`) that provides a grid-based interface for managing contact information associated with addresses. It allows users to view, edit, and manage contact details in a structured grid format. The main objective is to facilitate the management of contact data, including adding, editing, and deleting contacts, while ensuring proper validation and user interaction.
 
-* **Componentes Principais:**
-  - `TcxGridDBTableView`: Exibe os dados em formato de grade.
-  - `TFRAMEBaseGridEditSOA`: Classe base que fornece funcionalidades de edição e integração com serviços.
-  - Botões de ação (`BTNadd`, `BTNapply`, `BTNcancel`): Permitem interações do usuário.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services to fetch or update contact data.
+- **Database Components**: For managing and displaying data from a database.
+- **Third-party Libraries**: Includes `cxGrid` for grid display and `TsPanel` for styled panels.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`:
-    ```pseudo
-    se valor da célula for alterado então
-      validar e atualizar o valor no banco de dados
-    ```
-  - Evento `OnDataChange`:
-    ```pseudo
-    se os dados no dataset mudarem então
-      atualizar a interface do usuário
-    ```
-  - Botão `ADD`:
-    ```pseudo
-    se botão "Adicionar" for clicado então
-      abrir formulário para adicionar novo contato
-    ```
+### Form Type:
+This is a **grid display** form.
+
+#### Grid Columns and Their Types:
+1. **contactType**: Custom editor (`cxEDTfind`).
+2. **contactNameDummy**: String.
+3. **contactDesc**: String.
+4. **position**: String.
+
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new contact to the grid.
+2. **Delete**: Deletes the selected contact from the grid.
+3. **Edit**: Allows editing of specific fields in the grid.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente:
-     - Configurações da grade são definidas.
-     - Eventos são atribuídos.
-  2. Interação do usuário:
-     - O usuário pode adicionar, editar ou excluir contatos.
-     - Ações disparam eventos que atualizam os dados e a interface.
+### User/Software Actions:
+- Add a new contact.
+- Edit existing contact details.
+- Delete a contact.
+- Search for contacts using custom find functionality.
 
-* **Dados Necessários:**
-  - Tipo de contato.
-  - Nome do contato.
-  - Descrição do contato.
-  - Posição.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays contact data in a tabular format.
+2. **Buttons (`BTNadd`, `BTNapply`, `BTNcancel`)**: Provide actions for adding, applying, and canceling changes.
+3. **Custom Editors**: Used for specific fields like `contactType`.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre.
-  - **Excluir:** Disponível apenas se um contato estiver selecionado.
-
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se o valor inserido não for válido.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - Não há validações explícitas definidas no código.
+### Pseudo-code for Actions and Events:
+- **OnEditValueChanged**: `if grid cell value changed then update corresponding data`.
+- **OnDataChange**: `if data in the dataset changes then refresh the grid`.
+- **OnAddButtonClick**: `if add button clicked then open a new row for data entry`.
+- **OnFindButtonClick**: `if find button clicked then execute search logic`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`Create`:** Inicializa o componente e configura a grade.
-* **`EnableContactsEditing`:** Define quais campos podem ser editados.
-* **`m_FindContact`:** Lida com a pesquisa de contatos.
-* **`m_FillContactNameColumn`:** Preenche a coluna de nomes de contatos.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized with predefined settings for the grid, including hidden fields, field order, and key fields.
+   - Event handlers are assigned to handle user interactions.
 
----
+2. **User Interactions**:
+   - Users can add, edit, or delete contacts using the provided buttons.
+   - Changes in the grid trigger events to update the underlying data.
 
-## 6. Consumo de Serviços API:
+3. **Functions and File Locations**:
+   - `Create` (File: `FRaddressContact.pas`): Initializes the frame and sets up grid properties.
+   - `EnableContactsEditing` (File: `FRaddressContact.pas`): Configures which fields are editable in the grid.
 
-* **Chamadas a Serviços Externos:**
-  - Nome do Serviço: `ContactTypeServiceUtils`.
-  - Finalidade: Obter informações sobre tipos de contato.
-  - Dados Enviados: Não especificado.
-  - Dados Recebidos: Não especificado.
-  - Tratamento de Erros: Não especificado.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
+### Required User Data:
+- Contact type.
+- Contact name.
+- Contact description.
+- Position.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxGridDBTableView`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para integração com serviços SOAP.
+### Actions and Preconditions:
+- **Add**: Enabled at all times.
+- **Delete**: Enabled only when a contact is selected.
+- **Edit**: Enabled only for specific fields.
 
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para edição de grades.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos:**
-  - `contactType` (string, obrigatório).
-  - `contactNameDummy` (string, obrigatório).
-  - `contactDesc` (string, opcional).
-  - `position` (string, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  FRAMEaddressContact := TFRAMEaddressContact.Create(Self);
-  FRAMEaddressContact.EnableContactsEditing;
-  ```
-* **Captura de Tela (HTML Renderizado):**
-  ```html
-  <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid black;">Tipo de Contato</th>
-        <th style="border: 1px solid black;">Nome do Contato</th>
-        <th style="border: 1px solid black;">Descrição</th>
-        <th style="border: 1px solid black;">Posição</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border: 1px solid black;">Email</td>
-        <td style="border: 1px solid black;">John Doe</td>
-        <td style="border: 1px solid black;">Gerente</td>
-        <td style="border: 1px solid black;">1</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- **contactType**: Uses a custom editor (`cxEDTfind`).
+- **contactName**: No explicit validation defined.
+- **contactDesc**: No explicit validation defined.
+- **position**: No explicit validation defined.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração de ações disponíveis:
-  ```delphi
-  AvailableActions := 'ADD;DELETE';
-  ```
-* Configuração de campos ocultos:
-  ```delphi
-  DefineHiddenFields('addrNum;entityCode;entityType;contactName');
-  ```
+1. **`Create`**:
+   - Initializes the frame and configures grid properties.
+   - Sets up hidden fields, field order, and key fields.
 
----
+2. **`EnableContactsEditing`**:
+   - Disables editing for specific fields in the grid.
 
-## 12. Conclusão:
+3. **`m_FindContact`**:
+   - Handles the logic for finding a contact when the find button is clicked.
 
-O código fornece uma interface robusta para gerenciar contatos associados a endereços. Ele é bem estruturado e utiliza componentes modernos para exibição e manipulação de dados. No entanto, faltam validações explícitas e mensagens de erro detalhadas, o que pode impactar a experiência do usuário.
+4. **`m_FillContactNameColumn`**:
+   - Populates the `contactName` column with a given value.
 
 ---
 
-## 13. Resumo Curto:
+## 6. API Service Consumption:
 
-O código implementa uma interface de grade para gerenciar contatos associados a endereços, permitindo adicionar, editar e excluir contatos. Ele utiliza componentes modernos e integra-se a serviços SOAP para manipulação de dados.#### **FRaddressContact.pas**
+- **Service Name**: ContactTypeServiceUtils.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Likely used for fetching or updating contact data.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxGrid**: For grid display and management.
+- **TsPanel**: For styled panels and buttons.
+
+### Custom Components:
+- **TFRAMEBaseGridEditSOA**: Base class for the frame, providing common functionality for grid-based forms.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **contactType**:
+   - Type: Custom editor (`cxEDTfind`).
+   - Validation: Not explicitly defined.
+2. **contactNameDummy**:
+   - Type: String.
+   - Validation: Not explicitly defined.
+3. **contactDesc**:
+   - Type: String.
+   - Validation: Not explicitly defined.
+4. **position**:
+   - Type: String.
+   - Validation: Not explicitly defined.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEaddressContact.EnableContactsEditing;
+begin
+  SetNoEdittingInGridFields('contactType;contactName;contactNameDummy;contactDesc;position', self);
+end;
+```
+
+### Screenshots:
+The DFM file is provided. Below is the HTML representation of the grid:
+
+```html
+<table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="width: 100px; border: 1px solid black;">Contact Type</th>
+      <th style="width: 200px; border: 1px solid black;">Contact Name</th>
+      <th style="width: 200px; border: 1px solid black;">Description</th>
+      <th style="width: 70px; border: 1px solid black;">Position</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;">Type 1</td>
+      <td style="border: 1px solid black;">John Doe</td>
+      <td style="border: 1px solid black;">Manager</td>
+      <td style="border: 1px solid black;">1</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;">Type 2</td>
+      <td style="border: 1px solid black;">Jane Smith</td>
+      <td style="border: 1px solid black;">Assistant</td>
+      <td style="border: 1px solid black;">2</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- `MasterKeyFields` defines the primary keys for the grid.
+- `AvailableActions` specifies the actions available in the grid (e.g., ADD, DELETE).
+- `DefineHiddenFields` hides specific fields in the grid.
+
+---
+
+## 12. Conclusion:
+
+The `FRaddressContact` code unit provides a robust framework for managing contact data in a grid format. While it offers flexibility and customization, the lack of explicit error handling and validation logic may require additional implementation for production use.
+
+---
+
+## 13. Short Summary:
+
+The `FRaddressContact` unit implements a grid-based interface for managing contact data, supporting add, edit, and delete actions. It leverages Delphi's VCL framework and third-party components for a customizable and user-friendly experience.#### **FRaddressContact.pas**
 
 ```
 unit FRaddressContact;

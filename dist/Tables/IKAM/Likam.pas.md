@@ -2,204 +2,242 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `Likam` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário chamado `TFORMLikam`, que é uma lista de gerenciamento para o "IKAM (International Key Account Manager)". Ele fornece uma interface para exibir, pesquisar e gerenciar dados relacionados a contas-chave internacionais. O objetivo principal é facilitar a visualização e manipulação de dados em um formato de grade, com suporte para ações como criar, modificar, visualizar e realizar buscas avançadas.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes de terceiros, como `cxGrid` (DevExpress), `sSkinProvider` (AlphaControls), e outros.
-  - Serviços de backend, como `TIKAMServiceUtils`.
+### Objective and Problem Solved:
+The `Likam` code unit is designed to manage and display a list of International Key Account Managers (IKAM) in a grid format. It provides functionalities for creating, modifying, viewing, and searching IKAM records. The main objective is to offer a user-friendly interface for managing IKAM data efficiently, with features like grid customization, search capabilities, and integration with external services.
 
-* **Forma do Componente:**
-  - **Exibição em Grade:**
-    - **Colunas da Grade e seus Tipos:**
-      - `stat` (Status): Tipo customizado (`cxEDTstatus`).
-      - `ikam` (ID do IKAM): Tipo não especificado.
-      - `name` (Nome): Tipo não especificado.
-      - `login` (Login): Tipo não especificado.
-      - `email` (E-mail): Tipo não especificado.
-      - `lastUpd` (Última Atualização): Tipo não especificado.
-      - `updBy` (Atualizado Por): Tipo não especificado.
-    - **Ações da Grade e seus Efeitos:**
-      - Ações como criar, modificar, visualizar e realizar buscas avançadas são configuradas, mas inicialmente desativadas.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries**: Includes libraries like `cxGrid` for grid display, `sSkinProvider` for UI theming, and `knePrivileges` for managing user privileges.
+- **Database Integration**: Uses `DBClient` for database connectivity and data manipulation.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+- `stat`: Custom field (`cxEDTstatus`).
+- `ikam`: Text field.
+- `name`: Text field.
+- `login`: Text field.
+- `email`: Text field.
+- `lastUpd`: Date field.
+- `updBy`: Text field.
 
-* **Ações Específicas:**
-  - Criar um novo registro.
-  - Modificar um registro existente.
-  - Visualizar detalhes de um registro.
-  - Realizar buscas simples e avançadas.
-
-* **Componentes Principais:**
-  - `TFORMLikam`: Classe principal que herda de `TFORMkneCBListSOA`.
-  - `GridSettings`: Configuração da grade, incluindo campos ocultos e ordem de exibição.
-  - `ACLeditingActions_deriv`: Lista de ações para edição e busca.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnCreate` do formulário: `Ao criar o formulário, desabilitar a área de busca e ocultá-la`.
-  - Configuração da grade: `Definir campos ocultos e ordem de exibição; adicionar campo customizado 'stat'`.
-  - Configuração de eventos: `Configurar eventos herdados`.
+#### Grid Actions and Their Effects:
+- **New**: Allows the creation of a new IKAM record (currently disabled by default).
+- **Modify**: Enables editing of an existing IKAM record (currently disabled by default).
+- **View**: Opens a detailed view of the selected IKAM record (currently disabled by default).
+- **Search**: Provides basic search functionality (currently disabled by default).
+- **Advanced Search**: Enables advanced search options (currently disabled by default).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`FormCreate`):
-     - Desabilita a área de busca.
-     - Oculta a área de busca.
-  2. Configuração da grade (`GridSetup`):
-     - Define campos ocultos e ordem de exibição.
-     - Adiciona um campo customizado.
-  3. Configuração de eventos (`EventSetup`):
-     - Configura eventos herdados.
-  4. Inicialização da lista (`Initialize`):
-     - Configura o serviço de backend (`TIKAMServiceUtils`).
-     - Define parâmetros de serviço, como exibição de inativos.
+### User/Software Actions:
+- View a list of IKAM records in a grid.
+- Customize the grid display (e.g., hide fields, define order).
+- Perform search operations (basic and advanced).
+- Create, modify, or view IKAM records (actions currently disabled).
 
-* **Dados Necessários:**
-  - Nenhum dado inicial é necessário para carregar o formulário, mas os dados da grade são carregados automaticamente.
+### Main Components:
+- **Grid (`cxDBGlist`)**: Displays the list of IKAM records.
+- **Search Area (`PNLsearchArea`)**: Contains search-related controls.
+- **Action List (`ACLeditingActions_deriv`)**: Manages actions like New, Modify, View, Search, and Advanced Search.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ações como "Novo", "Modificar" e "Visualizar" estão desativadas por padrão e precisam ser habilitadas conforme necessário.
-  - A busca só é possível se a área de busca estiver habilitada.
-
-* **Filtros Disponíveis:**
-  - Não especificado no código.
-
-* **Mensagens de Erro:**
-  - Não especificado no código.
-
-* **Valores Padrão dos Campos:**
-  - `ServiceParams.ShowInactives`: Padrão `True`.
-
-* **Validações e Condições dos Campos:**
-  - Não especificado no código.
-
----
-
-## 5. Funções Principais:
-
-* `FormCreate`: Configurações iniciais do formulário.
-* `GridSetup`: Configura a grade, incluindo campos ocultos e ordem de exibição.
-* `EventSetup`: Configura eventos herdados.
-* `CreateListForm`: Cria uma instância do formulário de lista.
-* `Initialize`: Inicializa o formulário com configurações específicas.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* **Serviço Utilizado:** `TIKAMServiceUtils`.
-* **Finalidade:** Gerenciar dados relacionados ao IKAM.
-* **Detalhes de Chamadas:** Não especificado no código.
-* **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais especificados no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid` (DevExpress): Para exibição de dados em grade.
-  - `sSkinProvider` (AlphaControls): Para estilização do formulário.
-* **Componentes Customizados:**
-  - `TIKAMServiceUtils`: Serviço de backend para gerenciamento de dados.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos da Grade:**
-  - `stat` (Tipo: customizado, `cxEDTstatus`).
-  - `ikam`, `name`, `login`, `email`, `lastUpd`, `updBy` (Tipos não especificados no código).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  var
-    Form: TFORMLikam;
-  begin
-    Form := TFORMLikam.Create(nil);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
-  end;
+### Pseudo-code for Actions and Events:
+- **On Form Create**: 
   ```
-* **HTML Representando o Template:**
-  ```html
-  <div style="width: 100%; font-family: Arial, sans-serif;">
-    <div style="border: 1px solid #ccc; padding: 10px;">
-      <h3>IKAM (International Key Account Manager) List</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid #ccc; padding: 5px;">Status</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">IKAM</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">Nome</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">Login</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">E-mail</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">Última Atualização</th>
-            <th style="border: 1px solid #ccc; padding: 5px;">Atualizado Por</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="border: 1px solid #ccc; padding: 5px;">Ativo</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">123</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">John Doe</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">jdoe</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">jdoe@example.com</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">2023-10-01</td>
-            <td style="border: 1px solid #ccc; padding: 5px;">Admin</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  if form is created then
+    disable search area
+    hide search area
+  ```
+- **Grid Setup**:
+  ```
+  if grid is initialized then
+    hide all fields
+    define field order
+    add custom field 'stat' with type 'cxEDTstatus'
+  ```
+- **Action Execution**:
+  ```
+  if 'New' button clicked then
+    open editor for new record
+  if 'Modify' button clicked then
+    open editor for selected record
+  if 'View' button clicked then
+    open detailed view of selected record
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* `// TFORMLikam JAR #15133 08-02-2013`: Indica a data de criação e o autor do formulário.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created (`FormCreate`), and the search area is disabled and hidden.
+   - The grid is set up with specific configurations (`GridSetup`).
+   - Event handlers are initialized (`EventSetup`).
+
+2. **User Interactions**:
+   - Users interact with the grid to view IKAM records.
+   - Actions like New, Modify, and View are triggered by corresponding buttons (currently disabled).
+
+### Functions and File Locations:
+- **FormCreate**: Initializes the form and disables the search area (`Likam.pas`).
+- **GridSetup**: Configures the grid display (`Likam.pas`).
+- **EventSetup**: Sets up event handlers (`Likam.pas`).
+- **CreateListForm**: Creates and initializes the form (`Likam.pas`).
+- **Initialize**: Sets up the service provider and default parameters (`Likam.pas`).
+
+### Required Data:
+- IKAM records with fields like `stat`, `ikam`, `name`, `login`, `email`, `lastUpd`, and `updBy`.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código implementa um formulário funcional para gerenciamento de dados do IKAM, com suporte para exibição em grade e ações básicas. No entanto, faltam detalhes sobre validações, mensagens de erro e integração com serviços de backend.
+### Actions and Preconditions:
+- **New**: Requires no preconditions (disabled by default).
+- **Modify**: Requires a record to be selected (disabled by default).
+- **View**: Requires a record to be selected (disabled by default).
+- **Search**: Requires search criteria to be entered (disabled by default).
+- **Advanced Search**: Requires advanced search criteria to be entered (disabled by default).
+
+### Available Filters:
+- No filters are explicitly defined in the code.
+
+### Error Messages:
+- No error messages are explicitly defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- No field validations or conditions are explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O `TFORMLikam` é um formulário Delphi para gerenciar dados do IKAM, exibindo informações em uma grade configurável e permitindo ações como criar, modificar e buscar registros. Ele utiliza serviços de backend para carregar dados automaticamente.#### **Likam.pas**
+- **FormCreate**: Initializes the form and disables the search area.
+- **GridSetup**: Configures the grid display, including hidden fields, field order, and custom fields.
+- **EventSetup**: Sets up event handlers for the form.
+- **CreateListForm**: Creates and initializes the form.
+- **Initialize**: Sets up the service provider and default parameters.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `IKAMServiceUtils`.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Provides data for the grid and other functionalities.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- The search area (`PNLsearchArea`) is hidden and disabled by default.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxGrid**: For grid display.
+- **sSkinProvider**: For UI theming.
+- **knePrivileges**: For managing user privileges.
+
+### Custom Components:
+- **TFORMkneCBListSOA**: Base class for the form.
+- **TIKAMServiceUtils**: Service utility for IKAM data.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- `stat` (type: custom, not explicitly validated).
+- `ikam` (type: string, not explicitly validated).
+- `name` (type: string, not explicitly validated).
+- `login` (type: string, not explicitly validated).
+- `email` (type: string, not explicitly validated).
+- `lastUpd` (type: date, not explicitly validated).
+- `updBy` (type: string, not explicitly validated).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFORMLikam.FormCreate(Sender: TObject);
+begin
+  inherited;
+  BTNsearchArea.Enabled := False;
+  ShowSearchArea := False;
+end;
+```
+
+### Screenshots:
+The DFM file represents a grid. Below is the HTML representation:
+
+```html
+<table style="width:100%; border:1px solid black;">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>IKAM</th>
+      <th>Name</th>
+      <th>Login</th>
+      <th>Email</th>
+      <th>Last Updated</th>
+      <th>Updated By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Active</td>
+      <td>IKAM001</td>
+      <td>John Doe</td>
+      <td>jdoe</td>
+      <td>jdoe@example.com</td>
+      <td>2023-10-01</td>
+      <td>Admin</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- `{ TFORMLikam   JAR #15133  08-02-2013}`: Indicates the creation date and author of the form.
+
+---
+
+## 12. Conclusion:
+
+The `Likam` code unit provides a structured and customizable grid for managing IKAM records. While it includes essential functionalities like grid setup and action management, many features (e.g., New, Modify, View) are disabled by default. The code lacks explicit error handling, field validations, and API endpoint details.
+
+---
+
+## 13. Short Summary:
+
+The `Likam` code unit is a Delphi-based grid form for managing IKAM records, offering customizable grid settings and integration with external services. However, many features are disabled by default, and the code lacks explicit error handling and validations.#### **Likam.pas**
 
 ```
 unit Likam;

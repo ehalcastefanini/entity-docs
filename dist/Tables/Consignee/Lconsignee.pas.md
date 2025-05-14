@@ -2,176 +2,223 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código apresentado implementa uma interface para a listagem e gerenciamento de consignatários (consignees). Ele permite que os usuários visualizem, filtrem e interajam com uma lista de consignatários, além de realizar ações como criar, modificar e visualizar detalhes de consignatários. O objetivo principal é fornecer uma interface amigável para gerenciar informações relacionadas a consignatários.
-
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento da aplicação.
-  - Componentes visuais como `TsLabel`, `TsPanel`, `TsBitBtn`, `cxGrid` para construção da interface gráfica.
-  - Acesso a dados via `DBClient` e integração com serviços externos.
-
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - Código do consignatário (string).
-      - Nome abreviado (string).
-      - Nome completo (string).
-      - Código do idioma (string).
-      - Código do país (string).
-      - Descrição do país (string).
-      - Código do mercado (string).
-      - Descrição do mercado (string).
-    - **Ações da Grade e seus Efeitos:**
-      - Seleção de um item para visualização ou edição.
-      - Filtros para refinar a lista de consignatários.
+# Documentation for `Lconsignee` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Específicas:**
-  - Criar um novo consignatário.
-  - Modificar informações de um consignatário existente.
-  - Visualizar detalhes de um consignatário.
-  - Aplicar filtros para buscar consignatários específicos.
-  - Acessar informações de endereço relacionadas ao consignatário.
+### Objective and Problem Solved:
+The `Lconsignee` code unit is designed to manage and display a list of consignees in a grid-based interface. It provides functionalities for searching, viewing, and managing consignee data. The main objective is to offer a user-friendly interface for interacting with consignee records, including advanced search capabilities and actions like creating, modifying, and viewing records.
 
-* **Componentes Principais:**
-  - **Grade (`cxGrid`):** Exibe a lista de consignatários.
-  - **Painel de Filtros:** Permite aplicar critérios de busca.
-  - **Botões de Ação:** Incluem botões para criar, modificar, visualizar e acessar endereços.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **Third-party Libraries**: Includes components like `TsLabel`, `TsPanel`, `TsBitBtn`, and `cxGrid` for enhanced UI and grid functionalities.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Novo": `if botão clicado then abrir formulário de criação`.
-  - Evento `OnClick` do botão "Modificar": `if botão clicado and item selecionado then abrir formulário de edição`.
-  - Evento `OnClick` do botão "Visualizar": `if botão clicado and item selecionado then abrir formulário de visualização`.
-  - Evento `OnClick` do botão "Endereço": `if botão clicado then abrir informações de endereço`.
+### Form Type:
+This is a **grid display** form.
 
----
+#### Grid Columns and Their Types:
+- **Code**: Displays the consignee code (type: string).
+- **Abbreviated Name**: Displays the abbreviated name of the consignee (type: string).
+- **Name**: Displays the full name of the consignee (type: string).
+- **Language Code**: Displays the language code (type: string).
+- **Country Code**: Displays the country code (type: string).
+- **Country Description**: Displays the country description (type: string).
+- **Market Code**: Displays the market code (type: string).
+- **Market Description**: Displays the market description (type: string).
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização do formulário e carregamento dos componentes da interface.
-  2. Configuração da grade e eventos associados.
-  3. Interação do usuário com os botões e filtros.
-  4. Execução das ações correspondentes (ex.: abrir formulários, aplicar filtros).
-
-* **Dados Necessários:**
-  - Código do consignatário.
-  - Nome completo e abreviado.
-  - Código e descrição do país.
-  - Código e descrição do mercado.
+#### Grid Actions and Their Effects:
+- **New**: Opens a form to create a new consignee record.
+- **Modify**: Opens a form to edit the selected consignee record.
+- **View**: Opens a form to view the details of the selected consignee record.
+- **Search Area**: Toggles the search area visibility.
+- **Advanced Search**: Opens advanced search options.
+- **Standard Log Costs**: Executes a specific action related to logging costs.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**
-  - Botão "Modificar" e "Visualizar" só estão habilitados se um item estiver selecionado.
-  - Botão "Novo" está sempre habilitado.
+### User/Software Actions:
+- Create, modify, and view consignee records.
+- Perform basic and advanced searches.
+- Interact with the grid to view consignee details.
 
-* **Filtros Disponíveis:**
-  - Código do consignatário.
-  - Nome.
-  - País.
-  - Mercado.
+### Main Components:
+- **Grid (`cxGrid`)**: Displays the list of consignees.
+- **Search Area (`FRAMEfindCriteriaListConsignee`)**: Provides search filters and criteria.
+- **Action Buttons**: Includes buttons for creating, modifying, viewing, and searching records.
 
-* **Mensagens de Erro:**
-  - "Nenhum item selecionado" se tentar modificar ou visualizar sem selecionar um item.
-  - "Erro ao carregar dados" se houver falha na comunicação com o serviço.
-
-* **Valores Padrão dos Campos:**
-  - Não especificado no código.
-
-* **Validações e Condições dos Campos:**
-  - Não especificado no código.
+### Pseudo-code for Actions and Events:
+- **OnClick event of "New" button**: `if button clicked then open new consignee form`.
+- **OnClick event of "Modify" button**: `if button clicked and record selected then open modify form`.
+- **OnClick event of "View" button**: `if button clicked and record selected then open view form`.
+- **OnClick event of "Search Area" button**: `if button clicked then toggle search area visibility`.
+- **OnClick event of "Advanced Search" button**: `if button clicked then open advanced search options`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`CreateListForm`:** Cria e inicializa o formulário de lista.
-* **`GridSetup`:** Configura a grade de exibição.
-* **`EventSetup`:** Configura os eventos associados aos componentes.
-* **`ACTstdLogCostsExecute`:** Executa uma ação específica relacionada a custos logísticos.
+### Execution Flow:
+1. **Initialization**: The form is initialized, and the grid is set up with default settings.
+2. **User Interaction**:
+   - Users can interact with the grid to view consignee details.
+   - Users can use the search area to filter records.
+   - Users can click action buttons to perform specific tasks (e.g., create, modify, view).
 
----
+### Functions:
+- **`CreateListForm`** (File: `Lconsignee`): Creates and initializes the list form.
+- **`GridSetup`** (File: `Lconsignee`): Configures the grid settings.
+- **`EventSetup`** (File: `Lconsignee`): Sets up event handlers for the form.
 
-## 6. Consumo de Serviços de API:
-
-* **Serviço:** `ConsigneeServiceUtils`.
-* **Finalidade:** Não especificado no código, mas presumivelmente para buscar ou enviar dados relacionados a consignatários.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código fornecido.
+### Required Data:
+- Consignee details such as code, name, language, country, and market information.
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em grade.
-  - `TsLabel`, `TsPanel`, `TsBitBtn`: Para construção da interface gráfica.
+### Actions and Preconditions:
+- **New**: Enabled at all times.
+- **Modify**: Enabled only when a record is selected.
+- **View**: Enabled only when a record is selected.
+- **Search Area**: Always enabled.
+- **Advanced Search**: Always enabled.
 
-* **Componentes Personalizados:**
-  - `FRAMEfindCriteriaListConsignee`: Para critérios de busca específicos.
+### Available Filters:
+- **Country**: Filter by country code or description.
+- **Market**: Filter by market code or description.
+- **Language**: Filter by language code.
 
----
+### Error Messages:
+- "No record selected" if the user tries to modify or view without selecting a record.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Campos:**
-  - Código do consignatário (string, obrigatório).
-  - Nome abreviado (string, obrigatório).
-  - Nome completo (string, obrigatório).
-  - Código do idioma (string, obrigatório).
-  - Código do país (string, obrigatório).
-  - Descrição do país (string, opcional).
-  - Código do mercado (string, obrigatório).
-  - Descrição do mercado (string, opcional).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Trechos de Código:**
-  ```pascal
-  procedure TFORMLconsignee.GridSetup;
-  begin
-    inherited;
-    // Configurações da grade
-  end;
-  ```
-* **Capturas de Tela:** Não aplicável.
+- **`CreateListForm`**: Creates and initializes the list form.
+- **`GridSetup`**: Configures the grid settings.
+- **`EventSetup`**: Sets up event handlers for the form.
+- **`ACTstdLogCostsExecute`**: Executes the standard log costs action.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 6. API Service Consumption:
 
-* O método `GridSetup` é utilizado para configurar a grade, mas os detalhes das configurações não estão implementados no código fornecido.
-
----
-
-## 12. Conclusão:
-
-O código implementa uma interface funcional para gerenciar consignatários, com suporte a filtros e ações básicas. No entanto, faltam detalhes sobre validações de campos, mensagens de erro e integração com serviços externos. A modularidade e uso de componentes personalizados são pontos fortes.
+- **Service Name**: `ConsigneeServiceUtils`.
+- **Purpose**: Interacts with the backend to fetch and manage consignee data.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código fornece uma interface para listar e gerenciar consignatários, com suporte a filtros e ações como criar, modificar e visualizar. Ele utiliza componentes visuais e integrações com serviços para manipulação de dados.#### **Lconsignee.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **`TsLabel`, `TsPanel`, `TsBitBtn`**: Used for UI components.
+- **`cxGrid`**: Used for displaying the grid.
+
+### Custom Components:
+- **`FRAMEfindCriteriaListConsignee`**: A custom frame for search criteria.
+
+---
+
+## 9. Fields and Validations Listing:
+
+- **Code**: Type: string, required.
+- **Abbreviated Name**: Type: string, optional.
+- **Name**: Type: string, required.
+- **Language Code**: Type: string, optional.
+- **Country Code**: Type: string, optional.
+- **Country Description**: Type: string, optional.
+- **Market Code**: Type: string, optional.
+- **Market Description**: Type: string, optional.
+
+Field constraints and validations are not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFORMLconsignee.GridSetup;
+begin
+  inherited;
+  // Configure grid settings here
+end;
+```
+
+### Screenshots:
+The DFM file is partially provided. Below is an HTML representation of the grid:
+
+```html
+<table style="width:100%; border:1px solid black;">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Abbreviated Name</th>
+      <th>Name</th>
+      <th>Language Code</th>
+      <th>Country Code</th>
+      <th>Country Description</th>
+      <th>Market Code</th>
+      <th>Market Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>001</td>
+      <td>ABC</td>
+      <td>Consignee A</td>
+      <td>EN</td>
+      <td>US</td>
+      <td>United States</td>
+      <td>M001</td>
+      <td>Market A</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **`GridSetup`**: Contains settings for configuring the grid.
+- **`ACTstdLogCostsExecute`**: Executes a specific action related to logging costs.
+
+---
+
+## 12. Conclusion:
+
+The `Lconsignee` code unit provides a robust interface for managing consignee data. Its strengths lie in its grid-based display and search functionalities. However, the lack of explicit field validations and error handling could be improved.
+
+---
+
+## 13. Short Summary:
+
+The `Lconsignee` unit manages a grid-based interface for consignees, offering search, create, modify, and view functionalities. It integrates with backend services for data management and provides a user-friendly interface for interacting with consignee records.#### **Lconsignee.pas**
 
 ```
 unit Lconsignee;

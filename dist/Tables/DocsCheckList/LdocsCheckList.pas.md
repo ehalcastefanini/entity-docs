@@ -2,214 +2,255 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `LdocsCheckList` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário chamado `TFORMLdocsCheckList`, que é uma lista de verificação de documentos. Ele permite que os usuários visualizem, pesquisem e gerenciem documentos em um formato de grade. O objetivo principal é fornecer uma interface para manipular dados relacionados a documentos, como status, código, descrição, data, número, referência, entre outros.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (Object Pascal) para desenvolvimento do formulário e lógica de negócios.
-  - Componentes visuais como `TcxGrid`, `TsPanel`, `TsSplitter` para a interface do usuário.
-  - Serviços de backend, como `TDocCheckListServiceUtils`, para manipulação de dados.
+### Objective and Problem Solved:
+The `LdocsCheckList` code unit defines a form (`TFORMLdocsCheckList`) that serves as a grid-based interface for managing and displaying a checklist of documents. It provides functionalities such as viewing, searching, and managing document-related data. The primary objective is to offer a structured and user-friendly interface for interacting with document data, including filtering, sorting, and performing actions like creating, modifying, or viewing document details.
 
-* **Forma do Componente:**
-  - **Exibição em Grade:**
-    - **Colunas da Grade e seus Tipos:**
-      - `stat` (Status): Tipo customizado (`cxEDTstatus`).
-      - `docCd` (Código do Documento): Texto.
-      - `descrip` (Descrição): Texto.
-      - `docDt` (Data do Documento): Data.
-      - `docNum` (Número do Documento): Texto.
-      - `docRef` (Referência do Documento): Texto.
-      - `addinfo` (Informações Adicionais): Texto.
-      - `daysLimit` (Limite de Dias): Número.
-      - `sendRecv` (Envio/Recebimento): Texto.
-      - `lastUpd` (Última Atualização): Data.
-      - `updBy` (Atualizado Por): Texto.
-    - **Ações da Grade e seus Efeitos:**
-      - Ordenação de campos.
-      - Definição de campos somente leitura.
-      - Ocultação de campos não relevantes.
+### Technologies Used:
+- **Delphi VCL Framework**: Used for creating the form and managing UI components.
+- **Third-party Libraries**:
+  - `cxGrid` and related components: For grid-based data display.
+  - `sSkinProvider` and `sPanel`: For UI styling and skinning.
+  - `kneCBListSOA`: A custom base class for list forms.
+  - `knePrivileges`: For managing user privileges.
+  - `DocCheckListServiceUtils`: For backend service interaction.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+- `stat`: Status (custom editor: `cxEDTstatus`).
+- `docCd`: Document Code.
+- `descrip`: Description.
+- `docDt`: Document Date.
+- `docNum`: Document Number.
+- `docRef`: Document Reference.
+- `addinfo`: Additional Information.
+- `daysLimit`: Days Limit.
+- `sendRecv`: Send/Receive Status.
+- `lastUpd`: Last Updated Date.
+- `updBy`: Updated By.
 
-* **Ações Específicas:**
-  - Criar um novo formulário de lista.
-  - Inicializar o formulário com parâmetros específicos.
-  - Configurar a grade para exibir dados de documentos.
-  - Configurar eventos para interações do usuário.
-
-* **Componentes Principais:**
-  - `TcxGrid`: Exibe os dados em formato de tabela.
-  - `TActionList`: Gerencia ações como "Novo", "Modificar", "Visualizar", "Pesquisar" e "Pesquisa Avançada".
-  - `TDocCheckListServiceUtils`: Serviço para manipulação de dados relacionados à lista de verificação de documentos.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` de um botão: `se botão clicado então executar ação correspondente`.
-  - Evento `OnChange` de um campo: `se valor do campo alterado então validar campo`.
+#### Grid Actions and Their Effects:
+- **Search Area**: Allows users to filter and search for specific documents.
+- **Advanced Search**: Provides additional filtering options (currently disabled).
+- **New**: Placeholder for creating a new document (currently disabled).
+- **Modify**: Placeholder for modifying an existing document (currently disabled).
+- **View**: Placeholder for viewing document details (currently disabled).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário com `CreateListForm`.
-  2. Configuração da grade com `GridSetup`.
-  3. Configuração de eventos com `EventSetup`.
-  4. Carregamento automático de dados via `TDocCheckListServiceUtils`.
+### User/Software Actions:
+- View a list of documents in a grid format.
+- Search for documents using predefined criteria.
+- Perform actions like creating, modifying, or viewing documents (currently disabled).
 
-* **Dados Necessários:**
-  - Informações sobre documentos, como status, código, descrição, data, número, referência, etc.
+### Main Components:
+- **Grid (`cxDBGlist`)**: Displays the document data.
+- **Search Area (`PNLsearchArea`)**: Contains search filters and buttons.
+- **Action List (`ACLeditingActions_deriv`)**: Manages actions like New, Modify, View, and Search.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - Ações como "Novo", "Modificar" e "Visualizar" só estão habilitadas se as condições específicas forem atendidas (ex.: seleção de um item na grade).
-
-* **Filtros Disponíveis:**
-  - Filtros para pesquisa básica e avançada.
-
-* **Mensagens de Erro:**
-  - Não especificado no código.
-
-* **Valores Padrão dos Campos:**
-  - Não especificado no código.
-
-* **Validações e Condições dos Campos:**
-  - Campos como `stat` utilizam editores customizados (`cxEDTstatus`).
-  - Validações específicas não estão definidas no código.
+### Pseudo-code for Actions and Events:
+- **Grid Setup**:
+  ```
+  if grid initialized then
+    define order of fields
+    set fields as read-only
+    hide all fields except ordered fields
+    add custom editor for 'stat' field
+  ```
+- **Search Area Action**:
+  ```
+  if search area action executed then
+    disable search area
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`CreateListForm`:** Cria e inicializa o formulário de lista.
-* **`GridSetup`:** Configura a grade, incluindo ordenação, campos somente leitura e ocultação de campos.
-* **`EventSetup`:** Configura eventos para interações do usuário.
-* **`SetupParams`:** Configura parâmetros para o serviço de backend.
+### Execution Flow:
+1. **Initialization**:
+   - The form is created using `CreateListForm`.
+   - The `Initialize` method sets up the service provider and default parameters.
+2. **Grid Setup**:
+   - Fields are ordered, set as read-only, and hidden as per configuration.
+   - A custom editor is added for the `stat` field.
+3. **User Interaction**:
+   - Users interact with the grid and search area.
+   - Actions like New, Modify, and View are placeholders and currently disabled.
 
----
-
-## 6. Consumo de Serviços de API:
-
-* **Serviço Utilizado:** `TDocCheckListServiceUtils`.
-* **Finalidade:** Manipular dados relacionados à lista de verificação de documentos.
-* **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos definidos no código.
+### Data Input:
+- Users can filter data using the search area (criteria not explicitly defined in the code).
 
 ---
 
-## 8. Dependências:
+## 4. Business Rules:
 
-* **Bibliotecas Externas:**
-  - `cxGrid`, `TsPanel`, `TsSplitter`: Componentes visuais.
-  - `TDocCheckListServiceUtils`: Serviço de backend.
+### Actions and Preconditions:
+- **Search Area**: Enabled by default but disabled after execution.
+- **New, Modify, View**: Actions are placeholders and currently disabled.
 
-* **Componentes Customizados:**
-  - `cxEDTstatus`: Editor customizado para o campo `stat`.
+### Available Filters:
+- Filters are defined in the search area but not explicitly detailed in the code.
 
----
+### Error Messages:
+- No error messages are explicitly defined in the code.
 
-## 9. Listagem de Campos e Validações:
+### Default Field Values:
+- Default values are not explicitly defined in the code.
 
-* **Campos:**
-  - `stat` (Tipo: customizado, somente leitura).
-  - `docCd` (Tipo: texto, somente leitura).
-  - `descrip` (Tipo: texto, somente leitura).
-  - `docDt` (Tipo: data, somente leitura).
-  - `docNum` (Tipo: texto, somente leitura).
-  - `docRef` (Tipo: texto, somente leitura).
-  - `addinfo` (Tipo: texto, somente leitura).
-  - `daysLimit` (Tipo: número, somente leitura).
-  - `sendRecv` (Tipo: texto, somente leitura).
-  - `lastUpd` (Tipo: data, somente leitura).
-  - `updBy` (Tipo: texto, somente leitura).
-
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - Não especificado no código.
+### Field Validation and Conditions:
+- No explicit field validations or conditions are defined in the code.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 5. Main Functions:
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  var
-    Form: TFORMLdocsCheckList;
-  begin
-    Form := TFORMLdocsCheckList.Create(nil);
-    try
-      Form.ShowModal;
-    finally
-      Form.Free;
-    end;
+### Functions:
+1. **`CreateListForm`**:
+   - Creates and initializes the form.
+2. **`Initialize`**:
+   - Sets up the service provider and default parameters.
+3. **`GridSetup`**:
+   - Configures the grid, including field order, read-only fields, hidden fields, and custom editors.
+4. **`EventSetup`**:
+   - Placeholder for setting up events (currently inherited without additional logic).
+
+---
+
+## 6. API Service Consumption:
+
+### Service Details:
+- **Service Name**: `DocCheckListServiceUtils`.
+- **Purpose**: Provides backend interaction for the document checklist.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent/Received**: Not explicitly defined in the code.
+- **Error Handling**: Not explicitly defined in the code.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- `cxGrid` and related components: For grid-based data display.
+- `sSkinProvider` and `sPanel`: For UI styling.
+- `kneCBListSOA`: Base class for list forms.
+- `knePrivileges`: For managing user privileges.
+
+### Custom Components:
+- `DocCheckListServiceUtils`: Custom service utility for backend interaction.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+- `stat` (type: string, custom editor: `cxEDTstatus`).
+- `docCd` (type: string).
+- `descrip` (type: string).
+- `docDt` (type: date).
+- `docNum` (type: string).
+- `docRef` (type: string).
+- `addinfo` (type: string).
+- `daysLimit` (type: integer).
+- `sendRecv` (type: string).
+- `lastUpd` (type: date).
+- `updBy` (type: string).
+
+### Mapping:
+- Displayed values are mapped directly to database columns.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not define a complex workflow.)
+
+### Sequence Diagram:
+(Not applicable as the code does not define interactions with external services.)
+
+### Code Snippets:
+```delphi
+var
+  Form: TFORMLdocsCheckList;
+begin
+  Form := TFORMLdocsCheckList.Create(nil);
+  try
+    Form.ShowModal;
+  finally
+    Form.Free;
   end;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Código</th>
-        <th>Descrição</th>
-        <th>Data</th>
-        <th>Número</th>
-        <th>Referência</th>
-        <th>Informações Adicionais</th>
-        <th>Limite de Dias</th>
-        <th>Envio/Recebimento</th>
-        <th>Última Atualização</th>
-        <th>Atualizado Por</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ativo</td>
-        <td>001</td>
-        <td>Documento A</td>
-        <td>2023-10-01</td>
-        <td>12345</td>
-        <td>Ref001</td>
-        <td>Info A</td>
-        <td>30</td>
-        <td>Envio</td>
-        <td>2023-10-10</td>
-        <td>Usuário A</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+end;
+```
+
+### Screenshots:
+HTML representation of the grid:
+```html
+<table style="width:100%; border:1px solid black;">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Document Code</th>
+      <th>Description</th>
+      <th>Document Date</th>
+      <th>Document Number</th>
+      <th>Reference</th>
+      <th>Additional Info</th>
+      <th>Days Limit</th>
+      <th>Send/Receive</th>
+      <th>Last Updated</th>
+      <th>Updated By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Active</td>
+      <td>DOC001</td>
+      <td>Sample Document</td>
+      <td>2023-10-01</td>
+      <td>12345</td>
+      <td>REF001</td>
+      <td>Info</td>
+      <td>30</td>
+      <td>Send</td>
+      <td>2023-10-10</td>
+      <td>Admin</td>
+    </tr>
+  </tbody>
+</table>
+```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-* Configuração de campos na grade (`DefineOrderFields`, `DefineReadOnlyFields`, `DefineHiddenFields`).
-* Uso de editores customizados (`AddCustomField`).
-
----
-
-## 12. Conclusão:
-
-O código fornece uma interface robusta para gerenciar listas de verificação de documentos. Ele utiliza componentes visuais e serviços de backend para exibir e manipular dados. No entanto, faltam detalhes sobre validações, mensagens de erro e valores padrão.
+- `GridSetup`: Configures the grid, including field order, read-only fields, and custom editors.
+- `Initialize`: Sets up the service provider and default parameters.
 
 ---
 
-## 13. Resumo Curto:
+## 12. Conclusion:
 
-O formulário `TFORMLdocsCheckList` exibe e gerencia listas de verificação de documentos em uma grade, com suporte a ordenação, pesquisa e integração com serviços de backend.#### **LdocsCheckList.pas**
+The `LdocsCheckList` code unit provides a structured grid-based interface for managing document checklists. While it includes placeholders for actions like New, Modify, and View, these are currently disabled. The code is modular and relies on external libraries and custom components for functionality.
+
+---
+
+## 13. Short Summary:
+
+The `LdocsCheckList` unit defines a grid-based form for managing document checklists, with features like search and data display. It integrates with backend services and supports modular customization.#### **LdocsCheckList.pas**
 
 ```
 unit LdocsCheckList;

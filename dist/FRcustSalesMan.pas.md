@@ -2,196 +2,212 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRcustSalesMan` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar e editar informações relacionadas a vendedores associados a clientes. Ele fornece uma interface de grade (grid) que permite visualizar, editar e adicionar dados de vendedores. O objetivo principal é facilitar a manipulação de dados de vendedores de forma organizada e eficiente.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes cxGrid:** Utilizados para exibir e manipular dados em formato de grade.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **Bibliotecas Personalizadas (kneUtils, kneDialogFactory, etc.):** Para funcionalidades específicas.
+### Objective and Problem Solved:
+The `FRcustSalesMan` code unit defines a frame (`TFRAMEcustSalesMan`) that provides a grid-based interface for managing and editing salesmen data associated with customers. It allows users to view, add, and edit salesmen information in a structured grid format. The main objective is to streamline the management of salesmen data by providing a user-friendly interface with customizable grid settings and actions.
 
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `businessUnit` (Texto, somente leitura).
-      - `formatOrc` (Texto, somente leitura).
-      - `salesmanName` (Texto, somente leitura).
-      - `salesman` (Texto, com editor personalizado `cxEDTfind`).
-    - **Ações da Grade e seus Efeitos:**
-      - Alteração de valores em células específicas.
-      - Busca de vendedores por meio de um botão associado ao campo `salesman`.
+### Technologies Used:
+- **Delphi VCL Framework**: For creating the user interface and handling events.
+- **SOAP Services**: For interacting with external services (e.g., `SalesManServiceUtils`).
+- **Database Components**: For managing and displaying data from a database (`cxDBData`, `DBClient`).
+- **Custom Grid Components**: `cxGrid`, `cxGridDBTableView` for displaying and editing data in a tabular format.
 
----
+### Form Type:
+This is a **grid display** form.
 
-## 2. Descrição da Funcionalidade:
+#### Grid Columns and Their Types:
+1. **businessUnit**: Read-only.
+2. **formatOrc**: Read-only.
+3. **salesmanName**: Read-only.
+4. **salesman**: Editable with a custom editor (`cxEDTfind`).
 
-* **Ações Específicas:**
-  - Adicionar novos vendedores.
-  - Editar informações de vendedores existentes.
-  - Buscar vendedores por código ou nome.
-
-* **Componentes Principais:**
-  - **Grade (cxGrid):** Exibe os dados dos vendedores.
-  - **Botão de Busca (cxEDTfind):** Permite buscar vendedores.
-  - **Painel de Ações:** Contém botões para adicionar, aplicar e cancelar ações.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnClick` do botão "Adicionar": `se botão clicado então execute ACTaddExecute`.
-  - Evento `OnEditValueChanged` de uma célula: `se valor da célula alterado então execute cxDBVtableEditValueChanged`.
-  - Evento `OnButtonClick` do campo `salesman`: `se botão clicado então execute m_SetFindSalesMan`.
+#### Grid Actions and Their Effects:
+1. **Add Action**: Adds a new salesman entry.
+2. **Edit Action**: Allows editing of existing salesman data.
+3. **Apply Action**: Saves changes made to the grid.
+4. **Cancel Action**: Cancels any unsaved changes.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do componente com o método `Create`.
-  2. Configuração das propriedades da grade, como campos ocultos, somente leitura e ordem.
-  3. Interação do usuário com a interface:
-     - Clique no botão "Adicionar" chama `ACTaddExecute`.
-     - Alteração de valores na grade chama `cxDBVtableEditValueChanged`.
-     - Clique no botão de busca chama `m_SetFindSalesMan`.
+### User/Software Actions:
+1. **Add Salesman**: Triggered by the `ACTaddExecute` procedure.
+2. **Edit Salesman**: Triggered by the `cxDBVtableEditValueChanged` event.
+3. **Search Salesman**: Triggered by the `m_SetFindSalesMan` procedure.
 
-* **Dados Necessários:**
-  - Código do vendedor (`salesman`).
-  - Nome do vendedor (`salesmanName`).
+### Main Components:
+- **Grid (`cxGrid`)**: Displays the salesmen data.
+- **Custom Editor (`cxEDTfind`)**: Provides a search functionality for selecting salesmen.
+- **Action Buttons**: Add, Apply, and Cancel buttons for managing grid actions.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - **Adicionar:** Disponível sempre que o botão "Adicionar" for clicado.
-  - **Editar:** Disponível ao alterar valores na grade.
-  - **Buscar:** Disponível ao clicar no botão de busca no campo `salesman`.
-
-* **Filtros Disponíveis:**
-  - Busca por código do vendedor.
-  - Busca por nome do vendedor.
-
-* **Mensagens de Erro:**
-  - "Vendedor não encontrado" se a busca não retornar resultados.
-  - "Campo obrigatório não preenchido" se campos obrigatórios estiverem vazios.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - Campo `salesman`: Deve ser preenchido com um código válido.
-  - Campo `salesmanName`: Deve ser preenchido com um nome válido.
+### Pseudo-code for Actions and Events:
+- `OnClick` event of Add Button: `if add button clicked then execute ACTaddExecute`.
+- `OnEditValueChanged` event of grid: `if grid cell value changed then execute cxDBVtableEditValueChanged`.
+- `OnButtonClick` event of custom editor: `if search button clicked then execute m_SetFindSalesMan`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **ACTaddExecute:** Adiciona um novo vendedor.
-* **cxDBVtableEditValueChanged:** Manipula alterações nos valores da grade.
-* **m_SetFindSalesMan:** Abre um diálogo para buscar vendedores.
+### Execution Flow:
+1. **Initialization**:
+   - The frame is initialized in the `Create` constructor.
+   - Grid settings are configured (hidden fields, read-only fields, order fields, and custom editors).
+   - Action panel visibility and available actions are set.
 
----
+2. **User Interactions**:
+   - Clicking the "Add" button triggers the `ACTaddExecute` procedure.
+   - Editing a grid cell triggers the `cxDBVtableEditValueChanged` event.
+   - Clicking the search button in the custom editor triggers the `m_SetFindSalesMan` procedure.
 
-## 6. Consumo de Serviços API:
+### Functions and File Locations:
+1. **`ACTaddExecute`**: Adds a new salesman entry.
+2. **`cxDBVtableEditValueChanged`**: Handles changes in grid cell values.
+3. **`m_SetFindSalesMan`**: Opens a search dialog for selecting a salesman.
 
-* **Nome do Serviço:** SalesManServiceUtils.
-* **Endpoint:** Não especificado no código.
-* **Dados Enviados:** Não especificado no código.
-* **Dados Recebidos:** Não especificado no código.
-* **Propósito:** Buscar informações de vendedores.
-* **Tratamento de Erros:** Não especificado no código.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais explícitos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-
-* **Componentes Personalizados:**
-  - `kneUtils`, `kneDialogFactory`, `kneConfigObjects`: Para funcionalidades específicas.
+### Data Input:
+- Users must provide or edit the following fields:
+  - `salesman`: Editable field with a custom search editor.
+  - `salesmanName`: Automatically populated based on the selected salesman.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `businessUnit` (Texto, somente leitura).
-  - `formatOrc` (Texto, somente leitura).
-  - `salesmanName` (Texto, somente leitura).
-  - `salesman` (Texto, com editor personalizado `cxEDTfind`).
+### Actions and Preconditions:
+1. **Add Action**:
+   - Preconditions: None.
+   - Action: Adds a new row to the grid for entering salesman data.
+2. **Edit Action**:
+   - Preconditions: A row must be selected.
+   - Action: Allows editing of the selected row.
+3. **Apply Action**:
+   - Preconditions: Changes must be made to the grid.
+   - Action: Saves changes to the database.
+4. **Cancel Action**:
+   - Preconditions: Changes must be made to the grid.
+   - Action: Discards unsaved changes.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `salesman` → Coluna `salesman`.
-  - `salesmanName` → Coluna `salesmanName`.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- No error messages are explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- No default values are explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```delphi
-  procedure TFRAMEcustSalesMan.ACTaddExecute(Sender: TObject);
-  begin
-    // Lógica para adicionar um novo vendedor
-  end;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="width:100%; border:1px solid black;">
-    <thead>
-      <tr>
-        <th>businessUnit</th>
-        <th>formatOrc</th>
-        <th>salesmanName</th>
-        <th>salesman</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Unidade 1</td>
-        <td>Formato A</td>
-        <td>João Silva</td>
-        <td>12345</td>
-      </tr>
-      <tr>
-        <td>Unidade 2</td>
-        <td>Formato B</td>
-        <td>Maria Oliveira</td>
-        <td>67890</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- `salesman`: Uses a custom editor (`cxEDTfind`) for validation and selection.
+- Other validations are not explicitly defined in the code.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* Configuração de propriedades da grade no método `Create`.
-* Uso de `DefineHiddenFields`, `DefineReadOnlyFields` e `DefineOrderFields` para personalizar a exibição da grade.
+1. **`Create` Constructor**:
+   - Initializes the frame and configures grid settings.
+2. **`ACTaddExecute`**:
+   - Adds a new salesman entry.
+3. **`cxDBVtableEditValueChanged`**:
+   - Handles changes in grid cell values.
+4. **`m_SetFindSalesMan`**:
+   - Opens a search dialog for selecting a salesman.
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código fornece uma interface eficiente para gerenciar vendedores associados a clientes. Ele utiliza componentes visuais avançados e bibliotecas personalizadas para oferecer uma experiência de usuário rica. No entanto, faltam detalhes sobre a integração com serviços externos e validações mais robustas.
+- **Service Name**: SalesManServiceUtils.
+- **Endpoint**: Not explicitly defined in the code.
+- **Data Sent**: Not explicitly defined in the code.
+- **Data Received**: Not explicitly defined in the code.
+- **Purpose**: Interacts with external services for salesman-related operations.
+- **Error Handling**: Not explicitly defined in the code.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa uma interface de grade para gerenciar vendedores, permitindo adicionar, editar e buscar dados. Ele utiliza componentes visuais avançados e bibliotecas personalizadas para facilitar a manipulação de dados.#### **FRcustSalesMan.pas**
+- **Custom Editor (`cxEDTfind`)**:
+  - Appears only when editing the `salesman` field.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **SOAPHTTPClient**: For SOAP service interactions.
+- **cxGrid**: For grid-based UI components.
+- **DBClient**: For database operations.
+
+### Custom Components:
+- **`cxEDTfind`**: Custom editor for searching and selecting salesmen.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **businessUnit**:
+   - Type: String.
+   - Read-only.
+2. **formatOrc**:
+   - Type: String.
+   - Read-only.
+3. **salesmanName**:
+   - Type: String.
+   - Read-only.
+4. **salesman**:
+   - Type: String.
+   - Editable with a custom editor (`cxEDTfind`).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```delphi
+procedure TFRAMEcustSalesMan.ACTaddExecute(Sender: TObject);
+begin
+  // Code to add a new salesman entry
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Settings**:
+  - Hidden fields: `'HIDE_ALL_FIELDS'`.
+  - Read-only fields: `'businessUnit;formatOrc;salesmanName'`.
+  - Order fields: `'businessUnit;formatOrc;salesman;salesmanName'`.
+- **Custom Editor**:
+  - `cxEDTfind` is used for the `salesman` field.
+
+---
+
+## 12. Conclusion:
+
+The `FRcustSalesMan` code unit provides a robust and customizable grid interface for managing salesmen data. Its strengths include the use of a custom editor for searching and selecting salesmen and the ability to configure grid settings dynamically. However, the lack of explicit error handling and validation logic is a limitation.
+
+---
+
+## 13. Short Summary:
+
+The `FRcustSalesMan` unit implements a grid-based interface for managing salesmen data, featuring customizable grid settings and a custom search editor. It supports adding, editing, and saving data, with SOAP service integration for external operations.#### **FRcustSalesMan.pas**
 
 ```
 unit FRcustSalesMan;

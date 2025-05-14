@@ -2,178 +2,216 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
+# Documentation for `FRconsMarket` Code Unit
 
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um formulário para gerenciar informações de mercados consignados, permitindo a edição e visualização de dados como código do mercado, descrição e região associada. Ele também integra funcionalidades para seleção de regiões através de um diálogo de busca. O objetivo é facilitar a manipulação e consulta de dados relacionados a mercados consignados.
+## 1. Overview:
 
-* **Tecnologias Utilizadas:**
-  - Delphi (VCL - Visual Component Library).
-  - Componentes personalizados como `TFRAMEBaseCtrlEditSOA`, `TFRAMEFindEditSOA` e `TFRAMEstatusInfo`.
-  - Serviços SOAP para integração com back-end (`TConsigneeMarketServiceUtils` e `TRegionServiceUtils`).
+### Objective:
+The `FRconsMarket` code unit defines a form (`TFRAMEconsMarket`) for managing market-related data. It provides a user interface for entering and editing market information, including market code, description, and associated region. The form integrates with external services to fetch and validate region data.
 
-* **Tipo de Formulário:**
-  - **Formulário de Edição:**
-    - **Elementos do Formulário e Tipos:**
-      - `EDTmarketCode` (Campo de texto vinculado ao banco de dados para o código do mercado).
-      - `EDTdescription` (Campo de texto vinculado ao banco de dados para a descrição do mercado).
-      - `FRAMEfindRegion` (Componente de busca para seleção de região).
-      - `FRAMEstatusInfo1` (Exibe informações de status, como última atualização e usuário responsável).
-    - **Ações do Formulário e Efeitos:**
-      - Seleção de região através de um diálogo de busca.
-      - Atualização automática de campos vinculados ao banco de dados.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP Services**: The form interacts with SOAP-based services for data retrieval and validation.
+- **Database Components**: Uses `TClientDataSet` and `TDataSource` for database interaction.
 
----
-
-## 2. Descrição da Funcionalidade:
-
-* **Ações Específicas:**
-  - Permitir a edição de informações de mercado (código, descrição e região).
-  - Selecionar uma região através de um diálogo de busca.
-  - Exibir informações de status, como última atualização e usuário responsável.
-
-* **Componentes Principais:**
-  - `EDTmarketCode`: Campo para entrada do código do mercado.
-  - `EDTdescription`: Campo para entrada da descrição do mercado.
-  - `FRAMEfindRegion`: Componente para busca e seleção de regiões.
-  - `FRAMEstatusInfo1`: Exibe informações de status relacionadas ao mercado.
-
-* **Tradução para Pseudo-código:**
-  - Evento `OnCreate` do formulário: `Ao inicializar o formulário, configure propriedades e serviços necessários`.
-  - Método `m_SetFindRegion`: 
-    ```
-    Configurar diálogo de busca para seleção de região.
-    Configurar campos de código e descrição vinculados ao banco de dados.
-    ```
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTmarketCode`: Text input for market code (type: `TsDBEdit`).
+  - `EDTdescription`: Text input for market description (type: `TsDBEdit`).
+  - `FRAMEfindRegion`: A custom component for selecting a region (type: `TFRAMEFindEditSOA`).
+  - `FRAMEstatusInfo1`: A status information panel (type: `TFRAMEstatusInfo`).
+- **Form Actions and Effects**:
+  - Region selection via `FRAMEfindRegion` triggers a dialog for selecting a region.
+  - Data is validated and linked to the database through `TDataSource`.
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-* **Fluxo de Execução:**
-  1. Inicialização do formulário (`Create`):
-     - Configura propriedades do formulário, como `MasterSource`, `DataPacketName` e `ProviderService`.
-     - Configura o painel de ações e visibilidade de componentes.
-     - Chama o método `m_SetFindRegion` para configurar o componente de busca de regiões.
-  2. Interação do Usuário:
-     - O usuário pode preencher os campos de código e descrição.
-     - O usuário pode abrir o diálogo de busca para selecionar uma região.
-  3. Atualização de Dados:
-     - Os campos vinculados ao banco de dados são atualizados automaticamente.
+### User/Software Actions:
+- Enter or edit market code and description.
+- Select a region using the region selection dialog.
+- View status information related to the market.
 
-* **Dados Necessários:**
-  - Código do mercado.
-  - Descrição do mercado.
-  - Região associada (selecionada através do diálogo de busca).
+### Main Components:
+1. **`EDTmarketCode`**: Input field for the market code.
+2. **`EDTdescription`**: Input field for the market description.
+3. **`FRAMEfindRegion`**: A custom component for region selection.
+4. **`FRAMEstatusInfo1`**: Displays status information such as last update and updated by.
 
----
-
-## 4. Regras de Negócio:
-
-* **Ações e Pré-condições:**
-  - A seleção de região só é possível através do componente `FRAMEfindRegion`.
-  - Os campos `EDTmarketCode` e `EDTdescription` devem estar preenchidos para salvar os dados.
-
-* **Filtros Disponíveis:**
-  - Filtro para seleção de região no diálogo de busca.
-
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se algum campo obrigatório estiver vazio.
-  - "Região inválida" se a região selecionada não for válida.
-
-* **Valores Padrão dos Campos:**
-  - Não definidos explicitamente no código.
-
-* **Validações e Condições dos Campos:**
-  - `EDTmarketCode`: Deve ser preenchido em letras maiúsculas.
-  - `EDTdescription`: Deve aceitar texto livre.
-  - `FRAMEfindRegion`: Deve validar a seleção de uma região válida.
-
----
-
-## 5. Funções Principais:
-
-* **`Create`:**
-  - Configura o formulário e inicializa os serviços necessários.
-* **`m_SetFindRegion`:**
-  - Configura o componente de busca de regiões, incluindo o diálogo de seleção e os campos vinculados.
-
----
-
-## 6. Consumo de Serviços de API:
-
-* **Chamadas a Serviços Externos:**
-  - **Serviço:** `TConsigneeMarketServiceUtils`.
-    - **Finalidade:** Gerenciar dados de mercados consignados.
-  - **Serviço:** `TRegionServiceUtils`.
-    - **Finalidade:** Buscar e selecionar regiões.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo de busca de região (`FRAMEfindRegion`) é sempre visível, mas depende da configuração do diálogo de busca para funcionar corretamente.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `InvokeRegistry`, `SOAPHTTPClient`: Para integração com serviços SOAP.
-* **Componentes Personalizados:**
-  - `TFRAMEBaseCtrlEditSOA`, `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**
-  - `marketCode` (tipo: string, obrigatório, letras maiúsculas).
-  - `description` (tipo: string, obrigatório).
-  - `regionCode` (tipo: string, obrigatório, selecionado via busca).
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `marketCode` → Coluna `marketCode`.
-  - `description` → Coluna `description`.
-  - `regionCode` → Coluna `regionCode`.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:**
+### Pseudo-code for Actions and Events:
+- **OnClick event of Region Selection**:
   ```
-  [Inicialização do Formulário] --> [Configuração de Propriedades] --> [Interação do Usuário] --> [Atualização de Dados]
+  if region selection dialog opened then
+    display available regions
+    allow user to select a region
+  end
   ```
-
-* **Diagrama de Sequência:**
+- **OnChange event of `EDTmarketCode`**:
   ```
-  Usuário --> Formulário --> Serviço SOAP (TConsigneeMarketServiceUtils)
-  ```
-
-* **Código HTML Representando o Formulário:**
-  ```html
-  <form style="font-family: Verdana; width: 465px;">
-    <label for="marketCode" style="color: #4D4D4D;">Code:</label>
-    <input id="marketCode" type="text" style="text-transform: uppercase; width: 73px;" />
-    <br />
-    <label for="description" style="color: #4D4D4D;">Description:</label>
-    <input id="description" type="text" style="width: 200px;" />
-    <br />
-    <label for="region" style="color: #4D4D4D;">Region:</label>
-    <input id="region" type="text" style="width: 200px;" />
-  </form>
+  if market code value changed then
+    validate market code
+  end
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* Configuração do serviço de mercado consignado:
-  ```delphi
-  ProviderService := TConsigneeMarketServiceUtils.Create(self);
+### Execution Flow:
+1. **Initialization**:
+   - The form is initialized with default properties in the `Create` constructor.
+   - The `m_SetFindRegion` method configures the region selection component.
+2. **User Interaction**:
+   - Users input data into the fields or select a region.
+   - Data is validated and linked to the database.
+3. **Functions**:
+   - `Create` (File: `FRconsMarket.pas`): Initializes the form and its components.
+   - `m_SetFindRegion` (File: `FRconsMarket.pas`): Configures the region selection component.
+
+### Required Data:
+- Market Code
+- Market Description
+- Region (optional)
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Region Selection**:
+  - Preconditions: The region selection dialog is configured.
+  - Action: Opens a dialog to select a region.
+- **Save Data**:
+  - Preconditions: All required fields are filled and valid.
+
+### Available Filters:
+- Region selection dialog filters regions by `regionCode` and `regionDesc`.
+
+### Error Messages:
+- "Market Code is required" if `EDTmarketCode` is empty.
+- "Description is required" if `EDTdescription` is empty.
+- "Invalid Region" if the selected region is not valid.
+
+### Default Field Values:
+- `EDTmarketCode`: No default value.
+- `EDTdescription`: No default value.
+- `FRAMEfindRegion`: No default value.
+
+### Field Validation and Conditions:
+- `EDTmarketCode`: Must be uppercase and non-empty.
+- `EDTdescription`: Must be non-empty.
+- `FRAMEfindRegion`: Validates the selected region.
+
+---
+
+## 5. Main Functions:
+
+1. **`Create`**:
+   - Initializes the form and sets default properties.
+   - Configures the status panel and region selection component.
+2. **`m_SetFindRegion`**:
+   - Configures the region selection dialog and its settings.
+
+---
+
+## 6. API Service Consumption:
+
+- **Service Name**: `TConsigneeMarketServiceUtils`
+  - **Purpose**: Provides data for the market form.
+- **Service Name**: `TRegionServiceUtils`
+  - **Endpoint**: Not explicitly defined in the code.
+  - **Purpose**: Fetches region data for the selection dialog.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Region Field**:
+  - Appears only when the user interacts with the region selection dialog.
+  - Condition: The dialog is opened and a region is selected.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- `SOAPHTTPClient`: For SOAP-based service interaction.
+- `DBClient`: For database interaction.
+
+### Custom Components:
+- `TFRAMEFindEditSOA`: Custom component for region selection.
+- `TFRAMEstatusInfo`: Custom component for displaying status information.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **Market Code**:
+   - Type: String
+   - Required: Yes
+   - Validation: Must be uppercase.
+2. **Description**:
+   - Type: String
+   - Required: Yes
+3. **Region**:
+   - Type: String
+   - Required: No
+   - Validation: Must be a valid region.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not include complex workflows.)
+
+### Sequence Diagram:
+(Not applicable as the code does not include interactions with external systems.)
+
+### Code Snippets:
+```pascal
+// Example: Creating the form
+var
+  MarketForm: TFRAMEconsMarket;
+begin
+  MarketForm := TFRAMEconsMarket.Create(nil);
+  try
+    MarketForm.Show;
+  finally
+    MarketForm.Free;
+  end;
+end;
+```
+
+### Screenshots:
+```html
+<div style="font-family: Verdana; width: 400px; padding: 10px; border: 1px solid #ccc;">
+  <label for="marketCode" style="color: #4d4d4d;">Code:</label>
+  <input id="marketCode" type="text" style="width: 100%; margin-bottom: 10px;" />
+  
+  <label for="description" style="color: #4d4d4d;">Description:</label>
+  <input id="description" type="text" style="width: 100%; margin-bottom: 10px;" />
+  
+  <label for="region" style="color: #4d4d4d;">Region:</label>
+  <input id="region" type="text" style="width: 100%; margin-bottom: 10px;" />
+</div>
+```
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Initialization**:
+  ```pascal
+  // SET DAS PROPRIEDADES DA FRAME
+  MasterSource := nil;
+  MasterKeyFields := '';
+  DataPacketName := 'ConsigneeMarket';
   ```
-* Configuração do diálogo de busca de região:
-  ```delphi
+- **Region Configuration**:
+  ```pascal
   with FRAMEfindRegion do
   begin
     with FindDialog do
@@ -186,15 +224,15 @@
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código implementa um formulário funcional para gerenciar mercados consignados, com integração a serviços SOAP e componentes personalizados. Ele é eficiente para manipulação de dados, mas depende de configurações externas para validação e persistência de dados.
+The `FRconsMarket` code unit provides a robust form for managing market data. It integrates with SOAP services for region selection and ensures data validation. However, the code lacks detailed error handling and explicit API endpoint definitions.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-Formulário para gerenciar mercados consignados, permitindo edição de código, descrição e seleção de região. Integra serviços SOAP para manipulação de dados e utiliza componentes personalizados para busca e exibição de informações.#### **FRconsMarket.pas**
+The `FRconsMarket` form facilitates market data management with fields for market code, description, and region selection. It integrates with SOAP services for region validation and ensures data consistency through field validations.#### **FRconsMarket.pas**
 
 ```
 unit FRconsMarket;

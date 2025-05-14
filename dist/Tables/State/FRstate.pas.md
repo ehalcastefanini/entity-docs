@@ -2,220 +2,227 @@
 
 #### **Documentation**
 
-# Documentação do Código `FRstate`
+# Documentation for `FRstate` Code Unit
 
-## 1. Visão Geral:
+## 1. Overview:
 
-### Objetivo Principal:
-O objetivo principal deste código é criar uma interface gráfica para gerenciar informações de estados, incluindo descrição, código do estado, código ISO e associação com um país. Ele permite que o usuário insira, edite e visualize dados relacionados a estados, além de buscar informações de países para preencher automaticamente o código ISO.
+### Objective and Problem Solved:
+The `FRstate` code unit defines a form (`TFRAMEstate`) that allows users to manage state-related data, including state codes, descriptions, ISO codes, and associated countries. It provides a user interface for editing and linking state information with country data. The form integrates with external services to fetch and update data dynamically.
 
-### Tecnologias Utilizadas:
-- **Delphi**: Linguagem de programação e ambiente de desenvolvimento.
-- **Componentes Visuais**: `TsLabel`, `TsDBEdit`, `TFRAMEFindEditSOA`, `TFRAMEstatusInfo`.
-- **Banco de Dados**: Utilização de `DataSource` e `ClientDataSet` para manipulação de dados.
-- **Serviços SOAP**: Consumo de serviços externos para buscar informações de países.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services (`TStateServiceUtils` and `CountryServiceUtils`).
+- **Database Components**: For binding form fields to a database (`TsDBEdit`, `DataSource`, `CDStable`).
+- **Custom Components**: Includes `TsLabel`, `TsDBEdit`, `TFRAMEFindEditSOA`, and `TFRAMEstatusInfo`.
 
-### Tipo de Formulário:
-Este é um formulário com elementos de entrada de dados.  
-#### Elementos do Formulário:
-- **Descrição** (`EDTdescription`): Campo de texto para inserir a descrição do estado.
-- **Código do Estado** (`EDTstateCode`): Campo de texto para inserir o código do estado.
-- **País** (`FRAMEfindCountry`): Componente para buscar e selecionar um país.
-- **Código ISO** (`EDTisoCode`): Campo de texto para exibir ou editar o código ISO do estado.
-
-#### Ações do Formulário:
-- **Busca de País**: Permite selecionar um país e preencher automaticamente o código ISO.
-- **Edição de Dados**: Permite editar os campos de descrição, código do estado e código ISO.
-
----
-
-## 2. Descrição da Funcionalidade:
-
-### Ações Específicas:
-- **Busca de País**: O usuário pode selecionar um país, e o código ISO correspondente será preenchido automaticamente.
-- **Edição de Campos**: Os campos podem ser editados diretamente pelo usuário.
-- **Validação de Dados**: O código ISO é atualizado apenas se for diferente do valor atual.
-
-### Componentes Principais:
-- **`TFRAMEFindEditSOA`**: Componente para busca de países.
-- **`TsDBEdit`**: Campos de entrada de dados vinculados ao banco de dados.
-- **`TFRAMEstatusInfo`**: Exibe informações de status relacionadas ao estado.
-
-### Pseudo-código:
-- Evento `OnClick` no botão de busca de país:  
-  `if botão clicado then abrir diálogo de busca de país`.
-- Evento `AfterFind` no componente de busca:  
-  `if país selecionado then atualizar código ISO`.
+### Form Type:
+This is a **form** with the following elements:
+- **Form Elements and Types**:
+  - `EDTdescription` (Text input, bound to `description` field).
+  - `EDTstateCode` (Text input, bound to `stateCode` field).
+  - `EDTisoCode` (Text input, bound to `isoCode` field).
+  - `FRAMEfindCountry` (Custom component for country selection).
+  - `FRAMEstatusInfo1` (Custom component for displaying status information).
+- **Form Actions and Effects**:
+  - Country selection updates the ISO code dynamically.
+  - Data is bound to a database table (`DStable`).
 
 ---
 
-## 3. Lógica Operacional:
+## 2. Functionality Description:
 
-### Fluxo de Execução:
-1. **Inicialização**:
-   - O formulário é carregado e os componentes são configurados.
-   - O serviço de estado (`TStateServiceUtils`) é inicializado.
-   - O evento `AfterFind` do componente de busca de país é configurado.
+### User/Software Actions:
+- Users can input or edit state details (description, state code, ISO code).
+- Users can select a country, which updates the ISO code automatically.
+- The form interacts with external services to fetch and update data.
 
-2. **Interação do Usuário**:
-   - O usuário pode preencher os campos ou buscar um país.
-   - Após selecionar um país, o código ISO é atualizado automaticamente.
+### Main Components:
+- **Labels (`TsLabel`)**: Display field names and provide focus control.
+- **Database Fields (`TsDBEdit`)**: Editable fields bound to database columns.
+- **Country Selector (`TFRAMEFindEditSOA`)**: Custom component for selecting a country.
+- **Status Info (`TFRAMEstatusInfo`)**: Displays additional status information.
 
-### Dados Necessários:
-- **Descrição**: Texto descritivo do estado.
-- **Código do Estado**: Código único do estado.
-- **País**: Seleção de um país.
-- **Código ISO**: Código ISO do estado.
-
----
-
-## 4. Regras de Negócio:
-
-### Ações e Pré-condições:
-- **Busca de País**: Requer que o usuário clique no botão de busca.
-- **Atualização do Código ISO**: O código ISO é atualizado apenas se for diferente do valor atual.
-
-### Filtros Disponíveis:
-- **Busca de País**: Permite filtrar países por nome ou código.
-
-### Mensagens de Erro:
-- "Nenhum país selecionado" se o usuário não selecionar um país.
-- "Erro ao atualizar código ISO" se ocorrer um problema ao salvar os dados.
-
-### Valores Padrão dos Campos:
-- **Descrição**: Nenhum valor padrão.
-- **Código do Estado**: Nenhum valor padrão.
-- **Código ISO**: Nenhum valor padrão.
-
-### Validações e Condições:
-- **Descrição**: Deve ser preenchida.
-- **Código do Estado**: Deve ser único e em letras maiúsculas.
-- **Código ISO**: Deve ser preenchido automaticamente após a seleção de um país.
+### Pseudo-code for Actions and Events:
+- **On Country Selection**:
+  ```pseudo
+  if country selected then
+    fetch ISO code from selected country
+    update ISO code field in the database
+  ```
+- **On Form Initialization**:
+  ```pseudo
+  initialize form properties
+  set up country selection component
+  bind data source to status info component
+  ```
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-### Funções:
-1. **`Create`**:
-   - Configura os componentes e inicializa o serviço de estado.
+### Execution Flow:
+1. **Initialization**:
+   - The `Create` constructor initializes the form, sets properties, and configures components.
+   - External services (`TStateServiceUtils`) are instantiated.
+   - The `FRAMEfindCountry` component is configured for country selection.
+2. **User Interaction**:
+   - Users fill in the fields or select a country.
+   - The `AfterFind` event of `FRAMEfindCountry` updates the ISO code dynamically.
+3. **Functions**:
+   - `m_SetFindCountry`: Configures the country selection component.
+   - `m_AfterFindCountry`: Updates the ISO code based on the selected country.
+
+### Required Data:
+- **Fields to Fill**:
+  - `Description`: Text input.
+  - `State Code`: Text input.
+  - `ISO Code`: Text input (auto-updated on country selection).
+
+---
+
+## 4. Business Rules:
+
+### Actions and Preconditions:
+- **Country Selection**:
+  - Preconditions: A country must be selected.
+  - Action: Updates the ISO code field.
+- **Field Editing**:
+  - Preconditions: Fields must be editable (not in read-only mode).
+
+### Available Filters:
+- No explicit filters are defined in the code.
+
+### Error Messages:
+- No explicit error messages are defined in the code.
+
+### Default Field Values:
+- No default values are explicitly defined in the code.
+
+### Field Validation and Conditions:
+- `EDTdescription`: Uppercase text.
+- `EDTstateCode`: Uppercase text.
+- `EDTisoCode`: Uppercase text.
+- Additional validations are not explicitly defined in the code.
+
+---
+
+## 5. Main Functions:
+
+### Functions:
+1. **`Create` Constructor**:
+   - Initializes the form and its components.
+   - Configures external services and binds data sources.
 2. **`m_SetFindCountry`**:
-   - Configura o componente de busca de país.
+   - Configures the `FRAMEfindCountry` component for country selection.
 3. **`m_AfterFindCountry`**:
-   - Atualiza o código ISO com base no país selecionado.
+   - Updates the ISO code field based on the selected country.
 
 ---
 
-## 6. Consumo de Serviços API:
+## 6. API Service Consumption:
 
-### Serviço: `TStateServiceUtils`
-- **Endpoint**: Não especificado no código.
-- **Dados Enviados**: Não especificado no código.
-- **Dados Recebidos**: Informações sobre estados.
-- **Propósito**: Gerenciar dados de estados.
-
-### Serviço: `FRAMEfindCountry`
-- **Endpoint**: Não especificado no código.
-- **Dados Enviados**: Nome ou código do país.
-- **Dados Recebidos**: Lista de países.
-- **Propósito**: Buscar informações de países.
+### External Service Calls:
+1. **Service Name**: `TStateServiceUtils`
+   - **Purpose**: Provides state-related services.
+2. **Service Name**: `CountryServiceUtils`
+   - **Purpose**: Provides country-related services.
+   - **Endpoint**: Not explicitly defined in the code.
+   - **Data Sent/Received**: Not explicitly defined in the code.
 
 ---
 
-## 7. Campos Condicionais (Lógica do Formulário):
+## 7. Conditional Fields (Form Logic):
 
-- **Campo "Código ISO"**:
-  - Condição: Atualizado automaticamente após a seleção de um país.
-
----
-
-## 8. Dependências:
-
-### Bibliotecas Externas:
-- **SOAPHTTPClient**: Para consumo de serviços SOAP.
-- **DB e DBClient**: Para manipulação de dados.
-
-### Componentes Personalizados:
-- **`TFRAMEFindEditSOA`**: Componente para busca de países.
-- **`TFRAMEstatusInfo`**: Exibe informações de status.
+- **ISO Code Field**:
+  - Automatically updated when a country is selected in `FRAMEfindCountry`.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 8. Dependencies:
 
-- **Descrição** (`EDTdescription`):  
-  - Tipo: String.  
-  - Obrigatório: Sim.  
-  - Validação: Não definida no código.
+### External Libraries:
+- **SOAP Components**: For service interaction.
+- **Database Components**: For data binding.
 
-- **Código do Estado** (`EDTstateCode`):  
-  - Tipo: String.  
-  - Obrigatório: Sim.  
-  - Validação: Deve ser único e em letras maiúsculas.
-
-- **País** (`FRAMEfindCountry`):  
-  - Tipo: Seleção.  
-  - Obrigatório: Sim.  
-  - Validação: Não definida no código.
-
-- **Código ISO** (`EDTisoCode`):  
-  - Tipo: String.  
-  - Obrigatório: Sim.  
-  - Validação: Atualizado automaticamente.
+### Custom Components:
+- `TFRAMEFindEditSOA`: For country selection.
+- `TFRAMEstatusInfo`: For displaying status information.
 
 ---
 
-## 10. Exemplos e Diagramas:
+## 9. Fields and Validations Listing:
 
-### Fluxograma:
-Não aplicável.
+### Fields:
+1. **Description**:
+   - Type: String.
+   - Bound to: `description` field.
+   - Validation: Uppercase text.
+2. **State Code**:
+   - Type: String.
+   - Bound to: `stateCode` field.
+   - Validation: Uppercase text.
+3. **ISO Code**:
+   - Type: String.
+   - Bound to: `isoCode` field.
+   - Validation: Uppercase text.
 
-### Diagrama de Sequência:
-Não aplicável.
+### Mapping:
+- `EDTdescription` → `description` (Database).
+- `EDTstateCode` → `stateCode` (Database).
+- `EDTisoCode` → `isoCode` (Database).
 
-### Código HTML Representando o Formulário:
-```html
-<div style="width: 500px; font-family: Tahoma;">
-  <label for="description">Descrição:</label>
-  <input id="description" type="text" style="width: 100%; text-transform: uppercase;" />
-  
-  <label for="stateCode">Código do Estado:</label>
-  <input id="stateCode" type="text" style="width: 100%; text-transform: uppercase;" />
-  
-  <label for="country">País:</label>
-  <select id="country" style="width: 100%;">
-    <option>Selecione um país</option>
-  </select>
-  
-  <label for="isoCode">Código ISO:</label>
-  <input id="isoCode" type="text" style="width: 100%;" />
-</div>
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+```plaintext
+[Start] --> [Initialize Form] --> [User Inputs Data] --> [User Selects Country] --> [Update ISO Code] --> [Save Data] --> [End]
 ```
 
+### Sequence Diagram:
+```plaintext
+User --> Form: Input Data
+User --> Form: Select Country
+Form --> CountryService: Fetch ISO Code
+CountryService --> Form: Return ISO Code
+Form --> Database: Update ISO Code
+```
+
+### Code Snippets:
+```delphi
+procedure TFRAMEstate.m_AfterFindCountry(Sender: TObject);
+begin
+  if FRAMEfindCountry.FieldsValueList.Count > 0 then
+  begin
+    // Update ISO code based on selected country
+  end;
+end;
+```
+
+### Screenshots:
+Not applicable (no DFM file provided).
+
 ---
 
-## 11. Comentários Importantes no Código:
+## 11. Important Comments in the Code:
 
-- **Configuração do Serviço de Estado**:
-  ```delphi
-  ProviderService := TStateServiceUtils.Create(self);
-  ```
-- **Configuração do Evento `AfterFind`**:
-  ```delphi
-  FRAMEfindCountry.AfterFind := m_AfterFindCountry;
-  ```
+- **Initialization**:
+  - `// SET DAS PROPRIEDADES DA FRAME`: Sets up form properties.
+- **Country Selection**:
+  - `// Atribuição do campo ISO Code em função do que vem no find do Country`: Updates ISO code dynamically.
 
 ---
 
-## 12. Conclusão:
+## 12. Conclusion:
 
-O código implementa um formulário funcional para gerenciar informações de estados, com integração a serviços externos para busca de países. Ele é bem estruturado, mas carece de validações explícitas e mensagens de erro detalhadas.
+The `FRstate` code unit provides a robust form for managing state data, integrating with external services for dynamic updates. While it effectively handles country selection and ISO code updates, it lacks explicit error handling and validation logic.
 
 ---
 
-## 13. Resumo Curto:
+## 13. Short Summary:
 
-Formulário para gerenciar estados, permitindo edição de descrição, código do estado e código ISO, com busca integrada de países para preenchimento automático. Utiliza serviços SOAP e componentes personalizados para manipulação de dados.#### **FRstate.pas**
+The `FRstate` code unit defines a form for managing state data, including dynamic ISO code updates based on country selection. It integrates with external services and database components, providing a user-friendly interface for data management.#### **FRstate.pas**
 
 ```
 unit FRstate;

@@ -2,217 +2,215 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal e Problema Resolvido:**
-  O código implementa um componente de interface gráfica para gerenciar serviços de armazém. Ele permite que os usuários visualizem, editem e interajam com dados relacionados a serviços, como tipo de serviço, transportadora, método de envio, veículo, e destinos. O objetivo principal é fornecer uma interface eficiente para manipular esses dados em um formato de grade.
-
-* **Tecnologias Utilizadas:**
-  - **Delphi:** Linguagem de programação utilizada para criar a aplicação.
-  - **Componentes cxGrid e cxEditRepository:** Utilizados para criar e gerenciar a interface gráfica.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **DBClient:** Para manipulação de dados em memória.
-
-* **Forma do Componente:**
-  - **Exibição em Grade (Grid Display):**
-    - **Colunas da Grade e seus Tipos:**
-      - `serviceType` (ComboBox).
-      - `applyServico` (ComboBox).
-      - `serviceCode` (Texto).
-      - `name` (Texto).
-      - `entityCode` (Texto).
-      - `entityDesc` (Texto).
-      - `shipMethod` (Texto).
-      - `shipMethodDesc` (Texto).
-      - `vehicleType` (Texto).
-      - `vehicleTypeDesc` (Texto).
-      - `start` (Texto).
-      - `startDesc` (Texto).
-      - `destination` (Texto).
-      - `destinationDesc` (Texto).
-      - `contract` (Texto).
-    - **Ações da Grade e seus Efeitos:**
-      - Adicionar (`ADD`): Adiciona um novo serviço.
-      - Excluir (`DELETE`): Remove o serviço selecionado.
+# Documentation for `FRwarehouseServices` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Disponíveis:**
-  - Adicionar um novo serviço.
-  - Editar valores diretamente na grade.
-  - Pesquisar serviços, transportadoras, métodos de envio, veículos e destinos.
+### Objective:
+The `FRwarehouseServices` code unit is designed to manage and display warehouse service-related data in a grid format. It provides functionalities for interacting with service data, such as adding, deleting, and searching for services, carriers, destinations, shipping methods, and vehicles. The main objective is to facilitate the management of warehouse services through a user-friendly interface.
 
-* **Componentes Principais:**
-  - **Grade (`cxGrid`):** Exibe os dados em formato tabular.
-  - **Itens de Repositório (`cxEditRepository`):** Fornecem elementos interativos como botões e caixas de seleção.
-  - **Painel de Ações:** Permite adicionar ou excluir serviços.
+### Technologies Used:
+- **Delphi**: The code is written in Delphi, utilizing its VCL (Visual Component Library) for UI components.
+- **SOAP**: SOAP-based HTTP client is used for service communication.
+- **Database Components**: Includes database-related components like `DB`, `DBClient`, and `cxDBData`.
+- **DevExpress Components**: Utilizes `cxGrid`, `cxEditRepositoryItems`, and other DevExpress components for grid and UI functionalities.
 
-* **Tradução para Pseudo-código:**
-  - Evento `OnEditValueChanged`: `se valor da célula for alterado, então execute validação ou ação associada`.
-  - Botão "Adicionar": `se botão "Adicionar" for clicado, então execute a função de adicionar serviço`.
-  - Botão "Pesquisar": `se botão "Pesquisar" for clicado, então abra o diálogo de pesquisa`.
+### Form Type:
+This code represents a **grid display**.
 
----
+#### Grid Columns and Their Types:
+1. **serviceType**: ComboBox (Dropdown list).
+2. **applyServico**: ComboBox (Dropdown list).
+3. **serviceCode**: String.
+4. **name**: String.
+5. **entityCode**: String.
+6. **entityDesc**: String.
+7. **shipMethod**: String.
+8. **shipMethodDesc**: String.
+9. **vehicleType**: String.
+10. **vehicleTypeDesc**: String.
+11. **start**: String.
+12. **startDesc**: String.
+13. **destination**: String.
+14. **destinationDesc**: String.
+15. **contract**: String.
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**
-  1. Inicialização do componente (`Create`):
-     - Configurações da grade e propriedades do frame são definidas.
-     - Painel de ações é exibido.
-  2. Interação do Usuário:
-     - Usuário pode editar valores diretamente na grade.
-     - Botões de pesquisa permitem buscar dados relacionados.
-  3. Funções Executadas:
-     - `m_FindService`: Pesquisa serviços.
-     - `m_FindServiceCarrier`: Pesquisa transportadoras.
-     - `m_FindServiceDestinationD`: Pesquisa destinos finais.
-     - `m_FindServiceDestinationS`: Pesquisa destinos iniciais.
-     - `m_FindServiceShipMethod`: Pesquisa métodos de envio.
-     - `m_FindServiceVehicle`: Pesquisa veículos.
-
-* **Dados Necessários:**
-  - Tipo de serviço, transportadora, método de envio, veículo, destinos, entre outros.
+#### Grid Actions and Their Effects:
+- **Add**: Adds a new service entry.
+- **Delete**: Deletes the selected service entry.
+- **Search**: Allows searching for services, carriers, destinations, shipping methods, and vehicles.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**
-  - Botão "Adicionar" só deve ser habilitado se os campos obrigatórios estiverem preenchidos.
-  - Botão "Excluir" só deve ser habilitado se um item estiver selecionado.
+### User/Software Actions:
+- Add a new service.
+- Delete an existing service.
+- Search for services, carriers, destinations, shipping methods, and vehicles.
+- Edit service details in the grid.
 
-* **Filtros Disponíveis:**
-  - Não há filtros explícitos definidos no código.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays the list of services.
+2. **Edit Repository Items (`cxEditRepository`)**: Provides dropdowns and buttons for user interaction.
+3. **Action Panel**: Contains buttons for adding and deleting services.
 
-* **Mensagens de Erro:**
-  - "Campo obrigatório não preenchido" se um campo obrigatório estiver vazio.
-  - "Valor inválido" se um valor não atender aos critérios esperados.
-
-* **Valores Padrão dos Campos:**
-  - Não há valores padrão explicitamente definidos no código.
-
-* **Validações e Condições dos Campos:**
-  - `serviceType`: Deve ser selecionado de uma lista fixa.
-  - `applyServico`: Deve ser selecionado de uma lista fixa.
-  - Outros campos: Não possuem validações explícitas no código.
+### Pseudo-code for Actions and Events:
+- **OnEditValueChanged**: `if grid cell value changed then execute validation or update logic`.
+- **Add Button Click**: `if add button clicked then open form to add new service`.
+- **Delete Button Click**: `if delete button clicked then remove selected service`.
+- **Search Button Click**: `if search button clicked then open search dialog`.
 
 ---
 
-## 5. Funções Principais:
+## 3. Operational Logic:
 
-* **`m_FindService`:** Pesquisa serviços com base em critérios definidos.
-* **`m_FindServiceCarrier`:** Pesquisa transportadoras.
-* **`m_FindServiceDestinationD`:** Pesquisa destinos finais.
-* **`m_FindServiceDestinationS`:** Pesquisa destinos iniciais.
-* **`m_FindServiceShipMethod`:** Pesquisa métodos de envio.
-* **`m_FindServiceVehicle`:** Pesquisa veículos.
+### Execution Flow:
+1. **Initialization**:
+   - The `TFRAMEwarehouseServices` frame is created.
+   - Grid settings, hidden fields, and available actions are configured.
+   - The action panel is displayed.
 
----
+2. **User Interactions**:
+   - Users can add, delete, or search for services using the action panel.
+   - Editing a grid cell triggers the `OnEditValueChanged` event.
 
-## 6. Consumo de Serviços API:
+3. **Functions**:
+   - **File**: `FRwarehouseServices.pas`
+   - **Functions**:
+     - `m_FindService`: Handles service search logic.
+     - `m_FindServiceCarrier`: Handles carrier search logic.
+     - `m_FindServiceDestinationD`: Handles destination search logic.
+     - `m_FindServiceShipMethod`: Handles shipping method search logic.
+     - `m_FindServiceVehicle`: Handles vehicle search logic.
 
-* Não há chamadas explícitas a serviços externos no código fornecido.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* Não há campos condicionais definidos no código.
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**
-  - `cxGrid`, `cxEditRepository`: Para criação da interface gráfica.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-  - `DBClient`: Para manipulação de dados.
-
-* **Componentes Customizados:**
-  - `TFRAMEBaseGridEditSOA`: Classe base para o frame.
+### Data Input:
+- Users must provide service details such as type, code, name, and associated entities.
 
 ---
 
-## 9. Listagem de Campos e Validações:
+## 4. Business Rules:
 
-* **Campos:**
-  - `serviceType` (ComboBox, obrigatório).
-  - `applyServico` (ComboBox, obrigatório).
-  - `serviceCode` (Texto, não definido no código).
-  - `name` (Texto, não definido no código).
-  - Outros campos: Não possuem validações explícitas no código.
+### Actions and Preconditions:
+- **Add**: Enabled at all times.
+- **Delete**: Enabled only when a service is selected in the grid.
 
-* **Mapeamento de Valores e Colunas do Banco de Dados:**
-  - `serviceType` → `serviceType`.
-  - `applyServico` → `applyServico`.
-  - Outros campos seguem o mesmo padrão.
+### Available Filters:
+- No explicit filters are defined in the code.
 
----
+### Error Messages:
+- Not explicitly defined in the code.
 
-## 10. Exemplos e Diagramas:
+### Default Field Values:
+- Not explicitly defined in the code.
 
-* **Fluxograma:** Não aplicável.
-* **Diagrama de Sequência:** Não aplicável.
-* **Exemplo de Código:**
-  ```pascal
-  FRAMEwarehouseServices := TFRAMEwarehouseServices.Create(Self);
-  FRAMEwarehouseServices.ShowActionPanel := True;
-  ```
-* **HTML Representando a Grade:**
-  ```html
-  <table style="border: 1px solid black; width: 100%;">
-    <thead>
-      <tr>
-        <th>Tipo de Serviço</th>
-        <th>Aplicar Serviço</th>
-        <th>Código do Serviço</th>
-        <th>Nome</th>
-        <th>Código da Entidade</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>PLAN</td>
-        <td>Sim</td>
-        <td>001</td>
-        <td>Serviço A</td>
-        <td>ENT001</td>
-      </tr>
-    </tbody>
-  </table>
-  ```
+### Field Validation and Conditions:
+- Not explicitly defined in the code.
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 5. Main Functions:
 
-* **Configuração do Frame:**
-  ```pascal
-  MasterKeyFields := 'warehouseCode';
-  DataPacketName := 'Service';
-  PropertyName := 'services';
-  FrameType := frtDetail;
-  ```
-
-* **Configuração da Grade:**
-  ```pascal
-  DefineHiddenFields('HIDE_ALL_FIELDS');
-  ```
+1. **`m_FindService`**: Searches for a service based on user input.
+2. **`m_FindServiceCarrier`**: Searches for a carrier.
+3. **`m_FindServiceDestinationD`**: Searches for a destination.
+4. **`m_FindServiceShipMethod`**: Searches for a shipping method.
+5. **`m_FindServiceVehicle`**: Searches for a vehicle.
 
 ---
 
-## 12. Conclusão:
+## 6. API Service Consumption:
 
-O código fornece uma interface robusta para gerenciar serviços de armazém, com suporte para edição em grade e pesquisa de dados relacionados. No entanto, faltam validações explícitas e mensagens de erro detalhadas, o que pode impactar a experiência do usuário.
+- **Service Name**: Not explicitly defined.
+- **Endpoint**: Not explicitly defined.
+- **Data Sent**: Not explicitly defined.
+- **Data Received**: Not explicitly defined.
+- **Purpose**: Not explicitly defined.
+- **Error Handling**: Not explicitly defined.
 
 ---
 
-## 13. Resumo Curto:
+## 7. Conditional Fields (Form Logic):
 
-O código implementa um componente de interface gráfica para gerenciar serviços de armazém, permitindo edição em grade, pesquisa de dados e ações como adicionar e excluir serviços. Ele utiliza Delphi e componentes visuais para criar uma interface eficiente e interativa.#### **FRwarehouseServices.pas**
+- No conditional fields are explicitly defined in the code.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **DevExpress Components**: Used for grid and UI functionalities.
+- **SOAPHTTPClient**: Used for SOAP-based service communication.
+
+### Custom Components:
+- **TFRAMEBaseGridEditSOA**: Base class for the frame.
+
+---
+
+## 9. Fields and Validations Listing:
+
+### Fields:
+1. **serviceType**: ComboBox, required.
+2. **applyServico**: ComboBox, required.
+3. **serviceCode**: String, required.
+4. **name**: String, required.
+5. **entityCode**: String, required.
+6. **entityDesc**: String, optional.
+7. **shipMethod**: String, optional.
+8. **shipMethodDesc**: String, optional.
+9. **vehicleType**: String, optional.
+10. **vehicleTypeDesc**: String, optional.
+11. **start**: String, optional.
+12. **startDesc**: String, optional.
+13. **destination**: String, optional.
+14. **destinationDesc**: String, optional.
+15. **contract**: String, optional.
+
+### Mapping:
+- Not explicitly defined in the code.
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+Not applicable.
+
+### Sequence Diagram:
+Not applicable.
+
+### Code Snippets:
+```pascal
+procedure TFRAMEwarehouseServices.ACTaddExecute(Sender: TObject);
+begin
+  // Logic to add a new service
+end;
+```
+
+### Screenshots:
+Not applicable.
+
+---
+
+## 11. Important Comments in the Code:
+
+- **Grid Fields**: Defined in the constant `mc_GRID_FIELDS`.
+- **Master Key Fields**: Set to `warehouseCode`.
+- **Data Packet Name**: Set to `Service`.
+
+---
+
+## 12. Conclusion:
+
+The `FRwarehouseServices` code unit provides a robust framework for managing warehouse services. It leverages Delphi's VCL and DevExpress components to create a user-friendly grid interface. However, the code lacks explicit error handling, field validations, and API integration details.
+
+---
+
+## 13. Short Summary:
+
+The `FRwarehouseServices` code unit manages warehouse services through a grid interface, allowing users to add, delete, and search for services. It uses Delphi and DevExpress components for UI and SOAP for service communication.#### **FRwarehouseServices.pas**
 
 ```
 unit FRwarehouseServices;

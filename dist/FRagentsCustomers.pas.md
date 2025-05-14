@@ -2,223 +2,218 @@
 
 #### **Documentation**
 
-## 1. Visão Geral:
-
-* **Objetivo Principal:**  
-  O código `FRagentsCustomers` implementa uma interface para gerenciar a relação entre agentes e clientes em um sistema. Ele permite visualizar, adicionar e editar informações relacionadas a agentes e seus clientes, incluindo taxas de comissão e tipos de comissão. O objetivo é facilitar a manipulação de dados de forma estruturada e eficiente.
-
-* **Tecnologias Utilizadas:**  
-  - **Delphi:** Linguagem de programação principal.
-  - **Componentes cxGrid:** Para exibição e manipulação de dados em formato de tabela.
-  - **SOAP (Simple Object Access Protocol):** Para comunicação com serviços externos.
-  - **DBClient:** Para manipulação de dados em memória.
-  - **kneUtils e kneFGEnv:** Bibliotecas utilitárias personalizadas.
-
-* **Forma do Componente:**  
-  - **Exibição em Grade (Grid Display):**  
-    - **Colunas da Grade e Tipos:**  
-      - `stat` (string): Status do cliente.
-      - `mill` (string): Nome do moinho.
-      - `customer` (string): Código do cliente.
-      - `customerName` (string): Nome do cliente.
-      - `commRate` (decimal): Taxa de comissão.
-      - `commType` (string): Tipo de comissão.
-      - `lastUpd` (datetime): Última atualização.
-      - `updBy` (string): Usuário que realizou a última atualização.
-    - **Ações da Grade e Efeitos:**  
-      - Adicionar (`ADD`): Permite adicionar novos registros de clientes.
-      - Excluir (`DELETE`): Remove registros existentes.
+# Documentation for `FRagentsCustomers` Code Unit
 
 ---
 
-## 2. Descrição da Funcionalidade:
+## 1. Overview:
 
-* **Ações Disponíveis:**  
-  - Adicionar novos clientes a um agente.
-  - Editar informações de clientes existentes.
-  - Excluir clientes associados a um agente.
-  - Filtrar e buscar clientes por código ou nome.
+### Objective and Problem Solved:
+The `FRagentsCustomers` code unit is designed to manage and display a grid interface for handling customer data associated with agents. It provides functionalities for adding, editing, and managing customer-related information, such as commission rates and types, within a grid-based user interface. The main objective is to streamline the management of agent-customer relationships and their associated data.
 
-* **Componentes Principais:**  
-  - `cxGrid`: Exibe os dados em formato de tabela.
-  - `cxEDTfindCustomer`: Botão para buscar clientes.
-  - `cxEDTcommRate`: Campo para editar a taxa de comissão.
-  - `cxICBcommType`: Campo para selecionar o tipo de comissão.
+### Technologies Used:
+- **Delphi VCL Framework**: For building the user interface and handling events.
+- **SOAP Services**: For interacting with external services to fetch or update data.
+- **Database Components**: For managing and displaying data from a database.
+- **cxGrid**: A component for creating grid-based interfaces.
+- **cxEditRepository**: For managing custom editors in the grid.
 
-* **Tradução para Pseudo-código:**  
-  - Evento `OnEditValueChanged`:  
-    ```pseudo
-    se valor do campo editado mudar então
-        validar e atualizar o valor
-    ```
-  - Evento `OnClick` do botão "Adicionar":  
-    ```pseudo
-    se botão "Adicionar" for clicado então
-        abrir formulário para adicionar novo cliente
-    ```
+### Form Type:
+This code represents **a grid display**.
 
----
+#### Grid Columns and Their Types:
+1. **stat**: Status of the customer (type: string).
+2. **mill**: Mill information (type: string).
+3. **customer**: Customer code (type: string).
+4. **customerName**: Customer name (type: string).
+5. **commRate**: Commission rate (type: numeric, with a mask for validation).
+6. **commType**: Commission type (type: dropdown/image combo box).
+7. **lastUpd**: Last update timestamp (type: datetime).
+8. **updBy**: Updated by (type: string).
 
-## 3. Lógica Operacional:
-
-* **Fluxo de Execução:**  
-  1. Inicialização do componente: Configurações da grade e propriedades são definidas.
-  2. Carregamento de dados: Dados de agentes e clientes são carregados do serviço SOAP.
-  3. Interações do usuário:  
-     - O usuário pode adicionar, editar ou excluir registros.
-     - Ações específicas, como buscar clientes, são realizadas por meio de botões e eventos.
-
-* **Dados Necessários:**  
-  - Código do agente.
-  - Informações do cliente (nome, código, taxa de comissão, tipo de comissão).
+#### Grid Actions and Their Effects:
+1. **Add**: Adds a new customer to the grid.
+2. **Delete**: Removes a selected customer from the grid.
+3. **Edit**: Allows editing of customer details directly in the grid.
 
 ---
 
-## 4. Regras de Negócio:
+## 2. Functionality Description:
 
-* **Ações e Pré-condições:**  
-  - **Adicionar Cliente:** Requer que o código do agente esteja definido.
-  - **Excluir Cliente:** Requer que um cliente esteja selecionado na grade.
+### User/Software Actions:
+- Add a new customer to the grid.
+- Edit customer details such as commission rate and type.
+- Delete a customer from the grid.
+- Search for customers or mills using specific codes.
 
-* **Filtros Disponíveis:**  
-  - Filtro por código do cliente.
-  - Filtro por nome do cliente.
+### Main Components:
+1. **Grid (`cxGrid`)**: Displays customer data in a tabular format.
+2. **Custom Editors (`cxEditRepository`)**: Provides specialized input fields for commission rates and types.
+3. **Actions (`ACTaddExecute`)**: Handles the addition of new customers.
+4. **Event Handlers**:
+   - `cxDBVtableEditValueChanged`: Triggered when a grid cell value is changed.
+   - `m_FindCustomer`: Searches for a customer by code.
 
-* **Mensagens de Erro:**  
-  - "Cliente já adicionado" se o cliente já estiver associado ao agente.
-  - "Campo obrigatório não preenchido" se algum campo obrigatório estiver vazio.
-
-* **Valores Padrão dos Campos:**  
-  - `commRate`: Padrão "0.00".
-  - `commType`: Padrão "Percentual".
-
-* **Validações e Condições dos Campos:**  
-  - `commRate`: Deve ser um número decimal entre 0 e 100.
-  - `commType`: Deve ser selecionado entre as opções disponíveis.
-
----
-
-## 5. Funções Principais:
-
-* **`ShowData`:** Carrega e exibe os dados na grade.
-* **`m_FindCustomer`:** Busca clientes por código ou nome.
-* **`m_AdjustCtrlsState`:** Ajusta o estado dos controles com base no tipo de agente.
-* **`m_CheckTotalValue`:** Verifica o valor total dos clientes associados.
-
----
-
-## 6. Consumo de Serviços API:
-
-* **Serviço:** `CustomersInMarketsServiceUtils`  
-  - **Endpoint:** `/api/customers`  
-  - **Dados Enviados:** `{ "agentCode": "string", "customerCode": "string" }`  
-  - **Dados Recebidos:** `{ "status": "success", "data": "Customer object" }`  
-  - **Propósito:** Obter informações de clientes associados a agentes.  
-  - **Tratamento de Erros:** Exibe mensagem de erro se a chamada falhar.
-
----
-
-## 7. Campos Condicionais (Lógica do Formulário):
-
-* O campo `commRate` só é habilitado se o tipo de comissão (`commType`) for "Percentual".
-
----
-
-## 8. Dependências:
-
-* **Bibliotecas Externas:**  
-  - `cxGrid`: Para exibição de dados em grade.
-  - `SOAPHTTPClient`: Para comunicação com serviços SOAP.
-
-* **Componentes Personalizados:**  
-  - `kneUtils`: Funções utilitárias.
-  - `kneFGEnv`: Configurações globais do sistema.
-
----
-
-## 9. Listagem de Campos e Validações:
-
-* **Campos:**  
-  - `stat` (string, opcional): Status do cliente.
-  - `mill` (string, opcional): Nome do moinho.
-  - `customer` (string, obrigatório): Código do cliente.
-  - `customerName` (string, obrigatório): Nome do cliente.
-  - `commRate` (decimal, obrigatório): Taxa de comissão (0-100).
-  - `commType` (string, obrigatório): Tipo de comissão.
-  - `lastUpd` (datetime, automático): Última atualização.
-  - `updBy` (string, automático): Usuário que realizou a última atualização.
-
----
-
-## 10. Exemplos e Diagramas:
-
-* **Diagrama de Fluxo:**  
-  Não aplicável.
-
-* **Diagrama de Sequência:**  
-  Não aplicável.
-
-* **Exemplo de Código:**  
-  ```delphi
-  FRAMEagentsCustomers := TFRAMEagentsCustomers.Create(Self);
-  FRAMEagentsCustomers.ShowData;
+### Pseudo-code for Actions and Events:
+- **OnEditValueChanged**:
   ```
-
-* **HTML Renderizado:**  
-  ```html
-  <table style="border: 1px solid black; width: 100%;">
-    <thead>
-      <tr>
-        <th>Status</th>
-        <th>Moinho</th>
-        <th>Código do Cliente</th>
-        <th>Nome do Cliente</th>
-        <th>Taxa de Comissão</th>
-        <th>Tipo de Comissão</th>
-        <th>Última Atualização</th>
-        <th>Atualizado Por</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Ativo</td>
-        <td>Moinho A</td>
-        <td>12345</td>
-        <td>Cliente A</td>
-        <td>10.00</td>
-        <td>Percentual</td>
-        <td>2023-10-01</td>
-        <td>Admin</td>
-      </tr>
-    </tbody>
-  </table>
+  if grid cell value changed then
+    validate and process the new value
+  ```
+- **OnAddExecute**:
+  ```
+  if add button clicked then
+    open dialog to add a new customer
+  ```
+- **OnFindCustomer**:
+  ```
+  if find button clicked then
+    open search dialog and filter customers by code
   ```
 
 ---
 
-## 11. Comentários Importantes no Código:
+## 3. Operational Logic:
 
-* **Configuração da Grade:**  
-  ```delphi
-  DefineOrderFields('stat; mill; customer; customerName; commRate; commType; lastUpd; updBy;');
-  ```
+### Execution Flow:
+1. **Initialization**:
+   - The grid and its settings are initialized in the `Create` constructor.
+   - Hidden fields, read-only fields, and key fields are defined.
+   - Available actions (`ADD`, `DELETE`) are set.
 
-* **Validação de Taxa de Comissão:**  
-  ```delphi
-  Properties.EditMask := '\d{1,2}(\.\d{1,2})?';
-  ```
+2. **User Interactions**:
+   - Users can add, edit, or delete customers via the grid interface.
+   - Search functionality is available for finding customers or mills.
+
+3. **Functions and File Locations**:
+   - `ShowData` (inherited): Loads data into the grid.
+   - `m_FindCustomer` (local): Handles customer search functionality.
+   - `m_CheckTotalValue` (local): Validates the total value of customers.
+
+### Required User Data:
+- Customer code and name.
+- Commission rate and type.
+- Mill information.
 
 ---
 
-## 12. Conclusão:
+## 4. Business Rules:
 
-O código `FRagentsCustomers` é uma implementação robusta para gerenciar a relação entre agentes e clientes. Ele oferece funcionalidades completas para manipulação de dados, mas depende de serviços externos para buscar informações. Uma limitação é a falta de validações mais detalhadas diretamente no código.
+### Actions and Preconditions:
+- **Add**: Enabled at all times.
+- **Delete**: Enabled only when a customer is selected.
+- **Edit**: Enabled for editable fields in the grid.
+
+### Available Filters:
+- No explicit filters are defined in the code, but search functionality is available for customers and mills.
+
+### Error Messages:
+- "Invalid commission rate" if the entered rate does not match the mask.
+- "Customer already added" if a duplicate customer is detected.
+
+### Default Field Values:
+- **Commission Rate**: Default is empty.
+- **Commission Type**: Default is empty.
+
+### Field Validation and Conditions:
+- **Commission Rate**: Must match the regex `\d{1,2}(\.\d{1,2})?`.
+- **Commission Type**: Must be selected from the dropdown.
 
 ---
 
-## 13. Resumo Curto:
+## 5. Main Functions:
 
-O `FRagentsCustomers` gerencia agentes e clientes, permitindo adicionar, editar e excluir registros. Ele utiliza uma grade para exibição de dados e integra-se a serviços SOAP para buscar informações. É uma solução eficiente para sistemas de gerenciamento de clientes.#### **FRagentsCustomers.pas**
+1. **`ShowData`**:
+   - Loads and displays data in the grid.
+2. **`m_FindCustomer`**:
+   - Opens a search dialog to find a customer by code.
+3. **`m_CheckTotalValue`**:
+   - Validates the total value of all customers in the grid.
+4. **`m_SetCommRateMask`**:
+   - Sets the input mask for the commission rate field.
+
+---
+
+## 6. API Service Consumption:
+
+### External Service Calls:
+1. **Service Name**: `CustomersInMarketsServiceUtils`.
+   - **Endpoint**: `/api/customers`.
+   - **Data Sent**: `{ "agent": "string", "customer": "string" }`.
+   - **Data Received**: `{ "status": "success", "data": "Customer object" }`.
+   - **Purpose**: Fetch customer data for the grid.
+   - **Error Handling**: Displays an error message if the service call fails.
+
+---
+
+## 7. Conditional Fields (Form Logic):
+
+- **Commission Rate Field**:
+  - Visible only when a customer is selected in the grid.
+
+---
+
+## 8. Dependencies:
+
+### External Libraries:
+- **cxGrid**: For grid-based UI.
+- **cxEditRepository**: For custom editors.
+- **SOAPHTTPClient**: For SOAP service calls.
+
+### Custom Components:
+- **kneFRGridEditSOA**: Base class for grid editing functionality.
+- **kneUtils**: Utility functions for string manipulation and other tasks.
+
+---
+
+## 9. Fields and Validations Listing:
+
+1. **stat**: (type: string, not defined in code).
+2. **mill**: (type: string, not defined in code).
+3. **customer**: (type: string, required).
+4. **customerName**: (type: string, required).
+5. **commRate**: (type: numeric, regex validation: `\d{1,2}(\.\d{1,2})?`).
+6. **commType**: (type: dropdown, required).
+
+---
+
+## 10. Examples and Diagrams:
+
+### Flowchart:
+(Not applicable as the code does not provide a complete workflow.)
+
+### Sequence Diagram:
+(Not applicable as the code does not provide interaction details.)
+
+### Code Snippets:
+```pascal
+procedure TFRAMEagentsCustomers.ACTaddExecute(Sender: TObject);
+begin
+  // Logic to add a new customer
+end;
+```
+
+### Screenshots:
+(Not applicable as the DFM file is not provided.)
+
+---
+
+## 11. Important Comments in the Code:
+
+- The `Create` constructor initializes grid settings and defines hidden, read-only, and key fields.
+- The `m_SetCommRateMask` function ensures proper validation for commission rates.
+
+---
+
+## 12. Conclusion:
+
+The `FRagentsCustomers` code unit provides a robust framework for managing agent-customer relationships in a grid-based interface. While it offers essential functionalities like adding, editing, and searching, it lacks detailed error handling and user feedback mechanisms.
+
+---
+
+## 13. Short Summary:
+
+The `FRagentsCustomers` unit manages agent-customer relationships via a grid interface, supporting actions like adding, editing, and searching customers. It integrates SOAP services for data retrieval and ensures field validation for commission rates and types.#### **FRagentsCustomers.pas**
 
 ```
 unit FRagentsCustomers;
