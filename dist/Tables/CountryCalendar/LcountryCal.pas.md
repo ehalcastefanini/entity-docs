@@ -147,10 +147,14 @@ This code represents a **grid display**.
 
 ## 9. Fields and Validations Listing:
 
-1. **Country Code**: (type: string, required, max: 10 characters).
-2. **Country**: (type: string, required, max: 50 characters).
-3. **Event Date**: (type: date, required).
-4. **Description**: (type: string, optional, max: 255 characters).
+1. **countryCode**: Country Code (type: string).
+2. **country**: Country Description (type: string).
+3. **eventDate**: Event Date (type: date).
+4. **description**: Event Description (type: string).
+5. **stat**: Status (type: string).
+6. **lastUpd**: Last Updated (type: date).
+7. **updBy**: Updated By (type: string).
+
 
 Mapping:
 - **Database Column**: `countryCode` → **Displayed Field**: Country Code.
@@ -218,7 +222,9 @@ The `LcountryCal` code unit provides a robust interface for managing country cal
 
 ## 13. Short Summary:
 
-The `LcountryCal` unit manages a grid-based interface for country calendar events, allowing users to search, view, and manage events efficiently. It integrates advanced UI components and supports customizable search criteria.#### **LcountryCal.pas**
+The `LcountryCal` unit manages a grid-based interface for country calendar events, allowing users to search, view, and manage events efficiently. It integrates advanced UI components and supports customizable search criteria.
+
+#### **LcountryCal.pas**
 
 ```
 unit LcountryCal;
@@ -321,6 +327,37 @@ end;
 
 class procedure TFORMLcountryCal.Initialize(
   const pv_FormList: TFORMkneCBList);
+begin
+  inherited;
+
+  TFORMkneCBListSOA(pv_FormList).ProviderService := TCountryCalendarServiceUtils.Create(pv_FormList);
+  //TFORMkneCBListSOA(pv_FormList).EditorForm      := TFORMMCountryCal.Create(pv_FormList);
+  TFORMkneCBListSOA(pv_FormList).AutoLoad        := True;
+  TFORMkneCBListSOA(pv_FormList).ServiceParams.ShowInactives := True;
+end;
+
+function TFORMLcountryCal.SetupParams: Boolean;
+begin
+  // Atribui��o dos crit�rios ao servi�o
+  ServiceParams.Criteria := FRAMEfindCriteriaCountryCal1.CriteriaValues;
+
+  Result := inherited SetupParams;
+end;
+
+procedure TFORMLcountryCal.CreateEditor;
+begin
+  inherited;
+  EditorForm := TFORMMCountryCal.Create(Self);
+end;
+
+procedure TFORMLcountryCal.BTclearCriteriaClick(Sender: TObject);
+begin
+  inherited;
+  FRAMEfindCriteriaCountryCal1.Initialize;
+end;
+
+end.
+
 ```
 
 #### **LcountryCal.dfm**
@@ -426,6 +463,157 @@ inherited FORMLcountryCal: TFORMLcountryCal
           Font.Color = 5059883
           Font.Height = -13
           Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+        end
+        object sBevel2: TsBevel
+          Left = 7
+          Top = 115
+          Width = 209
+          Height = 9
+          Shape = bsTopLine
+        end
+        object DBTXTeventDate: TsDBText
+          Left = 24
+          Top = 72
+          Width = 54
+          Height = 13
+          Caption = 'Event Date'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'eventDate'
+          DataSource = DSRlist
+        end
+        object DBTXTdescription: TsDBText
+          Left = 24
+          Top = 48
+          Width = 53
+          Height = 13
+          Caption = 'Description'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'description'
+          DataSource = DSRlist
+        end
+        object sLabel2: TsLabel
+          Left = 8
+          Top = 176
+          Width = 43
+          Height = 16
+          Caption = 'Status'
+          ParentFont = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+        end
+        object sBevel3: TsBevel
+          Left = 7
+          Top = 195
+          Width = 209
+          Height = 9
+          Shape = bsTopLine
+        end
+        object DBLstat: TsDBText
+          Left = 24
+          Top = 208
+          Width = 31
+          Height = 13
+          Caption = 'Status'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'stat'
+          DataSource = DSRlist
+        end
+        object DBLlastUpd: TsDBText
+          Left = 24
+          Top = 232
+          Width = 46
+          Height = 13
+          Caption = 'Last Upd.'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'lastUpd'
+          DataSource = DSRlist
+        end
+        object DBLupdBy: TsDBText
+          Left = 112
+          Top = 232
+          Width = 38
+          Height = 13
+          Caption = 'Upd. By'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'updBy'
+          DataSource = DSRlist
+        end
+      end
+    end
+  end
+  object ACLeditingActions_deriv: TActionList
+    Left = 56
+    Top = 216
+    object ACTnew_deriv: TAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = '&New'
+      Enabled = False
+      Visible = False
+    end
+    object ACTmodify_deriv: TAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = '&Modify'
+      Enabled = False
+      Visible = False
+    end
+    object ACTview_deriv: TAction
+      Tag = 3
+      Category = 'Edit'
+      Caption = '&View'
+      Enabled = False
+      Visible = False
+    end
+    object ACTsearchArea_deriv: TAction
+      Category = 'Search'
+      Caption = 'Searc&h'
+      Enabled = False
+      Visible = False
+    end
+    object ACTadvancedSearch_deriv: TAction
+      Category = 'Search'
+      Caption = '&Advanced'
+      Enabled = False
+      Visible = False
+    end
+  end
+end
+
 ```
 <!-- tabs:end -->
 

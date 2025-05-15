@@ -144,11 +144,13 @@ This code represents a **grid display**.
 
 ## 9. Fields and Validations Listing:
 
-1. **Market Code** (type: string, required, unique).
-2. **Description** (type: string, required).
-3. **Region Code** (type: string, required).
-4. **Region** (type: string, optional).
-5. **Status** (type: string, optional).
+1. **marketCode**: Code of the market (String).
+2. **description**: Description of the market (String).
+3. **stat**: Status of the market (String).
+4. **lastUpd**: Last update timestamp (DateTime).
+5. **updBy**: User who last updated the market (String).
+6. **regionCode**: Code of the region (String).
+7. **region**: Description of the region (String).
 
 Mapping of displayed values to database columns:
 - `marketCode` → `DBTXTmarketCode`.
@@ -206,7 +208,9 @@ The `LconsMarket` code unit provides a robust framework for managing and display
 
 ## 13. Short Summary:
 
-The `LconsMarket` unit manages a grid-based display of market data, supporting CRUD operations and search functionalities. It integrates with external libraries for enhanced features and is part of a larger system for managing consignee markets.#### **LconsMarket.pas**
+The `LconsMarket` unit manages a grid-based display of market data, supporting CRUD operations and search functionalities. It integrates with external libraries for enhanced features and is part of a larger system for managing consignee markets.
+
+#### **LconsMarket.pas**
 
 ```
 unit LconsMarket;
@@ -308,6 +312,33 @@ class procedure TFORMLconsMarket.Initialize(
   const pv_FormList: TFORMkneCBList);
 begin
   inherited;
+
+  TFORMkneCBListSOA(pv_FormList).ProviderService := TConsigneeMarketServiceUtils.Create(pv_FormList);
+  //TFORMkneCBListSOA(pv_FormList).EditorForm      := TFORMMConsMarket.Create(pv_FormList);
+  TFORMkneCBListSOA(pv_FormList).AutoLoad        := True;
+  TFORMkneCBListSOA(pv_FormList).ServiceParams.ShowInactives := True;
+end;
+
+function TFORMLconsMarket.SetupParams: Boolean;
+begin
+  // Atribui��o dos Fields do c�digo e da descri��o usados no servi�o
+  FRAMEfindCriteriaCodeDesc1.FieldCode := 'marketCode';
+  FRAMEfindCriteriaCodeDesc1.FieldDescription := 'description';
+
+  // Atribui��o dos crit�rios ao servi�o
+  ServiceParams.Criteria := FRAMEfindCriteriaCodeDesc1.CriteriaValues;
+
+  Result := inherited SetupParams;
+end;
+
+procedure TFORMLconsMarket.CreateEditor;
+begin
+  inherited;
+  EditorForm := TFORMMConsMarket.Create(Self);
+end;
+
+end.
+
 
 ```
 
@@ -414,6 +445,148 @@ inherited FORMLconsMarket: TFORMLconsMarket
           Height = 9
           Shape = bsTopLine
         end
+        object DBLstat: TsDBText
+          Left = 24
+          Top = 208
+          Width = 31
+          Height = 13
+          Caption = 'Status'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'stat'
+          DataSource = DSRlist
+        end
+        object DBLlastUpd: TsDBText
+          Left = 24
+          Top = 232
+          Width = 46
+          Height = 13
+          Caption = 'Last Upd.'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'lastUpd'
+          DataSource = DSRlist
+        end
+        object DBLupdBy: TsDBText
+          Left = 112
+          Top = 232
+          Width = 38
+          Height = 13
+          Caption = 'Upd. By'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'updBy'
+          DataSource = DSRlist
+        end
+        object sLabel2: TsLabel
+          Left = 8
+          Top = 96
+          Width = 44
+          Height = 16
+          Caption = 'Region'
+          ParentFont = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+        end
+        object sBevel3: TsBevel
+          Left = 7
+          Top = 115
+          Width = 209
+          Height = 9
+          Shape = bsTopLine
+        end
+        object DBTXTregionCode: TsDBText
+          Left = 24
+          Top = 128
+          Width = 25
+          Height = 13
+          Caption = 'Code'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'regionCode'
+          DataSource = DSRlist
+        end
+        object DBTXTregion1: TsDBText
+          Left = 24
+          Top = 152
+          Width = 53
+          Height = 13
+          Caption = 'Description'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'region'
+          DataSource = DSRlist
+        end
+      end
+    end
+  end
+  object ACLeditingActions_deriv: TActionList
+    Left = 56
+    Top = 216
+    object ACTnew_deriv: TAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = '&New'
+      Enabled = False
+      Visible = False
+    end
+    object ACTmodify_deriv: TAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = '&Modify'
+      Enabled = False
+      Visible = False
+    end
+    object ACTview_deriv: TAction
+      Tag = 3
+      Category = 'Edit'
+      Caption = '&View'
+      Enabled = False
+      Visible = False
+    end
+    object ACTsearchArea_deriv: TAction
+      Category = 'Search'
+      Caption = 'Searc&h'
+      Enabled = False
+      Visible = False
+    end
+    object ACTadvancedSearch_deriv: TAction
+      Category = 'Search'
+      Caption = '&Advanced'
+      Enabled = False
+      Visible = False
+    end
+  end
+end
+
 ```
 <!-- tabs:end -->
 

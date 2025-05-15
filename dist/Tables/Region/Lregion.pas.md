@@ -165,6 +165,16 @@ This is a **grid display** form.
    - Allowed Values: "Active", "Inactive"
    - Database Column: `stat`
 
+4. **Last Updated**:
+    - Type: DateTime
+    - Required: No
+    - Database Column: `lastUpd`
+
+5. **Updated By**:
+    - Type: String
+    - Required: No
+    - Database Column: `updBy`
+
 ---
 
 ## 10. Examples and Diagrams:
@@ -217,7 +227,9 @@ The `Lregion` code unit provides a robust solution for managing region data. Its
 
 ## 13. Short Summary:
 
-The `Lregion` code unit manages region data through a grid interface, supporting CRUD operations and advanced search. It integrates with `RegionServiceUtils` for data handling and provides a user-friendly interface for efficient region management.#### **Lregion.pas**
+The `Lregion` code unit manages region data through a grid interface, supporting CRUD operations and advanced search. It integrates with `RegionServiceUtils` for data handling and provides a user-friendly interface for efficient region management.
+
+#### **Lregion.pas**
 
 ```
 unit Lregion;
@@ -320,6 +332,28 @@ begin
   //TFORMkneCBListSOA(pv_FormList).EditorForm      := TFORMMRegion.Create(pv_FormList);
   TFORMkneCBListSOA(pv_FormList).AutoLoad        := True;
   TFORMkneCBListSOA(pv_FormList).ServiceParams.ShowInactives := True;
+end;
+
+function TFORMLregion.SetupParams: Boolean;
+begin
+  // Atribui��o dos Fields do c�digo e da descri��o usados no servi�o
+  FRAMEfindCriteriaCodeDesc1.FieldCode := 'regionCode';
+  FRAMEfindCriteriaCodeDesc1.FieldDescription := 'regionDesc';
+
+  // Atribui��o dos crit�rios ao servi�o
+  ServiceParams.Criteria := FRAMEfindCriteriaCodeDesc1.CriteriaValues;
+
+  Result := inherited SetupParams;
+end;
+
+procedure TFORMLregion.CreateEditor;
+begin
+  inherited;
+  EditorForm := TFORMMRegion.Create(Self);
+end;
+
+end.
+
 ```
 
 #### **Lregion.dfm**
@@ -425,6 +459,96 @@ inherited FORMLregion: TFORMLregion
           DataField = 'regionDesc'
           DataSource = DSRlist
         end
+        object DBLstat: TsDBText
+          Left = 24
+          Top = 128
+          Width = 31
+          Height = 13
+          Caption = 'Status'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'stat'
+          DataSource = DSRlist
+        end
+        object DBLlastUpd: TsDBText
+          Left = 24
+          Top = 152
+          Width = 46
+          Height = 13
+          Caption = 'Last Upd.'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'lastUpd'
+          DataSource = DSRlist
+        end
+        object DBLupdBy: TsDBText
+          Left = 112
+          Top = 152
+          Width = 38
+          Height = 13
+          Caption = 'Upd. By'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'updBy'
+          DataSource = DSRlist
+        end
+      end
+    end
+  end
+  object ACLeditingActions_deriv: TActionList
+    Left = 56
+    Top = 216
+    object ACTnew_deriv: TAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = '&New'
+      Enabled = False
+      Visible = False
+    end
+    object ACTmodify_deriv: TAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = '&Modify'
+      Enabled = False
+      Visible = False
+    end
+    object ACTview_deriv: TAction
+      Tag = 3
+      Category = 'Edit'
+      Caption = '&View'
+      Enabled = False
+      Visible = False
+    end
+    object ACTsearchArea_deriv: TAction
+      Category = 'Search'
+      Caption = 'Searc&h'
+      Enabled = False
+      Visible = False
+    end
+    object ACTadvancedSearch_deriv: TAction
+      Category = 'Search'
+      Caption = '&Advanced'
+      Enabled = False
+      Visible = False
+    end
+  end
+end
+
 ```
 <!-- tabs:end -->
 

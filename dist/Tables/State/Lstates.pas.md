@@ -148,12 +148,17 @@ This is a **grid display** form.
 
 ## 9. Fields and Validations Listing:
 
-1. **stat**: Custom field, no validation defined.
-2. **stateCode**: Text field, required, unique (assumed).
-3. **description**: Text field, optional.
-4. **countryCode**: Text field, must match an existing country code.
-5. **country**: Text field, optional.
-6. **isoCode**: Text field, optional.
+1. **countryCode**: Code for the country. (string)
+2. **country**: Name of the country. (string)
+3. **stateCode**: Code for the state. (string)
+4. **description**: Description of the state. (string)
+5. **stat**: Status of the state. (string)
+6. **lastUpd**: Last update timestamp. (datetime)
+7. **updBy**: User who last updated the state. (string)
+8. **isoCode**: ISO code for the state. (string)
+
+   
+   
 
 Mapping of displayed values to database columns:
 - `stateCode` → `stateCode`.
@@ -213,7 +218,9 @@ The `Lstates` code unit provides a robust framework for managing and displaying 
 
 ## 13. Short Summary:
 
-The `Lstates` code unit is a Delphi-based grid form for managing state data, offering functionalities like search, view, and edit. It uses third-party libraries for enhanced UI and supports modular customization.#### **Lstates.pas**
+The `Lstates` code unit is a Delphi-based grid form for managing state data, offering functionalities like search, view, and edit. It uses third-party libraries for enhanced UI and supports modular customization.
+
+#### **Lstates.pas**
 
 ```
 unit Lstates;
@@ -316,6 +323,35 @@ end;
 
 class procedure TFORMLstates.Initialize(
   const pv_FormList: TFORMkneCBList);
+begin
+  inherited;
+
+  TFORMkneCBListSOA(pv_FormList).ProviderService := TStateServiceUtils.Create(pv_FormList);
+//  TFORMkneCBListSOA(pv_FormList).EditorForm      := TFORMMStates.Create(pv_FormList);
+  TFORMkneCBListSOA(pv_FormList).AutoLoad        := True;
+  TFORMkneCBListSOA(pv_FormList).ServiceParams.ShowInactives := True;
+end;
+
+function TFORMLstates.SetupParams: Boolean;
+begin
+  // Atribui��o dos Fields do c�digo e da descri��o usados no servi�o
+  FRAMEfindCriteriaCodeDesc1.FieldCode := 'stateCode';
+  FRAMEfindCriteriaCodeDesc1.FieldDescription := 'description';
+
+  // Atribui��o dos crit�rios ao servi�o
+  ServiceParams.Criteria := FRAMEfindCriteriaCodeDesc1.CriteriaValues;
+
+  Result := inherited SetupParams;
+end;
+
+procedure TFORMLstates.CreateEditor;
+begin
+  inherited;
+  EditorForm := TFORMMStates.Create(Self);
+end;
+
+end.
+
 ```
 
 #### **Lstates.dfm**
@@ -421,6 +457,184 @@ inherited FORMLstates: TFORMLstates
           Height = 9
           Shape = bsTopLine
         end
+        object DBTXTstateCode: TsDBText
+          Left = 24
+          Top = 48
+          Width = 25
+          Height = 13
+          Caption = 'Code'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'stateCode'
+          DataSource = DSRlist
+        end
+        object DBTXTdescription: TsDBText
+          Left = 24
+          Top = 72
+          Width = 53
+          Height = 13
+          Caption = 'Description'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'description'
+          DataSource = DSRlist
+        end
+        object sLabel2: TsLabel
+          Left = 8
+          Top = 232
+          Width = 43
+          Height = 16
+          Caption = 'Status'
+          ParentFont = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+        end
+        object sBevel3: TsBevel
+          Left = 7
+          Top = 251
+          Width = 209
+          Height = 9
+          Shape = bsTopLine
+        end
+        object DBLstat: TsDBText
+          Left = 24
+          Top = 264
+          Width = 31
+          Height = 13
+          Caption = 'Status'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'stat'
+          DataSource = DSRlist
+        end
+        object DBLlastUpd: TsDBText
+          Left = 24
+          Top = 288
+          Width = 46
+          Height = 13
+          Caption = 'Last Upd.'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'lastUpd'
+          DataSource = DSRlist
+        end
+        object DBLupdBy: TsDBText
+          Left = 112
+          Top = 288
+          Width = 38
+          Height = 13
+          Caption = 'Upd. By'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'updBy'
+          DataSource = DSRlist
+        end
+        object DBTXTisoCode: TsDBText
+          Left = 24
+          Top = 208
+          Width = 25
+          Height = 13
+          Caption = 'Code'
+          ParentFont = False
+          ShowAccelChar = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          DataField = 'isoCode'
+          DataSource = DSRlist
+        end
+        object sLabel3: TsLabel
+          Left = 8
+          Top = 176
+          Width = 22
+          Height = 16
+          Caption = 'ISO'
+          ParentFont = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = 5059883
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+        end
+        object sBevel4: TsBevel
+          Left = 3
+          Top = 195
+          Width = 209
+          Height = 9
+          Shape = bsTopLine
+        end
+      end
+    end
+  end
+  object ACLeditingActions_deriv: TActionList
+    Left = 56
+    Top = 216
+    object ACTnew_deriv: TAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = '&New'
+      Enabled = False
+      Visible = False
+    end
+    object ACTmodify_deriv: TAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = '&Modify'
+      Enabled = False
+      Visible = False
+    end
+    object ACTview_deriv: TAction
+      Tag = 3
+      Category = 'Edit'
+      Caption = '&View'
+      Enabled = False
+      Visible = False
+    end
+    object ACTsearchArea_deriv: TAction
+      Category = 'Search'
+      Caption = 'Searc&h'
+      Enabled = False
+      Visible = False
+    end
+    object ACTadvancedSearch_deriv: TAction
+      Category = 'Search'
+      Caption = '&Advanced'
+      Enabled = False
+      Visible = False
+    end
+  end
+end
+
 ```
 <!-- tabs:end -->
 
