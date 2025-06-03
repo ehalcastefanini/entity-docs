@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PROJECT_DIRECTORY = os.path.abspath(os.getenv("PROJECT_DIRECTORY"))
+SOURCE_DIRECTORY = os.path.abspath(os.getenv("SOURCE_DIRECTORY"))
 DOCS_FOLDER = os.path.abspath(os.getenv("DOCS_FOLDER"))
 TEMPLATE_ID = os.getenv("TEMPLATE_ID")
 API_KEY = os.getenv("API_KEY")
@@ -21,7 +22,7 @@ ALLOWED_EXTENSIONS = ('.pas')  # Add extensions of files you want to document
 def tree():
     return defaultdict(tree)
 
-def read_file_content(file_path, max_lines=100):
+def read_file_content(file_path, max_lines=10000):
     """
     Tries to read the content of a file using different encodings.
     """
@@ -43,6 +44,51 @@ def read_file_content(file_path, max_lines=100):
             print(f"Error reading {file_path} with encoding {encoding}: {e}")
     return None
 
+
+# File extensions to consider as Pascal/Delphi sources
+SEARCH_EXTENSIONS = ['.pas', '.dpr', '.dfm', '.pp', '.inc']
+
+
+def find_declarations_in_file(filepath, patterns):
+    matches = []
+    try:
+        with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
+            lines = f.readlines()
+            for i, line in enumerate(lines):
+                for pattern in patterns:
+                    if pattern.search(line):
+                        matches.append((i+1, line.rstrip()))
+    except Exception as e:
+        print(f"Could not read {filepath}: {e}")
+    return matches
+
+def search(response):
+ 
+    patterns = [
+    re.compile(r'\btype\s+' + re.escape(name) + r'\b\s*=\s*class\b', re.IGNORECASE)
+    for name in response
+] + [
+    re.compile(r'\b' + re.escape(name) + r'\b\s*=', re.IGNORECASE)
+    for name in response
+]
+    root_folder = PROJECT_DIRECTORY
+    results = []
+    for dirpath, dirnames, filenames in os.walk(root_folder):
+        for filename in filenames:
+            if any(filename.lower().endswith(ext) for ext in SEARCH_EXTENSIONS):
+                filepath = os.path.join(dirpath, filename)
+                matches = find_declarations_in_file(filepath, patterns)
+                if matches:
+                    print(f"\n--- Declarations found in: {filepath} ---")
+                    for lineno, line in matches:
+                        print(f"{lineno}: {line}")
+                    results.append({
+                        'file': filepath,
+                        'matches': matches
+                    })
+
+
+
 def generate_sai_documentation(code, dfm_content, language):
 
     url = "https://sai-library.saiapplications.com"
@@ -60,6 +106,24 @@ def generate_sai_documentation(code, dfm_content, language):
     else:
         print(f"Error generating documentation: {response.status_code} - {response.text}")
         return f"Error: {response.status_code} - {response.text}"
+
+def request_prompt(data):
+    url = "https://sai-library.saiapplications.com"
+    headers = {"X-Api-Key": API_KEY}
+    json_data = {
+        **data,
+        "model": "gpt-4.1-2025-04-14",
+        "temperature": 0,
+        "max_tokens": 32768,
+        "seed": 0
+        }
+    response = requests.post(f"{url}/api/prompt/v1/chat/completions", json=json_data, headers=headers)
+    if response.status_code == 200:
+        return response.json()['choices'][0]['message']['content'], data
+    else:
+        print(f"Error generating documentation: {response.status_code} - {response.text}")
+        return f"Error: {response.status_code} - {response.text}"
+
 
 def extract_point_13(text):
     """
@@ -173,8 +237,76 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     else:
                         print(f"DFM Content read from {dfm_file_path}: {len(dfm_content)} characters")
 
+                    initialPrompt = {
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "You are a software development specialist and an expert in generating documentation in Markdown format for the Docsify application. Your task is to analyze a provided code snippet and produce comprehensive documentation that explains its purpose, functionality, and usage."
+                                    }
+                                ]
+                            },
+                            {
+                                "role": "system",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "Given the code you should look for all dependencies and external classes/components that are used.Respond with the list of classNames/component names used. The response should contain only names of classes/components/types that are external to current file and not from known frameworks or ui libraries.The response should be a list of names separated by comma so I can search for them in file system."
+                                    }
+                                ]
+                            },
+                            {
+                                "role": "user",
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": f"pascal\n{content}\n dfm:\n{dfm_content}\n\n"
+                                    }
+                                ]
+                            }
+                        ]
+                        }
+
+                    dependencies, request = request_prompt(initialPrompt)
+                    
+                    search_results = search(dependencies.split(","))
+                    dependencies_content = ""
+                    
+                    if search_results:
+                        for result in search_results:
+                            file = result['file']
+                            matches = result['matches']
+                            file_content = read_file_content(file)
+                            dependencies_content += f"### {file}\n\n"
+                            dependencies_content += f"```\n{file_content}\n```\n\n"
+                        request.messages.append({
+                                    "role": "user",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": f"Dependencies found:\n{dependencies_content}"
+                                        }
+                                    ]
+                                })
+                    prompt_content_path = os.path.abspath("./prompts/documentation.md")
+                    prompt_content = read_file_content(prompt_content_path, max_lines=10000)
+                    
+                    request['messages'].append({
+                        "role": "user",
+                        "content": [
+                            {
+                            "type": "text",
+                            "text": prompt_content 
+                        }]})        
+                    
+                    
+
                     # Generate documentation using the SAI API
-                    doc_llm = generate_sai_documentation(content, dfm_content, LANGUAGE)
+                    # doc_llm = generate_sai_documentation(content, dfm_content, LANGUAGE)
+                    
+                    doc_llm = request_prompt(request)[0]
 
                     # Extract point 13 from the documentation
                     point_13 = extract_point_13(doc_llm)
@@ -249,4 +381,4 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
         print("Run: docsify serve docs to view it.")
 
 if __name__ == "__main__":
-    generate_docsify_llm(PROJECT_DIRECTORY)
+    generate_docsify_llm(SOURCE_DIRECTORY)
