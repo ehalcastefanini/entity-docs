@@ -8,7 +8,7 @@
     - A form: 
         - List form elements and their types.
         - List form actions and their effects.
-    * A grid display:
+    - A grid display:
         - List grid columns and their types.
         - List grid actions and their effects.
 

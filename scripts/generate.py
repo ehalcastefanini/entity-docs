@@ -11,6 +11,7 @@ load_dotenv()
 
 PROJECT_DIRECTORY = os.path.abspath(os.getenv("PROJECT_DIRECTORY"))
 SOURCE_DIRECTORY = os.path.abspath(os.getenv("SOURCE_DIRECTORY"))
+PROMPT_FILE = os.path.abspath(os.getenv("PROMPT_FILE"))
 DOCS_FOLDER = os.path.abspath(os.getenv("DOCS_FOLDER"))
 TEMPLATE_ID = os.getenv("TEMPLATE_ID")
 API_KEY = os.getenv("API_KEY")
@@ -50,25 +51,24 @@ SEARCH_EXTENSIONS = ['.pas', '.dpr', '.dfm', '.pp', '.inc']
 
 
 def find_declarations_in_file(filepath, patterns):
-    matches = []
     try:
         with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
             lines = f.readlines()
             for i, line in enumerate(lines):
-                for pattern in patterns:
+                for (pattern, name) in patterns:
                     if pattern.search(line):
-                        matches.append((i+1, line.rstrip()))
+                        return name
     except Exception as e:
         print(f"Could not read {filepath}: {e}")
-    return matches
+    return False
 
 def search(response):
  
     patterns = [
-    re.compile(r'\btype\s+' + re.escape(name) + r'\b\s*=\s*class\b', re.IGNORECASE)
+    (re.compile(r'\btype\s+' + re.escape(name.strip()) + r'\b\s*=\s*class\b', re.IGNORECASE), name.strip())
     for name in response
 ] + [
-    re.compile(r'\b' + re.escape(name) + r'\b\s*=', re.IGNORECASE)
+    (re.compile(r'\b' + re.escape(name.strip()) + r'\b\s*=', re.IGNORECASE), name.strip())
     for name in response
 ]
     root_folder = PROJECT_DIRECTORY
@@ -80,12 +80,11 @@ def search(response):
                 matches = find_declarations_in_file(filepath, patterns)
                 if matches:
                     print(f"\n--- Declarations found in: {filepath} ---")
-                    for lineno, line in matches:
-                        print(f"{lineno}: {line}")
                     results.append({
                         'file': filepath,
                         'matches': matches
                     })
+    return results
 
 
 
@@ -145,34 +144,22 @@ def extract_point_13(text):
 
     return None
 
-def build_sidebar_lines(node, level=0):
-    lines = []
-    for key in sorted(node.keys()):
-        val = node[key]
-        indent = "  " * level
-        if isinstance(val, dict):
-            # It's a folder
-            lines.append(f"{indent}* **{key}/**")
-            lines.extend(build_sidebar_lines(val, level + 1))
-        else:
-            # It's a file
-            lines.append(f"{indent}* [{key}]({val})")
-    return lines
 
 def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
     if not os.path.exists(docs_folder):
         os.makedirs(docs_folder)
     print("FOLDER: " + DOCS_FOLDER)
     # Create README.md
+    prompt_content = read_file_content(PROMPT_FILE, max_lines=10000)
     readme_path = os.path.join(docs_folder, "README.md")
     with open(readme_path, "w", encoding="utf-8") as f:
         f.write("# Project Documentation (Generated with LLM)\n\n")
         f.write("This site contains automatically generated pages.\n")
         f.write("Use the sidebar to navigate.\n\n")
 
-    structure = tree()
     print("README created")
     print(os.walk(project_directory))
+    sidebar_lines_link = []
 
     index_path = os.path.join(docs_folder, "index.html")
     # Create index.html if it doesn't exist
@@ -184,42 +171,22 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
         with open(index_path, "w", encoding="utf-8") as dest_file:
             dest_file.write(content)
     print("Index.html created")
-    # copy ../docs-src/assets to docs/assets folder
-    # src_assets_path = os.path.join(os.path.dirname(__file__), "../docs-src/assets")
-    # dest_assets_path = os.path.join(docs_folder, "assets")
-    # if not os.path.exists(dest_assets_path):
-    #     os.makedirs(dest_assets_path)
-    #     for item in os.listdir(src_assets_path):
-    #         src_item_path = os.path.join(src_assets_path, item)
-    #         dest_item_path = os.path.join(dest_assets_path, item)
-    #         if os.path.isdir(src_item_path):
-    #             os.makedirs(dest_item_path, exist_ok=True)
-    #             for sub_item in os.listdir(src_item_path):
-    #                 src_sub_item_path = os.path.join(src_item_path, sub_item)
-    #                 dest_sub_item_path = os.path.join(dest_item_path, sub_item)
-    #                 with open(src_sub_item_path, "rb") as src_file:
-    #                     content = src_file.read()
-    #                 with open(dest_sub_item_path, "wb") as dest_file:
-    #                     dest_file.write(content)
-    #         else:
-    #             with open(src_item_path, "rb") as src_file:
-    #                 content = src_file.read()
-    #             with open(dest_item_path, "wb") as dest_file:
-    #                 dest_file.write(content)
-    # print("Assets copied")
 
     # Dictionary to store point 13 of each file
     point_13_by_file = {}
     rendered_files_count = 0
+    global_dependencies = set()
     try:
         for root, dirs, files in os.walk(project_directory):
             print("Current directory:", root)
             print("Subdirectories:", dirs)
             print("Files:", files)
-
             for file in files:
                 if file.lower().endswith(ALLOWED_EXTENSIONS):
-                    file_path = os.path.join(root, file)
+                    if os.path.isabs(file):
+                        file_path = file
+                    else:
+                        file_path = os.path.join(root, file)
 
                     content = read_file_content(file_path)
 
@@ -273,15 +240,16 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     
                     search_results = search(dependencies.split(","))
                     dependencies_content = ""
-                    
+                    current_dependencies = set()
                     if search_results:
                         for result in search_results:
-                            file = result['file']
+                            d_file = result['file']
                             matches = result['matches']
-                            file_content = read_file_content(file)
-                            dependencies_content += f"### {file}\n\n"
+                            file_content = read_file_content(d_file)
+                            current_dependencies.add((d_file, matches))
+                            dependencies_content += f"### {d_file}\n\n"
                             dependencies_content += f"```\n{file_content}\n```\n\n"
-                        request.messages.append({
+                        request['messages'].append({
                                     "role": "user",
                                     "content": [
                                         {
@@ -290,8 +258,7 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                                         }
                                     ]
                                 })
-                    prompt_content_path = os.path.abspath("./prompts/documentation.md")
-                    prompt_content = read_file_content(prompt_content_path, max_lines=10000)
+                    
                     
                     request['messages'].append({
                         "role": "user",
@@ -307,6 +274,14 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     # doc_llm = generate_sai_documentation(content, dfm_content, LANGUAGE)
                     
                     doc_llm = request_prompt(request)[0]
+                    for match in current_dependencies:
+                        dep_file, matches = match
+                        fileName = os.path.basename(dep_file).split('/')[-1]
+                        if (dep_file not in global_dependencies):
+                            global_dependencies.add(dep_file)
+                            files.append(dep_file)
+                        if matches:
+                            doc_llm = doc_llm.replace(f"`{matches}`", f"[{matches}]({fileName}.md)")
 
                     # Extract point 13 from the documentation
                     point_13 = extract_point_13(doc_llm)
@@ -317,38 +292,28 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     else:
                         print(f"Point 13 not found for file {file}")
 
-                    # Relative path with respect to the base directory
-                    rel_path = os.path.relpath(file_path, project_directory)
-                    parts = rel_path.split(os.sep)
-                    *folders, filename = parts
-
-                    # Create subfolders in docs/
-                    subfolder_docs = os.path.join(docs_folder, *folders)
-                    os.makedirs(subfolder_docs, exist_ok=True)
 
                     # Markdown file name - includes the original extension to avoid duplicates
-                    md_filename = file + ".md"
-                    md_filepath = os.path.join(subfolder_docs, md_filename)
+                    filename_short = os.path.basename(file).split('/')[-1]
+                    md_filename = filename_short + ".md"
+                    md_filepath = os.path.join(docs_folder, md_filename)
 
                     with open(md_filepath, "w", encoding="utf-8") as md_file:
                         md_file.write(f"<!-- tabs:start -->\n\n")
                         md_file.write(f"#### **Documentation**\n\n")
                         md_file.write(doc_llm)
                         
-                        md_file.write(f"#### **{file}**\n\n")
+                        md_file.write(f"#### **{filename_short}**\n\n")
                         md_file.write(f"```\n{content}```\n\n")
 
-                        md_file.write(f"#### **{file.replace(".pas", ".dfm")}**\n\n")
+                        md_file.write(f"#### **{filename_short.replace(".pas", ".dfm")}**\n\n")
                         md_file.write(f"```\n{dfm_content}```\n")
                         
                         md_file.write(f"<!-- tabs:end -->\n\n")
+                    
+                    sidebar_lines_link.append(f"* [{filename_short}]({md_filename})\n")
 
-                    # Insert into the _sidebar structure
-                    current = structure
-                    for folder in folders:
-                        current = current[folder]
-                    md_relative_to_docs = os.path.join(*folders, md_filename)
-                    current[filename] = md_relative_to_docs
+                   
                    
 
     except KeyboardInterrupt:
@@ -364,10 +329,10 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
         sidebar_lines.append("")  # Blank line for separation
 
         # Add the rest of the documentation
-        sidebar_lines.extend(build_sidebar_lines(structure))
         sidebar_path = os.path.join(docs_folder, "_sidebar.md")
         with open(sidebar_path, "w", encoding="utf-8") as f:
             f.write("\n".join(sidebar_lines))
+            f.write("\n".join(sidebar_lines_link))
 
         # Save the point 13 dictionary to a JSON file
         import json
