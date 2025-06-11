@@ -176,6 +176,7 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
     point_13_by_file = {}
     rendered_files_count = 0
     global_dependencies = set()
+    found_dependencies = set()
     try:
         for root, dirs, files in os.walk(project_directory):
             print("Current directory:", root)
@@ -237,8 +238,14 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                         }
 
                     dependencies, request = request_prompt(initialPrompt)
-                    
-                    search_results = search(dependencies.split(","))
+                    split_dependencies = dependencies.split(",")
+                    # filter out empty strings and strip whitespace
+                    split_dependencies = [dep.strip() for dep in split_dependencies if dep.strip()]
+                    # filter out strings that are already in found_dependencies
+                    split_dependencies = [dep for dep in split_dependencies if dep not in found_dependencies]
+                    # add found dependencies to the set
+                    found_dependencies.update(split_dependencies)
+                    search_results = search(split_dependencies)
                     dependencies_content = ""
                     current_dependencies = set()
                     if search_results:
