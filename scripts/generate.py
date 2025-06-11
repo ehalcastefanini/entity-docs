@@ -313,7 +313,7 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                         md_file.write(f"#### **{filename_short}**\n\n")
                         md_file.write(f"```\n{content}```\n\n")
 
-                        md_file.write(f"#### **{filename_short.replace(".pas", ".dfm")}**\n\n")
+                        md_file.write(f"#### **{filename_short.replace('.pas', '.dfm')}**\n\n")
                         md_file.write(f"```\n{dfm_content}```\n")
                         
                         md_file.write(f"<!-- tabs:end -->\n\n")
