@@ -4,6 +4,7 @@ import requests
 import re
 import sys
 import os
+
 from dotenv import load_dotenv
 
 # Load .env file
@@ -16,6 +17,7 @@ DOCS_FOLDER = os.path.abspath(os.getenv("DOCS_FOLDER"))
 TEMPLATE_ID = os.getenv("TEMPLATE_ID")
 API_KEY = os.getenv("API_KEY")
 LANGUAGE = os.getenv("LANGUAGE")
+CACHE_FILE = os.getenv("CACHE_FILE")
 
 
 ALLOWED_EXTENSIONS = ('.pas')  # Add extensions of files you want to document
@@ -107,6 +109,7 @@ def generate_sai_documentation(code, dfm_content, language):
         return f"Error: {response.status_code} - {response.text}"
 
 def request_prompt(data):
+    # return "TFRAMEBaseGridEditSOA,TcxEditRepositoryButtonItem,TFORMkneBaseEdit", data
     url = "https://sai-library.saiapplications.com"
     headers = {"X-Api-Key": API_KEY}
     json_data = {
@@ -176,7 +179,19 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
     point_13_by_file = {}
     rendered_files_count = 0
     global_dependencies = set()
-    found_dependencies = set()
+    # read the cache file if it exists, parse it as json and set found_dependencies to it
+    found_dependencies = {}
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, "r", encoding="utf-8") as f:
+                import json
+                found_dependencies = json.load(f)
+                print("Cache loaded with", len(found_dependencies), "dependencies found.")
+        except Exception as e:
+            print("Cache file not found or not parseable, starting fresh.")
+            found_dependencies = {}
+    
+    
     try:
         for root, dirs, files in os.walk(project_directory):
             print("Current directory:", root)
@@ -242,16 +257,24 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                     # filter out empty strings and strip whitespace
                     split_dependencies = [dep.strip() for dep in split_dependencies if dep.strip()]
                     # filter out strings that are already in found_dependencies
-                    split_dependencies = [dep for dep in split_dependencies if dep not in found_dependencies]
+                    new_dependencies = [dep for dep in split_dependencies if dep not in found_dependencies]
+                    existing_dependencies = [dep for dep in split_dependencies if dep in found_dependencies]
                     # add found dependencies to the set
-                    found_dependencies.update(split_dependencies)
-                    search_results = search(split_dependencies)
+                    
+                    search_results = search(new_dependencies)
+                    # push results to found_dependencies
+                    for dep in existing_dependencies:
+                        search_results.append({
+                            'file': found_dependencies[dep.strip()],
+                            'matches': dep.strip()
+                        })
                     dependencies_content = ""
                     current_dependencies = set()
                     if search_results:
                         for result in search_results:
                             d_file = result['file']
                             matches = result['matches']
+                            found_dependencies[matches] = d_file
                             file_content = read_file_content(d_file)
                             current_dependencies.add((d_file, matches))
                             dependencies_content += f"### {d_file}\n\n"
@@ -265,7 +288,10 @@ def generate_docsify_llm(project_directory, docs_folder=DOCS_FOLDER):
                                         }
                                     ]
                                 })
-                    
+                    # save found dependencies to cache file
+                    with open(CACHE_FILE, "w", encoding="utf-8") as f:
+                        import json
+                        json.dump(found_dependencies, f, ensure_ascii=False, indent=2)
                     
                     request['messages'].append({
                         "role": "user",
